@@ -3,7 +3,14 @@ import Axios from 'axios';
 
 
 
+
+
+
+
+
+
 class Searchform extends Component {
+
 
     contratoidRef = React.createRef();
 
@@ -56,7 +63,6 @@ class Searchform extends Component {
 
         const maestro = {
             sucursalReg: this.sucursalRef.current.value,
-
             nrodocReg: this.nrodocRef.current.value,
             apellidosReg: this.apellidosRef.current.value,
             nombreReg: this.nombreRef.current.value,
@@ -118,12 +124,14 @@ class Searchform extends Component {
 
     render() {
 
+        let lastcontrato = this.props.lastcontrato;
 
         return (
-            <div className="container mt-4">
+            <div className="container mt-4 badge-pill p-4">
+            <h2>Buscar Afiliado</h2>
                 <form onSubmit={this.buscarContrato}>
                     <div className="form-group">
-                        <input type="text" className="form-control" ref={this.contratoidRef} placeholder="Buscar contrato" />
+                        <input type="text" className="form-control" ref={this.contratoidRef} defaultValue={lastcontrato} placeholder="Buscar contrato" />
                     </div>
                     <button type="submit" className="btn btn-primary float-left"  >Buscar Registro</button>
                 </form>
@@ -133,7 +141,7 @@ class Searchform extends Component {
                 <br />
 
                 <div className="mt-4">
-                    <table className="table" >
+                    <table className="table badge-light" >
                         <thead className="thead-dark">
                             <tr>
                                 <th scope="col">Sucursal</th>
@@ -179,7 +187,7 @@ class Searchform extends Component {
 
                                 <td>
                                     <button type="submit" className="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal" >Editar</button>
-                                    <button type="submit" className="btn btn-primary btn-block" onClick={this.eliminarRegistro.bind(this)}>Eliminar</button>
+                                   
                                 </td>
 
                             </tr>

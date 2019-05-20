@@ -1,67 +1,156 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import toastr from '../notifications/toastr';
+import FormTitular from './FormTitular';
+import GridInf from './GridInf';
+import GridDom from './GridDom';
+
 
 
 
 
 class Form extends Component {
     state = {
-        contrato: []
+        titular: {
+            sucursal: '',
+            contrato: '',
+            nombres: '',
+            apellidos: '',
+            nacimiento: '',
+            nro_doc: '',
+            alta: '',
+            vigencia: '',
+            os: '',
+            sexo: '',
+            telefono: '',
+            grupo: '',
+            plan: '',
+            seguro_vida: '',
+            cod_asesor: '',
+            cuota: '',
+            recibo: '',
+            calle: '',
+            numero: '',
+            dom_cob: '',
+            dom_lab: '',
+            barrio: '',
+            localidad: ''
+        }
+
     }
 
-    //Refs
-
-    sucursalRef = React.createRef();
-    contratoRef = React.createRef();
-    nrodocRef = React.createRef();
-    apellidosRef = React.createRef();
-    nombreRef = React.createRef();
-    nacimientoRef = React.createRef();
-    calleRef = React.createRef();
-    localidadRef = React.createRef();
 
     ultimoContrato = (e) => {
-
 
         let url = `http://localhost:3002/getlastcontrato`;
 
         Axios.get(url)
             .then((response) => {
-
+                let lastcontrato = response.data.CONTRATO + 1;
                 this.setState({
-                    contrato: response.data.CONTRATO
+                    titular: {
+                        contrato: lastcontrato
+                    },
+
+                    adherente: {
+                        contrato: lastcontrato
+                    }
                 })
 
 
-                console.log(this.state.contrato);
-            
+                //  console.log(this.state.contrato);
+
             })
             .catch((err) => {
                 console.log(err);
             });
     }
 
-    crearRegistro = (event) => {
+    crearFormInf = (e) => {
 
-        event.preventDefault()
+        e.preventDefault()
+
+        const { sucursal, contrato, nombres, apellidos, nacimiento, nro_doc, alta, vigencia, os, sexo, telefono, calle, numero, dom_cob, dom_lab, barrio, localidad, grupo, plan, seguro_vida, cod_asesor, cuota, recibo } = e.target.elements;
+
+        const sucursalvalue = (sucursal.value);
+        const contratovalue = (contrato.value);
+        const nombresvalue = (nombres.value);
+        const apellidosvalue = (apellidos.value);
+        const nacimientovalue = (nacimiento.value);
+        const nro_docvalue = (nro_doc.value);
+        const altavalue = (alta.value);
+        const vigenciavalue = (vigencia.value);
+        const osvalue = (os.value);
+        const sexovalue = (sexo.value);
+        const telefonovalue = (telefono.value);
+        const callevalue = calle.value;
+        const numerovalue = numero.value;
+        const dom_cobvalue = dom_cob.value;
+        const dom_labvalue = dom_lab.value;
+        const barriovalue = barrio.value;
+        const localidadvalue = localidad.value;
+        const grupovalue = grupo.value;
+        const planvalue = plan.value;
+        const seguro_vidavalue = seguro_vida.value;
+        const cod_asesorvalue = cod_asesor.value;
+        const cuotavalue = cuota.value;
+        const recibovalue = recibo.value;
+
+
+        if (sucursalvalue === '' || nombresvalue === '' || apellidosvalue === '' || nacimientovalue === '' || telefonovalue === '' || nro_docvalue === '' || recibovalue === '' || cod_asesorvalue === '' || cuota === '') {
+
+            toastr.warning("Los campos en rojo son obligatorios, no pueden estar vacios!!!", "ATENCION")
+
+
+        } else {
+            e.preventDefault();
+            this.setState({
+                titular: {
+                    sucursal: sucursalvalue,
+                    contrato: contratovalue,
+                    nombres: nombresvalue,
+                    apellidos: apellidosvalue,
+                    nacimiento: nacimientovalue,
+                    nro_doc: nro_docvalue,
+                    alta: altavalue,
+                    vigencia: vigenciavalue,
+                    os: osvalue,
+                    sexo: sexovalue,
+                    telefono: telefonovalue,
+                    calle: callevalue,
+                    numero: numerovalue,
+                    dom_cob: dom_cobvalue,
+                    dom_lab: dom_labvalue,
+                    barrio: barriovalue,
+                    localidad: localidadvalue,
+                    grupo: grupovalue,
+                    plan: planvalue,
+                    seguro_vida: seguro_vidavalue,
+                    cod_asesor: cod_asesorvalue,
+                    cuota: cuotavalue,
+                    recibo: recibovalue
+
+
+                }
+            })
+            toastr.info("Los datos estan cargados pero aun no estan ingresados en la base de datos", "ATENCION")
+
+        }
+
+    }
+
+
+
+    postRegistro = (e) => {
+        e.preventDefault();
 
 
         let url = `http://localhost:3002/postcontrato`;
 
-        const maestro = {
-            sucursalReg: this.sucursalRef.current.value,
-            contratoReg: this.contratoRef.current.value,
-            nrodocReg: this.nrodocRef.current.value,
-            apellidosReg: this.apellidosRef.current.value,
-            nombreReg: this.nombreRef.current.value,
-            nacimientoReg: this.nacimientoRef.current.value,
-            calleReg: this.calleRef.current.value,
-            localidadReg: this.localidadRef.current.value
-        }
 
-        console.log(maestro);
+        let titular = this.state.titular;
 
-        Axios.post(url, maestro)
+        Axios.post(url, titular)
             .then((response) => {
                 console.log(response);
             })
@@ -71,121 +160,45 @@ class Form extends Component {
 
         // Reinicia el form
 
-        // // e.currentTarget.reset();
-
+        // e.currentTarget.reset();
     }
+
 
     componentDidMount() {
         this.ultimoContrato()
+
     }
 
-
-
     render() {
-        let lastcontrato = this.state.contrato + 1;
+
+
+
         return (
-            <div>
-                <form onSubmit={this.crearRegistro}>
-                    <div className="alert alert-info mt-4" > Informacion Personal</div>
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
+            <div className="">
 
-                            <input type="text" className="form-control" ref={this.sucursalRef} placeholder="Sucursal" />
-                        </div>
-                        <div className="form-group col-md-6">
+                <FormTitular
+                    lastcontrato={this.state.titular.contrato}
+                    crearFormInf={this.crearFormInf}
 
-                            <input type="text" className="form-control" ref={this.contratoRef} value={lastcontrato} placeholder="Contrato" />
-                        </div>
-                    </div>
+                />
 
-                    <div className="form-group">
-                        <input type="text" className="form-control" ref={this.apellidosRef} placeholder="Apellidos" />
-                    </div>
-                    <div className="form-group">
-                        <input type="text" className="form-control" ref={this.nombreRef} placeholder="Nombres" />
-                    </div>
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="Fecha de Nacimiento" />
-                        </div>
+                <div className="form-style-8">
+                    <h2 className="mb-4 mt-4">Informacion Ingresada</h2>
 
-                        <div className="form-group col-md-6">
-                            <select id="inputState" className="form-control" placeholder="Plan" ref={this.localidadRef} >
-                                <option selected>Elige un Plan</option>
-                                <option>San Salvador</option>
-                                <option>Palpala</option>
-                                <option>San Pedro</option>
-                            </select>
-                        </div>
+                    <h3 className="text-left">Titular - Inf Personal</h3>
 
-                        <div className="form-group col-md-6">
-                            <input type="text" className="form-control" ref={this.nrodocRef} placeholder="DNI" />
-                        </div>
+                    <GridInf
+                        formInf={this.state.titular}
+                    />
 
-                        <div className="form-group col-md-6">
-                            <select id="inputState" className="form-control" placeholder="Localidad" ref={this.localidadRef} >
-                                <option selected>Sexo</option>
-                                <option>San Salvador</option>
-                                <option>Palpala</option>
-                                <option>San Pedro</option>
-                            </select>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="Fecha de Alta" />
-                        </div>
+                    <br /><br />
 
-                        <div className="form-group col-md-6">
-                            <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="Fecha de Vigencia" />
-                        </div>
-                        <div className="form-group col-md-6">
-                            <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="OS" />
-                        </div>
-                        <div className="form-group col-md-6">
-                            <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="Telefono" />
-                        </div>
-                    </div>
+                    <h3 className="text-left">Titular - Inf Domicilio y Modulos</h3>
 
-
-
-                    <div className="alert alert-info mt-4" > Domiciolio </div>
-                    <div className="form-row mt-2">
-                        <div className="form-group col-md-8">
-                            <input type="text" className="form-control" ref={this.calleRef} placeholder="Calle" />
-                        </div>
-                        <div className="form-group col-md-4">
-                            <input type="text" className="form-control" ref={this.calleRef} placeholder="Numero" />
-                        </div>
-
-                        <div className="form-group col-md-6">
-                            <select id="inputState" className="form-control" placeholder="Bario" ref={this.localidadRef} >
-                                <option selected>Elige un Barrio</option>
-                                <option>Alto Comedero</option>
-                                <option>Los Perales</option>
-                                <option>Mariano Moreno</option>
-                            </select>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <select id="inputState" className="form-control" placeholder="Localidad" ref={this.localidadRef} >
-                                <option selected>Elige una localidad</option>
-                                <option>San Salvador</option>
-                                <option>Palpala</option>
-                                <option>San Pedro</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="Domicilio Cobrador" />
-                    </div>
-                    <div className="form-group">
-                        <input type="text" className="form-control" ref={this.nacimientoRef} placeholder="Domicilio Laboral" />
-                    </div>
-
-
-                    <div className="alert alert-info mt-4" > Modulos </div>
-
-
-                    <button type="submit" className="btn btn-primary btn-block">Ingresar Registro</button>
-                </form>
+                    <GridDom
+                        formDom={this.state.titular}
+                    />
+                </div>
             </div>
 
 

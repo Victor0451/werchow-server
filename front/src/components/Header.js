@@ -12,9 +12,19 @@ class Header extends Component {
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
                             <a className="nav-item nav-link active" href="/">Home <span className="sr-only">(current)</span></a>
-                            <a className="nav-item nav-link active" href="/maestro">Maestro <span className="sr-only">(current)</span></a>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Afiliados
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" href="/altaafiliado">Ingresar Afiliado</a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="/altaadherhente">Ingresar Aderhente</a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="/listadotitulares">Listado de Titulares</a>
+                                </div>
+                            </li>
 
-                           
                         </div>
                     </div>
                 </nav>

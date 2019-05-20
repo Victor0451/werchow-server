@@ -2,11 +2,37 @@ const express = require('express');
 const router = express.Router();
 const mysqlConnection = require('../db/database');
 
+//GET ALL BY DNI
+
+router.get("/getadherenttoedit/:id", (req, res, next) => {
+    mysqlConnection.query('SELECT * FROM adherent WHERE nro_doc = ?', [req.params.id], (err, rows, fields) => {
+        if (!err) {
+            res.json(rows[0]);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+
+//GET ALL BY ID
+
+router.get("/getadherent/:id", (req, res, next) => {
+    mysqlConnection.query('SELECT * FROM adherent WHERE contrato = ?', [req.params.id], (err, rows, fields) => {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+
 
 //GET LAST * CONTRATO
 
-router.get("/getlastmaestro/:id", (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM maestro WHERE contrato = ? order by contrato Desc;', [req.params.id], (err, rows, fields) => {
+router.get("/getlastmaestroad/:id", (req, res, next) => {
+    mysqlConnection.query('SELECT * FROM adherent WHERE contrato = ? order by contrato Desc;', [req.params.id], (err, rows, fields) => {
         if (!err) {
             res.json(rows[0]);
 
@@ -18,8 +44,8 @@ router.get("/getlastmaestro/:id", (req, res, next) => {
 
 //GET LAST CONTRATO
 
-router.get("/getlastcontrato", (req, res, next) => {
-    mysqlConnection.query('SELECT CONTRATO FROM maestro order by contrato Desc;', (err, rows, fields) => {
+router.get("/getlastadherent", (req, res, next) => {
+    mysqlConnection.query('SELECT CONTRATO FROM adherent order by contrato Desc;', (err, rows, fields) => {
         if (!err) {
             res.json(rows[0]);
 
@@ -30,24 +56,11 @@ router.get("/getlastcontrato", (req, res, next) => {
 })
 
 
-//GET ALL
+//GET BY ID
 
-router.get("/getcontrato", (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM maestro', (err, rows, fields) => {
-        if (!err) {
-            res.json(rows);
-        } else {
-            console.log(err);
-        }
-    })
-});
+router.get('/adherent/:id', (req, res) => {
 
-
-//GET ALL BY ID
-
-router.get('/contrato/:id', (req, res) => {
-
-    mysqlConnection.query('SELECT * FROM maestro WHERE CONTRATO = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM adherent WHERE CONTRATO = ?', [req.params.id], (err, rows, fields) => {
         if (!err) {
             res.json(rows[0]);
         } else {
@@ -57,9 +70,10 @@ router.get('/contrato/:id', (req, res) => {
 });
 
 
+
 //INSERT
 
-router.post('/postcontrato', (req, res) => {
+router.post('/postadherent', (req, res) => {
     console.log(req.body);
 
     const data = {
@@ -82,7 +96,7 @@ router.post('/postcontrato', (req, res) => {
         dom_lab: req.body.domLab
     };
 
-    const sql = 'INSERT INTO maestro SET ?';
+    const sql = 'INSERT INTO adherent SET ?';
     mysqlConnection.query(sql, data, (err, result) => {
         if (!err) {
             console.log('Insert successfully')
@@ -95,10 +109,10 @@ router.post('/postcontrato', (req, res) => {
 
 //UPDATE
 
-router.put('/putcontrato/:id', (req, res) => {
+router.put('/putadherent/:id', (req, res) => {
     let cont = req.body;
     let id = req.params.contrato;
-    let sql = `UPDATE maestro SET SUCURSAL = '${cont.sucursalReg}', NRO_DOC = '${cont.nrodocReg}', APELLIDOS= '${cont.apellidosReg}', NOMBRES = '${cont.nombreReg}', NACIMIENTO = '${cont.nacimientoReg}', CALLE= '${cont.calleReg}', LOCALIDAD = '${cont.localidadReg}' WHERE CONTRATO = ?`;
+    let sql = `UPDATE adherent SET SUCURSAL = '${cont.sucursalReg}', NRO_DOC = '${cont.nrodocReg}', APELLIDOS= '${cont.apellidosReg}', NOMBRES = '${cont.nombreReg}', NACIMIENTO = '${cont.nacimientoReg}', CALLE= '${cont.calleReg}', LOCALIDAD = '${cont.localidadReg}' WHERE CONTRATO = ?`;
 
     mysqlConnection.query(sql, [id], (err, rows, fields) => {
         if (!err) {
@@ -113,8 +127,8 @@ router.put('/putcontrato/:id', (req, res) => {
 
 //DELETE
 
-router.delete('/deletecontrato/:id', (req, res) => {
-    mysqlConnection.query('DELETE FROM maestro WHERE CONTRATO = ?', [req.params.id], (err, rows, fields) => {
+router.delete('/deleteadherent/:id', (req, res) => {
+    mysqlConnection.query('DELETE FROM adherent WHERE CONTRATO = ?', [req.params.id], (err, rows, fields) => {
         if (!err) {
             res.json('delete  successfully');
         } else {
@@ -123,6 +137,5 @@ router.delete('/deletecontrato/:id', (req, res) => {
     });
 
 })
-
 
 module.exports = router;

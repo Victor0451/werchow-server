@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyparser = require('body-parser')
 const cors = require('cors');
+const morgan = require('morgan');
 
 
 // settings
 
 const app = express();
+app.use(morgan('dev'));
+
 app.use(cors());
 app.set('port', process.env.PORT || 3002);
 
@@ -14,6 +17,7 @@ app.use(bodyparser.json());
 
 //Routes
 app.use(require('./routes/maestro'));
+app.use(require('./routes/aderhente'));
 
 
 // server escuchando

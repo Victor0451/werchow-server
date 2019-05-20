@@ -1,3 +1,11 @@
+:root {
+  --color-primary: #18D018;
+  --color-error: red;
+  --gray-lighter: #D6D5D4;
+  --gray: #ADABA9;
+  --unitless-max-font-size: 18;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -12,8 +20,268 @@ body {
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-h1, h2 {
-  color: aliceblue;
+h2 {
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  padding: 30px 0;
+}
+
+/* TABLE DESING */
+
+.table-wrapper {
+  box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.fl-table {
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: normal;
+  border: none;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  background-color: white;
+  color: black;
+}
+
+.fl-table td, .fl-table th {
+  text-align: center;
+  padding: 8px;
+}
+
+.fl-table td {
+  border-right: 1px solid #f8f8f8;
+  font-size: 12px;
+}
+
+.fl-table thead th {
+  color: #ffffff;
+  background: #324960;
+}
+
+.fl-table thead th:nth-child(odd) {
+  color: #ffffff;
+  background: #324960;
+}
+
+.fl-table tr:nth-child(even) {
+  background: #cbcaa5;
+}
+
+/* FORM STYLE */
+
+.form-style-8 {
+  font-family: 'Open Sans Condensed', arial, sans;
+  width: 80%;
+  padding: 4rem;
+  background: #FFFFFF;
+  margin: 100px auto;
+  margin-top: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+}
+
+.form-style-8 h2 {
+  background: #4D4D4D;
+  text-transform: uppercase;
+  font-family: 'Open Sans Condensed', sans-serif;
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+  padding: 20px;
+  margin: -30px -30px 30px -30px;
+}
+
+.form-style-8 input[type="text"], .form-style-8 input[type="date"], .form-style-8 input[type="datetime"], .form-style-8 input[type="email"], .form-style-8 input[type="number"], .form-style-8 input[type="search"], .form-style-8 input[type="time"], .form-style-8 input[type="url"], .form-style-8 input[type="password"], .form-style-8 textarea, .form-style-8 select {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 45px;
+}
+
+.form-style-8 textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.help-text {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: var(--font-size-small);
+}
+
+/* VALIDATIONS */
+
+.form-style-8 input:placeholder-shown+label {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.has-dynamic-label {
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.has-dynamic-label label {
+  position: absolute;
+  top: 0;
+  font-size: var(--font-size-small);
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s ease-out;
+}
+
+.form-style-8 input:required+.help-text::before {
+  content: '*Required';
+}
+
+.form-style-8 input:optional+.help-text::before {
+  content: '*Optional';
+}
+
+.form-style-8 input:read-only {
+  border-color: var(--gray-lighter) !important;
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+.form-style-8 input:valid {
+  border-color: var(--color-primary);
+  /* background-image: url("data:image/svg+xml,%3Csvg width='45px' height='34px' viewBox='0 0 45 34' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg transform='translate%28-56.000000, -59.000000%29' fill='%232EEC96'%3E%3Cpolygon points='70.1468531 85.8671329 97.013986 59 100.58042 62.5664336 70.1468531 93 56 78.8531469 59.5664336 75.2867133'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A"); */
+}
+
+.form-style-8 input:invalid {
+  border-color: var(--color-error);
+  /* background-image: url("data:image/svg+xml,%3Csvg width='30px' height='30px' viewBox='0 0 30 30' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg transform='translate%28-128.000000, -59.000000%29' fill='%23F44336'%3E%3Cpolygon points='157.848404 61.9920213 145.980053 73.8603723 157.848404 85.7287234 154.856383 88.7207447 142.988032 76.8523936 131.119681 88.7207447 128.12766 85.7287234 139.996011 73.8603723 128.12766 61.9920213 131.119681 59 142.988032 70.8683511 154.856383 59'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A"); */
+}
+
+.form-style-8 input[type="date"]::before {
+  content: attr(data-placeholder);
+  width: 100%;
+}
+
+.form-style-8 input[type="date"]:focus::before, .form-style-8 input[type="date"]:valid::before {
+  display: none
+}
+
+.form-style-8 select {
+  border-color: var(--color-error);
+}
+
+.form-style-8 select:valid {
+  border-color: var(--color-primary);
+}
+
+.form-style-8 input:invalid:focus {
+  border-color: var(--color-error);
+}
+
+.form-style-8 input:invalid+.help-text {
+  color: var(--color-error);
+}
+
+.form-style-8 input[type='email']:invalid+.help-text::before {
+  content: 'You must enter a valid email.'
+}
+
+.form-style-8 input:out-of-range+.help-text::before {
+  content: 'Out of range';
+}
+
+/* PROGRESS BAR */
+
+.progressbar {
+  width: 350px;
+  height: 50px;
+  justify-content: center;
+}
+
+/* RESPONSIVE TABLE */
+
+@media (max-width: 767px) {
+  .fl-table {
+    display: block;
+    width: 100%;
+  }
+  .table-wrapper:before {
+    content: "Scroll horizontally >";
+    display: block;
+    text-align: right;
+    font-size: 11px;
+    color: white;
+    padding: 0 0 10px;
+  }
+  .fl-table thead, .fl-table tbody, .fl-table thead th {
+    display: block;
+  }
+  .fl-table thead th:last-child {
+    border-bottom: none;
+  }
+  .fl-table thead {
+    float: left;
+  }
+  .fl-table tbody {
+    width: auto;
+    position: relative;
+    overflow-x: auto;
+  }
+  .fl-table td, .fl-table th {
+    padding: 20px .625em .625em .625em;
+    height: 60px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 120px;
+    font-size: 13px;
+    text-overflow: ellipsis;
+  }
+  .fl-table thead th {
+    text-align: left;
+    border-bottom: 1px solid #f7f7f9;
+  }
+  .fl-table tbody tr {
+    display: table-cell;
+  }
+  .fl-table tbody tr:nth-child(odd) {
+    background: none;
+  }
+  .fl-table tr:nth-child(even) {
+    background: transparent;
+  }
+  .fl-table tr td:nth-child(odd) {
+    background: #F8F8F8;
+    border-right: 1px solid #E6E4E4;
+  }
+  .fl-table tr td:nth-child(even) {
+    border-right: 1px solid #E6E4E4;
+  }
+  .fl-table tbody td {
+    display: block;
+    text-align: center;
+  }
+}
+
+hr {
+  width: 100%;
+  border-top: .2rem solid #666b71;
+  margin-top: 3rem;
 }
 
 code {
