@@ -25,6 +25,19 @@ class Header extends Component {
                                 </div>
                             </li>
 
+                            <li className="nav-item dropdown">
+                                <a className="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Campañas
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" href="/listado1001">Listados 1001</a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="#">Ingresar Aderhente</a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="#">Listado de Titulares</a>
+                                </div>
+                            </li>
+
                         </div>
                     </div>
                 </nav>

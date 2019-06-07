@@ -18,6 +18,8 @@ app.use(bodyparser.json());
 //Routes
 app.use(require('./routes/maestro'));
 app.use(require('./routes/aderhente'));
+app.use(require('./routes/campañas'));
+
 
 
 // server escuchando

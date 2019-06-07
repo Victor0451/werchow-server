@@ -32,7 +32,7 @@ router.get("/getlastcontrato", (req, res, next) => {
 
 //GET ALL
 
-router.get("/getcontrato", (req, res, next) => {
+router.get("/getlistadotitulares", (req, res, next) => {
     mysqlConnection.query('SELECT * FROM maestro', (err, rows, fields) => {
         if (!err) {
             res.json(rows);
@@ -47,7 +47,7 @@ router.get("/getcontrato", (req, res, next) => {
 
 router.get('/contrato/:id', (req, res) => {
 
-    mysqlConnection.query('SELECT * FROM maestro WHERE CONTRATO = ?', [req.params.id], (err, rows, fields) => {
+    mysqlConnection.query('SELECT CONTRATO FROM maestro WHERE CONTRATO = ?', [req.params.id], (err, rows, fields) => {
         if (!err) {
             res.json(rows[0]);
         } else {
