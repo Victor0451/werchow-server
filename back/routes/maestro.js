@@ -5,8 +5,8 @@ const mysqlConnection = require('../db/database');
 
 //GET LAST * CONTRATO
 
-router.get("/getlastmaestro/:id", (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM maestro WHERE contrato = ? order by contrato Desc;', [req.params.id], (err, rows, fields) => {
+router.get("/getmaestro/:id", (req, res, next) => {
+    mysqlConnection.query('SELECT * FROM maestro WHERE contrato = ? ;', [req.params.id], (err, rows, fields) => {
         if (!err) {
             res.json(rows[0]);
 
@@ -33,7 +33,7 @@ router.get("/getlastcontrato", (req, res, next) => {
 //GET ALL
 
 router.get("/getlistadotitulares", (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM maestro', (err, rows, fields) => {
+    mysqlConnection.query('SELECT sucursal, contrato, nombres, apellidos, nro_doc FROM maestro', (err, rows, fields) => {
         if (!err) {
             res.json(rows);
         } else {
