@@ -1,13 +1,141 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.form-style-8 {
+  font-family: 'Open Sans Condensed', arial, sans;
+  width: 80%;
+  padding: 4rem;
+  background: #FFFFFF;
+  margin: 100px auto;
+  margin-top: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+}
+
+.form-style-8 h2 {
+  background: #4D4D4D;
+  text-transform: uppercase;
+  font-family: 'Open Sans Condensed', sans-serif;
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+  padding: 20px;
+  margin: -30px -30px 30px -30px;
+}
+
+.form-style-8 input[type="text"], .form-style-8 input[type="date"], .form-style-8 input[type="datetime"], .form-style-8 input[type="email"], .form-style-8 input[type="number"], .form-style-8 input[type="search"], .form-style-8 input[type="time"], .form-style-8 input[type="url"], .form-style-8 input[type="password"], .form-style-8 textarea, .form-style-8 select {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 45px;
+}
+
+.form-style-8 textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.help-text {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: var(--font-size-small);
+}
+
+/* VALIDATIONS */
+
+.form-style-8 input:placeholder-shown+label {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.has-dynamic-label {
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.has-dynamic-label label {
+  position: absolute;
+  top: 0;
+  font-size: var(--font-size-small);
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s ease-out;
+}
+
+.form-style-8 input:required+.help-text::before {
+  content: '*Required';
+}
+
+.form-style-8 input:optional+.help-text::before {
+  content: '*Optional';
+}
+
+.form-style-8 input:read-only {
+  border-color: gray !important;
+  color: gray;
+  cursor: not-allowed;
+}
+
+/* 
+.form-style-8 input:valid {
+  border-color: green !important;
+ 
+}
+
+.form-style-8 input:invalid {
+  border-color: red !important;
+ 
+}
+ */
+
+.form-style-8 input[type="date"]::before {
+  content: attr(data-placeholder);
+  width: 100%;
+}
+
+.form-style-8 input[type="date"]:focus::before, .form-style-8 input[type="date"]:valid::before {
+  display: none
+}
+/* 
+.form-style-8 select {
+  border-color: red !important;
+}
+
+.form-style-8 select:valid {
+  border-color: green!important;
+}
+
+.form-style-8 input:invalid:focus {
+  border-color: red !important;
+}
+
+.form-style-8 input:invalid+.help-text {
+  color: red !important;
+} */
+
+.form-style-8 input[type='email']:invalid+.help-text::before {
+  content: 'You must enter a valid email.'
+}
+
+.form-style-8 input:out-of-range+.help-text::before {
+  content: 'Out of range';
 }

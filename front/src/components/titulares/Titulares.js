@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
-import Spinner from '../components/layouts/Spinner';
+import Spinner from '../layouts/Spinner';
 
 
 //redux
 import { connect } from "react-redux";
-import { mostrarTitulares } from "../actions/titularActions";
+import { mostrarTitulares } from "../../actions/titularActions";
 
 class Titulares extends Component {
   componentDidMount() {
@@ -15,7 +15,6 @@ class Titulares extends Component {
   render() {
 
     const { titulares } = this.props;
-    console.log(titulares)
 
     if (!titulares) return <Spinner />
 

@@ -1,22 +1,22 @@
 import {
-    MOSTRAR_ADHERENTE, MOSTRAR_ADHERENTES
+    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTES
 } from "./types";
 
 import axios from "axios";
 
 export const mostrarAdherentes = () => async dispatch => {
-    const respuesta = await axios.get("http://192.168.1.108:3002/getlistadotitulares");
+    const respuesta = await axios.get("http://192.168.1.102:3002/getlistadotitulares");
     dispatch({
         type: MOSTRAR_ADHERENTES,
         payload: respuesta.data
     });
 };
 
-export const mostrarAdherente = id => async dispatch => {
-    const respuesta = await axios.get(`http://192.168.1.108:3002/getmaestro/${id}`);
+export const mostrarAdherentesDelTitular = id => async dispatch => {
+    const respuesta = await axios.get(`http://192.168.1.102:3002/getadherent/${id}`);
 
     dispatch({
-        type: MOSTRAR_ADHERENTE,
+        type: MOSTRAR_ADHERENTESTITULAR,
         payload: respuesta.data
     });
 };

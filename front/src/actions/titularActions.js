@@ -1,11 +1,11 @@
 import {
- MOSTRAR_TITULARES, MOSTRAR_TITULAR
+  MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR
 } from "./types";
 
 import axios from "axios";
 
 export const mostrarTitulares = () => async dispatch => {
-  const respuesta = await axios.get("http://192.168.1.108:3002/getlistadotitulares");
+  const respuesta = await axios.get("http://192.168.1.102:3002/getlistadotitulares");
   dispatch({
     type: MOSTRAR_TITULARES,
     payload: respuesta.data
@@ -13,7 +13,7 @@ export const mostrarTitulares = () => async dispatch => {
 };
 
 export const mostrarTitular = id => async dispatch => {
-  const respuesta = await axios.get(`http://192.168.1.108:3002/getmaestro/${id}`);
+  const respuesta = await axios.get(`http://192.168.1.102:3002/getmaestro/${id}`);
 
   dispatch({
     type: MOSTRAR_TITULAR,
@@ -30,17 +30,17 @@ export const mostrarTitular = id => async dispatch => {
 //   });
 // };
 
-// export const agregarProducto = producto => async dispatch => {
-//   const respuesta = await axios.post(
-//     "http://localhost:5000/productos",
-//     producto
-//   );
+export const agregarTitular = titular => async dispatch => {
+  const respuesta = await axios.post(
+    "http://192.168.1.102/posttitular",
+    titular
+  );
 
-//   dispatch({
-//     type: AGREGAR_PRODUCTO,
-//     payload: respuesta.data
-//   });
-// };
+  dispatch({
+    type: AGREGAR_TITULAR,
+    payload: respuesta.data
+  });
+};
 
 // export const editarProducto = producto => async dispatch => {
 //   const respuesta = await axios.put(

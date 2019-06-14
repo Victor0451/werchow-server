@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function FormTitulares() {
+const FormNuevoAdherente = () => {
     return (
         <div>
             
         </div>
     )
 }
+
+export default FormNuevoAdherente

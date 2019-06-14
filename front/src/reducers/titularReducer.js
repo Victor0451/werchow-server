@@ -1,5 +1,5 @@
 import {
-    MOSTRAR_TITULARES, MOSTRAR_TITULAR
+    MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR
 } from "../actions/types";
 
 //CADA REDUCER TIENE SU ṔROPIO STATE
@@ -30,11 +30,11 @@ export default function (state = initialState, action) {
         //         )
         //     };
 
-        // case AGREGAR_PRODUCTO:
-        //     return {
-        //         ...state,
-        //         productos: [...state.productos, action.payload]
-        //     };
+        case AGREGAR_TITULAR:
+            return {
+                ...state,
+                titulares: [...state.productos, action.payload]
+            };
 
         // case EDITAR_PRODUCTO:
         //     return {

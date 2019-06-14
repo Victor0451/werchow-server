@@ -7,8 +7,10 @@ import { Provider } from "react-redux";
 import store from "../store";
 import Navbar from './layouts/Navbar';
 import Home from './Home';
-import Titulares from './Titulares';
-import Titular from './Titular';
+import Titulares from './titulares/Titulares';
+import Titular from './titulares/Titular';
+import NuevoTitular from './titulares/NuevoTitular';
+import NuevoAdherente from './adherentes/NuevoAdherente';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route exact path={'/'} component={Home} />
           <Route exact path={'/titulares'} component={Titulares} />
           <Route exact path={'/titular/:id'} component={Titular} />
+          <Route exact path={'/titulares/nuevo'} component={NuevoTitular} />
+          <Route exact path={'/adherentes/nuevo'} component={NuevoAdherente} />
 
 
         </Switch>
