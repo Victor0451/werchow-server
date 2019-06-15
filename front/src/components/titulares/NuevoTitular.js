@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import FormNuevoTitular from './FormNuevoTitular';
 
 //redux
 import { connect } from "react-redux";
 import { agregarTitular } from "../../actions/titularActions";
+
+
+
 
 class NuevoTitular extends Component {
 
@@ -17,7 +23,7 @@ class NuevoTitular extends Component {
         nro_doc: '',
         alta: '',
         vigencia: '',
-        os: '',
+        obra_soc: '',
         sexo: '',
         telefono: '',
         grupo: '',
@@ -32,7 +38,24 @@ class NuevoTitular extends Component {
         dom_lab: '',
         barrio: '',
         localidad: '',
-        error: false
+        error: false,
+
+    }
+
+    lastContrato = () => {
+
+        axios.get("http://192.168.1.102:3002/getlastcontrato")
+
+            .then(lastcontrato => {
+
+                const newcontrato = parseInt(lastcontrato.data.CONTRATO) + 1;
+
+                this.setState({
+                    contrato: newcontrato.toString()
+                });
+            })
+
+
     }
 
     leerDatos = e => {
@@ -45,6 +68,7 @@ class NuevoTitular extends Component {
         e.preventDefault();
 
         const {
+            contrato,
             sucursal,
             apellidos,
             nombres,
@@ -53,7 +77,7 @@ class NuevoTitular extends Component {
             sexo,
             alta,
             vigencia,
-            os,
+            obra_soc,
             telefono,
             grupo,
             cod_asesor,
@@ -61,7 +85,7 @@ class NuevoTitular extends Component {
             cuota
         } = this.state
 
-        if (sucursal === '' || apellidos === '' || nombres === '' || nacimiento === '' || nro_doc === '' || sexo === '' || alta === '' || vigencia === '' || os === '' || telefono === '' || grupo === '' || cod_asesor === '' || recibo === '' || cuota === '') {
+        if (sucursal === '' || apellidos === '' || nombres === '' || nacimiento === '' || nro_doc === '' || sexo === '' || alta === '' || vigencia === '' || obra_soc === '' || grupo === '' || telefono === '' || cod_asesor === '' || recibo === '' || cuota === '') {
             this.setState({ error: true });
             return;
         }
@@ -69,6 +93,7 @@ class NuevoTitular extends Component {
 
 
         const titular = {
+            contrato,
             sucursal,
             apellidos,
             nombres,
@@ -77,7 +102,7 @@ class NuevoTitular extends Component {
             sexo,
             alta,
             vigencia,
-            os,
+            obra_soc,
             telefono,
             grupo,
             cod_asesor,
@@ -89,7 +114,32 @@ class NuevoTitular extends Component {
 
         //this.props.agregarTitular(titular);
 
-        //this.props.history.push('/');
+
+        confirmAlert({
+            title: "Atencion",
+            message: "¿Desea Ingresar Adherentes?",
+            buttons: [
+                {
+                    label: "Si",
+                    onClick: () => {
+                        this.props.history.push(`/adherentes/nuevo/${contrato}`);
+                    }
+                },
+
+                {
+                    label: "No",
+                    onClick: () => {
+
+                        this.props.history.push(`/`);
+
+                    }
+                }
+            ]
+        });
+    }
+
+    componentDidMount() {
+        this.lastContrato()
     }
 
     render() {
@@ -110,6 +160,7 @@ class NuevoTitular extends Component {
                     leerDatos={this.leerDatos}
                     nuevoTitular={this.nuevoTitular}
                     error={this.state.error}
+                    contrato={this.state.contrato}
                 />
 
 

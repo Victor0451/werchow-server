@@ -15,6 +15,7 @@ class Titular extends Component {
         titular: {}
 
     }
+    
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.mostrarTitular(id);

@@ -1,5 +1,5 @@
 import {
-    MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR
+    MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, BUSCAR_TITULAR
 } from "../actions/types";
 
 //CADA REDUCER TIENE SU ṔROPIO STATE
@@ -17,6 +17,12 @@ export default function (state = initialState, action) {
             };
 
         case MOSTRAR_TITULAR:
+            return {
+                ...state,
+                titular: action.payload
+            };
+
+        case BUSCAR_TITULAR:
             return {
                 ...state,
                 titular: action.payload

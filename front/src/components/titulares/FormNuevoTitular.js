@@ -1,10 +1,13 @@
 import React from 'react'
 
 const FormNuevoTitular = (props) => {
-    const error = props.error
+    const error = props.error;
+    const contrato = props.contrato;
+
+
 
     return (
-        
+
         <form className="form-style-8 " onSubmit={props.nuevoTitular}>
             <h2>Informacion Personal</h2>
             <div className="form-row">
@@ -16,7 +19,13 @@ const FormNuevoTitular = (props) => {
                 </div>
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={props.leerDatos} id="contrato" name="contrato" placeholder="Contrato" readOnly />
+                        <input type="text" className="" onChange={props.leerDatos} id="grupo" name="grupo" placeholder="Grupo" />
+                        <label >Grupo</label>
+                    </p>
+                </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" onChange={props.leerDatos} id="contrato" name="contrato" value={contrato} placeholder="Contrato" readOnly />
                         <label >Contrato</label>
                     </p>
                 </div>
@@ -55,10 +64,9 @@ const FormNuevoTitular = (props) => {
                 <div className="form-group col-md-6" defaultValue={"Default"}>
                     <p className="has-dynamic-label" defaultValue={"Default"}>
                         <select id="dynamic-label-input" onChange={props.leerDatos} defaultValue={"Default"} className="" name="sexo" >
-                            <option value="Default">Grapefruit</option>
-                            <option value="lime">Lime</option>
-                            <option selected value="coconut">Coconut</option>
-                            <option value="mango">Mango</option>
+                            <option value="Default">Sexo</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
                         </select>
                     </p>
                 </div>

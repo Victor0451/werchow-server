@@ -1,5 +1,5 @@
 import {
-  MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR
+  MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, BUSCAR_TITULAR
 } from "./types";
 
 import axios from "axios";
@@ -21,6 +21,14 @@ export const mostrarTitular = id => async dispatch => {
   });
 };
 
+export const buscarTitular = id => async dispatch => {
+  const respuesta = await axios.get(`http://192.168.1.102:3002/getdatostitular/${id}`);
+
+  dispatch({
+    type: BUSCAR_TITULAR,
+    payload: respuesta.data
+  });
+};
 // export const borrarProducto = id => async dispatch => {
 //   await axios.delete(`http://localhost:5000/productos/${id}`);
 
@@ -32,7 +40,7 @@ export const mostrarTitular = id => async dispatch => {
 
 export const agregarTitular = titular => async dispatch => {
   const respuesta = await axios.post(
-    "http://192.168.1.102/posttitular",
+    "http://192.168.1.102:3002/posttitular",
     titular
   );
 
