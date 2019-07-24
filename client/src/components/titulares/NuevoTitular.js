@@ -1,60 +1,59 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import FormNuevoTitular from './FormNuevoTitular';
 
 //redux
 import { connect } from "react-redux";
-import { agregarTitular } from "../../actions/titularActions";
+import { agregarTitular, ultimoContrato } from "../../actions/titularActions";
 
 
 
 
 class NuevoTitular extends Component {
 
+    grupoRef = React.createRef();
+    OSRef = React.createRef();
+    PlanRef = React.createRef();
+    SucursalRef = React.createRef();
+    ContratoRef = React.createRef();
+    LocalidadesRef = React.createRef();
+    ProductorRef = React.createRef();
+    ZonaRef = React.createRef();
+
+
+
+
+
+
     state = {
-        sucursal: '',
-        contrato: '',
-        nombres: '',
-        apellidos: '',
-        nacimiento: '',
-        nro_doc: '',
-        alta: '',
-        vigencia: '',
-        obra_soc: '',
-        sexo: '',
-        telefono: '',
-        grupo: '',
-        plan: '',
-        seguro_vida: '',
-        cod_asesor: '',
-        cuota: '',
-        recibo: '',
-        calle: '',
-        numero: '',
-        dom_cob: '',
-        dom_lab: '',
-        barrio: '',
-        localidad: '',
+        ALTA: '',
+        APELLIDOS: '',
+        MOVIL: '',
+        OPERADOR: '',
+        CONTRATO: '',
+        CUOTA: '',
+        GRUPO: '',
+        NACIMIENTO: '',
+        NOMBRES: '',
+        NRO_DOC: '',
+        OBRA_SOC: '',
+        PLAN: '',
+        RECIBO: '',
+        SEXO: '',
+        SUCURSAL: '',
+        TELEFONO: '',
+        VIGENCIA: '',
+        CALLE: '',
+        NRO_CALLE: '',
+        DOMI_COB: '',
+        DOM_LAB: '',
+        BARRIO: '',
+        LOCALIDAD: '',
         error: false,
 
-    }
-
-    lastContrato = () => {
-
-        axios.get("http://192.168.1.102:3002/getlastcontrato")
-
-            .then(lastcontrato => {
-
-                const newcontrato = parseInt(lastcontrato.data.CONTRATO) + 1;
-
-                this.setState({
-                    contrato: newcontrato.toString()
-                });
-            })
-
+        newContrato: ''
 
     }
 
@@ -68,51 +67,63 @@ class NuevoTitular extends Component {
         e.preventDefault();
 
         const {
-            contrato,
-            sucursal,
-            apellidos,
-            nombres,
-            nacimiento,
-            nro_doc,
-            sexo,
-            alta,
-            vigencia,
-            obra_soc,
-            telefono,
-            grupo,
-            cod_asesor,
-            recibo,
-            cuota
+            ALTA,
+            APELLIDOS,
+            MOVIL,
+            OPERADOR,
+            CUOTA,
+            NACIMIENTO,
+            NOMBRES,
+            NRO_DOC,
+            RECIBO,
+            SEXO,
+            TELEFONO,
+            VIGENCIA,
+            CALLE,
+            NRO_CALLE,
+            DOMI_COB,
+            DOM_LAB,
+            BARRIO
+
         } = this.state
 
-        if (sucursal === '' || apellidos === '' || nombres === '' || nacimiento === '' || nro_doc === '' || sexo === '' || alta === '' || vigencia === '' || obra_soc === '' || grupo === '' || telefono === '' || cod_asesor === '' || recibo === '' || cuota === '') {
-            this.setState({ error: true });
-            return;
-        }
-        this.setState({ error: false });
+        // // if (apellidos === '' || nombres === '' || nacimiento === '' || nro_doc === '' || sexo === '' || alta === '' || vigencia === '' || telefono === '' || cod_asesor === '' || recibo === '' || cuota === '') {
+        // //     this.setState({ error: true });
+        // //     return;
+        // // }
+        // // this.setState({ error: false });
 
 
         const titular = {
-            contrato,
-            sucursal,
-            apellidos,
-            nombres,
-            nacimiento,
-            nro_doc,
-            sexo,
-            alta,
-            vigencia,
-            obra_soc,
-            telefono,
-            grupo,
-            cod_asesor,
-            recibo,
-            cuota
+
+            SUCURSAL: this.SucursalRef.current.value,
+            PLAN: this.PlanRef.current.value,
+            GRUPO: this.grupoRef.current.value,
+            OBRA_SOC: this.OSRef.current.value,
+            CONTRATO: this.ContratoRef.current.value,
+            ALTA,
+            APELLIDOS,
+            MOVIL,
+            OPERADOR,
+            CUOTA,
+            NACIMIENTO,
+            NOMBRES,
+            NRO_DOC,
+            RECIBO,
+            SEXO,
+            TELEFONO,
+            VIGENCIA,
+            CALLE,
+            NRO_CALLE,
+            DOMI_COB,
+            DOM_LAB,
+            BARRIO,
+            LOCALIDAD: this.LocalidadesRef.current.value,
         }
 
         console.log(titular);
 
-        //this.props.agregarTitular(titular);
+        this.props.agregarTitular(titular);
 
 
         confirmAlert({
@@ -122,7 +133,10 @@ class NuevoTitular extends Component {
                 {
                     label: "Si",
                     onClick: () => {
-                        this.props.history.push(`/adherentes/nuevo/${contrato}`);
+
+
+
+                        this.props.history.push(`/adherentes/nuevo/${titular.CONTRATO}`);
                     }
                 },
 
@@ -130,7 +144,7 @@ class NuevoTitular extends Component {
                     label: "No",
                     onClick: () => {
 
-                        this.props.history.push(`/`);
+                        this.props.history.push(`/titular/${titular.CONTRATO}`);
 
                     }
                 }
@@ -139,7 +153,23 @@ class NuevoTitular extends Component {
     }
 
     componentDidMount() {
-        this.lastContrato()
+        this.props.ultimoContrato()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { titulares } = nextProps;
+
+        const lastContrato = titulares.lastcontrato.CONTRATO;
+
+        const newContrato = lastContrato + 1;
+
+        this.setState({
+            newContrato: newContrato
+        })
+
+
+        // this.setState({
+        //     contrato: newcontrato.toString()})
     }
 
     render() {
@@ -160,7 +190,17 @@ class NuevoTitular extends Component {
                     leerDatos={this.leerDatos}
                     nuevoTitular={this.nuevoTitular}
                     error={this.state.error}
-                    contrato={this.state.contrato}
+                    newContrato={this.state.newContrato}
+                    grupoRef={this.grupoRef}
+                    OSRef={this.OSRef}
+                    PlanRef={this.PlanRef}
+                    SucursalRef={this.SucursalRef}
+                    ContratoRef={this.ContratoRef}
+                    LocalidadesRef={this.LocalidadesRef}
+                    ProductorRef={this.ProductorRef}
+                    ZonaRef={this.ZonaRef}
+
+
                 />
 
 
@@ -170,7 +210,11 @@ class NuevoTitular extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    titulares: state.titulares
+});
+
 export default connect(
-    null,
-    { agregarTitular }
+    mapStateToProps,
+    { agregarTitular, ultimoContrato }
 )(NuevoTitular);

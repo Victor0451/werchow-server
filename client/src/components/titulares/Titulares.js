@@ -2,21 +2,96 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import Spinner from '../layouts/Spinner';
 
+import {
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+
+} from "reactstrap";
+
+
+
 
 //redux
 import { connect } from "react-redux";
 import { mostrarTitulares } from "../../actions/titularActions";
 
+
+
+let prev = 0;
+//let next = 0;
+let last = 0;
+//let first = 0;
+
 class Titulares extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      titulares: [],
+      currentPage: 1,
+      todosPerPage: 100,
+
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleLastClick = this.handleLastClick.bind(this);
+    this.handleFirstClick = this.handleFirstClick.bind(this);
+  }
+
+  handleClick(event) {
+    event.preventDefault();
+    this.setState({
+      currentPage: Number(event.target.id)
+    });
+  }
+
+  handleLastClick(event) {
+    event.preventDefault();
+    this.setState({
+      currentPage: last
+    });
+  }
+  handleFirstClick(event) {
+    event.preventDefault();
+    this.setState({
+      currentPage: 1
+    });
+  }
+
+
+
   componentDidMount() {
     this.props.mostrarTitulares();
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { titulares } = nextProps;
+    console.log(titulares)
+    this.setState({
+      titulares: titulares
+    })
   }
 
   render() {
 
-    const { titulares } = this.props;
+    let { titulares, currentPage, todosPerPage } = this.state;
 
-    if (!titulares) return <Spinner />
+    // Logic for displaying current todos
+    let indexOfLastTodo = currentPage * todosPerPage;
+    let indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+    let currentTodos = titulares.slice(indexOfFirstTodo, indexOfLastTodo);
+    prev = currentPage > 0 ? (currentPage - 1) : 0;
+    last = Math.ceil(titulares.length / todosPerPage);
+    //   let next = (last === currentPage) ? currentPage : currentPage + 1;
+
+    // Logic for displaying page numbers
+    let pageNumbers = [];
+    for (let i = 1; i <= last; i++) {
+      pageNumbers.push(i);
+    }
+
+    if (Object.entries(titulares).length === 0) return <Spinner />
 
     return (
       <React.Fragment>
@@ -25,7 +100,7 @@ class Titulares extends Component {
           <div className="col-md-8" >
             <ul>
               <table className="table table-hover">
-                <thead>
+                <thead className="alert alert-dark">
                   <tr>
                     <th scope="col">Contrato</th>
                     <th scope="col">Apellido</th>
@@ -35,23 +110,23 @@ class Titulares extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {titulares.map(titular => (
-                    <tr key={titular.contrato}>
+                  {currentTodos.map((titular, index) => (
+                    <tr key={index}>
                       <td >
-                        {titular.contrato}
+                        {titular.CONTRATO}
                       </td>
                       <td>
-                        {titular.apellidos}
+                        {titular.APELLIDOS}
                       </td>
                       <td>
-                        {titular.nombres}
+                        {titular.NOMBRES}
                       </td>
                       <td>
-                        {titular.nro_doc}
+                        {titular.NRO_DOC}
                       </td>
 
                       <td>
-                        <Link to={`/titular/${titular.contrato}`} className="btn btn-primary">Mas Informacion</Link>
+                        <Link to={`/titular/${titular.CONTRATO}`} className="btn btn-primary">Mas Informacion</Link>
                       </td>
                     </tr>
 
@@ -62,6 +137,48 @@ class Titulares extends Component {
               </table>
 
             </ul>
+          </div>
+
+          <div className=" table-responsive">
+            <nav className="pagination justify-content-center ">
+              <Pagination>
+                <PaginationItem>
+                  {prev === 0 ? <PaginationLink disabled>First</PaginationLink> :
+                    <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>First</PaginationLink>
+                  }
+                </PaginationItem>
+                <PaginationItem>
+                  {prev === 0 ? <PaginationLink disabled>Prev</PaginationLink> :
+                    <PaginationLink onClick={this.handleClick} id={prev} href={prev}>Prev</PaginationLink>
+                  }
+                </PaginationItem>
+                {
+                  pageNumbers.map((number, i) =>
+                    <Pagination key={i}>
+                      <PaginationItem active={pageNumbers[currentPage - 1] === (number) ? true : false} >
+                        <PaginationLink onClick={this.handleClick} href={number} key={number} id={number}>
+                          {number}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </Pagination>
+                  )}
+
+                <PaginationItem>
+                  {
+                    currentPage === last ? <PaginationLink disabled>Next</PaginationLink> :
+                      <PaginationLink onClick={this.handleClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Next</PaginationLink>
+                  }
+                </PaginationItem>
+
+                <PaginationItem>
+                  {
+                    currentPage === last ? <PaginationLink disabled>Last</PaginationLink> :
+                      <PaginationLink onClick={this.handleLastClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Last</PaginationLink>
+                  }
+                </PaginationItem>
+              </Pagination>
+            </nav>
+
           </div>
         </div>
       </React.Fragment>

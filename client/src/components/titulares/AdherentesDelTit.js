@@ -26,11 +26,14 @@ class AdherentesDelTit extends Component {
     render() {
         const id = this.props.id;
         const adherentes = this.state.adherentes;
+
+        if (Object.entries(adherentes).length === 0) return <h1 className="text-center d-flex justify-content-center"><i className="fas fa-users">  No Posee Adherentes Registrados</i></h1>
         return (
             <div className="container">
 
                 <Link to={`/adherentes/nuevo/${id}`} className="btn btn-primary  mb-4" >Agregar un Adherente</Link>
 
+                <h1 className="text-center d-flex justify-content-center"><i className="fas fa-users">  Adherentes </i></h1>
 
                 <table className="table table-hover">
                     <thead className="alert alert-dark">

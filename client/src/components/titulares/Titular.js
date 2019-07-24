@@ -6,33 +6,53 @@ import Spinner from '../layouts/Spinner';
 //redux
 import { connect } from "react-redux";
 import { mostrarTitular } from "../../actions/titularActions";
+import { mostrarPagosTitular } from "../../actions/pagosActions";
+import { mostrarPagobcoTitular } from "../../actions/pagobcoActions";
+
 import InfoTitular from './InfoTitular';
+import Pagos from '../pagos/pagos';
+import PagosBco from '../pagos/pagobco';
+
 
 
 
 class Titular extends Component {
     state = {
-        titular: {}
+        titular: {},
+        pagos: {},
+        pagobco: {}
 
     }
-    
+
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.mostrarTitular(id);
+
+        this.props.mostrarPagosTitular(id)
+
+        this.props.mostrarPagobcoTitular(id);
+
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        const { titular } = nextProps;
+        const { titular, pagos, pagobco } = nextProps;
 
         this.setState({
             titular: titular,
+            pagos: pagos,
+            pagobco: pagobco
         });
     }
 
     render() {
-        const titular = this.state.titular;
-        if (!titular) return <Spinner />
+
+        const { titular, pagos, pagobco } = this.state
+
+        if (Object.entries(titular).length === 0) return <Spinner />
+
+
         const { id } = this.props.match.params;
+
 
         return (
             <div className="container mt-4">
@@ -41,13 +61,7 @@ class Titular extends Component {
                         <Link to="/titulares" className="btn btn-secondary">
                             <i className="fas fa-arrow-circle-left"></i> {''}
                             Volver al Listado
-                </Link>
-                    </div>
-                    <div className="col-md-6">
-                        <Link to={`/suscriptores/editar/`} className="btn btn-primary float-right">
-                            <i className="fas fa-pencil-alt"></i> {''}
-                            Editar Suscriptor
-                </Link>
+                         </Link>
                     </div>
                 </div>
 
@@ -59,12 +73,30 @@ class Titular extends Component {
                     </div>
 
                     <InfoTitular
-                        titular={this.state.titular}
+                        titular={titular}
                     />
 
                     <hr className="my-4" />
+                    {
+                        Object.entries(pagos).length === 0 ? (
 
-                    <h3>ADHERENTES</h3>
+                            (<h1 className="text-center"><i className="fas fa-wallet">  No Registra Cuotas</i></h1>)
+                        )
+                            : (<Pagos pagos={pagos} />)
+                    }
+
+
+                    < hr className="my-4" />
+
+                    {Object.entries(pagobco).length === 0 ? (
+                        <h1 className="text-center"><i className="fas fa-credit-card"> No Registra Debitos</i> </h1>
+                    )
+
+                        : (< PagosBco pagobco={pagobco} />)}
+
+
+                    <hr className="my-4" />
+
 
                     <div className="row mt-4">
                         <AdherentesDelTit
@@ -82,11 +114,13 @@ class Titular extends Component {
 }
 //state
 const mapStateToProps = state => ({
-    titular: state.titulares.titular
+    titular: state.titulares.titular,
+    pagos: state.pagos.pagos,
+    pagobco: state.pagobco.pagobco
 
 });
 
 export default connect(
     mapStateToProps,
-    { mostrarTitular }
+    { mostrarTitular, mostrarPagobcoTitular, mostrarPagosTitular }
 )(Titular);

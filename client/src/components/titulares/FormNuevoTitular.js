@@ -1,43 +1,156 @@
 import React from 'react'
+import GrupoAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import OSAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import PlanAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import SucursalAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import LocalidadesAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import ProductorAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import ZonaAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+
+
+
+import { localidades, grupos, productores, zonas } from '../layouts/Arrays/arrays'
+
+
 
 const FormNuevoTitular = (props) => {
-    const { error, contrato, leerDatos, nuevoTitular } = props;
+
+    const { error, newContrato, leerDatos, nuevoTitular, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef } = props;
 
     return (
 
         <form className="form-style-8 " onSubmit={nuevoTitular}>
-            <h2>Informacion Personal</h2>
-            <div className="form-row">
+
+            <h2 className="mt-4">Datos de Ficha</h2>
+
+            <div className="form-row mt-2">
+
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="sucursal" placeholder="Sucursal" />
-                        <label >Sucursal</label>
+                        <input type="text" className="" ref={ContratoRef} id="contrato" name="CONTRATO" value={newContrato} placeholder="Contrato" readOnly />
+                        <label >Contrato</label>
                     </p>
                 </div>
+
+
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={leerDatos} id="grupo" name="grupo" placeholder="Grupo" />
+                        <GrupoAutosuggest
+                            suggestions={grupos}
+                            placeholder="Grupo"
+                            Ref={grupoRef}
+
+                        />
                         <label >Grupo</label>
                     </p>
                 </div>
+
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={leerDatos} id="contrato" name="contrato" value={contrato} placeholder="Contrato" readOnly />
-                        <label >Contrato</label>
+                        <ZonaAutosuggest
+                            suggestions={zonas}
+                            placeholder="Zona"
+                            Ref={ZonaRef}
+
+                        />
+                        <label >Zona</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <SucursalAutosuggest
+                            suggestions={[
+                                "W - Casa Central",
+                                "L - Palpala",
+                                "R - Perico",
+                                "P - San Pedro"
+                            ]}
+                            placeholder="Sucursal"
+                            Ref={SucursalRef}
+
+                        />
+                        <label >Sucursal</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <PlanAutosuggest
+                            suggestions={[
+                                "1000 - Cobradores",
+                                "3400 - tjt",
+                                "3600",
+                                "3700",
+                                "3900",
+                                "4000",
+                                "Reptile",
+                                "Solitary",
+                                "Tail",
+                                "Wetlands"
+                            ]}
+                            placeholder="Plan"
+                            Ref={PlanRef}
+
+                        />
+                        <label >Plan</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="SEGURO_VIDA" placeholder="Seguro de Vida" />
+                        <label >Seguro de Vida</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <ProductorAutosuggest
+                            suggestions={productores}
+                            placeholder="Productor"
+                            Ref={ProductorRef}
+
+                        />
+                        <label >Productor</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" onChange={leerDatos} name="CUOTA" placeholder="Cuota" />
+                        <label >Cuota</label>
+                    </p>
+                </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" onChange={leerDatos} name="RECIBO" placeholder="Nº Recibo" />
+                        <label >Nº de Recibo</label>
                     </p>
                 </div>
             </div>
 
+
+
+
+
+            {/* DATOS DEL TITULAR */}
+
+            <h2 className="mt-4">Informacion Personal</h2>
+
             <div className="form-group">
                 <p className="has-dynamic-label">
-                    <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="apellidos" placeholder="Apellidos" />
+                    <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="APELLIDOS" placeholder="Apellidos" />
                     <label >Apellidos</label>
                 </p>
             </div>
 
             <div className="form-group">
                 <p className="has-dynamic-label">
-                    <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="nombres" placeholder="Nombres" />
+                    <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="NOMBRES" placeholder="Nombres" />
                     <label >Nombres</label>
                 </p>
             </div>
@@ -45,7 +158,9 @@ const FormNuevoTitular = (props) => {
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" id="dynamic-label-input" onChange={leerDatos} name="nacimiento" data-placeholder="Fecha de Nacimiento" aria-required="true" />
+                        <input type="date" id="dynamic-label-input" onChange={leerDatos} name="NACIMIENTO" data-placeholder="Fecha de Nacimiento" aria-required="true" />
+                        <label >Fecha de Nacimiento</label>
+
                     </p>
                 </div>
 
@@ -53,14 +168,14 @@ const FormNuevoTitular = (props) => {
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="number" className="" onChange={leerDatos} id="in-range-input" name="nro_doc" minLength="8" placeholder="DNI" />
+                        <input type="number" className="" onChange={leerDatos} id="in-range-input" name="NRO_DOC" minLength="8" placeholder="DNI" />
                         <label >DNI</label>
                     </p>
                 </div>
 
                 <div className="form-group col-md-6" defaultValue={"Default"}>
                     <p className="has-dynamic-label" defaultValue={"Default"}>
-                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="sexo" >
+                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="SEXO" >
                             <option value="Default">Sexo</option>
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
@@ -70,24 +185,61 @@ const FormNuevoTitular = (props) => {
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" className="" onChange={leerDatos} id="dynamic-label-input" data-placeholder="Fecha de Alta" name="alta" aria-required="true" />
+                        <input type="date" className="" onChange={leerDatos} id="dynamic-label-input" data-placeholder="Fecha de Alta" name="ALTA" aria-required="true" />
+                        <label >Fecha de Alta</label>
+
                     </p>
                 </div>
 
                 <div className="form-group col-md-6">
-                    <input type="date" className="" id="vigencia" onChange={leerDatos} name="vigencia" data-placeholder="Fecha de Vigencia" aria-required="true" />
-                </div>
-                <div className="form-group col-md-6">
-                    <input type="text" className="" id="os" name="os" onChange={leerDatos} placeholder="OS" />
+                    <p className="has-dynamic-label">
+                        <input type="date" className="" id="vigencia" onChange={leerDatos} name="VIGENCIA" data-placeholder="Fecha de Vigencia" aria-required="true" />
+                        <label >Vigencia</label>
+                    </p>
                 </div>
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="Number" className="" id="telefono" onChange={leerDatos} name="telefono" placeholder="Telefono" />
+                        <OSAutosuggest
+                            suggestions={[
+                                "2 - Cobradores",
+                                "4 - tjt",
+                                "5",
+                                "6",
+                                "7",
+                                "4000",
+                                "Reptile",
+                                "Solitary",
+                                "Tail",
+                                "Wetlands"
+                            ]}
+                            placeholder="Obra Social"
+                            Ref={OSRef}
+                        />
+                        <label >Obra Social</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="Number" className="" id="telefono" onChange={leerDatos} name="TELEFONO" placeholder="Telefono" />
                         <label >Telefono</label>
                     </p>
                 </div>
 
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="Number" className="" id="celular" onChange={leerDatos} name="CELULAR" placeholder="Celular" />
+                        <label >Celular</label>
+                    </p>
+                </div>
+
             </div>
+
+
+
+            {/* DATOS DEL DOMICILIO */}
+
+
 
             <h2 className="mt-4">Domicilio</h2>
 
@@ -95,106 +247,64 @@ const FormNuevoTitular = (props) => {
             <div className="form-row mt-2">
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="calle" onChange={leerDatos} placeholder="Domicilio" />
+                        <input type="text" className="" name="CALLE" onChange={leerDatos} placeholder="Domicilio" />
                         <label >Domicilio</label>
                     </p>
                 </div>
+
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="numero" onChange={leerDatos} placeholder="Numero" />
+                        <input type="text" className="" name="NRO_CALLE" onChange={leerDatos} placeholder="Numero" />
                         <label >Numero</label>
                     </p>
                 </div>
 
+
+
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="dom_cob" onChange={leerDatos} placeholder="Domicilio Cobrador" />
-                        <label >Comicilio de Cobranza</label>
+                        <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="BARRIO" placeholder="Barrio" />
+                        <label >Barrio</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <LocalidadesAutosuggest
+                            suggestions={localidades}
+                            placeholder="Sucursal"
+                            Ref={LocalidadesRef}
+
+                        />
+                        <label >localidad</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" name="DOMI_COB" onChange={leerDatos} placeholder="Domicilio Cobrador" />
+                        <label >Domicilio de Cobranza</label>
                     </p>
                 </div>
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="dom_lab" onChange={leerDatos} placeholder="Domicilio Laboral" />
+                        <input type="text" className="" name="DOM_LAB" onChange={leerDatos} placeholder="Domicilio Laboral" />
                         <label >Domicilio Laboral</label>
                     </p>
                 </div>
 
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="barrio" placeholder="Grupo"  >
-                            <option selected value="Default">Barrio</option>
-                            <option value="2">2</option>
-                            <option value="2" >3</option>
-                            <option value="2" >S3</option>
-                        </select>
-                    </p>
-                </div>
 
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="localidad" placeholder="Grupo"  >
-                            <option selected value="Default">Localidad</option>
-                            <option value="2">2</option>
-                            <option value="2">3</option>
-                            <option value="2">S3</option>
-                        </select>
-                    </p>
-                </div>
-
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="cuenta" placeholder="Grupo"  >
-                            <option selected value="Default">Tipo de Cuenta</option>
-                            <option value="2">2</option>
-                            <option value="2">3</option>
-                            <option value="2">S3</option>
-                        </select>
-                    </p>
-                </div>
-
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="plan" placeholder="Grupo"  >
-                            <option selected value="Default">Plan</option>
-                            <option value="2">2</option>
-                            <option value="2">3</option>
-                            <option value="2">S3</option>
-                        </select>
-                    </p>
-                </div>
-
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="seguro_vida" placeholder="Grupo"  >
-                            <option selected value="Default">Seguro de Vida</option>
-                            <option value="2">2</option>
-                            <option value="2">3</option>
-                            <option value="2">S3</option>
-                        </select>
-                    </p>
-                </div>
-
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={leerDatos} name="cod_asesor" placeholder="Codigo asesor" />
-                        <label >Codigo de asesor</label>
-                    </p>
-                </div>
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={leerDatos} name="cuota" placeholder="Cuota" />
-                        <label >Cuota</label>
-                    </p>
-                </div>
-                <div className="form-group col-md-6">
-                    <p className="has-dynamic-label">
-                        <input type="text" className="" onChange={leerDatos} name="recibo" placeholder="Nº Recibo" />
-                        <label >Nº de Recibo</label>
-                    </p>
-                </div>
             </div>
+
+
+
+
+
             <button type="submit" className="btn btn-primary btn-block mt-4">Guardar</button>
+
             {error ? (
                 <div className="font-weight-bold alert alert-danger text-center mt-4">
                     Todos los campos son obligatorios

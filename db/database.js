@@ -1,20 +1,24 @@
-const mysql = require('mysql');
+const Sequelize = require('sequelize');
+const db = {};
 
-
-const mysqlConnection = mysql.createConnection ({
+const sequelize = new Sequelize({
     host: '192.168.1.102',
-    user: 'root',
+    database: 'werchow-sgi',
+    username: 'root',
     password: 'root',
-    database: 'werchow',
-});
+    dialect: 'mysql',
 
-mysqlConnection.connect(function (err) {
-    if (err) {
-        console.log(err);
-        return;
-    } else {
-        console.log('DB is connected');
+
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
     }
 });
 
-module.exports = mysqlConnection;
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+
+module.exports = db;

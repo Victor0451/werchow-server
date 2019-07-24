@@ -1,16 +1,18 @@
 import React from 'react'
 
 const InfoTitular = (props) => {
-    const {titular} = props
+    const { titular } = props
     return (
         <div>
-            <div className="row mt-4">
+            <div className="row mt-4 alert alert-secondary">
                 <div className="col-md-4">
                     <h3>Contrato: {titular.CONTRATO}</h3>
                 </div>
+
                 <div className="col-md-4">
-                    <h3>DNI: {titular.NRO_DOC}</h3>
+                    <h3> GRUPO:{''} {titular.GRUPO}</h3>
                 </div>
+
                 <div className="col-md-4">
                     <h3>Sucursal: {titular.SUCURSAL}</h3>
                 </div>
@@ -19,14 +21,6 @@ const InfoTitular = (props) => {
             <hr className="my-4" />
             <h3>DATOS DE FICHA</h3>
             <div className="row mt-4">
-                <div className="col-md-2 ">
-                    <p>
-                        <span className="font-weight-bold">
-                            GRUPO:
-                            </span> {''}
-                        {titular.GRUPO}
-                    </p>
-                </div>
 
                 <div className="col-md-2">
                     <p>
@@ -101,6 +95,14 @@ const InfoTitular = (props) => {
             <h3>DATOS PERSONALES</h3>
 
             <div className="row mt-4">
+
+                <div className="col-md-2">
+                    <span className="font-weight-bold">
+                        DNI:
+                    </span> {''}
+                    {titular.NRO_DOC}
+                </div>
+
                 <div className="col-md-2 ">
                     <p>
                         <span className="font-weight-bold">
