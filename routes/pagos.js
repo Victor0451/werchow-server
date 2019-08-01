@@ -8,7 +8,7 @@ router.get("/pagos/:id", (req, res, next) => {
     pagos.findAll(
         {
             where: { CONTRATO: req.params.id },
-            order: [['ANO', 'DESC']]
+            order: [['DIA_PAG', 'DESC']]
         })
         .then(pagos => res.json(pagos))
         .catch(err => res.json(err))

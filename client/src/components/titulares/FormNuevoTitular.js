@@ -2,6 +2,7 @@ import React from 'react'
 import GrupoAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
 import OSAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
 import PlanAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import SubPlanAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
 import SucursalAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
 import LocalidadesAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
 import ProductorAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
@@ -9,13 +10,24 @@ import ZonaAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
 
 
 
-import { localidades, grupos, productores, zonas } from '../layouts/Arrays/arrays'
+import { localidades, grupos, productores, zonas, obra_social, planes, subplanes } from '../layouts/Arrays/arrays'
 
 
 
 const FormNuevoTitular = (props) => {
 
-    const { error, newContrato, leerDatos, nuevoTitular, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef } = props;
+    const { error, newContrato, leerDatos, nuevoTitular, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef, AltaRef, VigenciaRef, SubPlanRef } = props;
+
+    let tmp = new Date(Date.now());
+    let alta = tmp.toISOString().split('T')[0];
+
+
+    let d = new Date();
+    let year = d.getFullYear();
+    let month = d.getMonth();
+    let day = d.getDate();
+    let vigencia = new Date(year, month + 3, day).toISOString().split('T')[0];
+
 
     return (
 
@@ -28,7 +40,7 @@ const FormNuevoTitular = (props) => {
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
                         <input type="text" className="" ref={ContratoRef} id="contrato" name="CONTRATO" value={newContrato} placeholder="Contrato" readOnly />
-                        <label >Contrato</label>
+                        <label >CONTRATO</label>
                     </p>
                 </div>
 
@@ -41,7 +53,7 @@ const FormNuevoTitular = (props) => {
                             Ref={grupoRef}
 
                         />
-                        <label >Grupo</label>
+                        <label >GRUPO</label>
                     </p>
                 </div>
 
@@ -78,18 +90,7 @@ const FormNuevoTitular = (props) => {
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
                         <PlanAutosuggest
-                            suggestions={[
-                                "1000 - Cobradores",
-                                "3400 - tjt",
-                                "3600",
-                                "3700",
-                                "3900",
-                                "4000",
-                                "Reptile",
-                                "Solitary",
-                                "Tail",
-                                "Wetlands"
-                            ]}
+                            suggestions={planes}
                             placeholder="Plan"
                             Ref={PlanRef}
 
@@ -98,6 +99,17 @@ const FormNuevoTitular = (props) => {
                     </p>
                 </div>
 
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <SubPlanAutosuggest
+                            suggestions={subplanes}
+                            placeholder="Sub Plan"
+                            Ref={SubPlanRef}
+
+                        />
+                        <label >Sub Plan</label>
+                    </p>
+                </div>
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
@@ -185,7 +197,7 @@ const FormNuevoTitular = (props) => {
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" className="" onChange={leerDatos} id="dynamic-label-input" data-placeholder="Fecha de Alta" name="ALTA" aria-required="true" />
+                        <input type="date" className="" onChange={leerDatos} id="dynamic-label-input" data-placeholder="Fecha de Alta" name="ALTA" aria-required="true" defaultValue={alta} ref={AltaRef} />
                         <label >Fecha de Alta</label>
 
                     </p>
@@ -193,25 +205,14 @@ const FormNuevoTitular = (props) => {
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" className="" id="vigencia" onChange={leerDatos} name="VIGENCIA" data-placeholder="Fecha de Vigencia" aria-required="true" />
+                        <input type="date" className="" id="vigencia" onChange={leerDatos} name="VIGENCIA" data-placeholder="Fecha de Vigencia" aria-required="true" defaultValue={vigencia} ref={VigenciaRef} />
                         <label >Vigencia</label>
                     </p>
                 </div>
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
                         <OSAutosuggest
-                            suggestions={[
-                                "2 - Cobradores",
-                                "4 - tjt",
-                                "5",
-                                "6",
-                                "7",
-                                "4000",
-                                "Reptile",
-                                "Solitary",
-                                "Tail",
-                                "Wetlands"
-                            ]}
+                            suggestions={obra_social}
                             placeholder="Obra Social"
                             Ref={OSRef}
                         />
@@ -228,7 +229,7 @@ const FormNuevoTitular = (props) => {
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="Number" className="" id="celular" onChange={leerDatos} name="CELULAR" placeholder="Celular" />
+                        <input type="Number" className="" id="celular" onChange={leerDatos} name="MOVIL" placeholder="Celular" />
                         <label >Celular</label>
                     </p>
                 </div>
@@ -284,7 +285,7 @@ const FormNuevoTitular = (props) => {
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="DOMI_COB" onChange={leerDatos} placeholder="Domicilio Cobrador" />
+                        <input type="text" className="" name="DOMI_COBR" onChange={leerDatos} placeholder="Domicilio Cobrador" />
                         <label >Domicilio de Cobranza</label>
                     </p>
                 </div>
@@ -298,9 +299,6 @@ const FormNuevoTitular = (props) => {
 
 
             </div>
-
-
-
 
 
             <button type="submit" className="btn btn-primary btn-block mt-4">Guardar</button>

@@ -30,7 +30,7 @@ class Titulares extends Component {
     this.state = {
       titulares: [],
       currentPage: 1,
-      todosPerPage: 100,
+      todosPerPage: 50,
 
     };
     this.handleClick = this.handleClick.bind(this);
@@ -67,7 +67,7 @@ class Titulares extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { titulares } = nextProps;
-    console.log(titulares)
+
     this.setState({
       titulares: titulares
     })
@@ -126,7 +126,7 @@ class Titulares extends Component {
                       </td>
 
                       <td>
-                        <Link to={`/titular/${titular.CONTRATO}`} className="btn btn-primary">Mas Informacion</Link>
+                        <Link to={`/titulares/${titular.CONTRATO}`} className="btn btn-primary">Mas Informacion</Link>
                       </td>
                     </tr>
 
@@ -143,37 +143,37 @@ class Titulares extends Component {
             <nav className="pagination justify-content-center ">
               <Pagination>
                 <PaginationItem>
-                  {prev === 0 ? <PaginationLink disabled>First</PaginationLink> :
-                    <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>First</PaginationLink>
+                  {prev === 0 ? <PaginationLink disabled>Inicio</PaginationLink> :
+                    <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>Inicio</PaginationLink>
                   }
                 </PaginationItem>
                 <PaginationItem>
-                  {prev === 0 ? <PaginationLink disabled>Prev</PaginationLink> :
-                    <PaginationLink onClick={this.handleClick} id={prev} href={prev}>Prev</PaginationLink>
+                  {prev === 0 ? <PaginationLink disabled>Anterior</PaginationLink> :
+                    <PaginationLink onClick={this.handleClick} id={prev} href={prev}>Anterior</PaginationLink>
                   }
                 </PaginationItem>
-                {
-                  pageNumbers.map((number, i) =>
-                    <Pagination key={i}>
-                      <PaginationItem active={pageNumbers[currentPage - 1] === (number) ? true : false} >
-                        <PaginationLink onClick={this.handleClick} href={number} key={number} id={number}>
-                          {number}
-                        </PaginationLink>
-                      </PaginationItem>
-                    </Pagination>
-                  )}
+                {/* {
+                            pageNumbers.map((number, i) =>
+                                <Pagination key={i}>
+                                    <PaginationItem  active={pageNumbers[currentPage - 1] === (number) ? true : false} >
+                                        <PaginationLink  onClick={this.handleClick} href={number} key={number} id={number}>
+                                            {number}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                </Pagination>
+                            )} */}
 
                 <PaginationItem>
                   {
-                    currentPage === last ? <PaginationLink disabled>Next</PaginationLink> :
-                      <PaginationLink onClick={this.handleClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Next</PaginationLink>
+                    currentPage === last ? <PaginationLink disabled>Siguiente</PaginationLink> :
+                      <PaginationLink onClick={this.handleClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Siguiente</PaginationLink>
                   }
                 </PaginationItem>
 
                 <PaginationItem>
                   {
-                    currentPage === last ? <PaginationLink disabled>Last</PaginationLink> :
-                      <PaginationLink onClick={this.handleLastClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Last</PaginationLink>
+                    currentPage === last ? <PaginationLink disabled>Final</PaginationLink> :
+                      <PaginationLink onClick={this.handleLastClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Final</PaginationLink>
                   }
                 </PaginationItem>
               </Pagination>

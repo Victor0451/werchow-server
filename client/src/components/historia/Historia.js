@@ -1,38 +1,41 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
     Pagination,
     PaginationItem,
     PaginationLink
 } from "reactstrap";
 
-//redux
 import { connect } from "react-redux";
-import { mostrarPagosTitular } from "../../actions/pagosActions";
-
-
+import { mostrarHistoria } from "../../actions/historiaActions";
 
 let prev = 0;
 //let next = 0;
 let last = 0;
 //let first = 0;
 
-
-class Pagos extends Component {
+class Historia extends Component {
 
     componentDidMount() {
-
         const { id } = this.props.match.params;
 
-        this.props.mostrarPagosTitular(id)
-
+        this.props.mostrarHistoria(id);
     }
+
+    componentWillReceiveProps(nextProps) {
+        const { historia } = nextProps;
+
+        this.setState({
+            historia: historia
+        })
+    }
+
 
     constructor() {
         super();
         this.state = {
-
+            historia: [],
             currentPage: 1,
-            todosPerPage: 5,
+            todosPerPage: 15,
 
         };
         this.handleClick = this.handleClick.bind(this);
@@ -61,18 +64,16 @@ class Pagos extends Component {
     }
 
     render() {
+        let { currentPage, todosPerPage, historia } = this.state;
 
-        let { currentPage, todosPerPage } = this.state;
-
-        let { pagos } = this.props;
 
         // Logic for displaying current todos
         let indexOfLastTodo = currentPage * todosPerPage;
         let indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        let currentTodos = pagos.slice(indexOfFirstTodo, indexOfLastTodo);
+        let currentTodos = historia.slice(indexOfFirstTodo, indexOfLastTodo);
         prev = currentPage > 0 ? (currentPage - 1) : 0;
-        last = Math.ceil(pagos.length / todosPerPage);
-        //let next = (last === currentPage) ? currentPage : currentPage + 1;
+        last = Math.ceil(historia.length / todosPerPage);
+        //   let next = (last === currentPage) ? currentPage : currentPage + 1;
 
         // Logic for displaying page numbers
         let pageNumbers = [];
@@ -80,59 +81,53 @@ class Pagos extends Component {
             pageNumbers.push(i);
         }
 
+        if (Object.entries(historia).length === 0) return <h1 className="text-center mt-4"><i className="fas fa-history"> No Existen Modificaciones Registradas</i> </h1>
 
         return (
-            <div className="container mt-4">
+            <div className="container">
 
-                <h1><i className="fas fa-wallet"></i> Cuotas</h1>
-                <table className="table table-hover">
+                <h1 className="text-center mt-4"><i className="fas fa-history"> Modificaciones</i> </h1>
+
+                <table className="table table-hover mt-4">
                     <thead className="alert alert-dark">
                         <tr>
-                            <th scope="col">Contrato</th>
-                            <th scope="col">Mes</th>
-                            <th scope="col">Año</th>
-                            <th scope="col">Serie</th>
-                            <th scope="col">N° Recibo</th>
-                            <th scope="col">Importe</th>
-                            <th scope="col">Dia de Pago</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Campo</th>
+                            <th scope="col">Anterior</th>
+                            <th scope="col">Nuevo</th>
+                            <th scope="col">Operador</th>
+
                         </tr>
                     </thead>
                     <tbody className="">
-                        {currentTodos.map((pago, index) => (
+                        {currentTodos.map((historia, index) => (
 
                             <tr key={index}>
                                 <td >
-                                    {pago.CONTRATO}
+                                    {historia.ACTUALIZA}
+                                </td>
+                                <td >
+                                    {historia.CAMPO}
                                 </td>
                                 <td>
-                                    {pago.MES}
+                                    {historia.ANTERIOR}
                                 </td>
                                 <td>
-                                    {pago.ANO}
+                                    {historia.NUEVO}
                                 </td>
                                 <td>
-                                    {pago.SERIE}
-                                </td>
-
-                                <td>
-                                    {pago.NRO_RECIBO}
-                                </td>
-                                <td>
-                                    {pago.IMPORTE}
-                                </td>
-                                <td>
-                                    {pago.DIA_PAG}
-
+                                    {historia.OPERADOR}
                                 </td>
                             </tr>
 
 
                         ))}
                     </tbody>
+
                 </table>
 
                 <nav className="d-flex justify-content-center">
-                <Pagination>
+                    <Pagination>
                         <PaginationItem>
                             {prev === 0 ? <PaginationLink disabled>Inicio</PaginationLink> :
                                 <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>Inicio</PaginationLink>
@@ -170,8 +165,6 @@ class Pagos extends Component {
                     </Pagination>
                 </nav>
 
-
-
             </div>
         )
     }
@@ -179,11 +172,11 @@ class Pagos extends Component {
 
 //state
 const mapStateToProps = state => ({
-    pagos: state.pagos.pagos
+    historia: state.historia.historia
+
 });
 
 export default connect(
     mapStateToProps,
-    { mostrarPagosTitular }
-)(Pagos);
-
+    { mostrarHistoria }
+)(Historia);

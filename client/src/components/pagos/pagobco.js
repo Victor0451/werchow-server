@@ -5,6 +5,10 @@ import {
     PaginationLink
 } from "reactstrap";
 
+//redux
+import { connect } from "react-redux";
+import { mostrarPagobcoTitular } from "../../actions/pagobcoActions";
+
 
 let prev = 0;
 //let next = 0;
@@ -12,20 +16,20 @@ let last = 0;
 //let first = 0;
 
 
-export default class pagobco extends Component {
-    componentDidMount() {
-        const { pagobco } = this.props;
+class Pagobco extends Component {
 
-        this.setState({
-            pagobco: pagobco
-        })
+    componentDidMount() {
+
+        const { id } = this.props.match.params;
+
+        this.props.mostrarPagobcoTitular(id)
 
     }
 
     constructor() {
         super();
         this.state = {
-            pagobco: [],
+
             currentPage: 1,
             todosPerPage: 5,
 
@@ -58,7 +62,9 @@ export default class pagobco extends Component {
 
     render() {
 
-        let { pagobco, currentPage, todosPerPage } = this.state;
+        let { currentPage, todosPerPage } = this.state;
+
+        let { pagobco } = this.props
 
         // Logic for displaying current todos
         let indexOfLastTodo = currentPage * todosPerPage;
@@ -66,7 +72,7 @@ export default class pagobco extends Component {
         let currentTodos = pagobco.slice(indexOfFirstTodo, indexOfLastTodo);
         prev = currentPage > 0 ? (currentPage - 1) : 0;
         last = Math.ceil(pagobco.length / todosPerPage);
-     //   let next = (last === currentPage) ? currentPage : currentPage + 1;
+        //   let next = (last === currentPage) ? currentPage : currentPage + 1;
 
         // Logic for displaying page numbers
         let pageNumbers = [];
@@ -75,7 +81,7 @@ export default class pagobco extends Component {
         }
 
         return (
-            <div className="container">
+            <div className="container mt-4">
                 <h1><i className="fas fa-credit-card"></i> Debitos</h1>
 
 
@@ -125,39 +131,39 @@ export default class pagobco extends Component {
                 </table>
 
                 <nav className="d-flex justify-content-center">
-                    <Pagination>
+                <Pagination>
                         <PaginationItem>
-                            {prev === 0 ? <PaginationLink disabled>First</PaginationLink> :
-                                <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>First</PaginationLink>
+                            {prev === 0 ? <PaginationLink disabled>Inicio</PaginationLink> :
+                                <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>Inicio</PaginationLink>
                             }
                         </PaginationItem>
                         <PaginationItem>
-                            {prev === 0 ? <PaginationLink disabled>Prev</PaginationLink> :
-                                <PaginationLink onClick={this.handleClick} id={prev} href={prev}>Prev</PaginationLink>
+                            {prev === 0 ? <PaginationLink disabled>Anterior</PaginationLink> :
+                                <PaginationLink onClick={this.handleClick} id={prev} href={prev}>Anterior</PaginationLink>
                             }
                         </PaginationItem>
-                        {
+                        {/* {
                             pageNumbers.map((number, i) =>
                                 <Pagination key={i}>
-                                    <PaginationItem active={pageNumbers[currentPage - 1] === (number) ? true : false} >
-                                        <PaginationLink onClick={this.handleClick} href={number} key={number} id={number}>
+                                    <PaginationItem  active={pageNumbers[currentPage - 1] === (number) ? true : false} >
+                                        <PaginationLink  onClick={this.handleClick} href={number} key={number} id={number}>
                                             {number}
                                         </PaginationLink>
                                     </PaginationItem>
                                 </Pagination>
-                            )}
+                            )} */}
 
                         <PaginationItem>
                             {
-                                currentPage === last ? <PaginationLink disabled>Next</PaginationLink> :
-                                    <PaginationLink onClick={this.handleClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Next</PaginationLink>
+                                currentPage === last ? <PaginationLink disabled>Siguiente</PaginationLink> :
+                                    <PaginationLink onClick={this.handleClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Siguiente</PaginationLink>
                             }
                         </PaginationItem>
 
                         <PaginationItem>
                             {
-                                currentPage === last ? <PaginationLink disabled>Last</PaginationLink> :
-                                    <PaginationLink onClick={this.handleLastClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Last</PaginationLink>
+                                currentPage === last ? <PaginationLink disabled>Final</PaginationLink> :
+                                    <PaginationLink onClick={this.handleLastClick} id={pageNumbers[currentPage]} href={pageNumbers[currentPage]}>Final</PaginationLink>
                             }
                         </PaginationItem>
                     </Pagination>
@@ -169,5 +175,13 @@ export default class pagobco extends Component {
     }
 }
 
+//state
+const mapStateToProps = state => ({
+    pagobco: state.pagobco.pagobco
+});
 
+export default connect(
+    mapStateToProps,
+    { mostrarPagobcoTitular }
+)(Pagobco);
 

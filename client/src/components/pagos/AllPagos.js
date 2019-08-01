@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
     Pagination,
     PaginationItem,
     PaginationLink
 } from "reactstrap";
-
-//redux
-import { connect } from "react-redux";
-import { mostrarPagosTitular } from "../../actions/pagosActions";
-
 
 
 let prev = 0;
@@ -17,20 +12,21 @@ let last = 0;
 //let first = 0;
 
 
-class Pagos extends Component {
-
+export default class AllPagos extends Component {
     componentDidMount() {
+        const { allPagos } = this.props;
 
-        const { id } = this.props.match.params;
-
-        this.props.mostrarPagosTitular(id)
+        this.setState({
+            allPagos: allPagos
+        })
 
     }
 
     constructor() {
         super();
         this.state = {
-
+            pagobco: [],
+            pagos: [],
             currentPage: 1,
             todosPerPage: 5,
 
@@ -60,19 +56,20 @@ class Pagos extends Component {
         });
     }
 
+
     render() {
 
         let { currentPage, todosPerPage } = this.state;
 
-        let { pagos } = this.props;
+        let { allPagos } = this.props
 
         // Logic for displaying current todos
         let indexOfLastTodo = currentPage * todosPerPage;
         let indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        let currentTodos = pagos.slice(indexOfFirstTodo, indexOfLastTodo);
+        let currentTodos = allPagos.slice(indexOfFirstTodo, indexOfLastTodo);
         prev = currentPage > 0 ? (currentPage - 1) : 0;
-        last = Math.ceil(pagos.length / todosPerPage);
-        //let next = (last === currentPage) ? currentPage : currentPage + 1;
+        last = Math.ceil(allPagos.length / todosPerPage);
+        //   let next = (last === currentPage) ? currentPage : currentPage + 1;
 
         // Logic for displaying page numbers
         let pageNumbers = [];
@@ -80,59 +77,61 @@ class Pagos extends Component {
             pageNumbers.push(i);
         }
 
-
         return (
-            <div className="container mt-4">
+            <div className="container">
+                <h1><i className="fas fa-hand-holding-usd"> </i><strong><u> Pagos</u></strong></h1>
 
-                <h1><i className="fas fa-wallet"></i> Cuotas</h1>
-                <table className="table table-hover">
+
+                <table className="table table-hover mt-4">
                     <thead className="alert alert-dark">
                         <tr>
+                            <th scope="col">Tipo de Pago</th>
                             <th scope="col">Contrato</th>
                             <th scope="col">Mes</th>
                             <th scope="col">Año</th>
-                            <th scope="col">Serie</th>
-                            <th scope="col">N° Recibo</th>
+                            {!allPagos.NRO_CTA ? (<th scope="col">N° Serie</th>) : (<th scope="col">Cod.Sucursar</th>)}
+                            {!allPagos.NRO_CTA ? (<th scope="col">N° Recibo</th>) : (<th scope="col">N° Cuenta</th>)}
                             <th scope="col">Importe</th>
                             <th scope="col">Dia de Pago</th>
                         </tr>
                     </thead>
                     <tbody className="">
-                        {currentTodos.map((pago, index) => (
+                        {currentTodos.map((allPagos, index) => (
 
                             <tr key={index}>
                                 <td >
-                                    {pago.CONTRATO}
+                                    {!allPagos.NRO_CTA ? ('CUOTA') : ('DEBITO')}
+                                </td>
+                                <td >
+                                    {allPagos.CONTRATO}
                                 </td>
                                 <td>
-                                    {pago.MES}
+                                    {allPagos.MES}
                                 </td>
                                 <td>
-                                    {pago.ANO}
-                                </td>
-                                <td>
-                                    {pago.SERIE}
+                                    {allPagos.ANO}
                                 </td>
 
-                                <td>
-                                    {pago.NRO_RECIBO}
-                                </td>
-                                <td>
-                                    {pago.IMPORTE}
-                                </td>
-                                <td>
-                                    {pago.DIA_PAG}
+                                {!allPagos.NRO_CTA ? (<td>{allPagos.SERIE}</td>) : (<td>{allPagos.COD_SUC}</td>)}
 
+                                {!allPagos.NRO_CTA ? (<td>{allPagos.NRO_RECIBO}</td>) : (<td>{allPagos.NRO_CTA}</td>)}
+
+                                <td>
+                                    $ {allPagos.IMPORTE}
                                 </td>
+
+                                {!allPagos.NRO_CTA ? (<td>{allPagos.DIA_PAG}</td>) : (<td>{allPagos.DIA_PAGO}</td>)}
+
                             </tr>
 
 
                         ))}
                     </tbody>
+
                 </table>
 
                 <nav className="d-flex justify-content-center">
-                <Pagination>
+                    <Pagination>
                         <PaginationItem>
                             {prev === 0 ? <PaginationLink disabled>Inicio</PaginationLink> :
                                 <PaginationLink onClick={this.handleFirstClick} id={prev} href={prev}>Inicio</PaginationLink>
@@ -171,19 +170,10 @@ class Pagos extends Component {
                 </nav>
 
 
-
             </div>
         )
     }
 }
 
-//state
-const mapStateToProps = state => ({
-    pagos: state.pagos.pagos
-});
 
-export default connect(
-    mapStateToProps,
-    { mostrarPagosTitular }
-)(Pagos);
 

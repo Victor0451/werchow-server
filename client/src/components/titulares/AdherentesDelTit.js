@@ -31,9 +31,9 @@ class AdherentesDelTit extends Component {
         return (
             <div className="container">
 
-                <Link to={`/adherentes/nuevo/${id}`} className="btn btn-primary  mb-4" >Agregar un Adherente</Link>
-
                 <h1 className="text-center d-flex justify-content-center"><i className="fas fa-users">  Adherentes </i></h1>
+
+                <Link to={`/adherentes/nuevo/${id}`} className="btn btn-primary  mb-4" >Agregar un Adherente</Link>
 
                 <table className="table table-hover">
                     <thead className="alert alert-dark">

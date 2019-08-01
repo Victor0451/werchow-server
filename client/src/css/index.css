@@ -33,7 +33,17 @@ code {
   margin: -30px -30px 30px -30px;
 }
 
-.form-style-8 input[type="text"], .form-style-8 input[type="date"], .form-style-8 input[type="datetime"], .form-style-8 input[type="email"], .form-style-8 input[type="number"], .form-style-8 input[type="search"], .form-style-8 input[type="time"], .form-style-8 input[type="url"], .form-style-8 input[type="password"], .form-style-8 textarea, .form-style-8 select {
+.form-style-8 input[type="text"],
+.form-style-8 input[type="date"],
+.form-style-8 input[type="datetime"],
+.form-style-8 input[type="email"],
+.form-style-8 input[type="number"],
+.form-style-8 input[type="search"],
+.form-style-8 input[type="time"],
+.form-style-8 input[type="url"],
+.form-style-8 input[type="password"],
+.form-style-8 textarea,
+.form-style-8 select {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -95,6 +105,8 @@ code {
   cursor: not-allowed;
 }
 
+
+
 /* 
 .form-style-8 input:valid {
   border-color: green !important;
@@ -112,9 +124,11 @@ code {
   width: 100%;
 }
 
-.form-style-8 input[type="date"]:focus::before, .form-style-8 input[type="date"]:valid::before {
+.form-style-8 input[type="date"]:focus::before,
+.form-style-8 input[type="date"]:valid::before {
   display: none
 }
+
 /* 
 .form-style-8 select {
   border-color: red !important;
@@ -138,4 +152,8 @@ code {
 
 .form-style-8 input:out-of-range+.help-text::before {
   content: 'Out of range';
+}
+
+.suggestion-active {
+  background: #DCDBDB;
 }

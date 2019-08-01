@@ -16,6 +16,7 @@ app.set('port', process.env.PORT || 5000);
 //middlewares
 app.use(bodyparser.json());
 
+
 //Routes
 
 app.use('/api/maestro', require('./routes/maestro'));
@@ -23,6 +24,10 @@ app.use('/api/adherent', require('./routes/aderhente'));
 app.use('/api/campañas', require('./routes/campañas'));
 app.use('/api/pagos', require('./routes/pagos'));
 app.use('/api/pagobco', require('./routes/pagos_bco'));
+app.use('/api/memo', require('./routes/memo'));
+app.use('/api/historia', require('./routes/historia'));
+
+
 
 
 // Serve static assets if in production

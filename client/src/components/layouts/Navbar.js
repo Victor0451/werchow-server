@@ -19,11 +19,16 @@ export default function Navbar() {
                         <Link to="" className="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Titulares </Link>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <Link to="/titulares" className="nav-link text-dark">Listado de Titulares</Link>
+                            <Link to="/titulares" className="dropdown-item text-dark">Listado de Socios</Link>
 
-                            <hr className="my-4" />
+                            <hr />
 
-                            <Link to="/titulares/nuevo" className="nav-link text-dark">Ingresar Titular</Link>
+                            <Link to="/titular/nuevo" className="dropdown-item text-dark">Ingresar Nuevo Socio</Link>
+
+                            <hr />
+
+                            <Link to="/titular/buscar" className="dropdown-item text-dark">Buscar Socio</Link>
+
 
                         </div>
                     </li>
@@ -32,7 +37,7 @@ export default function Navbar() {
                         <Link to="" className="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Adherentes </Link>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <Link to="/adherentes/nuevo" className="nav-link text-dark">Agregar un Adherente</Link>
+                            <Link to="/adherentes/nuevo" className="dropdown-item text-dark">Agregar un Adherente</Link>
 
                         </div>
                     </li>

@@ -65,9 +65,85 @@ export const localidades = [
 ]
 
 
-export const obra_social = {
+export const obra_social = [
+    '1 - O.S.P.A.',
+    '2 - O.S.D.E.',
+    '3 - I.S.S.B.',
+    '4 - I.O.S.E.',
+    '5 - O.S.P.A.D.',
+    '6 - O.S.P.S.P.',
+    '7 - O.S.P.L.A.D.',
+    '8 - O.S.T.E.L.',
+    '9 - O.S.P.R.E.R.A.',
+    '10 - O.S.P.S.A./A.T.S.A.',
+    '11 - S.CH.C.J.',
+    '12 - I.S.J.',
+    '49 - AMPI',
+    '13 - P.A.M.I.',
+    '14 - O.S.E.C.A.C.',
+    '55 - OTRA O/S',
+    '15 - COSALUD',
+    '16 - OSFFENTOS',
+    '17 - S.A.T.',
+    '18 - O.S.P.E.D.U.C.',
+    '19 - D.I.B.A.',
+    '20 - SALUD JUJUY',
+    '21 - O.S.B.A.',
+    '22 - A.T.S.A.',
+    '23 - U.T.A.',
+    '24 - U.P.C.N.',
+    '30 - MEDICINA PRIVADA',
+    '25 - O.S.P.A.T.',
+    '26 - AGUA Y ENERGIA',
+    '27 - O.S.P.I.L.',
+    '28 - O.S.P.A.H.G.',
+    '29 - BOREAL',
+    '41 - JERARQUICOS SALUD',
+    '35 - PROFEJU',
+    '36 - MEDICUS',
+    '37 - O.S.P.T.A.',
+    '38 - O.S.F.A.T.U.N',
+    '39 - I.O.S.E.',
+    '40 - OSMEDICA',
+    '42 - ASE MEDIFE S.A.',
+    '43 - UTEDIC',
+    '44 - O.S.P.E.',
+    '46 - SOS SAN BERNARDO',
+    '45 - SOS TUCUMAN',
+    '47 - WERCHOW SERV. SOC.',
+    '48 - PARTICULAR',
+    '50 - DOSUBA',
+    '51 - O.S.PE.C.',
+    '52 - OSPAGA/SUTIAGA',
+    '53 - FUNDACION DAR',
+    '54 - OSETRA',
+    '57 - POLICIA FEDERAL',
+    '58 - OSPERYHRA',
+    '59 - OSDOP',
+    '60 - OSPIDA',
+    '61 - SWISS MEDICAL',
+    '62 - FATFA',
+    '63 - OSPIM',
+    '64 - AMUR',
+    '65 - SAL/OSDEL',
+    '66 - PODER JUDICIAL',
+    '67 - OSMATA',
+    '68 - ACCORD SALUD',
+    '69 - QUALITAS',
+    '70 - O.S.P.E.S.',
+    '71 - ACA SALUD',
+    '72 - SMATA',
+    '73 - CRECER SALUD',
+    '74 - O.S.SEG.',
+    '75 - CRS',
+    '76 - SEMESPORT',
+    '77 - OSDEPYM',
+    '78 - O.S.U.T.GRA',
+    '79 - SANCOR SEGURO',
+    '80 - U.O.C.R.A.'
 
-}
+]
+
 
 export const grupos = [
 
@@ -913,9 +989,41 @@ export const productores = [
 
 ]
 
-export const planes = {
+export const planes = [
+    'S - SOLO SEPELIO',
+    'B - SALUD "B"',
+    'D - DORADO',
+    'A - SALUD "A"',
+    'C - SEPELIO-VIEJO',
+    'N - PLAN (N)-VIEJO',
+    'F - FAMILIAR',
+    'W - B-BIS',
+    'V - SEGURO DE VIDA',
+    'E - PLAN S100',
+    'M - POR MODULOS',
+    'P - NOVELL-PREPAGO',
+    'M - FAMILIAR A',
+    'M - FAMILIAR B',
+    'M - FAMILIAR C',
+    'M - NOA',
+    'M - PROVINCIA',
+    'M - NACIONAL',
+    'T - PLAN TRASPASO'
 
-}
+]
+
+export const subplanes = [
+    '0',
+    'A',
+    'B',
+    'C',
+    'N',
+    'P',
+    'O'
+
+]
+
+
 
 export const cod_postal = {
 

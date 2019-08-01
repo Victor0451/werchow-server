@@ -7,23 +7,33 @@ router.post('/nuevo', (req, res) => {
 
 
     const newTitular = {
-        ALTA,
+        SUCURSAL,
+        PLAN,
+        SUB_PLAN,
+        GRUPO,
+        ZONA,
+        OBRA_SOC,
+        CONTRATO,
         APELLIDOS,
         MOVIL,
         OPERADOR,
-        CONTRATO,
+        PRODUCTOR,
         CUOTA,
-        GRUPO,
         NACIMIENTO,
+        ALTA,
+        VIGENCIA,
         NOMBRES,
         NRO_DOC,
-        OBRA_SOC,
-        PLAN,
         RECIBO,
         SEXO,
-        SUCURSAL,
         TELEFONO,
-        VIGENCIA
+        CALLE,
+        NRO_CALLE,
+        DOMI_COBR,
+        DOM_LAB,
+        BARRIO,
+        LOCALIDAD,
+        EMPRESA
     } = req.body;
 
 

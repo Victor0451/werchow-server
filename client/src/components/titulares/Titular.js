@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import AdherentesDelTit from './AdherentesDelTit';
 import Spinner from '../layouts/Spinner';
+import Memo from '../memo/memo'
+import InfoTitular from './InfoTitular';
+import AllPagos from '../pagos/AllPagos';
 
 //redux
 import { connect } from "react-redux";
@@ -9,18 +12,15 @@ import { mostrarTitular } from "../../actions/titularActions";
 import { mostrarPagosTitular } from "../../actions/pagosActions";
 import { mostrarPagobcoTitular } from "../../actions/pagobcoActions";
 
-import InfoTitular from './InfoTitular';
-import Pagos from '../pagos/pagos';
-import PagosBco from '../pagos/pagobco';
-
-
 
 
 class Titular extends Component {
     state = {
         titular: {},
         pagos: {},
-        pagobco: {}
+        pagobco: {},
+        allPagos: {}
+
 
     }
 
@@ -32,30 +32,61 @@ class Titular extends Component {
 
         this.props.mostrarPagobcoTitular(id);
 
+
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        const { titular, pagos, pagobco } = nextProps;
+        const { titular, pagos, pagobco, memo } = nextProps;
+
+        if (titular) {
+
+
+            if (titular.GRUPO < 3000) {
+                let allPagos = pagos.concat(pagobco);
+                this.setState({
+                    allPagos: allPagos
+                })
+            } else {
+                let allPagos = pagobco.concat(pagos);
+                this.setState({
+                    allPagos: allPagos
+                })
+            }
+        }
 
         this.setState({
             titular: titular,
             pagos: pagos,
-            pagobco: pagobco
+            pagobco: pagobco,
+            memo: memo
         });
     }
 
+
+
+    imprimir = () => {
+        let contenido = document.getElementById("ficha").innerHTML;
+        let contenidoOrg = document.body.innerHTML;
+
+        document.body.innerHTML = contenido;
+
+        window.print();
+
+        document.body.innerHTML = contenidoOrg;
+
+        window.location.reload(true);
+    };
+
     render() {
 
-        const { titular, pagos, pagobco } = this.state
+        const { titular, pagos, pagobco, allPagos } = this.state
 
-        if (Object.entries(titular).length === 0) return <Spinner />
-
+        if (!titular) return <Spinner />
 
         const { id } = this.props.match.params;
 
-
         return (
-            <div className="container mt-4">
+            <div className="container mt-4" >
                 <div className="row">
                     <div className="col-md-6 mb-4">
                         <Link to="/titulares" className="btn btn-secondary">
@@ -65,7 +96,8 @@ class Titular extends Component {
                     </div>
                 </div>
 
-                <div className="jumbotron">
+                <div className="jumbotron" id="ficha">
+
                     <div className="row">
                         <div className="col-md-12">
                             <h1 className="display-3"> {titular.APELLIDOS} {titular.NOMBRES} </h1>
@@ -76,36 +108,92 @@ class Titular extends Component {
                         titular={titular}
                     />
 
-                    <hr className="my-4" />
-                    {
-                        Object.entries(pagos).length === 0 ? (
 
-                            (<h1 className="text-center"><i className="fas fa-wallet">  No Registra Cuotas</i></h1>)
-                        )
-                            : (<Pagos pagos={pagos} />)
-                    }
+                    <div className="mt-4 p-4 border">
+                        <h3 className="text-center mb-4 font-weight-bold">Opciones</h3>
+
+                        <div className="btn-group col-md-12 d-flex justify-content-center" role="group" aria-label="Button group with nested dropdown">
+
+                            <Link to={`#`} className="btn btn-warning col-md-3 mr-1">Editar</Link>
+                            <Link to={`#`} className="btn btn-danger col-md-3 mr-1">Dar de baja</Link>
+                            <Link to={`/memo/nuevo/${titular.CONTRATO}`} className="btn btn-secondary col-md-3 mr-1">Crear Memo</Link>
+                            <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-info col-md-3">Ultimas Modificaciones</Link>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                < hr className="my-4" />
+
+                <div className="jumbotron">
+
+                    <Memo contrato={titular.CONTRATO} />
+
+                </div>
+
+                < hr className="my-4" />
+
+                <div className="jumbotron">
+
+
+                    {Object.entries(allPagos).length === 0 ? (
+                        <h1 className="text-center"><i className="fas fa-hand-holding-usd"> No Registra Pagos</i> </h1>
+                    )
+
+                        : (
+                            <AllPagos
+                                pagos={pagos}
+                                pagobco={pagobco}
+                                allPagos={allPagos}
+                            />
+                        )}
 
 
                     < hr className="my-4" />
 
-                    {Object.entries(pagobco).length === 0 ? (
-                        <h1 className="text-center"><i className="fas fa-credit-card"> No Registra Debitos</i> </h1>
-                    )
+                    {Object.entries(allPagos).length === 0 ? (null)
 
-                        : (< PagosBco pagobco={pagobco} />)}
+                        : (
+                            <div className="mt-4 p-4 border">
+
+                                <h1 className="text-center mb-4 font-weight-bold">Ver Pagos por separado</h1>
+
+                                <div className="btn-group col-md-12 d-flex justify-content-center" role="group" aria-label="Button group with nested dropdown">
+
+                                    <Link to={`/pagos/cuotas/${titular.CONTRATO}`} className="btn btn-secondary col-md-5 mr-1">Cuotas</Link>
+                                    <Link to={`/pagos/debitos/${titular.CONTRATO}`} className="btn btn-secondary col-md-5">Debitos</Link>
+
+                                </div>
+                            </div>
+
+                        )}
+
+                </div >
+
+                <hr className="my-4" />
 
 
-                    <hr className="my-4" />
-
-
-                    <div className="row mt-4">
-                        <AdherentesDelTit
-                            id={id}
-                        />
-                    </div>
-
+                <div className="row mt-4 jumbotron">
+                    <AdherentesDelTit
+                        id={id}
+                    />
                 </div>
-            </div>
+
+
+
+                <div className="mb-4">
+                    <button
+                        type="submit"
+                        className="btn btn-primary mt-4"
+                        onClick={this.imprimir}
+                    >
+                        Imprimir Ficha
+             </button>
+                </div>
+
+
+            </div >
 
 
 
@@ -117,6 +205,7 @@ const mapStateToProps = state => ({
     titular: state.titulares.titular,
     pagos: state.pagos.pagos,
     pagobco: state.pagobco.pagobco
+
 
 });
 
