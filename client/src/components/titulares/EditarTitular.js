@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 //redux
 import { connect } from "react-redux";
 import { mostrarTitular } from "../../actions/titularActions";
+import FormEditarTitular from './FormEditarTitular';
 
 class EditarTitular extends Component {
 
@@ -35,10 +36,12 @@ class EditarTitular extends Component {
         EMPRESA: 'W',
         error: false,
 
-        newContrato: ''
+        newContrato: '',
+
+        titular: {}
 
     }
-    
+
     componentDidMount() {
         const { id } = this.props.match.params;
 
@@ -46,10 +49,22 @@ class EditarTitular extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+
+        const { titular } = nextProps;
+
+        this.setState({
+            titular: titular
+        })
+    }
+
     render() {
+        const { titular } = this.state
         return (
             <div>
-                
+                <FormEditarTitular
+                    titular={titular}
+                />
             </div>
         )
     }
@@ -58,7 +73,7 @@ class EditarTitular extends Component {
 //state
 const mapStateToProps = state => ({
     titular: state.titulares.titular
-   
+
 });
 
 export default connect(

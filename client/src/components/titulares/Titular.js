@@ -114,7 +114,7 @@ class Titular extends Component {
 
                         <div className="btn-group col-md-12 d-flex justify-content-center" role="group" aria-label="Button group with nested dropdown">
 
-                            <Link to={`#`} className="btn btn-warning col-md-3 mr-1">Editar</Link>
+                            <Link to={`/titulares/editar/${titular.CONTRATO}`} className="btn btn-warning col-md-3 mr-1">Editar</Link>
                             <Link to={`#`} className="btn btn-danger col-md-3 mr-1">Dar de baja</Link>
                             <Link to={`/memo/nuevo/${titular.CONTRATO}`} className="btn btn-secondary col-md-3 mr-1">Crear Memo</Link>
                             <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-info col-md-3">Ultimas Modificaciones</Link>

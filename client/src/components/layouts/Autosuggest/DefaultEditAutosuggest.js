@@ -133,7 +133,7 @@ class Autocomplete extends Component {
                     type="text"
                     onChange={onChange}
                     onKeyDown={onKeyDown}
-                    value={userInput}
+                    
                     placeholder={placeholder}
                     ref={Ref}
                     defaultValue={defaultValue}
