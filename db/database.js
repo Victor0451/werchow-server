@@ -3,9 +3,9 @@ const db = {};
 
 const sequelize = new Sequelize({
     host: '192.168.1.102',
-    database: 'werchow-sgi',
-    username: 'root',
-    password: 'root',
+    database: 'werchow',
+    username: 'vlongo',
+    password: 'nokia5800',
     dialect: 'mysql',
 
 

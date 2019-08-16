@@ -1,5 +1,5 @@
 import {
-    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTE
+    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTE, EDITAR_ADHERENTE
 } from "../actions/types";
 
 //CADA REDUCER TIENE SU ṔROPIO STATE
@@ -22,13 +22,7 @@ export default function (state = initialState, action) {
                 adherente: action.payload
             };
 
-        // case ELIMINAR_PRODUCTO:
-        //     return {
-        //         ...state,
-        //         productos: state.productos.filter(
-        //             producto => producto.id !== action.payload
-        //         )
-        //     };
+
 
         // case AGREGAR_PRODUCTO:
         //     return {
@@ -36,15 +30,16 @@ export default function (state = initialState, action) {
         //         productos: [...state.productos, action.payload]
         //     };
 
-        // case EDITAR_PRODUCTO:
-        //     return {
-        //         ...state,
-        //         productos: state.productos.map(producto =>
-        //             producto.id === action.payload.id
-        //                 ? (producto = action.payload)
-        //                 : producto
-        //         )
-        //     };
+        case EDITAR_ADHERENTE:
+            return {
+                ...state,
+                adherentes: state.adherentes.map(adherente =>
+                    adherente.NRO_DOC === action.payload.id
+                        ? (adherente = action.payload)
+                        : adherente
+                )
+            };
+
         default:
             return state;
     }

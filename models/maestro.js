@@ -60,8 +60,16 @@ module.exports = db.sequelize.define('maestro', {
     type: Sequelize.DataTypes.DATEONLY,
     allowNull: true
   },
+  BAJA: {
+    type: Sequelize.DataTypes.DATEONLY,
+    allowNull: true
+  },
   VIGENCIA: {
     type: Sequelize.DataTypes.DATEONLY,
+    allowNull: true
+  },
+  ESTADO: {
+    type: Sequelize.DataTypes.TINYINT,
     allowNull: true
   },
   ALT_SEG: {

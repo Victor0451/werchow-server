@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 
 export const mostrarMemos = () => async dispatch => {
-  const respuesta = await axios.get("http://192.168.1.108:5000/api/memo/memos");
+  const respuesta = await axios.get("http://190.231.32.232:5002/api/memo/memos");
   dispatch({
     type: MOSTRAR_MEMOS,
     payload: respuesta.data
@@ -13,18 +13,20 @@ export const mostrarMemos = () => async dispatch => {
 };
 
 export const ultimoMemo = id => async dispatch => {
-  const respuesta = await axios.get(`http://192.168.1.108:5000/api/memo/lastmemo/${id}`);
+  const respuesta = await axios.get(`http://190.231.32.232:5002/api/memo/lastmemo/${id}`);
   dispatch({
     type: ULTIMO_MEMO,
     payload: respuesta.data
   });
 };
 
-export const agregarMemo = memo => async dispatch => {
+export const agregarMemo = (memo) => async dispatch => {
+
   const respuesta = await axios.post(
-    "http://192.168.1.108:5000/api/memo/nuevo",
-    memo
+    "http://190.231.32.232:5002/api/memo/nuevo",
+   memo
   );
+
   dispatch({
     type: AGREGAR_MEMO,
     payload: respuesta.data
@@ -35,7 +37,7 @@ export const agregarMemo = memo => async dispatch => {
 
 
    // export const borrarProducto = id => async dispatch => {
-   //   await axios.delete(`http://192.168.1.108:5000/productos/${id}`);
+   //   await axios.delete(`http://190.231.32.232:5002/productos/${id}`);
 
    //   dispatch({
    //     type: ELIMINAR_PRODUCTO,
@@ -45,7 +47,7 @@ export const agregarMemo = memo => async dispatch => {
 
    // export const agregarProducto = producto => async dispatch => {
    //   const respuesta = await axios.post(
-   //     "http://192.168.1.108:5000/productos",
+   //     "http://190.231.32.232:5002/productos",
    //     producto
    //   );
 
@@ -57,7 +59,7 @@ export const agregarMemo = memo => async dispatch => {
 
    // export const editarProducto = producto => async dispatch => {
    //   const respuesta = await axios.put(
-   //     `http://192.168.1.108:5000/productos/${producto.id}`,
+   //     `http://190.231.32.232:5002/productos/${producto.id}`,
    //     producto
    //   );
 

@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 import { connect } from "react-redux";
-import { mostrarAdherentesDelTitular } from "../../actions/adherenteActions";
+import { mostrarAdherentesDelTitular, bajaAdherente } from "../../actions/adherenteActions";
 
 class AdherentesDelTit extends Component {
 
     state = {
-        adherentes: []
+        adherentes: [],
+        dni: ''
     }
     componentDidMount() {
         const id = this.props.id
@@ -19,8 +22,40 @@ class AdherentesDelTit extends Component {
         const { adherentes } = nextProps
 
         this.setState({
-            adherentes: adherentes
+            adherentes: adherentes,
+            dni: adherentes.NRO_DOC
         });
+    }
+
+    bajaAdhSocio = (index) => {
+
+        const { adherentes } = this.state;
+        const id = adherentes[index].NRO_DOC;
+
+        confirmAlert({
+            title: "Atencion",
+            message: "¿Realmente desea dar de baja a este adherente?",
+            buttons: [
+                {
+                    label: "Si",
+                    onClick: () => {
+
+                        this.props.bajaAdherente(id)
+                       
+                    }
+                },
+
+                {
+                    label: "No",
+                    onClick: () => {
+
+
+
+                    }
+                }
+            ]
+        })
+
     }
 
     render() {
@@ -35,20 +70,21 @@ class AdherentesDelTit extends Component {
 
                 <Link to={`/adherentes/nuevo/${id}`} className="btn btn-primary  mb-4" >Agregar un Adherente</Link>
 
-                <table className="table table-hover">
+                <table className="table table-hover table-responsive">
                     <thead className="alert alert-dark">
                         <tr>
                             <th scope="col">Contrato</th>
                             <th scope="col">Apellido</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">DNI</th>
+                            <th scope="col">ESTADO</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody className="">
-                        {adherentes.map(adherente => (
+                        {adherentes.map((adherente, index) => (
 
-                            <tr key={adherente.NRO_DOC}>
+                            <tr key={index}>
                                 <td >
                                     {adherente.CONTRATO}
                                 </td>
@@ -61,8 +97,11 @@ class AdherentesDelTit extends Component {
                                 <td>
                                     {adherente.NRO_DOC}
                                 </td>
+
+                                {adherente.ESTADO === 1 ? (<td>ACTIVO</td>) : adherente.ESTADO === 0 ? (<td>BAJA</td>) : ''}
+
                                 <td>
-                                    <button type="button" className="btn btn-danger btn-block">Dar de Baja</button>
+                                    <Link to={'#'} className="btn btn-danger btn-block" onClick={() => this.bajaAdhSocio(index)} >Dar de Baja</Link>
                                 </td>
 
                             </tr>
@@ -84,6 +123,6 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { mostrarAdherentesDelTitular }
+    { mostrarAdherentesDelTitular, bajaAdherente }
 )(AdherentesDelTit);
 

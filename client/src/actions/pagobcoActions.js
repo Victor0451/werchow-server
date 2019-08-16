@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 
 export const mostrarPagobcoTitular = (id) => async dispatch => {
-    const respuesta = await axios.get(`http://192.168.1.108:5000/api/pagobco/pagobco/${id}`);
+    const respuesta = await axios.get(`http://190.231.32.232:5002/api/pagobco/pagobco/${id}`);
     dispatch({
         type: MOSTRAR_PAGOBCO,
         payload: respuesta.data
@@ -13,7 +13,7 @@ export const mostrarPagobcoTitular = (id) => async dispatch => {
 };
 
 // export const mostrarAdherentesDelTitular = id => async dispatch => {
-//     const respuesta = await axios.get(`http://192.168.1.108:5000/getadherent/${id}`);
+//     const respuesta = await axios.get(`http://190.231.32.232:5002/getadherent/${id}`);
 
 //     dispatch({
 //         type: MOSTRAR_ADHERENTESTITULAR,
@@ -22,7 +22,7 @@ export const mostrarPagobcoTitular = (id) => async dispatch => {
 // };
 
    // export const borrarProducto = id => async dispatch => {
-   //   await axios.delete(`http://192.168.1.108:5000/productos/${id}`);
+   //   await axios.delete(`http://190.231.32.232:5002/productos/${id}`);
 
    //   dispatch({
    //     type: ELIMINAR_PRODUCTO,
@@ -32,7 +32,7 @@ export const mostrarPagobcoTitular = (id) => async dispatch => {
 
    // export const agregarProducto = producto => async dispatch => {
    //   const respuesta = await axios.post(
-   //     "http://192.168.1.108:5000/productos",
+   //     "http://190.231.32.232:5002/productos",
    //     producto
    //   );
 
@@ -44,7 +44,7 @@ export const mostrarPagobcoTitular = (id) => async dispatch => {
 
    // export const editarProducto = producto => async dispatch => {
    //   const respuesta = await axios.put(
-   //     `http://192.168.1.108:5000/productos/${producto.id}`,
+   //     `http://190.231.32.232:5002/productos/${producto.id}`,
    //     producto
    //   );
 

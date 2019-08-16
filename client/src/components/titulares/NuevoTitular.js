@@ -117,7 +117,8 @@ class NuevoTitular extends Component {
             DOM_LAB,
             BARRIO,
             LOCALIDAD: this.LocalidadesRef.current.value,
-            EMPRESA
+            EMPRESA,
+            ESTADO: true
         }
 
 

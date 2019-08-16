@@ -1,5 +1,5 @@
 import {
-    MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, BUSCAR_TITULAR, ULTIMO_CONTRATO_TITULAR
+    MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, BUSCAR_TITULAR, ULTIMO_CONTRATO_TITULAR, EDITAR_TITULAR, BAJA_TITULAR
 } from "../actions/types";
 
 //CADA REDUCER TIENE SU ṔROPIO STATE
@@ -34,13 +34,15 @@ export default function (state = initialState, action) {
                 lastcontrato: action.payload
             };
 
-        // case ELIMINAR_PRODUCTO:
-        //     return {
-        //         ...state,
-        //         productos: state.productos.filter(
-        //             producto => producto.id !== action.payload
-        //         )
-        //     };
+        case BAJA_TITULAR:
+            return {
+                ...state,
+                titulares: state.titulares.map(titular =>
+                    titular.CONTRATO === action.payload.id
+                        ? (titular = action.payload)
+                        : titular
+                )
+            };
 
         case AGREGAR_TITULAR:
             return {
@@ -48,15 +50,16 @@ export default function (state = initialState, action) {
                 titulares: [...state.titulares, action.payload]
             };
 
-        // case EDITAR_PRODUCTO:
-        //     return {
-        //         ...state,
-        //         productos: state.productos.map(producto =>
-        //             producto.id === action.payload.id
-        //                 ? (producto = action.payload)
-        //                 : producto
-        //         )
-        //     };
+        case EDITAR_TITULAR:
+            return {
+                ...state,
+                titulares: state.titulares.map(titular =>
+                    titular.CONTRATO === action.payload.id
+                        ? (titular = action.payload)
+                        : titular
+                )
+            };
+
         default:
             return state;
     }

@@ -18,4 +18,27 @@ router.get('/historias/:id', (req, res, next) => {
         })
 })
 
+router.post('/nuevo', (req, res) => {
+
+
+    const newModificacion = {
+
+        CONTRATO,
+        OPERADOR,
+        ANTERIOR,
+        NUEVO,
+        ACTUALIZA
+
+    } = req.body;
+
+
+    historia.create(newModificacion)
+        .then(titular => {
+            res.status(200).json(titular)
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        })
+});
+
 module.exports = router

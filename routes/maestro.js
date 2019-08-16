@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const maestro = require("../models/maestro");
 
+//INSERT
 
 router.post('/nuevo', (req, res) => {
 
@@ -33,13 +34,10 @@ router.post('/nuevo', (req, res) => {
         DOM_LAB,
         BARRIO,
         LOCALIDAD,
-        EMPRESA
+        EMPRESA,
+        ESTADO
     } = req.body;
 
-
-
-    // let CONTRATO = req.body.contrato
-    // console.log(CONTRATO)
 
     maestro.create(newTitular)
         .then(titular => {
@@ -51,11 +49,110 @@ router.post('/nuevo', (req, res) => {
 });
 
 
+//EDIT
+
+router.put('/editar/:id', (req, res) => {
+
+
+    const titularModf = {
+        SUCURSAL,
+        PLAN,
+        SUB_PLAN,
+        GRUPO,
+        ZONA,
+        OBRA_SOC,
+        CONTRATO,
+        APELLIDOS,
+        MOVIL,
+        PRODUCTOR,
+        CUOTA,
+        NACIMIENTO,
+        ALTA,
+        VIGENCIA,
+        NOMBRES,
+        NRO_DOC,
+        SEXO,
+        TELEFONO,
+        CALLE,
+        NRO_CALLE,
+        DOMI_COBR,
+        DOM_LAB,
+        BARRIO,
+        LOCALIDAD
+    } = req.body;
+
+    maestro.update(
+        {
+            SUCURSAL: titularModf.SUCURSAL,
+            PLAN: titularModf.PLAN,
+            SUB_PLAN: titularModf.SUB_PLAN,
+            GRUPO: titularModf.GRUPO,
+            ZONA: titularModf.ZONA,
+            OBRA_SOC: titularModf.OBRA_SOC,
+            APELLIDOS: titularModf.APELLIDOS,
+            MOVIL: titularModf.MOVIL,
+            PRODUCTOR: titularModf.PRODUCTOR,
+            CUOTA: titularModf.CUOTA,
+            NACIMIENTO: titularModf.NACIMIENTO,
+            ALTA: titularModf.ALTA,
+            VIGENCIA: titularModf.VIGENCIA,
+            NOMBRES: titularModf.NOMBRES,
+            NRO_DOC: titularModf.NRO_DOC,
+            SEXO: titularModf.SEXO,
+            TELEFONO: titularModf.TELEFONO,
+            CALLE: titularModf.CALLE,
+            NRO_CALLE: titularModf.NRO_CALLE,
+            DOMI_COBR: titularModf.DOMI_COBR,
+            DOM_LAB: titularModf.DOM_LAB,
+            BARRIO: titularModf.BARRIO,
+            LOCALIDAD: titularModf.LOCALIDAD
+
+        }, //what going to be updated
+        { where: { CONTRATO: titularModf.CONTRATO, ESTADO: 1 } } // where clause
+    )
+        .then(titularModf => {
+            res.status(200).json(titularModf)
+        })
+        .catch(error => {
+            res.status(400).json(error)
+            console.log(error)
+        })
+});
+
+
+//BAJA
+
+router.put('/baja/:id', (req, res) => {
+
+    const contrato = req.params.id
+
+    let tmp = new Date(Date.now());
+    let baja = tmp.toISOString().split('T')[0];
+
+    maestro.update(
+        {
+            BAJA: baja,
+            ESTADO: false
+
+        }, //what going to be updated
+        { where: { CONTRATO: contrato } } // where clause
+    )
+        .then(titularModf => {
+            res.status(200).json(titularModf)
+        })
+        .catch(error => {
+            res.status(400).json(error)
+            console.log(error)
+        })
+});
+
 //GET ALL 
 
 router.get('/titulares', (req, res, next) => {
-
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     maestro.findAll({
+        where: { ESTADO: 1 },
         order: [['CONTRATO', 'DESC']]
     })
         .then(titulares => {
@@ -84,19 +181,12 @@ router.get('/lastcontrato', (req, res) => {
 
     maestro.findOne({
         attributes: ['CONTRATO'],
+        where: { ESTADO: 1 },
         order: [['CONTRATO', 'DESC']]
     })
         .then(maestro => res.json(maestro))
         .catch(err => res.json(err))
 });
-
-
-//INSERT TITULAR
-
-
-
-
-
 
 
 module.exports = router;

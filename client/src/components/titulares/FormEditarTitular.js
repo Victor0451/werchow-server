@@ -16,22 +16,41 @@ import { localidades, grupos, productores, zonas, obra_social, planes, subplanes
 
 const FormNuevoTitular = (props) => {
 
-    const { titular, error, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef, AltaRef, VigenciaRef, SubPlanRef } = props;
+    const {
+        titular,
+        error,
+        altaRef,
+        apellidosRef,
+        movilRef,
+        productorRef,
+        contratoRef,
+        cuotaRef,
+        grupoRef,
+        zonaRef,
+        nacimientoRef,
+        nombresRef,
+        nro_docRef,
+        obra_socRef,
+        planRef,
+        sexoRef,
+        sucursalRef,
+        telefonoRef,
+        vigenciaRef,
+        calleRef,
+        nro_calleRef,
+        domi_cobrRef,
+        dom_labRef,
+        barrioRef,
+        localidadRef,
+        seguro_vidaRef,
+        subPlanRef,
+        modificarTit,
+        registroHintoria,
+        setAnterior } = props;
 
-    let tmp = new Date(Date.now());
-    let alta = tmp.toISOString().split('T')[0];
-
-
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth();
-    let day = d.getDate();
-    let vigencia = new Date(year, month + 3, day).toISOString().split('T')[0];
-
-console.log(titular)
     return (
 
-        <form className="form-style-8 " >
+        <form className="form-style-8 " onSubmit={modificarTit}>
 
             <h2 className="mt-4">Datos de Ficha</h2>
 
@@ -39,7 +58,7 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" ref={ContratoRef} id="contrato" name="CONTRATO" value={titular.CONTRATO} placeholder="Contrato" readOnly />
+                        <input type="text" className="" ref={contratoRef} id="contrato" name="CONTRATO" value={titular.CONTRATO} placeholder="Contrato" readOnly />
                         <label >CONTRATO</label>
                     </p>
                 </div>
@@ -63,7 +82,7 @@ console.log(titular)
                         <ZonaAutosuggest
                             suggestions={zonas}
                             placeholder="Zona"
-                            Ref={ZonaRef}
+                            Ref={zonaRef}
                             defaultValue={titular.ZONA}
 
 
@@ -82,7 +101,7 @@ console.log(titular)
                                 "P - San Pedro"
                             ]}
                             placeholder="Sucursal"
-                            Ref={SucursalRef}
+                            Ref={sucursalRef}
                             defaultValue={titular.SUCURSAL}
 
                         />
@@ -96,7 +115,7 @@ console.log(titular)
                         <PlanAutosuggest
                             suggestions={planes}
                             placeholder="Plan"
-                            Ref={PlanRef}
+                            Ref={planRef}
                             defaultValue={titular.PLAN}
 
                         />
@@ -109,7 +128,7 @@ console.log(titular)
                         <SubPlanAutosuggest
                             suggestions={subplanes}
                             placeholder="Sub Plan"
-                            Ref={SubPlanRef}
+                            Ref={subPlanRef}
                             defaultValue={titular.SUBPLAN}
 
                         />
@@ -119,7 +138,7 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" id="dynamic-label-input" name="SEGURO_VIDA" defaultValue={titular.SEGURO_VIDA} placeholder="Seguro de Vida" />
+                        <input type="text" className="" id="dynamic-label-input" name="SEGURO_VIDA" defaultValue={titular.SEGURO_VIDA} ref={seguro_vidaRef} placeholder="Seguro de Vida" />
                         <label >Seguro de Vida</label>
                     </p>
                 </div>
@@ -130,7 +149,7 @@ console.log(titular)
                         <ProductorAutosuggest
                             suggestions={productores}
                             placeholder="Productor"
-                            Ref={ProductorRef}
+                            Ref={productorRef}
                             defaultValue={titular.PRODUCTOR}
 
                         />
@@ -140,12 +159,12 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="CUOTA" placeholder="Cuota" defaultValue={titular.CUOTA}/>
+                        <input type="text" className="" name="CUOTA" placeholder="Cuota" defaultValue={titular.CUOTA} ref={cuotaRef} />
                         <label >Cuota</label>
                     </p>
                 </div>
-           
-           </div>
+
+            </div>
 
             {/* DATOS DEL TITULAR */}
 
@@ -153,14 +172,14 @@ console.log(titular)
 
             <div className="form-group">
                 <p className="has-dynamic-label">
-                    <input type="text" className="" id="dynamic-label-input" name="APELLIDOS" placeholder="Apellidos" />
+                    <input type="text" className="" id="dynamic-label-input" name="APELLIDOS" placeholder="Apellidos" defaultValue={titular.APELLIDOS} ref={apellidosRef} />
                     <label >Apellidos</label>
                 </p>
             </div>
 
             <div className="form-group">
                 <p className="has-dynamic-label">
-                    <input type="text" className="" id="dynamic-label-input" name="NOMBRES" placeholder="Nombres" />
+                    <input type="text" className="" id="dynamic-label-input" name="NOMBRES" placeholder="Nombres" defaultValue={titular.NOMBRES} ref={nombresRef} />
                     <label >Nombres</label>
                 </p>
             </div>
@@ -168,7 +187,7 @@ console.log(titular)
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" id="dynamic-label-input" name="NACIMIENTO" data-placeholder="Fecha de Nacimiento" aria-required="true" />
+                        <input type="date" id="dynamic-label-input" name="NACIMIENTO" data-placeholder="Fecha de Nacimiento" aria-required="true" defaultValue={titular.NACIMIENTO} ref={nacimientoRef} />
                         <label >Fecha de Nacimiento</label>
 
                     </p>
@@ -178,15 +197,15 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="number" className="" id="in-range-input" name="NRO_DOC" minLength="8" placeholder="DNI" />
+                        <input type="number" className="" id="in-range-input" name="NRO_DOC" minLength="8" placeholder="DNI" defaultValue={titular.NRO_DOC} ref={nro_docRef} onChange={registroHintoria} onClick={setAnterior} />
                         <label >DNI</label>
                     </p>
                 </div>
 
-                <div className="form-group col-md-6" defaultValue={"Default"}>
-                    <p className="has-dynamic-label" defaultValue={"Default"}>
-                        <select id="dynamic-label-input" defaultValue={"Default"} className="" name="SEXO" >
-                            <option value="Default">Sexo</option>
+                <div className="form-group col-md-6" >
+                    <p className="has-dynamic-label" >
+                        <select id="dynamic-label-input" defaultValue={titular.SEXO} className="" name="SEXO" ref={sexoRef} >
+                            <option value={titular.SEXO}>{titular.SEXO}</option>
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
                         </select>
@@ -195,7 +214,7 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" className="" id="dynamic-label-input" data-placeholder="Fecha de Alta" name="ALTA" aria-required="true" defaultValue={alta} ref={AltaRef} />
+                        <input type="date" className="" id="dynamic-label-input" data-placeholder="Fecha de Alta" name="ALTA" aria-required="true" defaultValue={titular.ALTA} ref={altaRef} />
                         <label >Fecha de Alta</label>
 
                     </p>
@@ -203,7 +222,7 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="date" className="" id="vigencia" name="VIGENCIA" data-placeholder="Fecha de Vigencia" aria-required="true" defaultValue={vigencia} ref={VigenciaRef} />
+                        <input type="date" className="" id="vigencia" name="VIGENCIA" data-placeholder="Fecha de Vigencia" aria-required="true" defaultValue={titular.VIGENCIA} ref={vigenciaRef} />
                         <label >Vigencia</label>
                     </p>
                 </div>
@@ -212,7 +231,8 @@ console.log(titular)
                         <OSAutosuggest
                             suggestions={obra_social}
                             placeholder="Obra Social"
-                            Ref={OSRef}
+                            Ref={obra_socRef}
+                            defaultValue={titular.OBRA_SOC}
                         />
                         <label >Obra Social</label>
                     </p>
@@ -220,14 +240,14 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="Number" className="" id="telefono" name="TELEFONO" placeholder="Telefono" />
+                        <input type="Number" className="" id="telefono" name="TELEFONO" placeholder="Telefono" defaultValue={titular.TELEFONO} ref={telefonoRef} />
                         <label >Telefono</label>
                     </p>
                 </div>
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="Number" className="" id="celular" name="MOVIL" placeholder="Celular" />
+                        <input type="Number" className="" id="celular" name="MOVIL" placeholder="Celular" defaultValue={titular.MOVIL} ref={movilRef} />
                         <label >Celular</label>
                     </p>
                 </div>
@@ -246,14 +266,14 @@ console.log(titular)
             <div className="form-row mt-2">
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="CALLE" placeholder="Domicilio" />
+                        <input type="text" className="" name="CALLE" placeholder="Domicilio" defaultValue={titular.CALLE} ref={calleRef} />
                         <label >Domicilio</label>
                     </p>
                 </div>
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="NRO_CALLE" placeholder="Numero" />
+                        <input type="text" className="" name="NRO_CALLE" placeholder="Numero" defaultValue={titular.NRO_CALLE} ref={nro_calleRef} />
                         <label >Numero</label>
                     </p>
                 </div>
@@ -262,7 +282,7 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" id="dynamic-label-input" name="BARRIO" placeholder="Barrio" />
+                        <input type="text" className="" id="dynamic-label-input" name="BARRIO" placeholder="Barrio" defaultValue={titular.BARRIO} ref={barrioRef} />
                         <label >Barrio</label>
                     </p>
                 </div>
@@ -273,8 +293,8 @@ console.log(titular)
                         <LocalidadesAutosuggest
                             suggestions={localidades}
                             placeholder="Sucursal"
-                            Ref={LocalidadesRef}
-
+                            Ref={localidadRef}
+                            defaultValue={titular.LOCALIDAD}
                         />
                         <label >localidad</label>
                     </p>
@@ -283,14 +303,14 @@ console.log(titular)
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="DOMI_COBR" placeholder="Domicilio Cobrador" />
+                        <input type="text" className="" name="DOMI_COBR" placeholder="Domicilio Cobrador" defaultValue={titular.DOMI_COBR} ref={domi_cobrRef} />
                         <label >Domicilio de Cobranza</label>
                     </p>
                 </div>
 
                 <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="DOM_LAB" placeholder="Domicilio Laboral" />
+                        <input type="text" className="" name="DOM_LAB" placeholder="Domicilio Laboral" defaultValue={titular.DOM_LAB} ref={dom_labRef} />
                         <label >Domicilio Laboral</label>
                     </p>
                 </div>

@@ -259,6 +259,10 @@ module.exports = db.sequelize.define('adherent', {
   PACOMISE: {
     type: Sequelize.DataTypes.INTEGER(11),
     allowNull: true
+  },
+  ESTADO: {
+    type: Sequelize.DataTypes.TINYINT,
+    allowNull: true
   }
 },
   {

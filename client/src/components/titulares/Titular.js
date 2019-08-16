@@ -5,10 +5,12 @@ import Spinner from '../layouts/Spinner';
 import Memo from '../memo/memo'
 import InfoTitular from './InfoTitular';
 import AllPagos from '../pagos/AllPagos';
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 //redux
 import { connect } from "react-redux";
-import { mostrarTitular } from "../../actions/titularActions";
+import { mostrarTitular, bajaTitular } from "../../actions/titularActions";
 import { mostrarPagosTitular } from "../../actions/pagosActions";
 import { mostrarPagobcoTitular } from "../../actions/pagobcoActions";
 
@@ -77,6 +79,39 @@ class Titular extends Component {
         window.location.reload(true);
     };
 
+
+    bajaSocio = (e) => {
+
+        e.preventDefault();
+
+        let id = this.state.titular.CONTRATO
+
+        confirmAlert({
+            title: "Atencion",
+            message: "¿Realmente desea dar de baja a este socio?",
+            buttons: [
+                {
+                    label: "Si",
+                    onClick: () => {
+
+                        this.props.bajaTitular(id)
+
+                    }
+                },
+
+                {
+                    label: "No",
+                    onClick: () => {
+
+
+
+                    }
+                }
+            ]
+        })
+
+    }
+
     render() {
 
         const { titular, pagos, pagobco, allPagos } = this.state
@@ -98,11 +133,22 @@ class Titular extends Component {
 
                 <div className="jumbotron" id="ficha">
 
+                    {titular.ESTADO === 1 ?
+                        <div className="row mt-4 alert alert-success justify-content-center">
+                            <h5 className="text-center"><strong>FICHA ACTIVA</strong> </h5>
+                        </div> :
+                        <div className="row mt-4 alert alert-danger justify-content-center">
+                            <h5 className="text-center"><strong>FICHA EN BAJA</strong> </h5>
+                        </div>
+                    }
+
+
                     <div className="row">
                         <div className="col-md-12">
                             <h1 className="display-3"> {titular.APELLIDOS} {titular.NOMBRES} </h1>
                         </div>
                     </div>
+
 
                     <InfoTitular
                         titular={titular}
@@ -115,7 +161,7 @@ class Titular extends Component {
                         <div className="btn-group col-md-12 d-flex justify-content-center" role="group" aria-label="Button group with nested dropdown">
 
                             <Link to={`/titulares/editar/${titular.CONTRATO}`} className="btn btn-warning col-md-3 mr-1">Editar</Link>
-                            <Link to={`#`} className="btn btn-danger col-md-3 mr-1">Dar de baja</Link>
+                            <Link to={`#`} onClick={this.bajaSocio} className="btn btn-danger col-md-3 mr-1" >Dar de baja</Link>
                             <Link to={`/memo/nuevo/${titular.CONTRATO}`} className="btn btn-secondary col-md-3 mr-1">Crear Memo</Link>
                             <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-info col-md-3">Ultimas Modificaciones</Link>
 
@@ -211,5 +257,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { mostrarTitular, mostrarPagobcoTitular, mostrarPagosTitular }
+    { mostrarTitular, mostrarPagobcoTitular, mostrarPagosTitular, bajaTitular }
 )(Titular);

@@ -11,10 +11,11 @@ const app = express();
 app.use(morgan('dev'));
 
 app.use(cors());
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 5002);
 
 //middlewares
 app.use(bodyparser.json());
+app.use('*', cors())
 
 
 //Routes

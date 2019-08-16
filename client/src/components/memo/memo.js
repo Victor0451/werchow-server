@@ -12,17 +12,22 @@ class Memo extends Component {
     }
 
     componentDidMount() {
-        const { contrato } = this.props;
+        setTimeout(() => {
+            const { contrato } = this.props;
 
-        this.props.ultimoMemo(contrato)
+            this.props.ultimoMemo(contrato)
+        }, 300);
     }
 
     componentWillReceiveProps(nextProps) {
-        const { memo } = nextProps;
 
-        this.setState({
-            memo: memo
-        })
+        setTimeout(() => {
+            const { memo } = nextProps;
+            this.setState({
+                memo: memo
+            })
+        }, 300);
+
     }
 
 
