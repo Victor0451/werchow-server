@@ -41,6 +41,23 @@ export default function Navbar() {
 
                         </div>
                     </li>
+                    <li className="nav-item dropdown">
+                        <Link to="" className="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fichas </Link>
+                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                            <Link to="/ficha/cambiotitular" className="dropdown-item text-dark">Cambio de Titular</Link>
+
+                            <hr />
+
+                            <Link to="#" className="dropdown-item text-dark">Baja de Adherentes</Link>
+
+                            <hr />
+
+                            <Link to="#" className="dropdown-item text-dark">Baja de Ficha</Link>
+
+
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>

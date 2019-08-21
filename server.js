@@ -27,6 +27,8 @@ app.use('/api/pagos', require('./routes/pagos'));
 app.use('/api/pagobco', require('./routes/pagos_bco'));
 app.use('/api/memo', require('./routes/memo'));
 app.use('/api/historia', require('./routes/historia'));
+app.use('/api/fichas', require('./routes/fichas'));
+
 
 
 

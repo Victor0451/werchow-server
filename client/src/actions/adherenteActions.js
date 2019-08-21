@@ -1,5 +1,5 @@
 import {
-    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTES, BAJA_ADHERENTE
+    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTES, BAJA_ADHERENTE, AGREGAR_ADHERENTE
 } from "./types";
 
 import axios from "axios";
@@ -39,17 +39,22 @@ export const bajaAdherente = id => async dispatch => {
         });
 };
 
-   // export const agregarProducto = producto => async dispatch => {
-   //   const respuesta = await axios.post(
-   //     "http://190.231.32.232:5002/productos",
-   //     producto
-   //   );
+export const agregarAdherente = adherente => async dispatch => {
+    await axios.post("http://190.231.32.232:5002/api/adherente/nuevo", adherente)
 
-   //   dispatch({
-   //     type: AGREGAR_PRODUCTO,
-   //     payload: respuesta.data
-   //   });
-   // };
+        .then(res => dispatch({
+            type: AGREGAR_ADHERENTE,
+            payload: res.data
+
+        }),
+            toastr.success("El adherente fue registrado con exito", "ATENCION"))
+
+        .catch(err => {
+            console.log(err)
+            toastr.error("Algo salio mal, no se registraron los cambios", "ATENCION")
+
+        });
+};
 
    // export const editarProducto = producto => async dispatch => {
    //   const respuesta = await axios.put(

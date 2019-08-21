@@ -3,7 +3,7 @@ const db = {};
 
 const sequelize = new Sequelize({
     host: '192.168.1.102',
-    database: 'werchow',
+    database: 'werchow-prueba',
     username: 'vlongo',
     password: 'nokia5800',
     dialect: 'mysql',

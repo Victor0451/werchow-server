@@ -5,6 +5,7 @@ import pagosReducers from './pagosReducers';
 import pagobcoReducers from './pagobcoReducers';
 import memosReducers from './memosReducers';
 import historiaReducers from './historiaReducers';
+import fichasReducers from './fichasReducers';
 
 export default combineReducers({
     titulares: titularReducers,
@@ -12,5 +13,6 @@ export default combineReducers({
     pagos: pagosReducers,
     pagobco: pagobcoReducers,
     memos: memosReducers,
-    historia: historiaReducers
+    historia: historiaReducers,
+    fichas: fichasReducers
 });

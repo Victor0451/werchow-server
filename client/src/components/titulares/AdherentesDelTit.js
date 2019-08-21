@@ -70,7 +70,7 @@ class AdherentesDelTit extends Component {
 
                 <Link to={`/adherentes/nuevo/${id}`} className="btn btn-primary  mb-4" >Agregar un Adherente</Link>
 
-                <table className="table table-hover table-responsive">
+                <table className="table table-hover">
                     <thead className="alert alert-dark">
                         <tr>
                             <th scope="col">Contrato</th>

@@ -107,8 +107,8 @@ router.put('/editar/:id', (req, res) => {
             BARRIO: titularModf.BARRIO,
             LOCALIDAD: titularModf.LOCALIDAD
 
-        }, //what going to be updated
-        { where: { CONTRATO: titularModf.CONTRATO, ESTADO: 1 } } // where clause
+        }, 
+        { where: { CONTRATO: titularModf.CONTRATO, ESTADO: 1 } }
     )
         .then(titularModf => {
             res.status(200).json(titularModf)

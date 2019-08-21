@@ -6,17 +6,17 @@ import axios from "axios";
 import toastr from '../utils/toastr'
 
 export const mostrarTitulares = () => async dispatch => {
- await axios.get("http://190.231.32.232:5002/api/maestro/titulares")
-  .then(res => dispatch({
-    type: MOSTRAR_TITULARES,
-    payload: res.data,
+  await axios.get("http://190.231.32.232:5002/api/maestro/titulares")
+    .then(res => dispatch({
+      type: MOSTRAR_TITULARES,
+      payload: res.data,
 
-  }))
+    }))
 
-  .catch(err => {
-    console.log(err)
-    toastr.error("Algo salio mal, no se puede mostrar los socios, comunicate con sistemas ", "ATENCION")
-  });
+    .catch(err => {
+      console.log(err)
+      toastr.error("Algo salio mal, no se puede mostrar los socios, comunicate con sistemas ", "ATENCION")
+    });
 
 };
 
@@ -30,12 +30,20 @@ export const ultimoContrato = () => async dispatch => {
 
 
 export const mostrarTitular = id => async dispatch => {
-  const respuesta = await axios.get(`http://190.231.32.232:5002/api/maestro/titular/${id}`);
+  await axios.get(`http://190.231.32.232:5002/api/maestro/titular/${id}`)
 
-  dispatch({
-    type: MOSTRAR_TITULAR,
-    payload: respuesta.data
-  });
+    .then(res => dispatch({
+      type: MOSTRAR_TITULAR,
+      payload: res.data
+    }),
+    )
+
+
+    .catch(err => {
+      console.log(err)
+      toastr.warning("El N° de Socio ingresado no existe", "ATENCION");
+    });
+
 };
 
 export const buscarTitular = id => async dispatch => {
@@ -72,22 +80,22 @@ export const bajaTitular = id => async dispatch => {
 };
 
 export const agregarTitular = titular => async dispatch => {
-await axios.post(`http://190.231.32.232:5002/api/maestro/nuevo`, titular)
+  await axios.post(`http://190.231.32.232:5002/api/maestro/nuevo`, titular)
 
-  .then(res => dispatch({
-    type: AGREGAR_TITULAR,
-    payload: res.data    
+    .then(res => dispatch({
+      type: AGREGAR_TITULAR,
+      payload: res.data
 
-  }),
-    toastr.success("El socio fue registrado con exito", "ATENCION"),
-    window.history.pushState(null, null, `/titulares/${titular.CONTRATO}`)
-  )
+    }),
+      toastr.success("El socio fue registrado con exito", "ATENCION"),
+      window.history.pushState(null, null, `/titulares/${titular.CONTRATO}`)
+    )
 
-  .catch(err => {
-    console.log(err)
-    toastr.error("Algo salio mal, no se registraron los cambios", "ATENCION")
-    
-  });
+    .catch(err => {
+      console.log(err)
+      toastr.error("Algo salio mal, no se registraron los cambios", "ATENCION")
+
+    });
 };
 
 export const editarTitular = titularModf => async dispatch => {

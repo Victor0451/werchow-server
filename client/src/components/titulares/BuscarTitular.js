@@ -9,7 +9,7 @@ class BuscarTitular extends Component {
     state = {
         contrato: '',
 
-        titular: {}
+        titular: []
     }
 
     leerDatos = (e) => {
@@ -38,12 +38,10 @@ class BuscarTitular extends Component {
                     const { titular } = this.props;
 
                     if (titular) {
-                        this.props.history.push(`/titulares/${titular.CONTRATO}`);
-
-                    } else {
-                        toastr.warning("El N° de Socio ingresado no existe", "ATENCION");
-
-                    }
+                        
+                      this.props.history.push(`/titulares/${titular.CONTRATO}`);
+                        
+                    } 
 
                 }, 80);
 

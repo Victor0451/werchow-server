@@ -1,5 +1,5 @@
 import {
-    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTE, EDITAR_ADHERENTE
+    MOSTRAR_ADHERENTESTITULAR, MOSTRAR_ADHERENTE, EDITAR_ADHERENTE, AGREGAR_ADHERENTE
 } from "../actions/types";
 
 //CADA REDUCER TIENE SU ṔROPIO STATE
@@ -22,13 +22,11 @@ export default function (state = initialState, action) {
                 adherente: action.payload
             };
 
-
-
-        // case AGREGAR_PRODUCTO:
-        //     return {
-        //         ...state,
-        //         productos: [...state.productos, action.payload]
-        //     };
+        case AGREGAR_ADHERENTE:
+            return {
+                ...state,
+                adherentes: [...state.adherentes, action.payload]
+            };
 
         case EDITAR_ADHERENTE:
             return {

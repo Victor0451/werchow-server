@@ -136,10 +136,16 @@ class Titular extends Component {
                     {titular.ESTADO === 1 ?
                         <div className="row mt-4 alert alert-success justify-content-center">
                             <h5 className="text-center"><strong>FICHA ACTIVA</strong> </h5>
-                        </div> :
-                        <div className="row mt-4 alert alert-danger justify-content-center">
-                            <h5 className="text-center"><strong>FICHA EN BAJA</strong> </h5>
                         </div>
+                        :
+                        titular.ESTADO === 0 ?
+                            <div className="row mt-4 alert alert-danger justify-content-center">
+                                <h5 className="text-center"><strong>FICHA EN BAJA</strong> </h5>
+                            </div>
+                            :
+                            <div className="row mt-4 alert alert-warning justify-content-center">
+                                <h5 className="text-center"><strong>ERROR</strong> </h5>
+                            </div>
                     }
 
 
@@ -161,7 +167,7 @@ class Titular extends Component {
                         <div className="btn-group col-md-12 d-flex justify-content-center" role="group" aria-label="Button group with nested dropdown">
 
                             <Link to={`/titulares/editar/${titular.CONTRATO}`} className="btn btn-warning col-md-3 mr-1">Editar</Link>
-                            <Link to={`#`} onClick={this.bajaSocio} className="btn btn-danger col-md-3 mr-1" >Dar de baja</Link>
+                            <Link to={`/ficha/cambiotitular/${titular.CONTRATO}`} className="btn btn-danger col-md-3 mr-1" >Cambiar de Titular</Link>
                             <Link to={`/memo/nuevo/${titular.CONTRATO}`} className="btn btn-secondary col-md-3 mr-1">Crear Memo</Link>
                             <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-info col-md-3">Ultimas Modificaciones</Link>
 

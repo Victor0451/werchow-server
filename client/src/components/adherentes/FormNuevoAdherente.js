@@ -1,122 +1,293 @@
 import React from 'react'
+import GrupoAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import OSAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import PlanAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import SubPlanAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import SucursalAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import LocalidadesAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import ProductorAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+import ZonaAutosuggest from '../layouts/Autosuggest/DefaultAutosuggest';
+
+
+
+import { localidades, grupos, productores, zonas, obra_social, planes, subplanes } from '../layouts/Arrays/arrays'
+
+
 
 const FormNuevoAdherente = (props) => {
-    const { id, leerDatos, error, nuevoAdherente } = props
+
+    const { error, leerDatos, nuevoTitular, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef, AltaRef, VigenciaRef, SubPlanRef, id } = props;
+
+    let tmp = new Date(Date.now());
+    let alta = tmp.toISOString().split('T')[0];
+
+
+    let d = new Date();
+    let year = d.getFullYear();
+    let month = d.getMonth();
+    let day = d.getDate();
+    let vigencia = new Date(year, month + 3, day).toISOString().split('T')[0];
+
+
     return (
-        <div>
-            <form className="form-style-8" onSubmit={nuevoAdherente} >
 
-                <h2> adherente</h2>
+        <form className="form-style-8 " onSubmit={nuevoTitular}>
 
-                <div className="form-row">
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="text" className="" name="sucursal" placeholder="Sucursal" onChange={leerDatos} />
-                            <label>Sucursal</label>
-                        </p>
-                    </div>
+            <h2 className="mt-4">Datos de Ficha</h2>
 
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="text" className="" name="contrato" placeholder="Contrato" Value={id} readOnly onChange={leerDatos} />
-                            <label>Contrato</label>
-                        </p>
-                    </div>
-                </div>
+            <div className="form-row mt-2">
 
-                <div className="form-group">
+                <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="apellidos" placeholder="Apellidos" onChange={leerDatos} />
-                        <label>Apellidos</label>
+                        <input type="text" className="" ref={ContratoRef} id="contrato" name="CONTRATO" value={id} placeholder="Contrato" readOnly />
+                        <label >CONTRATO</label>
                     </p>
                 </div>
 
-                <div className="form-group">
+
+                <div className="form-group col-md-6">
                     <p className="has-dynamic-label">
-                        <input type="text" className="" name="nombres" placeholder="Nombres" onChange={leerDatos} />
-                        <label>Nombres</label>
+                        <GrupoAutosuggest
+                            suggestions={grupos}
+                            placeholder="Grupo"
+                            Ref={grupoRef}
+
+                        />
+                        <label >GRUPO</label>
                     </p>
                 </div>
 
-                <div className="form-row">
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="date" id="dynamic-label-input" name="nacimiento" data-placeholder="Fecha de Nacimiento" aria-required="true" onChange={leerDatos} equired />
-                        </p>
-                    </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <ZonaAutosuggest
+                            suggestions={zonas}
+                            placeholder="Zona"
+                            Ref={ZonaRef}
 
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <select id="dynamic-label-input" className="" name="plan" placeholder="Grupo" onChange={leerDatos}  >
-                                <option value="">Plan</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">S3</option>
-                            </select>
-                        </p>
-                    </div>
-
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="text" className="" name="nro_doc" placeholder="DNI" onChange={leerDatos} />
-                            <label>DNI</label>
-                        </p>
-                    </div>
-
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <select id="dynamic-label-input" className="" name="sexo" placeholder="Sexo" onChange={leerDatos} >
-                                <option value="">Sexo</option>
-                                <option value="F" >Mujer</option>
-                                <option Value="M">Hombre</option>
-                            </select>
-                        </p>
-                    </div>
+                        />
+                        <label >Zona</label>
+                    </p>
                 </div>
 
-                <div className="form-row">
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="date" id="dynamic-label-input" name="alta" data-placeholder="Fecha de Alta" aria-required="true" onChange={leerDatos} />
-                        </p>
-                    </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <SucursalAutosuggest
+                            suggestions={[
+                                "W - Casa Central",
+                                "L - Palpala",
+                                "R - Perico",
+                                "P - San Pedro"
+                            ]}
+                            placeholder="Sucursal"
+                            Ref={SucursalRef}
 
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="date" id="dynamic-label-input" name="vigencia" data-placeholder="Fecha de Vigencia" aria-required="true" onChange={leerDatos} />
-                        </p>
-                    </div>
+                        />
+                        <label >Sucursal</label>
+                    </p>
                 </div>
 
-                <div className="form-row">
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="text" className="" name="obra_soc" placeholder="OS" onChange={leerDatos} />
-                            <label>Obra Social</label>
-                        </p>
-                    </div>
 
-                    <div className="form-group col-md-6">
-                        <p className="has-dynamic-label">
-                            <input type="text" className="" name="telefono" placeholder="Telefono" onChange={leerDatos} />
-                            <label>Telefono</label>
-                        </p>
-                    </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <PlanAutosuggest
+                            suggestions={planes}
+                            placeholder="Plan"
+                            Ref={PlanRef}
+
+                        />
+                        <label >Plan</label>
+                    </p>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block mt-4">Guardar</button>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <SubPlanAutosuggest
+                            suggestions={subplanes}
+                            placeholder="Sub Plan"
+                            Ref={SubPlanRef}
 
-                {error ? (
-                    <div className="font-weight-bold alert alert-danger text-center mt-4">
-                        Todos los campos son obligatorios
+                        />
+                        <label >Sub Plan</label>
+                    </p>
                 </div>
-                ) : (
-                        ""
-                    )}
 
-            </form>
-        </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="SEGURO_VIDA" placeholder="Seguro de Vida" />
+                        <label >Seguro de Vida</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <ProductorAutosuggest
+                            suggestions={productores}
+                            placeholder="Productor"
+                            Ref={ProductorRef}
+
+                        />
+                        <label >Productor</label>
+                    </p>
+                </div>
+
+            </div>
+
+
+
+            {/* DATOS DEL TITULAR */}
+
+            <h2 className="mt-4">Informacion Personal</h2>
+
+            <div className="form-group">
+                <p className="has-dynamic-label">
+                    <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="APELLIDOS" placeholder="Apellidos" />
+                    <label >Apellidos</label>
+                </p>
+            </div>
+
+            <div className="form-group">
+                <p className="has-dynamic-label">
+                    <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="NOMBRES" placeholder="Nombres" />
+                    <label >Nombres</label>
+                </p>
+            </div>
+
+            <div className="form-row">
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="date" id="dynamic-label-input" onChange={leerDatos} name="NACIMIENTO" data-placeholder="Fecha de Nacimiento" aria-required="true" />
+                        <label >Fecha de Nacimiento</label>
+
+                    </p>
+                </div>
+
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="number" className="" onChange={leerDatos} id="in-range-input" name="NRO_DOC" minLength="8" placeholder="DNI" />
+                        <label >DNI</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6" defaultValue={"Default"}>
+                    <p className="has-dynamic-label" defaultValue={"Default"}>
+                        <select id="dynamic-label-input" onChange={leerDatos} defaultValue={"Default"} className="" name="SEXO" >
+                            <option value="Default">Sexo</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="date" className="" onChange={leerDatos} id="dynamic-label-input" data-placeholder="Fecha de Alta" name="ALTA" aria-required="true" defaultValue={alta} ref={AltaRef} />
+                        <label >Fecha de Alta</label>
+
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="date" className="" id="vigencia" onChange={leerDatos} name="VIGENCIA" data-placeholder="Fecha de Vigencia" aria-required="true" defaultValue={vigencia} ref={VigenciaRef} />
+                        <label >Vigencia</label>
+                    </p>
+                </div>
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <OSAutosuggest
+                            suggestions={obra_social}
+                            placeholder="Obra Social"
+                            Ref={OSRef}
+                        />
+                        <label >Obra Social</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="Number" className="" id="telefono" onChange={leerDatos} name="TELEFONO" placeholder="Telefono" />
+                        <label >Telefono</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="Number" className="" id="celular" onChange={leerDatos} name="MOVIL" placeholder="Celular" />
+                        <label >Celular</label>
+                    </p>
+                </div>
+
+            </div>
+
+
+
+            {/* DATOS DEL DOMICILIO */}
+
+
+
+            <h2 className="mt-4">Domicilio</h2>
+
+
+            <div className="form-row mt-2">
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" name="CALLE" onChange={leerDatos} placeholder="Domicilio" />
+                        <label >Domicilio</label>
+                    </p>
+                </div>
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" name="NRO_CALLE" onChange={leerDatos} placeholder="Numero" />
+                        <label >Numero</label>
+                    </p>
+                </div>
+
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <input type="text" className="" onChange={leerDatos} id="dynamic-label-input" name="BARRIO" placeholder="Barrio" />
+                        <label >Barrio</label>
+                    </p>
+                </div>
+
+
+                <div className="form-group col-md-6">
+                    <p className="has-dynamic-label">
+                        <LocalidadesAutosuggest
+                            suggestions={localidades}
+                            placeholder="Sucursal"
+                            Ref={LocalidadesRef}
+
+                        />
+                        <label >localidad</label>
+                    </p>
+                </div>
+
+            </div>
+
+
+            <button type="submit" className="btn btn-primary btn-block mt-4">Guardar</button>
+
+            {error ? (
+                <div className="font-weight-bold alert alert-danger text-center mt-4">
+                    Todos los campos son obligatorios
+                </div>
+            ) : (
+                    ""
+                )}
+        </form>
     )
 }
 
 export default FormNuevoAdherente
+
+
+
+
+
+

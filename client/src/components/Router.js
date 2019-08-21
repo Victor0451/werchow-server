@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-
-
-//REDUX
-import { Provider } from "react-redux";
-import store from "../store";
 import Navbar from './layouts/Navbar';
 import Home from './Home';
 import Titulares from './titulares/Titulares';
@@ -20,6 +14,14 @@ import EditarTitular from './titulares/EditarTitular';
 import Memo from './memo/memo';
 import NuevoMemo from './memo/NuevoMemo'
 import Historia from './historia/Historia';
+import CambioTitular from './ficha/CambioTitular'
+
+
+
+//REDUX
+import { Provider } from "react-redux";
+import store from "../store";
+
 
 export default class Router extends Component {
   render() {
@@ -56,6 +58,13 @@ export default class Router extends Component {
             {/* MEMOS */}
             <Route exact path={'/memo/:id'} component={Memo} />
             <Route exact path={'/memo/nuevo/:id'} component={NuevoMemo} />
+
+
+            {/* FICHAS */}
+            <Route exact path={'/ficha/cambiotitular'} component={CambioTitular} />
+            <Route exact path={'/ficha/cambiotitular/:id'} component={CambioTitular} />
+
+
 
 
           </Switch>
