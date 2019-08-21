@@ -21,6 +21,7 @@ import CambioTitular from './ficha/CambioTitular'
 //REDUX
 import { Provider } from "react-redux";
 import store from "../store";
+import BajaAdherente from './ficha/BajaAdherente';
 
 
 export default class Router extends Component {
@@ -63,6 +64,10 @@ export default class Router extends Component {
             {/* FICHAS */}
             <Route exact path={'/ficha/cambiotitular'} component={CambioTitular} />
             <Route exact path={'/ficha/cambiotitular/:id'} component={CambioTitular} />
+            <Route exact path={'/ficha/bajaadherente'} component={BajaAdherente} />
+            <Route exact path={'/ficha/bajaadherente/:id'} component={BajaAdherente} />
+
+
 
 
 

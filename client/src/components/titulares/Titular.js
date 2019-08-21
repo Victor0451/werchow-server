@@ -159,7 +159,11 @@ class Titular extends Component {
                     <InfoTitular
                         titular={titular}
                     />
+                </div>
 
+                < hr className="my-4" />
+
+                <div className="jumbotron">
 
                     <div className="mt-4 p-4 border">
                         <h3 className="text-center mb-4 font-weight-bold">Opciones</h3>
@@ -169,8 +173,8 @@ class Titular extends Component {
                             <Link to={`/titulares/editar/${titular.CONTRATO}`} className="btn btn-warning col-md-3 mr-1">Editar</Link>
                             <Link to={`/ficha/cambiotitular/${titular.CONTRATO}`} className="btn btn-danger col-md-3 mr-1" >Cambiar de Titular</Link>
                             <Link to={`/memo/nuevo/${titular.CONTRATO}`} className="btn btn-secondary col-md-3 mr-1">Crear Memo</Link>
-                            <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-info col-md-3">Ultimas Modificaciones</Link>
-
+                            <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-info col-md-3 mr-1">Ultimas Modificaciones</Link>
+                            <Link to={`/titulares/historia/${titular.CONTRATO}`} className="btn btn-primary col-md-3">Agregar Adherentes</Link>
 
                         </div>
                     </div>

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 import { connect } from "react-redux";
-import { mostrarAdherentesDelTitular, bajaAdherente } from "../../actions/adherenteActions";
+import { mostrarAdherentesDelTitular } from "../../actions/adherenteActions";
 
 class AdherentesDelTit extends Component {
 
@@ -27,36 +25,7 @@ class AdherentesDelTit extends Component {
         });
     }
 
-    bajaAdhSocio = (index) => {
 
-        const { adherentes } = this.state;
-        const id = adherentes[index].NRO_DOC;
-
-        confirmAlert({
-            title: "Atencion",
-            message: "¿Realmente desea dar de baja a este adherente?",
-            buttons: [
-                {
-                    label: "Si",
-                    onClick: () => {
-
-                        this.props.bajaAdherente(id)
-                       
-                    }
-                },
-
-                {
-                    label: "No",
-                    onClick: () => {
-
-
-
-                    }
-                }
-            ]
-        })
-
-    }
 
     render() {
         const id = this.props.id;
@@ -78,9 +47,9 @@ class AdherentesDelTit extends Component {
                             <th scope="col">Nombre</th>
                             <th scope="col">DNI</th>
                             <th scope="col">ESTADO</th>
-                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
+
                     <tbody className="">
                         {adherentes.map((adherente, index) => (
 
@@ -100,9 +69,6 @@ class AdherentesDelTit extends Component {
 
                                 {adherente.ESTADO === 1 ? (<td>ACTIVO</td>) : adherente.ESTADO === 0 ? (<td>BAJA</td>) : ''}
 
-                                <td>
-                                    <Link to={'#'} className="btn btn-danger btn-block" onClick={() => this.bajaAdhSocio(index)} >Dar de Baja</Link>
-                                </td>
 
                             </tr>
 
@@ -123,6 +89,6 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { mostrarAdherentesDelTitular, bajaAdherente }
+    { mostrarAdherentesDelTitular }
 )(AdherentesDelTit);
 

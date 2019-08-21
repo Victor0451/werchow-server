@@ -49,7 +49,7 @@ export default function Navbar() {
 
                             <hr />
 
-                            <Link to="#" className="dropdown-item text-dark">Baja de Adherentes</Link>
+                            <Link to="/ficha/bajaadherente" className="dropdown-item text-dark">Baja de Adherentes</Link>
 
                             <hr />
 
