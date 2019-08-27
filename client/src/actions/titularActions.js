@@ -1,5 +1,5 @@
 import {
-  MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, BUSCAR_TITULAR, ULTIMO_CONTRATO_TITULAR, EDITAR_TITULAR, BAJA_TITULAR
+  MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, ULTIMO_CONTRATO_TITULAR, EDITAR_TITULAR, BAJA_TITULAR, VERIFICAR_DNI
 } from "./types";
 
 import axios from "axios";
@@ -46,21 +46,22 @@ export const mostrarTitular = id => async dispatch => {
 
 };
 
-export const buscarTitular = id => async dispatch => {
-  await axios.get(`http://190.231.32.232:5002/getdatostitular/${id}`)
+export const verificarDNI = id => async dispatch => {
+  await axios.get(`http://190.231.32.232:5002/api/maestro/dni/${id}`)
 
     .then(res => dispatch({
-      type: BUSCAR_TITULAR,
+      type: VERIFICAR_DNI,
       payload: res.data
-    }),
-      window.history.pushState(null, null, `/titulares/${id}`)
-    )
+    })
 
+    )
     .catch(err => {
       console.log(err)
-      toastr.warning("Socio Inexistente", "ATENCION")
+
     });
+
 };
+
 
 export const bajaTitular = id => async dispatch => {
   await axios.put(`http://190.231.32.232:5002/api/maestro/baja/${id}`, id)

@@ -1,66 +1,72 @@
 import {
-    MOSTRAR_TITULARES, MOSTRAR_TITULAR, AGREGAR_TITULAR, BUSCAR_TITULAR, ULTIMO_CONTRATO_TITULAR, EDITAR_TITULAR, BAJA_TITULAR
+  MOSTRAR_TITULARES,
+  MOSTRAR_TITULAR,
+  AGREGAR_TITULAR,
+  ULTIMO_CONTRATO_TITULAR,
+  EDITAR_TITULAR,
+  BAJA_TITULAR,
+  VERIFICAR_DNI
 } from "../actions/types";
 
 //CADA REDUCER TIENE SU ṔROPIO STATE
 
 const initialState = {
-    titulares: []
+  titulares: []
 };
 
-export default function (state = initialState, action) {
-    switch (action.type) {
-        case MOSTRAR_TITULARES:
-            return {
-                ...state,
-                titulares: action.payload
-            };
+export default function(state = initialState, action) {
+  switch (action.type) {
+    case MOSTRAR_TITULARES:
+      return {
+        ...state,
+        titulares: action.payload
+      };
 
-        case MOSTRAR_TITULAR:
-            return {
-                ...state,
-                titular: action.payload
-            };
+    case MOSTRAR_TITULAR:
+      return {
+        ...state,
+        titular: action.payload
+      };
 
-        case BUSCAR_TITULAR:
-            return {
-                ...state,
-                titular: action.payload
-            };
+    case VERIFICAR_DNI:
+      return {
+        ...state,
+        titular: action.payload
+      };
 
-        case ULTIMO_CONTRATO_TITULAR:
-            return {
-                ...state,
-                lastcontrato: action.payload
-            };
+    case ULTIMO_CONTRATO_TITULAR:
+      return {
+        ...state,
+        lastcontrato: action.payload
+      };
 
-        case BAJA_TITULAR:
-            return {
-                ...state,
-                titulares: state.titulares.map(titular =>
-                    titular.CONTRATO === action.payload.id
-                        ? (titular = action.payload)
-                        : titular
-                )
-            };
+    case BAJA_TITULAR:
+      return {
+        ...state,
+        titulares: state.titulares.map(titular =>
+          titular.CONTRATO === action.payload.id
+            ? (titular = action.payload)
+            : titular
+        )
+      };
 
-        case AGREGAR_TITULAR:
-            return {
-                ...state,
-                titulares: [...state.titulares, action.payload]
-            };
+    case AGREGAR_TITULAR:
+      return {
+        ...state,
+        titulares: [...state.titulares, action.payload]
+      };
 
-        case EDITAR_TITULAR:
-            return {
-                ...state,
-                titulares: state.titulares.map(titular =>
-                    titular.CONTRATO === action.payload.id
-                        ? (titular = action.payload)
-                        : titular
-                )
-            };
+    case EDITAR_TITULAR:
+      return {
+        ...state,
+        titulares: state.titulares.map(titular =>
+          titular.CONTRATO === action.payload.id
+            ? (titular = action.payload)
+            : titular
+        )
+      };
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }

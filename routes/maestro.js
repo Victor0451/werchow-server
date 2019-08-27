@@ -107,7 +107,7 @@ router.put('/editar/:id', (req, res) => {
             BARRIO: titularModf.BARRIO,
             LOCALIDAD: titularModf.LOCALIDAD
 
-        }, 
+        },
         { where: { CONTRATO: titularModf.CONTRATO, ESTADO: 1 } }
     )
         .then(titularModf => {
@@ -172,6 +172,26 @@ router.get('/titular/:id', (req, res) => {
     maestro.findByPk(req.params.id)
         .then(titular => res.json(titular))
         .catch(err => res.json(err))
+});
+
+//GET BY DNI
+
+router.get('/dni/:id', (req, res) => {
+
+    maestro.findOne({
+        attributes: ['NRO_DOC', 'CONTRATO'],
+        where: { NRO_DOC: req.params.id },
+        order: [['NRO_DOC', 'DESC']]
+    })
+
+        .then(dni => {
+            if (dni) {
+                res.status(200).json(dni)
+            } else {
+                res.status(200).json("no existe dni")
+            }
+        })
+        .catch(err => res.status(400).json(err))
 });
 
 

@@ -39,6 +39,25 @@ export const bajaAdherente = id => async dispatch => {
         });
 };
 
+
+export const bajaAdherenteGral = id => async dispatch => {
+    await axios.put(`http://190.231.32.232:5002/api/adherent/bajagral/${id}`)
+
+        .then(res => dispatch({
+            type: BAJA_ADHERENTE,
+            payload: res.data,
+
+        }),
+            toastr.success("El socio fue dado de baja", "ATENCION"),
+        )
+
+        .catch(err => {
+            console.log(err)
+            toastr.error("Algo salio mal, no se registraron los cambios", "ATENCION")
+        });
+};
+
+
 export const agregarAdherente = adherente => async dispatch => {
     await axios.post("http://190.231.32.232:5002/api/adherente/nuevo", adherente)
 

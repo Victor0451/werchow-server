@@ -1,139 +1,99 @@
-import React, { Component } from 'react'
-import AdherentesDelTit from '../titulares/AdherentesDelTit'
-
-
+import React, { Component } from "react";
+import toastr from "../../utils/toastr";
 import { connect } from "react-redux";
-import { buscarTitular } from "../../actions/titularActions";
-import { mostrarAdherentesDelTitular } from "../../actions/adherenteActions";
-
-
-function WarningBanner(props) {
-
-    if (!props.warn) {
-        return null;
-    }
-    let adh = document.getElementById('adh');
-    adh.hidden = false;
-    const { id } = props;
-    console.log(id)
-    return (
-        <AdherentesDelTit
-            id={id}
-        />
-    );
-
-}
+import { mostrarTitular } from "../../actions/titularActions";
+import FormNuevoAdherente from "./FormNuevoAdherente";
 
 class NuevoAdhTitular extends Component {
+  state = {
+    contrato: "",
 
-    state = {
-        contrato: '',
+    titular: {}
+  };
 
-        titular: {},
+  leerDatos = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
-        adherentes: {},
+  buscarContrato = e => {
+    e.preventDefault();
 
-        mostrar: false
-    }
+    const { contrato } = this.state;
 
-    leerDatos = e => {
+    if (contrato === "") {
+      toastr.warning("Debes ingresar un numero de socio", "ATENCION");
+    } else {
+      if (contrato) {
+        this.props.mostrarTitular(contrato);
 
-        this.setState({ [e.target.name]: e.target.value })
-    }
-
-    buscarContrato = e => {
-        e.preventDefault();
-
-        const { contrato } = this.state;
-
-        this.props.buscarTitular(contrato);
         setTimeout(() => {
-            this.props.mostrarAdherentesDelTitular(contrato);
+          const { titular } = this.props;
 
+          this.setState({
+            titular: titular
+          });
+          document.getElementById("busqueda").hidden = true;
+          document.getElementById("baja").hidden = false;
         }, 150);
-
-        setTimeout(() => {
-
-            const { titular, adherentes } = this.props;
-
-            this.setState({
-                titular: titular,
-                adherentes: adherentes,
-                mostrar: true
-            });
-
-        }, 100);
-
-
+      }
     }
+  };
 
+  render() {
+    const { titular } = this.state;
 
-    render() {
+    if (!titular)
+      return (
+        <div className="alert alert-danger text-center mt-4">
+          <strong>NO EXISTE EL TITULAR O NO ESTA CARGADO</strong>
+        </div>
+      );
 
-        const { titular, adherentes } = this.state;
+    return (
+      <div>
+        <div className="form-style-8 " id="busqueda">
+          <h2>Buscar Socio</h2>
 
-        if (!titular) return <div className="alert alert-danger text-center mt-4"><strong>NO EXISTE EL TITULAR O NO ESTA CARGADO</strong></div>
+          <form onSubmit={this.buscarContrato}>
+            <div className="row">
+              <div className="col-md-6">
+                <p className="has-dynamic-label">
+                  <input
+                    type="text"
+                    className=""
+                    id="dynamic-label-input"
+                    name="contrato"
+                    onChange={this.leerDatos}
+                    placeholder="Ingresar N° de Socio"
+                  />
+                  <label>N° de Socio</label>
+                </p>
+              </div>
 
-        return (
-            <div>
-                <form className="form-style-8 " onSubmit={this.buscarContrato} >
-                    <h2>Ingrese el contrato del titular</h2>
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <p className="has-dynamic-label">
-                                <input type="text" className="" id="dynamic-label-input" name="contrato" onChange={this.leerDatos} placeholder="Contrato" />
-                                <label >Contrato</label>
-                            </p>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <button className="btn btn-primary btn-block mt-4">Buscar
-                            {!adherentes ? 'Hide'
-                                    : null}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                {
-                    titular &&
-                    <div className="container" id="adh" hidden>
-                        <div className="jumbotron">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <h1 className="display-3"> {titular.APELLIDOS} {titular.NOMBRES} </h1>
-                                    <h3>Adherentes: {titular.ADHERENTES}</h3>
-                                </div>
-                            </div>
-
-                            <div className="row mt-4">
-
-                                <WarningBanner warn={this.state.mostrar}
-                                    //adherentes={this.state.adherentes}
-                                    id={this.state.contrato}
-                                />
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                }
-
-
-
+              <div className="col-md-6">
+                <button className="btn btn-primary  btn-block mt-4">
+                  Buscar
+                </button>
+              </div>
             </div>
-        )
-    }
+          </form>
+        </div>
+
+        <div id="baja" hidden="true">
+          <FormNuevoAdherente id={titular.CONTRATO} className="form-style-8 " />
+        </div>
+      </div>
+    );
+  }
 }
 
 //state
 const mapStateToProps = state => ({
-    titular: state.titulares.titular,
-    adherentes: state.adherentes.adherentes
-
+  titular: state.titulares.titular,
+  adherentes: state.adherentes.adherentes
 });
 
 export default connect(
-    mapStateToProps,
-    { buscarTitular, mostrarAdherentesDelTitular }
+  mapStateToProps,
+  { mostrarTitular }
 )(NuevoAdhTitular);

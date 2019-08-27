@@ -156,7 +156,7 @@ class BajaAdherente extends Component {
 
                     {Object.entries(adherentes).length === 0 ?
 
-                        <h1 className="text-center d-flex justify-content-center"><i className="fas fa-users">  No Posee Adherentes Registrados</i></h1>
+                        <h1 className="text-center d-flex justify-content-center alert alert-warning border"><i className="fas fa-users">  El N° de socio ingresaro no existe o no posee adherentes registrados</i></h1>
 
                         :
                         <div>
