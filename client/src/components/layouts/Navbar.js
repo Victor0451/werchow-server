@@ -1,119 +1,169 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <Link to="/" className="navbar-brand">
-        Werchow{" "}
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarColor02"
-        aria-controls="navbarColor02"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+import { connect } from "react-redux";
+import Logout from "../auth/Logout";
 
-      <div className="collapse navbar-collapse" id="navbarColor02">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <Link to="/" className="nav-link">
-              Home{" "}
-            </Link>
-          </li>
+class Navbar extends Component {
+  render() {
+    const { isAuthenticated, user } = this.props.auth;
 
-          <li className="nav-item dropdown">
-            <Link
-              to=""
-              className="nav-link dropdown-toggle"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Titulares{" "}
-            </Link>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <Link to="/titulares" className="dropdown-item text-dark">
-                Listado de Socios
+    //Links para usuarios logeados
+    const authLinks = (
+      <Fragment className="">
+        {/* {user && user.perfil === 'admin' ? <RegisterModal /> : ''} */}
+        <div
+          className="collapse navbar-collapse d-flex justify-content-start"
+          id="navbarColor02"
+        >
+          <ul className="navbar-nav ">
+            <li className="nav-item active">
+              <Link to="/" className="nav-link">
+                Home{" "}
               </Link>
-
-              <hr />
-
+            </li>
+            <li className="nav-item dropdown">
               <Link
-                to="/titular/verificardni"
-                className="dropdown-item text-dark"
+                to=""
+                className="nav-link dropdown-toggle"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                Ingresar Nuevo Socio
+                Titulares{" "}
               </Link>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link to="/titulares" className="dropdown-item text-dark">
+                  Listado de Socios
+                </Link>
 
-              <hr />
+                <hr />
 
-              <Link to="/titular/buscar" className="dropdown-item text-dark">
-                Buscar Socio
-              </Link>
-            </div>
-          </li>
+                <Link
+                  to="/titular/verificardni"
+                  className="dropdown-item text-dark"
+                >
+                  Ingresar Nuevo Socio
+                </Link>
 
-          <li className="nav-item dropdown">
-            <Link
-              to=""
-              className="nav-link dropdown-toggle"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Adherentes{" "}
-            </Link>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <Link to="/adherentes/nuevo" className="dropdown-item text-dark">
-                Agregar un Adherente
-              </Link>
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <Link
-              to=""
-              className="nav-link dropdown-toggle"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Fichas{" "}
-            </Link>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <hr />
+
+                <Link to="/titular/buscar" className="dropdown-item text-dark">
+                  Buscar Socio
+                </Link>
+              </div>
+            </li>
+
+            <li className="nav-item dropdown">
               <Link
-                to="/ficha/cambiotitular"
-                className="dropdown-item text-dark"
+                to=""
+                className="nav-link dropdown-toggle"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                Cambio de Titular
+                Adherentes{" "}
               </Link>
 
-              <hr />
-
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link
+                  to="/adherentes/nuevo"
+                  className="dropdown-item text-dark"
+                >
+                  Agregar un Adherente
+                </Link>
+              </div>
+            </li>
+            <li className="nav-item dropdown">
               <Link
-                to="/ficha/bajaadherente"
-                className="dropdown-item text-dark"
+                to=""
+                className="nav-link dropdown-toggle"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                Baja de Adherentes
+                Fichas{" "}
               </Link>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link
+                  to="/ficha/cambiotitular"
+                  className="dropdown-item text-dark"
+                >
+                  Cambio de Titular
+                </Link>
 
-              <hr />
+                <hr />
 
-              <Link to="/ficha/bajaficha" className="dropdown-item text-dark">
-                Baja de Ficha
-              </Link>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
+                <Link
+                  to="/ficha/bajaadherente"
+                  className="dropdown-item text-dark"
+                >
+                  Baja de Adherentes
+                </Link>
+
+                <hr />
+
+                <Link to="/ficha/bajaficha" className="dropdown-item text-dark">
+                  Baja de Ficha
+                </Link>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <span className="badge badge-light text-uppercase mr-2">
+          {user ? `Bienvenido  ${user.usuario}` : ""}
+        </span>
+        <Logout />
+      </Fragment>
+    );
+
+    //Links para Visitantes
+    const guestLinks = (
+      <Fragment>
+        <div
+          className="collapse navbar-collapse d-flex justify-content-end"
+          id="navbarColor02"
+        >
+          <span className="badge badge-danger text-uppercase">
+            Debes iniciar sesion
+          </span>
+        </div>
+      </Fragment>
+    );
+
+    return (
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <Link to="/" className="navbar-brand">
+          Werchow{" "}
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarColor02"
+          aria-controls="navbarColor02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {isAuthenticated ? authLinks : guestLinks}
+      </nav>
+    );
+  }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Navbar);

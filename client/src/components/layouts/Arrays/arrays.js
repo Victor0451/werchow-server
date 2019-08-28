@@ -1023,8 +1023,6 @@ export const subplanes = [
 
 ]
 
-
-
 export const cod_postal = {
 
 }

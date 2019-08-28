@@ -27,6 +27,8 @@ app.use("/api/memo", require("./routes/memo"));
 app.use("/api/historia", require("./routes/historia"));
 app.use("/api/fichas", require("./routes/fichas"));
 app.use("/api/prestamos", require("./routes/prestamos"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/operador", require("./routes/operador"));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
