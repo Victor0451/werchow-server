@@ -1,73 +1,121 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { register } from "../../actions/authActions";
-import { clearErrors } from "../../actions/errorActions";
+import { mostrarOperador, edit } from "../../actions/authActions";
 
 class Register extends Component {
+  nombreRef = React.createRef();
+  apellidoRef = React.createRef();
+  contrasenaRef = React.createRef();
+  perfilRef = React.createRef();
+  estadoRef = React.createRef();
+  codigoRef = React.createRef();
+  findUserRef = React.createRef();
+
   state = {
     nombre: "",
     apellido: "",
-    estado: "",
+    codigo: "",
     perfil: "",
-    usuario: "",
     contrasena: "",
-    msg: null
+    finduser: ""
   };
 
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-      // Check for register error
-      if (error.id === "REGISTER_FAIL") {
-        this.setState({ msg: error.msg.msg });
-      } else {
-        this.setState({ msg: null });
-      }
-    }
-  }
+  findUser = e => {
+    e.preventDefault();
+    const finduser = this.findUserRef.current.value;
+    this.props.mostrarOperador(finduser);
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    setTimeout(() => {
+      const {
+        usuario,
+        nombre,
+        apellido, 
+        contrasena,
+        perfil,
+        codigo,
+        estado,
+        id
+      } = this.props.operador;
+
+      this.setState({
+        usuario: usuario,
+        nombre: nombre,
+        apellido: apellido,
+        contrasena: contrasena,
+        perfil: perfil,
+        codigo: codigo,
+        estado: estado,
+        id: id
+      });
+
+      document.getElementById("finduser").hidden = true;
+      document.getElementById("edituser").hidden = false;
+    }, 300);
   };
 
   onSubmit = e => {
     e.preventDefault();
 
+    const operadorEdit = {
+      id: this.state.id,
+      usuario: this.state.usuario,
+      contrasena: this.contrasenaRef.current.value,
+      apellido: this.apellidoRef.current.value,
+      nombre: this.nombreRef.current.value,
+      perfil: this.perfilRef.current.value,
+      codigo: this.codigoRef.current.value,
+      estado: this.estadoRef.current.value
+    };
+
+    this.props.edit(operadorEdit);
+  };
+
+  render() {
     const {
       usuario,
       contrasena,
       apellido,
       nombre,
       perfil,
+      codigo,
       estado
     } = this.state;
-
-    // Create user object
-    const newOperador = {
-      usuario,
-      contrasena,
-      apellido,
-      nombre,
-      perfil,
-      estado
-    };
-
-    // Attempt to register
-    this.props.register(newOperador);
-  };
-
-  render() {
     return (
       <div>
         <div className="container">
+          <div className="form-style-8" id="finduser">
+            <h2>Ingresa el DNI para vefiricar si existe en el sistema</h2>
+
+            <form className="row" onSubmit={this.findUser}>
+              <div className="form-group col-md-6">
+                <p className="has-dynamic-label">
+                  <input
+                    type="text"
+                    className=""
+                    ref={this.findUserRef}
+                    id="in-range-input"
+                    name="finduser"
+                    placeholder="Usuario"
+                  />
+                  <label>Usuario</label>
+                </p>
+              </div>
+              <div className="col-md-6 mt-4">
+                <button type="submit" className="btn btn-primary btn-block">
+                  Verificar
+                </button>
+              </div>
+            </form>
+          </div>
+
           <div className="d-flex justify-content-center h-100">
-            <div className="card mt-4 col-md-12">
+            <div className="card mt-4 col-md-12" id="edituser" hidden>
               {this.state.msg ? (
                 <div className="alert alert-danger">{this.state.msg}</div>
               ) : null}
               <div className="card-header">
-                <h3>Registrarse</h3>
+                <h3>Modificar Cuenta</h3>
                 <div className="d-flex justify-content-end social_icon"></div>
               </div>
               <div className="card-body mt-4">
@@ -85,7 +133,8 @@ class Register extends Component {
                           className="form-control"
                           name="nombre"
                           placeholder="Nombre"
-                          onChange={this.onChange}
+                          defaultValue={nombre}
+                          ref={this.nombreRef}
                         />
                       </div>
 
@@ -100,7 +149,8 @@ class Register extends Component {
                           className="form-control"
                           name="apellido"
                           placeholder="Apellido"
-                          onChange={this.onChange}
+                          defaultValue={apellido}
+                          ref={this.apellidoRef}
                         />
                       </div>
 
@@ -111,15 +161,30 @@ class Register extends Component {
                           </span>
                         </div>
                         <select
-                          onChange={this.onChange}
-                          defaultValue={"Default"}
                           className="form-control"
                           name="perfil"
+                          ref={this.perfilRef}
                         >
-                          <option value="Default">Perfil</option>
+                          <option value={perfil}>{perfil}</option>
                           <option value="1">Admin</option>
                           <option value="2">Ventas</option>
                         </select>
+                      </div>
+
+                      <div className="input-group form-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="fas fa-user"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="codigo"
+                          placeholder="Codigo"
+                          defaultValue={codigo}
+                          ref={this.codigoRef}
+                        />
                       </div>
                     </div>
 
@@ -135,7 +200,7 @@ class Register extends Component {
                           className="form-control"
                           name="usuario"
                           placeholder="Usuario"
-                          onChange={this.onChange}
+                          value={usuario}
                         />
                       </div>
                       <div className="input-group form-group">
@@ -149,7 +214,8 @@ class Register extends Component {
                           className="form-control"
                           name="contrasena"
                           placeholder="Contraseña"
-                          onChange={this.onChange}
+                          defaultValue={contrasena}
+                          ref={this.contrasenaRef}
                         />
                       </div>
 
@@ -160,12 +226,11 @@ class Register extends Component {
                           </span>
                         </div>
                         <select
-                          onChange={this.onChange}
-                          defaultValue={"Default"}
                           className="form-control"
                           name="estado"
+                          ref={this.estadoRef}
                         >
-                          <option value="Default">Estado</option>
+                          <option value={estado}>{estado}</option>
                           <option value="1">Activo</option>
                           <option value="0">Baja</option>
                         </select>
@@ -173,7 +238,7 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  <div className="row form-group mt-4 ">
+                  <div className="row form-group  ">
                     <div className=" col-md-12">
                       <input
                         type="submit"
@@ -194,11 +259,10 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  operador: state.operadores.operador
 });
 
 export default connect(
   mapStateToProps,
-  { register, clearErrors }
+  { mostrarOperador, edit }
 )(Register);

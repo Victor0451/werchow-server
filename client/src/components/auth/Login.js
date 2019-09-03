@@ -13,7 +13,7 @@ class Login extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const { error, isAuthenticated } = this.props;
+    const { error } = this.props;
     if (error !== prevProps.error) {
       // Check for register error
       if (error.id.id === "LOGIN_FAIL") {
@@ -21,14 +21,7 @@ class Login extends Component {
       } else {
         this.setState({ msg: null });
       }
-    }
-
-    //  If authenticated, close modal
-    if (this.state.modal) {
-      if (isAuthenticated) {
-        this.toggle();
-      }
-    }
+    }   
   }
 
   onChange = e => {
@@ -49,10 +42,10 @@ class Login extends Component {
     this.props.login(user);
 
     setTimeout(() => {
-      if (user) {
+      if (this.props.isAuthenticated === true) {
         window.location.replace("/");
       }
-    }, 550);
+    }, 200);
   };
 
   render() {

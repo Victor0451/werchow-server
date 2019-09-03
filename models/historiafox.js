@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const db = require("../db/database.js");
 
 module.exports = db.sequelize.define(
-  "historia",
+  "historiafox",
   {
     ID: {
       type: Sequelize.DataTypes.INTEGER,
@@ -21,6 +21,14 @@ module.exports = db.sequelize.define(
       type: Sequelize.DataTypes.STRING,
       allowNull: true
     },
+    ARCHIVO: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true
+    },
+    CAMPO: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true
+    },
     ANTERIOR: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true
@@ -29,7 +37,11 @@ module.exports = db.sequelize.define(
       type: Sequelize.DataTypes.STRING,
       allowNull: true
     },
-    FECHA: {
+    ACTUALIZA: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true
+    },
+    CONTROL: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true
     }
@@ -39,6 +51,6 @@ module.exports = db.sequelize.define(
     freezeTableName: true
   },
   {
-    tableName: "historia"
+    tableName: "historiafox"
   }
 );

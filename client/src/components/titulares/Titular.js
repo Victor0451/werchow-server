@@ -192,7 +192,7 @@ class Titular extends Component {
                   </Link>
 
                   <Link
-                    to={`/titulares/historia/${titular.CONTRATO}`}
+                    to={`/adherentes/nuevo/${titular.CONTRATO}`}
                     className="btn btn-primary col-md-3 mr-1"
                   >
                     Agregar Adherentes

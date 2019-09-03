@@ -16,7 +16,7 @@ import { localidades, grupos, productores, zonas, obra_social, planes, subplanes
 
 const FormNuevoAdherente = (props) => {
 
-    const { error, leerDatos, nuevoTitular, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef, AltaRef, VigenciaRef, SubPlanRef, id } = props;
+    const { error, leerDatos, nuevoAdh, grupoRef, OSRef, PlanRef, SucursalRef, ContratoRef, LocalidadesRef, ProductorRef, ZonaRef, AltaRef, VigenciaRef, SubPlanRef, id } = props;
 
     let tmp = new Date(Date.now());
     let alta = tmp.toISOString().split('T')[0];
@@ -31,7 +31,7 @@ const FormNuevoAdherente = (props) => {
 
     return (
 
-        <form className="form-style-8 " onSubmit={nuevoTitular}>
+        <form className="form-style-8 " onSubmit={nuevoAdh}>
 
             <h2 className="mt-4">Datos de Ficha</h2>
 

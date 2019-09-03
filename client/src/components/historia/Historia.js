@@ -104,7 +104,7 @@ class Historia extends Component {
 
                             <tr key={index}>
                                 <td >
-                                    {historia.ACTUALIZA}
+                                    {historia.FECHA}
                                 </td>
                                 <td >
                                     {historia.CAMPO}

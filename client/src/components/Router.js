@@ -25,6 +25,7 @@ import Register from "./auth/Register";
 //REDUX
 import { Provider } from "react-redux";
 import store from "../store";
+import Edit from "./auth/Edit";
 
 const token = sessionStorage.getItem("token");
 
@@ -48,6 +49,8 @@ export default class Router extends Component {
               {/* AUHT */}
 
               <Route exact path={"/register"} component={Register} />
+              <Route exact path={"/edit"} component={Edit} />
+
 
               {/* TITULARES */}
 
@@ -81,12 +84,7 @@ export default class Router extends Component {
                 exact
                 path={"/adherentes/nuevo/:id"}
                 component={NuevoAdherente}
-              />
-              <Route
-                exact
-                path={"/adherentes/nuevo"}
-                component={NuevoAdherente}
-              />
+              />          
 
               {/* PAGOS */}
               <Route exact path={"/pagos/cuotas/:id"} component={Pagos} />

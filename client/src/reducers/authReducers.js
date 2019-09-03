@@ -7,10 +7,13 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  USER_LOGEDED
+  USER_LOGEDED,
+  EDITAR_OPERADOR,
+  MOSTRAR_OPERADOR
 } from "../actions/types";
 
 const initialState = {
+  operadores: [],
   token: sessionStorage.getItem("token"),
   isAuthenticated: null,
   isLoading: false,
@@ -41,7 +44,7 @@ export default function(state = initialState, action) {
         user: JSON.parse(sessionStorage.getItem("user"))
       };
 
-    case LOGIN_SUCCESS:
+    case LOGIN_SUCCESS: //falls through
 
     case REGISTER_SUCCESS:
       sessionStorage.setItem("token", action.payload.token);
@@ -54,11 +57,11 @@ export default function(state = initialState, action) {
         isLoading: false
       };
 
-    case AUTH_ERROR:
+    case AUTH_ERROR: //falls through
 
-    case LOGIN_FAIL:
+    case LOGIN_FAIL: //falls through
 
-    case LOGOUT_SUCCESS:
+    case LOGOUT_SUCCESS: //falls through
 
     case REGISTER_FAIL:
       sessionStorage.removeItem("token");
@@ -70,6 +73,23 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         isLoading: false
       };
+
+    case MOSTRAR_OPERADOR:
+      return {
+        ...state,
+        operador: action.payload
+      };
+
+    case EDITAR_OPERADOR:
+      return {
+        ...state,
+        operadores: state.operadores.map(operador =>
+          operador.usuario === action.payload.id
+            ? (operador = action.payload)
+            : operador
+        )
+      };
+
     default:
       return state;
   }

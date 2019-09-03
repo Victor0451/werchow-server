@@ -7,6 +7,7 @@ import FormNuevoTitular from "./FormNuevoTitular";
 //redux
 import { connect } from "react-redux";
 import { agregarTitular, ultimoContrato } from "../../actions/titularActions";
+import { registrarHistoria } from "../../actions/historiaActions";
 
 class NuevoTitular extends Component {
   grupoRef = React.createRef();
@@ -20,6 +21,7 @@ class NuevoTitular extends Component {
   ZonaRef = React.createRef();
   AltaRef = React.createRef();
   VigenciaRef = React.createRef();
+  nro_docRef = React.createRef();
 
   state = {
     ALTA: "",
@@ -55,6 +57,23 @@ class NuevoTitular extends Component {
 
   leerDatos = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  historial = () => {
+    let tmp = new Date(Date.now());
+    let fecha = tmp.toISOString().split("T")[0];
+
+    const { user } = this.props.auth;
+
+    const historia = {
+      CONTRATO: this.ContratoRef.current.value,
+      OPERADOR: user.usuario,
+      ANTERIOR: "----------",
+      NUEVO: `ALTA FICHA: ${this.state.APELLIDOS}, ${this.state.NOMBRES}`,
+      FECHA: fecha
+    };
+
+    this.props.registrarHistoria(historia);
   };
 
   nuevoTitular = e => {
@@ -96,7 +115,7 @@ class NuevoTitular extends Component {
       ALTA: this.AltaRef.current.value,
       VIGENCIA: this.VigenciaRef.current.value,
       NOMBRES,
-      NRO_DOC,
+      NRO_DOC: this.nro_docRef.current.value,
       RECIBO,
       SEXO,
       TELEFONO,
@@ -134,6 +153,8 @@ class NuevoTitular extends Component {
         {
           label: "Si",
           onClick: () => {
+            this.historial();
+
             this.props.history.push(`/adherentes/nuevo/${titular.CONTRATO}`);
           }
         },
@@ -194,7 +215,9 @@ class NuevoTitular extends Component {
           ZonaRef={this.ZonaRef}
           AltaRef={this.AltaRef}
           VigenciaRef={this.VigenciaRef}
+          nro_docRef={this.nro_docRef}
           dni={dni}
+          historial={this.historial}
         />
       </div>
     );
@@ -202,10 +225,12 @@ class NuevoTitular extends Component {
 }
 
 const mapStateToProps = state => ({
-  titulares: state.titulares
+  titulares: state.titulares,
+  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
   mapStateToProps,
-  { agregarTitular, ultimoContrato }
+  { agregarTitular, ultimoContrato, registrarHistoria }
 )(NuevoTitular);

@@ -22,10 +22,10 @@ module.exports = db.sequelize.define(
       type: Sequelize.DataTypes.STRING
     },
     perfil: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.INTEGER
     },
     estado: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.TINYINT
     }
   },
   {

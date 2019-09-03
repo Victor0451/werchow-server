@@ -19,12 +19,17 @@ router.post("/auth", (req, res, next) => {
   operador
     .findOne({
       where: {
-        usuario: usuario
+        usuario: usuario        
       }
     })
     .then(user => {
-      if (!user)
-        return res.status(400).json({ msg: "Usuario Ingresado No Existe" });
+      if (!user) {
+        res.status(400).json({ msg: "Usuario Ingresado No Existe" });
+      }
+
+      if (user.estado === 0) {
+        res.status(400).json({ msg: "Usuario Dado de Baja" }); 
+      }
 
       //Validate password
       bcrypt.compare(contrasena, user.contrasena).then(isMatch => {
@@ -37,7 +42,7 @@ router.post("/auth", (req, res, next) => {
           { expiresIn: 3600 },
           (err, token) => {
             if (err) throw err;
-            res.json({
+            res.status(200).json({
               token,
               user: {
                 id: user.id,

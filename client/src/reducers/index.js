@@ -18,7 +18,8 @@ export default combineReducers({
   pagos: pagosReducers,
   pagobco: pagobcoReducers,
   memos: memosReducers,
-  historia: historiaReducers,
+  historia: historiaReducers, 
   fichas: fichasReducers,
-  prestamos: prestamosReducers
+  prestamos: prestamosReducers,
+  operadores: authReducers
 });

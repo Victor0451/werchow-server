@@ -10,7 +10,7 @@ class Navbar extends Component {
 
     //Links para usuarios logeados
     const authLinks = (
-      <Fragment className="">
+      <Fragment>
         {/* {user && user.perfil === 'admin' ? <RegisterModal /> : ''} */}
         <div
           className="collapse navbar-collapse d-flex justify-content-start"
@@ -55,7 +55,7 @@ class Navbar extends Component {
               </div>
             </li>
 
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <Link
                 to=""
                 className="nav-link dropdown-toggle"
@@ -75,7 +75,7 @@ class Navbar extends Component {
                   Agregar un Adherente
                 </Link>
               </div>
-            </li>
+            </li> */}
             <li className="nav-item dropdown">
               <Link
                 to=""
@@ -85,7 +85,7 @@ class Navbar extends Component {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Fichas{" "}
+                Fichas{" "} 
               </Link>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <Link
@@ -111,6 +111,34 @@ class Navbar extends Component {
                 </Link>
               </div>
             </li>
+
+            {isAuthenticated && user.perfil === 1 ? (
+              <li className="nav-item dropdown">
+                <Link
+                  to=""
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Usuarios{" "}
+                </Link>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <Link to="/register" className="dropdown-item text-dark">
+                    Registrar Usuario
+                  </Link>
+
+                  <hr />
+
+                  <Link to="/edit" className="dropdown-item text-dark">
+                    Modificacion de Usuario
+                  </Link>
+                </div>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </div>
 

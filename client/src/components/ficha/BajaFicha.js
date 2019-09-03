@@ -10,6 +10,7 @@ import {
   mostrarAdherentesDelTitular,
   bajaAdherenteGral
 } from "../../actions/adherenteActions";
+import { registrarHistoria } from "../../actions/historiaActions";
 
 class BajaFicha extends Component {
   state = {
@@ -77,6 +78,23 @@ class BajaFicha extends Component {
     }
   };
 
+  historia = () => {
+    let tmp = new Date(Date.now());
+    let fecha = tmp.toISOString().split("T")[0];
+
+    const { user } = this.props.auth;
+
+    const historia = {
+      CONTRATO: this.state.contrato,
+      OPERADOR: user.usuario, 
+      ANTERIOR: "FICHA ACTIVA",
+      NUEVO: "BAJA DE FICHA",
+      FECHA: fecha
+    };
+
+    this.props.registrarHistoria(historia);
+  };
+
   closeFicha = e => {
     e.preventDefault();
 
@@ -91,6 +109,7 @@ class BajaFicha extends Component {
           onClick: () => {
             this.props.bajaAdherenteGral(titular.CONTRATO);
             this.props.bajaTitular(titular.CONTRATO);
+            this.historia();
           }
         },
 
@@ -231,25 +250,37 @@ class BajaFicha extends Component {
 
           <hr className="my-4" />
 
-          <div className="jumbotron mt-4">
-            <div className="mt-4 p-4 border">
-              <h3 className="text-center mb-4 font-weight-bold">Opciones</h3>
+          {titular.ESTADO === 1 ? (
+            <div className="jumbotron mt-4">
+              <div className="mt-4 p-4 border">
+                <h3 className="text-center mb-4 font-weight-bold">Opciones</h3>
 
-              <div
-                className="btn-group col-md-12 d-flex justify-content-center"
-                role="group"
-                aria-label="Button group with nested dropdown"
-              >
-                <Link
-                  to="#"
-                  className="btn btn-danger col-md-3 mr-1"
-                  onClick={this.closeFicha}
+                <div
+                  className="btn-group col-md-12 d-flex justify-content-center"
+                  role="group"
+                  aria-label="Button group with nested dropdown"
                 >
-                  Dar Baja Definitiva
-                </Link>
+                  <Link
+                    to="#"
+                    className="btn btn-danger col-md-3 mr-1"
+                    onClick={this.closeFicha}
+                  >
+                    Dar Baja Definitiva
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="container">
+              <div className="alert alert-primary text-center">
+                {" "}
+                <strong>
+                  {" "}
+                  Esta Ficha esta en baja, no se pueden aplicar opciones{" "}
+                </strong>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -258,10 +289,18 @@ class BajaFicha extends Component {
 
 const mapStateToProps = state => ({
   titular: state.titulares.titular,
-  adherentes: state.adherentes.adherentes
+  adherentes: state.adherentes.adherentes,
+  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
   mapStateToProps,
-  { mostrarAdherentesDelTitular, mostrarTitular, bajaAdherenteGral, bajaTitular }
+  {
+    mostrarAdherentesDelTitular,
+    mostrarTitular,
+    bajaAdherenteGral,
+    bajaTitular,
+    registrarHistoria
+  }
 )(BajaFicha);

@@ -3,22 +3,23 @@ const router = express.Router();
 const operador = require("../models/operador");
 const bcrypt = require("bcryptjs");
 const config = require("config");
-const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 
-router.get("/operadores", auth, (req, res, next) => {
+router.get("/operador/:id", (req, res, next) => {
   operador
-    .findAll()
-    .then(operadores => {
-      res.json(operadores);
+    .findOne({
+      where: { usuario: req.params.id }
+    })
+    .then(operador => {
+      res.status(200).json(operador);
     })
     .catch(err => {
-      res.json(err);
+      res.status(400).json(err);
     });
 });
 
 router.post("/postoperador", (req, res, next) => {
-  const { usuario, contrasena, apellido, nombre } = req.body;
+  const { usuario, contrasena, apellido, nombre, perfil, estado } = req.body;
 
   //Validacion simple
 
@@ -42,8 +43,8 @@ router.post("/postoperador", (req, res, next) => {
     contrasena,
     nombre,
     apellido,
-    perfil: "usuario",
-    estado: "ACTIVO"
+    perfil,
+    estado
   };
 
   //Create salt & hash
@@ -76,6 +77,41 @@ router.post("/postoperador", (req, res, next) => {
           }
         );
       });
+    });
+  });
+});
+
+router.put("/editar/:id", (req, res, next) => {
+  const { contrasena, apellido, nombre, perfil, codigo, id } = req.body;
+
+  const OperadorEdit = {
+    id,
+    contrasena,
+    nombre,
+    apellido,
+    perfil,
+    codigo
+  };
+
+ 
+
+  //Create salt & hash
+
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(OperadorEdit.contrasena, salt, (err, hash) => {
+      if (err) throw err;
+      OperadorEdit.contrasena = hash;
+      operador.update(
+        {
+          nombre: OperadorEdit.nombre,
+          apellido: OperadorEdit.apellido, 
+          perfil: OperadorEdit.perfil,
+          codigo: OperadorEdit.codigo,
+          estado: OperadorEdit.estado,
+          contrasena: OperadorEdit.contrasena
+        },
+        { where: { id: OperadorEdit.id } }
+      );
     });
   });
 });

@@ -35,7 +35,9 @@ const FormNuevoTitular = props => {
     AltaRef,
     VigenciaRef,
     SubPlanRef,
-    dni
+    nro_docRef,
+    dni,
+    historial
   } = props;
 
   let tmp = new Date(Date.now());
@@ -48,7 +50,7 @@ const FormNuevoTitular = props => {
   let vigencia = new Date(year, month + 3, day).toISOString().split("T")[0];
 
   return (
-    <form className="form-style-8 " onSubmit={nuevoTitular}>
+    <form className="form-style-8 " onSubmit={historial}>
       <h2 className="mt-4">Datos de Ficha</h2>
 
       <div className="form-row mt-2">
@@ -231,7 +233,7 @@ const FormNuevoTitular = props => {
             <input
               type="number"
               className=""
-              onChange={leerDatos}
+              ref={nro_docRef}
               id="in-range-input"
               name="NRO_DOC"
               minLength="8"

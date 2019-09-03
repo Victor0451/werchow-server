@@ -7,9 +7,12 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_FAIL,
-  REGISTER_SUCCESS
+  REGISTER_SUCCESS,
+  EDITAR_OPERADOR,
+  MOSTRAR_OPERADOR
 } from "../actions/types";
 import { returnErrors } from "./errorActions";
+import toastr from "../utils/toastr";
 
 //Check token & load user
 
@@ -40,7 +43,9 @@ export const register = ({
   usuario,
   contrasena,
   nombre,
-  apellido
+  apellido,
+  perfil,
+  estado
 }) => dispatch => {
   //headers
   const config = {
@@ -51,15 +56,24 @@ export const register = ({
 
   //Req body
 
-  const body = JSON.stringify({ usuario, contrasena, nombre, apellido });
+  const body = JSON.stringify({
+    usuario,
+    contrasena,
+    nombre,
+    apellido,
+    perfil,
+    estado
+  });
 
   axios
     .post("http://190.231.32.232:5002/api/operador/postoperador", body, config)
-    .then(res =>
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      })
+    .then(
+      res =>
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data
+        }),
+      toastr.success("Usuario creado con exito", "ATENCION")
     )
 
     .catch(err => {
@@ -133,4 +147,43 @@ export const tokenConfig = getState => {
   }
 
   return config;
+};
+
+export const edit = operadorEdit => async dispatch => {
+  await axios
+    .put(
+      `http://190.231.32.232:5002/api/operador/editar/${operadorEdit.id}`,
+      operadorEdit
+    )
+
+    .then(
+      res =>
+        dispatch({
+          type: EDITAR_OPERADOR,
+          payload: res.data
+        }),
+      toastr.success("El socio fue editado con exito", "ATENCION")
+    )
+
+    .catch(err => {
+      console.log(err);
+      toastr.error("Algo salio mal, no se registraron los cambios", "ATENCION");
+    });
+};
+
+export const mostrarOperador = id => async dispatch => {
+  await axios
+    .get(`http://190.231.32.232:5002/api/operador/operador/${id}`)
+
+    .then(res =>
+      dispatch({
+        type: MOSTRAR_OPERADOR,
+        payload: res.data
+      })
+    )
+
+    .catch(err => {
+      console.log(err);
+      toastr.warning(err, "ATENCION");
+    });
 };

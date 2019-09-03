@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import FormNuevoAdherente from "./FormNuevoAdherente";
-import toastr from "../../utils/toastr";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
@@ -8,6 +7,7 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { connect } from "react-redux";
 import { agregarAdherente } from "../../actions/adherenteActions";
 import { mostrarTitular } from "../../actions/titularActions";
+import { registrarHistoria } from "../../actions/historiaActions";
 
 class NuevoAdherente extends Component {
   grupoRef = React.createRef();
@@ -57,46 +57,25 @@ class NuevoAdherente extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  buscarAdherentesDirecto = contrato => {
-    if (contrato) {
-      this.props.mostrarTitular(contrato);
+  historial = () => {
+    let tmp = new Date(Date.now());
+    let fecha = tmp.toISOString().split("T")[0];
+    const { id } = this.props.match.params;
 
-      setTimeout(() => {
-        const { titular } = this.props;
+    const { user } = this.props.auth;
 
-        this.setState({
-          id: titular.CONTRATO
-        });
-      }, 150);
-    }
+    const historia = {
+      CONTRATO: id,
+      OPERADOR: user.usuario,
+      ANTERIOR: "----------",
+      NUEVO: `ALTA ADHERENTE: ${this.state.APELLIDOS}, ${this.state.NOMBRES}`,
+      FECHA: fecha
+    };
+
+    this.props.registrarHistoria(historia);
   };
 
-  buscarAdherentes = e => {
-    e.preventDefault();
-
-    const { contrato } = this.state;
-
-    if (contrato === "") {
-      toastr.warning("Debes ingresar un numero de socio", "ATENCION");
-    } else {
-      if (contrato) {
-        this.props.mostrarTitular(contrato);
-
-        setTimeout(() => {
-          const { titular } = this.props;
-          console.log(titular);
-          this.setState({
-            id: titular.CONTRATO
-          });
-
-          document.getElementById("busqueda").hidden = true;
-          document.getElementById("baja").hidden = false;
-        }, 150);
-      }
-    }
-  };
-
-  nuevoTitular = e => {
+  nuevoAdh = e => {
     e.preventDefault();
 
     const {
@@ -190,66 +169,38 @@ class NuevoAdherente extends Component {
   };
 
   render() {
-    const { id } = this.state;
+    const { id } = this.props.match.params;
     return (
       <div>
-        <div className="form-style-8 " id="busqueda">
-          <h2>Buscar Socio</h2>
-
-          <form onSubmit={this.buscarAdherentes}>
-            <div className="row">
-              <div className="col-md-6">
-                <p className="has-dynamic-label">
-                  <input
-                    type="text"
-                    className=""
-                    id="dynamic-label-input"
-                    name="contrato"
-                    onChange={this.leerDatos}
-                    placeholder="Ingresar N° de Socio"
-                  />
-                  <label>N° de Socio</label>
-                </p>
-              </div>
-
-              <div className="col-md-6">
-                <button className="btn btn-primary  btn-block mt-4">
-                  Buscar
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <div id="baja" hidden="true">
-          <FormNuevoAdherente
-            id={id}
-            leerDatos={this.leerDatos}
-            nuevoTitular={this.nuevoTitular}
-            error={this.state.error}
-            grupoRef={this.grupoRef}
-            OSRef={this.OSRef}
-            PlanRef={this.PlanRef}
-            SubPlanRef={this.SubPlanRef}
-            SucursalRef={this.SucursalRef}
-            ContratoRef={this.ContratoRef}
-            LocalidadesRef={this.LocalidadesRef}
-            ProductorRef={this.ProductorRef}
-            ZonaRef={this.ZonaRef}
-            AltaRef={this.AltaRef}
-            VigenciaRef={this.VigenciaRef}
-          />
-        </div>
+        <FormNuevoAdherente
+          id={id}
+          leerDatos={this.leerDatos}
+          nuevoAdh={this.nuevoAdh}
+          error={this.state.error}
+          grupoRef={this.grupoRef}
+          OSRef={this.OSRef}
+          PlanRef={this.PlanRef}
+          SubPlanRef={this.SubPlanRef}
+          SucursalRef={this.SucursalRef}
+          ContratoRef={this.ContratoRef}
+          LocalidadesRef={this.LocalidadesRef}
+          ProductorRef={this.ProductorRef}
+          ZonaRef={this.ZonaRef}
+          AltaRef={this.AltaRef}
+          VigenciaRef={this.VigenciaRef}
+        />
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
   adherente: state.adherente,
-  titular: state.titulares.titular
+  titular: state.titulares.titular,
+  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
   mapStateToProps,
-  { agregarAdherente, mostrarTitular }
+  { agregarAdherente, mostrarTitular, registrarHistoria }
 )(NuevoAdherente);
