@@ -126,7 +126,7 @@ class BajaFicha extends Component {
     return (
       <div>
         <div className="form-style-8 " id="busqueda">
-          <h2>Buscar Socio</h2>
+          <h2>Baja de Ficha</h2>
 
           <form onSubmit={this.buscarFicha}>
             <div className="row">

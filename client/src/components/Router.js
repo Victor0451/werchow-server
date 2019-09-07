@@ -26,6 +26,7 @@ import Register from "./auth/Register";
 import { Provider } from "react-redux";
 import store from "../store";
 import Edit from "./auth/Edit";
+import ImprimirSolicitud from "./ficha/ImprimirSolicitud";
 
 const token = sessionStorage.getItem("token");
 
@@ -50,7 +51,6 @@ export default class Router extends Component {
 
               <Route exact path={"/register"} component={Register} />
               <Route exact path={"/edit"} component={Edit} />
-
 
               {/* TITULARES */}
 
@@ -84,7 +84,7 @@ export default class Router extends Component {
                 exact
                 path={"/adherentes/nuevo/:id"}
                 component={NuevoAdherente}
-              />          
+              />
 
               {/* PAGOS */}
               <Route exact path={"/pagos/cuotas/:id"} component={Pagos} />
@@ -95,6 +95,12 @@ export default class Router extends Component {
               <Route exact path={"/memo/nuevo/:id"} component={NuevoMemo} />
 
               {/* FICHAS */}
+
+              <Route
+                exact
+                path={"/ficha/imprimirsolicitud"}
+                component={ImprimirSolicitud}
+              />
               <Route
                 exact
                 path={"/ficha/cambiotitular"}

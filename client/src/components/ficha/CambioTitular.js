@@ -133,7 +133,7 @@ class CambiarTitular extends Component {
     return (
       <div>
         <div className="form-style-8 " id="busqueda">
-          <h2>Buscar Socio</h2>
+          <h2>Cambio de Titular</h2>
 
           <form onSubmit={this.buscarTitular}>
             <div className="row">
@@ -256,6 +256,21 @@ class CambiarTitular extends Component {
         >
           <div className="modal-dialog modal-xl">
             <div className="modal-content p-2 ">
+              <div className="modal-header">
+                <h3 className="modal-title" id="exampleModalLabel">
+                  <strong>
+                    <u>Adherentes</u>
+                  </strong>
+                </h3>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
               <table className="table table-hover border">
                 <thead className="alert alert-dark">
                   <tr>

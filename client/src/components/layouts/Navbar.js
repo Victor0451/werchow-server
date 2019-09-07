@@ -85,9 +85,18 @@ class Navbar extends Component {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Fichas{" "} 
+                Fichas{" "}
               </Link>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link
+                  to="/ficha/imprimirsolicitud"
+                  className="dropdown-item text-dark"
+                >
+                  Imprimir Solicitud
+                </Link>
+
+                <hr />
+
                 <Link
                   to="/ficha/cambiotitular"
                   className="dropdown-item text-dark"

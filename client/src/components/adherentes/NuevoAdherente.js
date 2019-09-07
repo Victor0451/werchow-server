@@ -10,45 +10,24 @@ import { mostrarTitular } from "../../actions/titularActions";
 import { registrarHistoria } from "../../actions/historiaActions";
 
 class NuevoAdherente extends Component {
-  grupoRef = React.createRef();
   OSRef = React.createRef();
   PlanRef = React.createRef();
   SubPlanRef = React.createRef();
   SucursalRef = React.createRef();
   ContratoRef = React.createRef();
-  LocalidadesRef = React.createRef();
   ProductorRef = React.createRef();
-  ZonaRef = React.createRef();
   AltaRef = React.createRef();
   VigenciaRef = React.createRef();
+  ParentescoRef = React.createRef();
 
   state = {
-    ALTA: "",
     APELLIDOS: "",
-    MOVIL: "",
-    OPERADOR: "",
-    PRODUCTOR: "",
-    CONTRATO: "",
-    CUOTA: "",
-    GRUPO: "",
-    ZONA: "",
     NACIMIENTO: "",
     NOMBRES: "",
     NRO_DOC: "",
-    OBRA_SOC: "",
-    PLAN: "",
-    RECIBO: "",
     SEXO: "",
-    SUCURSAL: "",
-    TELEFONO: "",
-    VIGENCIA: "",
-    CALLE: "",
-    NRO_CALLE: "",
-    DOMI_COBR: "",
-    DOM_LAB: "",
-    BARRIO: "",
-    LOCALIDAD: "",
-    EMPRESA: "W",
+    PARENT: "",
+    ESTADO: true,
     error: false,
     id: ""
   };
@@ -80,21 +59,11 @@ class NuevoAdherente extends Component {
 
     const {
       APELLIDOS,
-      MOVIL,
-      OPERADOR,
-      CUOTA,
       NACIMIENTO,
       NOMBRES,
       NRO_DOC,
-      RECIBO,
       SEXO,
-      TELEFONO,
-      CALLE,
-      NRO_CALLE,
-      DOMI_COBR,
-      DOM_LAB,
-      BARRIO,
-      EMPRESA
+      PARENT
     } = this.state;
 
     const { id } = this.props.match.params;
@@ -103,69 +72,54 @@ class NuevoAdherente extends Component {
       SUCURSAL: this.SucursalRef.current.value,
       PLAN: this.PlanRef.current.value,
       SUB_PLAN: this.SubPlanRef.current.value,
-      GRUPO: this.grupoRef.current.value,
-      ZONA: this.ZonaRef.current.value,
       OBRA_SOC: this.OSRef.current.value,
       CONTRATO: this.ContratoRef.current.value,
       APELLIDOS,
-      MOVIL,
-      OPERADOR,
       PRODUCTOR: this.ProductorRef.current.value,
-      CUOTA,
+      PARENT: this.ParentescoRef.current.value,
       NACIMIENTO,
       ALTA: this.AltaRef.current.value,
       VIGENCIA: this.VigenciaRef.current.value,
       NOMBRES,
       NRO_DOC,
-      RECIBO,
-      SEXO,
-      TELEFONO,
-      CALLE,
-      NRO_CALLE,
-      DOMI_COBR,
-      DOM_LAB,
-      BARRIO,
-      LOCALIDAD: this.LocalidadesRef.current.value,
-      EMPRESA,
       ESTADO: true
     };
 
-    if (
-      APELLIDOS === "" ||
-      NOMBRES === "" ||
-      NACIMIENTO === "" ||
-      NRO_DOC === "" ||
-      SEXO === "" ||
-      TELEFONO === "" ||
-      RECIBO === "" ||
-      CUOTA === ""
-    ) {
-      this.setState({ error: true });
-      return;
-    }
-    this.setState({ error: false });
+    console.log(adherente);
 
-    this.props.agregarAdherente(adherente);
+    // if (
+    //   APELLIDOS === "" ||
+    //   NOMBRES === "" ||
+    //   NACIMIENTO === "" ||
+    //   NRO_DOC === "" ||
+    //   SEXO === ""
+    // ) {
+    //   this.setState({ error: true });
+    //   return;
+    // }
+    // this.setState({ error: false });
 
-    confirmAlert({
-      title: "Atencion",
-      message: "¿Desea Ingresar Adherentes?",
-      buttons: [
-        {
-          label: "Si",
-          onClick: () => {
-            this.props.history.push(`/adherentes/nuevo/${id}`);
-          }
-        },
+    // this.props.agregarAdherente(adherente);
 
-        {
-          label: "No",
-          onClick: () => {
-            this.props.history.push(`/titulares/${id}`);
-          }
-        }
-      ]
-    });
+    // confirmAlert({
+    //   title: "Atencion",
+    //   message: "¿Desea Ingresar Adherentes?",
+    //   buttons: [
+    //     {
+    //       label: "Si",
+    //       onClick: () => {
+    //         this.props.history.push(`/adherentes/nuevo/${id}`);
+    //       }
+    //     },
+
+    //     {
+    //       label: "No",
+    //       onClick: () => {
+    //         this.props.history.push(`/titulares/${id}`);
+    //       }
+    //     }
+    //   ]
+    // });
   };
 
   render() {
@@ -177,17 +131,15 @@ class NuevoAdherente extends Component {
           leerDatos={this.leerDatos}
           nuevoAdh={this.nuevoAdh}
           error={this.state.error}
-          grupoRef={this.grupoRef}
           OSRef={this.OSRef}
           PlanRef={this.PlanRef}
           SubPlanRef={this.SubPlanRef}
           SucursalRef={this.SucursalRef}
           ContratoRef={this.ContratoRef}
-          LocalidadesRef={this.LocalidadesRef}
           ProductorRef={this.ProductorRef}
-          ZonaRef={this.ZonaRef}
           AltaRef={this.AltaRef}
           VigenciaRef={this.VigenciaRef}
+          ParentescoRef={this.ParentescoRef}
         />
       </div>
     );

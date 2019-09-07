@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import FormNuevoTitular from "./FormNuevoTitular";
@@ -130,14 +129,7 @@ class NuevoTitular extends Component {
     };
 
     if (
-      APELLIDOS === "" ||
-      NOMBRES === "" ||
-      NACIMIENTO === "" ||
-      NRO_DOC === "" ||
-      SEXO === "" ||
-      TELEFONO === "" ||
-      RECIBO === "" ||
-      CUOTA === ""
+      APELLIDOS === "" 
     ) {
       this.setState({ error: true });
       return;
@@ -190,15 +182,6 @@ class NuevoTitular extends Component {
 
     return (
       <div>
-        <div className="container row mt-4">
-          <div className="col-md-6 mb-4">
-            <Link to="/titulares" className="btn btn-secondary">
-              <i className="fas fa-arrow-circle-left"></i> {""}
-              Volver al Listado
-            </Link>
-          </div>
-        </div>
-
         <FormNuevoTitular
           leerDatos={this.leerDatos}
           nuevoTitular={this.nuevoTitular}

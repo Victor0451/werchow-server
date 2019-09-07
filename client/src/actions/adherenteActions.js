@@ -59,7 +59,7 @@ export const bajaAdherenteGral = id => async dispatch => {
 
 
 export const agregarAdherente = adherente => async dispatch => {
-    await axios.post("http://190.231.32.232:5002/api/adherente/nuevo", adherente)
+    await axios.post("http://190.231.32.232:5002/api/adherent/nuevo", adherente)
 
         .then(res => dispatch({
             type: AGREGAR_ADHERENTE,
