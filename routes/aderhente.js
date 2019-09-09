@@ -22,6 +22,58 @@ router.get("/adherentestit/:id", (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+//GET BY DNI
+
+router.get("/dni/:id", (req, res) => {
+  adherent
+    .findOne({
+      attributes: ["NRO_DOC", "CONTRATO","ESTADO","APELLIDOS", "NOMBRES"],
+      where: { NRO_DOC: req.params.id },
+      order: [["NRO_DOC", "DESC"]]
+    })
+
+    .then(dni => {
+      if (dni) {
+        res.status(200).json(dni);
+      } else {
+        res.status(200).json("no existe dni");
+      }
+    })
+    .catch(err => res.status(400).json(err));
+});
+
+//ALTA
+
+router.post("/nuevo", (req, res) => {
+  const newAdh = ({
+    SUCURSAL,
+    PLAN,
+    SUB_PLAN,
+    OBRA_SOC,
+    CONTRATO,
+    APELLIDOS,
+    PRODUCTOR,
+    PARENT,
+    NACIMIENTO,
+    ALTA,
+    VIGENCIA,
+    NOMBRES,
+    NRO_DOC,
+    ESTADO
+  } = req.body);
+
+  console.log(newAdh);
+
+  adherent
+    .create(newAdh)
+    .then(newAdh => {
+      res.status(200).json(newAdh);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 //BAJA
 
 router.put("/baja/:id", (req, res) => {
