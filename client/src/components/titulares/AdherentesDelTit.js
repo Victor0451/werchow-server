@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { mostrarAdherentesDelTitular } from "../../actions/adherenteActions";
@@ -23,7 +24,6 @@ class AdherentesDelTit extends Component {
   }
 
   render() {
-   
     const adherentes = this.state.adherentes;
 
     if (Object.entries(adherentes).length === 0)
@@ -46,6 +46,7 @@ class AdherentesDelTit extends Component {
               <th scope="col">Nombre</th>
               <th scope="col">DNI</th>
               <th scope="col">ESTADO</th>
+              <th scope="col">ACCIONES</th>
             </tr>
           </thead>
 
@@ -64,6 +65,14 @@ class AdherentesDelTit extends Component {
                 ) : (
                   ""
                 )}
+                <td>
+                  <Link
+                    to={`/adherentes/editar/${adherente.NRO_DOC}`}
+                    className="btn btn-warning btn-block"
+                  >
+                    Editar
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>

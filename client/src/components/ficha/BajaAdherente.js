@@ -127,7 +127,7 @@ class BajaAdherente extends Component {
     return (
       <div>
         <div className="form-style-8 " id="busqueda">
-          <h2>Buscar Socio</h2>
+          <h2>Baja de Adherentes</h2>
 
           <form onSubmit={this.buscarAdherentes}>
             <div className="row">
@@ -215,7 +215,7 @@ class BajaAdherente extends Component {
             </div>
           )}
 
-           <hr className="my-4" />
+          <hr className="my-4" />
 
           {titular.ESTADO === 1 ? (
             <div className="jumbotron mt-4">
@@ -249,65 +249,78 @@ class BajaAdherente extends Component {
               </div>
             </div>
           )}
+        </div>
 
-          <div
-            className="modal fade bd-example-modal-xl form-style-8"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="myExtraLargeModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-xl">
-              <div className="modal-content p-2 ">
-                <h2 className="mt-4">Adherentes</h2>
-
-                <table className="table table-hover">
-                  <thead className="alert alert-dark">
-                    <tr>
-                      <th scope="col">Contrato</th>
-                      <th scope="col">Apellido</th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">DNI</th>
-                      <th scope="col">ESTADO</th>
-                      <th scope="col">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody className="">
-                    {adherentes.map((adherente, index) => (
-                      <tr key={index}>
-                        <td>{adherente.CONTRATO}</td>
-                        <td>{adherente.APELLIDOS}</td>
-                        <td>{adherente.NOMBRES}</td>
-                        <td>{adherente.NRO_DOC}</td>
-
-                        {adherente.ESTADO === 1 ? (
-                          <td>ACTIVO</td>
-                        ) : adherente.ESTADO === 0 ? (
-                          <td>BAJA</td>
-                        ) : (
-                          ""
-                        )}
-
-                        {adherente.ESTADO === 1 ? (
-                          <td>
-                            <Link
-                              to={"#"}
-                              className="btn btn-danger btn-block"
-                              onClick={() => this.bajaAdhSocio(index)}
-                            >
-                              Dar de Baja
-                            </Link>
-                          </td>
-                        ) : adherente.ESTADO === 0 ? (
-                          <td></td>
-                        ) : (
-                          ""
-                        )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        <div
+          className="modal fade bd-example-modal-xl"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="myExtraLargeModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content p-2 ">
+              <div className="modal-header">
+                <h3 className="modal-title" id="exampleModalLabel">
+                  <strong>
+                    <u>Adherentes</u>
+                  </strong>
+                </h3>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
+              <table className="table table-hover">
+                <thead className="alert alert-dark">
+                  <tr>
+                    <th scope="col">Contrato</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">ESTADO</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody className="">
+                  {adherentes.map((adherente, index) => (
+                    <tr key={index}>
+                      <td>{adherente.CONTRATO}</td>
+                      <td>{adherente.APELLIDOS}</td>
+                      <td>{adherente.NOMBRES}</td>
+                      <td>{adherente.NRO_DOC}</td>
+
+                      {adherente.ESTADO === 1 ? (
+                        <td>ACTIVO</td>
+                      ) : adherente.ESTADO === 0 ? (
+                        <td>BAJA</td>
+                      ) : (
+                        ""
+                      )}
+
+                      {adherente.ESTADO === 1 ? (
+                        <td>
+                          <Link
+                            to={"#"}
+                            className="btn btn-danger btn-block"
+                            onClick={() => this.bajaAdhSocio(index)}
+                          >
+                            Dar de Baja
+                          </Link>
+                        </td>
+                      ) : adherente.ESTADO === 0 ? (
+                        <td></td>
+                      ) : (
+                        ""
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

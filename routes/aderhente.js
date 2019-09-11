@@ -27,9 +27,7 @@ router.get("/adherentestit/:id", (req, res, next) => {
 router.get("/dni/:id", (req, res) => {
   adherent
     .findOne({
-      attributes: ["NRO_DOC", "CONTRATO","ESTADO","APELLIDOS", "NOMBRES"],
-      where: { NRO_DOC: req.params.id },
-      order: [["NRO_DOC", "DESC"]]
+      where: { NRO_DOC: req.params.id }
     })
 
     .then(dni => {
@@ -59,7 +57,9 @@ router.post("/nuevo", (req, res) => {
     VIGENCIA,
     NOMBRES,
     NRO_DOC,
-    ESTADO
+    ESTADO,
+    TSEG,
+    MOD_5
   } = req.body);
 
   console.log(newAdh);
@@ -71,6 +71,49 @@ router.post("/nuevo", (req, res) => {
     })
     .catch(err => {
       res.status(400).json(err);
+    });
+});
+
+// EDITAR
+
+router.put("/editar/:id", (req, res) => {
+  const adhModf = ({
+    PLAN,
+    OBRA_SOC,
+    APELLIDOS,
+    NACIMIENTO,
+    ALTA,
+    VIGENCIA,
+    NOMBRES,
+    NRO_DOC,
+    SEXO,
+    TSEG,
+    MOD_5
+  } = req.body);
+
+  adherent
+    .update(
+      {
+        PLAN: adhModf.PLAN,
+        OBRA_SOC: adhModf.OBRA_SOC,
+        APELLIDOS: adhModf.APELLIDOS,
+        NACIMIENTO: adhModf.NACIMIENTO,
+        ALTA: adhModf.ALTA,
+        VIGENCIA: adhModf.VIGENCIA,
+        NOMBRES: adhModf.NOMBRES,
+        NRO_DOC: adhModf.NRO_DOC,
+        SEXO: adhModf.SEXO,
+        TSEG: adhModf.TSEG,
+        MOD_5: adhModf.MOD_5
+      },
+      { where: { NRO_DOC: adhModf.NRO_DOC, ESTADO: 1 } }
+    )
+    .then(adhModf => {
+      res.status(200).json(adhModf);
+    })
+    .catch(error => {
+      res.status(400).json(error);
+      console.log(error);
     });
 });
 

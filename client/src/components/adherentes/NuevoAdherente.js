@@ -10,51 +10,36 @@ import { mostrarTitular } from "../../actions/titularActions";
 import { registrarHistoria } from "../../actions/historiaActions";
 
 class NuevoAdherente extends Component {
-  grupoRef = React.createRef();
-  OSRef = React.createRef();
-  PlanRef = React.createRef();
-  SubPlanRef = React.createRef();
-  SucursalRef = React.createRef();
-  ContratoRef = React.createRef();
-  LocalidadesRef = React.createRef();
-  ProductorRef = React.createRef();
-  ZonaRef = React.createRef();
   AltaRef = React.createRef();
   VigenciaRef = React.createRef();
+  Nro_DocRef = React.createRef();
 
   state = {
-    ALTA: "",
-    APELLIDOS: "",
-    MOVIL: "",
-    OPERADOR: "",
-    PRODUCTOR: "",
     CONTRATO: "",
-    CUOTA: "",
-    GRUPO: "",
-    ZONA: "",
+    APELLIDOS: "",
     NACIMIENTO: "",
     NOMBRES: "",
     NRO_DOC: "",
-    OBRA_SOC: "",
-    PLAN: "",
-    RECIBO: "",
     SEXO: "",
+    PARENT: "",
+    PLAN: "",
+    SUB_PLAN: "",
+    OBRA_SOC: "",
+    PRODUCTOR: "",
     SUCURSAL: "",
-    TELEFONO: "",
-    VIGENCIA: "",
-    CALLE: "",
-    NRO_CALLE: "",
-    DOMI_COBR: "",
-    DOM_LAB: "",
-    BARRIO: "",
-    LOCALIDAD: "",
-    EMPRESA: "W",
+    TSEG: "",
+    MOD_5: "",
+    ESTADO: true,
     error: false,
     id: ""
   };
 
   leerDatos = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleChange = (value, state) => {
+    this.setState({ [state]: value.value });
   };
 
   historial = () => {
@@ -80,53 +65,39 @@ class NuevoAdherente extends Component {
 
     const {
       APELLIDOS,
-      MOVIL,
-      OPERADOR,
-      CUOTA,
       NACIMIENTO,
       NOMBRES,
-      NRO_DOC,
-      RECIBO,
       SEXO,
-      TELEFONO,
-      CALLE,
-      NRO_CALLE,
-      DOMI_COBR,
-      DOM_LAB,
-      BARRIO,
-      EMPRESA
+      PARENT,
+      PLAN,
+      SUB_PLAN,
+      OBRA_SOC,
+      PRODUCTOR,
+      SUCURSAL,
+      CONTRATO,
+      TSEG,
+      MOD_5
     } = this.state;
 
     const { id } = this.props.match.params;
 
     const adherente = {
-      SUCURSAL: this.SucursalRef.current.value,
-      PLAN: this.PlanRef.current.value,
-      SUB_PLAN: this.SubPlanRef.current.value,
-      GRUPO: this.grupoRef.current.value,
-      ZONA: this.ZonaRef.current.value,
-      OBRA_SOC: this.OSRef.current.value,
-      CONTRATO: this.ContratoRef.current.value,
+      SUCURSAL,
+      PLAN,
+      SUB_PLAN,
+      OBRA_SOC,
+      CONTRATO,
       APELLIDOS,
-      MOVIL,
-      OPERADOR,
-      PRODUCTOR: this.ProductorRef.current.value,
-      CUOTA,
+      PRODUCTOR,
+      PARENT,
       NACIMIENTO,
       ALTA: this.AltaRef.current.value,
       VIGENCIA: this.VigenciaRef.current.value,
       NOMBRES,
-      NRO_DOC,
-      RECIBO,
+      NRO_DOC: this.Nro_DocRef.current.value,
       SEXO,
-      TELEFONO,
-      CALLE,
-      NRO_CALLE,
-      DOMI_COBR,
-      DOM_LAB,
-      BARRIO,
-      LOCALIDAD: this.LocalidadesRef.current.value,
-      EMPRESA,
+      TSEG,
+      MOD_5,
       ESTADO: true
     };
 
@@ -134,16 +105,17 @@ class NuevoAdherente extends Component {
       APELLIDOS === "" ||
       NOMBRES === "" ||
       NACIMIENTO === "" ||
-      NRO_DOC === "" ||
-      SEXO === "" ||
-      TELEFONO === "" ||
-      RECIBO === "" ||
-      CUOTA === ""
+      PLAN === "" ||
+      PARENT === ""
     ) {
       this.setState({ error: true });
       return;
     }
     this.setState({ error: false });
+
+    if (TSEG !== "") {
+      adherente.MOD_5 = this.AltaRef.current.value;
+    }
 
     this.props.agregarAdherente(adherente);
 
@@ -154,7 +126,7 @@ class NuevoAdherente extends Component {
         {
           label: "Si",
           onClick: () => {
-            this.props.history.push(`/adherentes/nuevo/${id}`);
+            this.props.history.push(`/verificaciones/${"adh"}`);
           }
         },
 
@@ -177,17 +149,10 @@ class NuevoAdherente extends Component {
           leerDatos={this.leerDatos}
           nuevoAdh={this.nuevoAdh}
           error={this.state.error}
-          grupoRef={this.grupoRef}
-          OSRef={this.OSRef}
-          PlanRef={this.PlanRef}
-          SubPlanRef={this.SubPlanRef}
-          SucursalRef={this.SucursalRef}
-          ContratoRef={this.ContratoRef}
-          LocalidadesRef={this.LocalidadesRef}
-          ProductorRef={this.ProductorRef}
-          ZonaRef={this.ZonaRef}
           AltaRef={this.AltaRef}
           VigenciaRef={this.VigenciaRef}
+          handleChange={this.handleChange}
+          Nro_DocRef={this.Nro_DocRef}
         />
       </div>
     );

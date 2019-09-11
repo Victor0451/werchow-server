@@ -56,19 +56,6 @@ class Titular extends Component {
     });
   }
 
-  imprimir = () => {
-    let contenido = document.getElementById("ficha").innerHTML;
-    let contenidoOrg = document.body.innerHTML;
-
-    document.body.innerHTML = contenido;
-
-    window.print();
-
-    document.body.innerHTML = contenidoOrg;
-
-    window.location.reload(true);
-  };
-
   bajaSocio = e => {
     e.preventDefault();
 
@@ -191,12 +178,13 @@ class Titular extends Component {
                     Ultimas Modificaciones
                   </Link>
 
-                  <Link
-                    to={`/adherentes/nuevo/${titular.CONTRATO}`}
+                  {/* <Link
+                    to={`/verificaciones/${"adh"}`}
                     className="btn btn-primary col-md-3 mr-1"
                   >
                     Agregar Adherentes
-                  </Link>
+                  </Link> */}
+
                   {titular.GRUPO === 6 ? (
                     <Link
                       to={`/prestamos/listado/${titular.CONTRATO}`}
@@ -277,16 +265,6 @@ class Titular extends Component {
 
         <div className="row mt-4 jumbotron">
           <AdherentesDelTit id={id} />
-        </div>
-
-        <div className="mb-4">
-          <button
-            type="submit"
-            className="btn btn-primary mt-4"
-            onClick={this.imprimir}
-          >
-            Imprimir Ficha
-          </button>
         </div>
       </div>
     );

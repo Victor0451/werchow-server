@@ -30,7 +30,7 @@ class Register extends Component {
       const {
         usuario,
         nombre,
-        apellido, 
+        apellido,
         contrasena,
         perfil,
         codigo,
@@ -85,7 +85,7 @@ class Register extends Component {
       <div>
         <div className="container">
           <div className="form-style-8" id="finduser">
-            <h2>Ingresa el DNI para vefiricar si existe en el sistema</h2>
+            <h2>Ingresa el nombre de usuario</h2>
 
             <form className="row" onSubmit={this.findUser}>
               <div className="form-group col-md-6">
