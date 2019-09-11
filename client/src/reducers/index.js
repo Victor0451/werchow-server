@@ -9,6 +9,7 @@ import memosReducers from "./memosReducers";
 import historiaReducers from "./historiaReducers";
 import fichasReducers from "./fichasReducers";
 import prestamosReducers from "./prestamosReducers";
+import verificacionesReducers from "./verificacionesReducers";
 
 export default combineReducers({
   auth: authReducers,
@@ -18,8 +19,9 @@ export default combineReducers({
   pagos: pagosReducers,
   pagobco: pagobcoReducers,
   memos: memosReducers,
-  historia: historiaReducers, 
+  historia: historiaReducers,
   fichas: fichasReducers,
   prestamos: prestamosReducers,
-  operadores: authReducers
+  operadores: authReducers,
+  verificaciones: verificacionesReducers
 });

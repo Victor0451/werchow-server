@@ -6,6 +6,7 @@ import Titulares from "./titulares/Titulares";
 import Titular from "./titulares/Titular";
 import NuevoTitular from "./titulares/NuevoTitular";
 import NuevoAdherente from "./adherentes/NuevoAdherente";
+import EditarAdherente from "./adherentes/EditarAdherente.js";
 import BuscarTitular from "./titulares/BuscarTitular";
 import Pagos from "./pagos/pagos";
 import Pagobco from "./pagos/pagobco";
@@ -16,17 +17,17 @@ import Historia from "./historia/Historia";
 import CambioTitular from "./ficha/CambioTitular";
 import BajaAdherente from "./ficha/BajaAdherente";
 import BajaFicha from "./ficha/BajaFicha";
-import VerificarDNI from "./titulares/VerificarDNI";
+import VerificarDNI from "./Verificaciones/VerificarDNI";
 import ListadoPrestamos from "./prestamos/ListadoPrestamos";
 import Login from "./auth/Login";
 import { USER_LOGEDED } from "../actions/types";
 import Register from "./auth/Register";
-
-//REDUX
-import { Provider } from "react-redux";
 import store from "../store";
 import Edit from "./auth/Edit";
 import ImprimirSolicitud from "./ficha/ImprimirSolicitud";
+
+//REDUX
+import { Provider } from "react-redux";
 
 const token = sessionStorage.getItem("token");
 
@@ -52,15 +53,18 @@ export default class Router extends Component {
               <Route exact path={"/register"} component={Register} />
               <Route exact path={"/edit"} component={Edit} />
 
+              {/* VERIFICACIONES */}
+              <Route
+                exact
+                path={"/verificaciones/:id"}
+                component={VerificarDNI}
+              />
+
               {/* TITULARES */}
 
               <Route exact path={"/titulares"} component={Titulares} />
               <Route exact path={"/titulares/:id"} component={Titular} />
-              <Route
-                exact
-                path={"/titular/verificardni"}
-                component={VerificarDNI}
-              />
+
               <Route
                 exact
                 path={"/titular/nuevo/:id"}
@@ -84,6 +88,11 @@ export default class Router extends Component {
                 exact
                 path={"/adherentes/nuevo/:id"}
                 component={NuevoAdherente}
+              />
+              <Route
+                exact
+                path={"/adherentes/editar/:id"}
+                component={EditarAdherente}
               />
 
               {/* PAGOS */}

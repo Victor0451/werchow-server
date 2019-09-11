@@ -178,12 +178,13 @@ class Titular extends Component {
                     Ultimas Modificaciones
                   </Link>
 
-                  <Link
-                    to={`/adherentes/nuevo/${titular.CONTRATO}`}
+                  {/* <Link
+                    to={`/verificaciones/${"adh"}`}
                     className="btn btn-primary col-md-3 mr-1"
                   >
                     Agregar Adherentes
-                  </Link>
+                  </Link> */}
+
                   {titular.GRUPO === 6 ? (
                     <Link
                       to={`/prestamos/listado/${titular.CONTRATO}`}

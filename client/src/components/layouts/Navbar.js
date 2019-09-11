@@ -41,7 +41,7 @@ class Navbar extends Component {
                 <hr />
 
                 <Link
-                  to="/titular/verificardni"
+                  to={`/verificaciones/${"tit"}`}
                   className="dropdown-item text-dark"
                 >
                   Ingresar Nuevo Socio
@@ -55,7 +55,7 @@ class Navbar extends Component {
               </div>
             </li>
 
-            {/* <li className="nav-item dropdown">
+            <li className="nav-item dropdown">
               <Link
                 to=""
                 className="nav-link dropdown-toggle"
@@ -69,13 +69,14 @@ class Navbar extends Component {
 
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <Link
-                  to="/adherentes/nuevo"
+                  to={`/verificaciones/${"adh"}`}
                   className="dropdown-item text-dark"
                 >
                   Agregar un Adherente
                 </Link>
               </div>
-            </li> */}
+            </li>
+
             <li className="nav-item dropdown">
               <Link
                 to=""

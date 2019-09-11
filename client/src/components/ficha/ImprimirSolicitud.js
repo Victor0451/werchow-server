@@ -206,37 +206,55 @@ class ImprimirSolicitud extends Component {
 
           <div className="row mt-4 p-4 ">
             <table className="tabla">
-              <thead className="">
+              <thead className="tabla-thead">
                 <tr>
-                  <th scope="col">Apellido</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Nacimiento</th>
-                  <th scope="col">DNI</th>
-                  <th scope="col">Parentesco</th>
-                  <th scope="col">O. Social</th>
-                  <th scope="col">Subsidio</th>
-                  <th scope="col">Traslado</th>
-                  <th scope="col">Vigencia</th>
+                  <th className="tabla-th-td" scope="col">
+                    Apellido
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    Nombre
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    Nacimiento
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    DNI
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    Parentesco
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    O. Social
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    Subsidio
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    Traslado
+                  </th>
+                  <th className="tabla-th-td" scope="col">
+                    Vigencia
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <td>{titular.APELLIDOS}</td>
-                <td>{titular.NOMBRES}</td>
-                <td>{titular.NACIMIENTO}</td>
-                <td>{titular.NRO_DOC}</td>
-                <td>Titular</td>
-                <td>{titular.OBRA_SOC}</td>
-                <td></td>
-                <td></td>
-                <td>{titular.VIGENCIA}</td>
+                <td className="tabla-th-td">{titular.APELLIDOS}</td>
+                <td className="tabla-th-td">{titular.NOMBRES}</td>
+                <td className="tabla-th-td">{titular.NACIMIENTO}</td>
+                <td className="tabla-th-td">{titular.NRO_DOC}</td>
+                <td className="tabla-th-td">Titular</td>
+                <td className="tabla-th-td">{titular.OBRA_SOC}</td>
+                <td className="tabla-th-td"></td>
+                <td className="tabla-th-td"></td>
+                <td className="tabla-th-td">{titular.VIGENCIA}</td>
                 {adherentes.map((adherente, index) =>
                   adherente.ESTADO === 1 ? (
                     <tr key={index}>
-                      <td>{adherente.APELLIDOS}</td>
-                      <td>{adherente.NOMBRES}</td>
-                      <td>{adherente.NACIMIENTO}</td>
-                      <td>{adherente.NRO_DOC}</td>
-                      <td>
+                      <td className="tabla-th-td">{adherente.APELLIDOS}</td>
+                      <td className="tabla-th-td">{adherente.NOMBRES}</td>
+                      <td className="tabla-th-td">{adherente.NACIMIENTO}</td>
+                      <td className="tabla-th-td">{adherente.NRO_DOC}</td>
+                      <td className="tabla-th-td">
                         {adherente.PARENT === 1
                           ? "Conyugue"
                           : adherente.PARENT === 2
@@ -247,10 +265,10 @@ class ImprimirSolicitud extends Component {
                           ? "Otro"
                           : ""}
                       </td>
-                      <td>{adherente.OBRA_SOC}</td>
-                      <td></td>
-                      <td></td>
-                      <td>{adherente.VIGENCIA}</td>
+                      <td className="tabla-th-td">{adherente.OBRA_SOC}</td>
+                      <td className="tabla-th-td"></td>
+                      <td className="tabla-th-td"></td>
+                      <td className="tabla-th-td">{adherente.VIGENCIA}</td>
                     </tr>
                   ) : (
                     <tr></tr>
@@ -451,24 +469,24 @@ class ImprimirSolicitud extends Component {
           </div>
 
           <br />
-         
-          <div className=" border mt-4 d-flex justify-content-between ">
-          <br />
-            <div className="row mt-4">
+
+          <div className="row border mt-4">
+            <br />
+            <div className=" mt-4 mr-4 d-flex justify-content-start">
               <div className="col-md-4">
                 _____________________
                 <label className="">Firma</label>
               </div>
             </div>
 
-            <div className="row mt-4">
+            <div className=" mt-4 mr-4 d-flex justify-content-center">
               <div className="col-md-4">
                 _____________________
                 <label>Aclaracion</label>
               </div>
             </div>
 
-            <div className="row mt-4">
+            <div className=" mt-4 mr-4 d-flex justify-content-end">
               <div className="col-md-4">
                 _____________________
                 <label>DNI</label>

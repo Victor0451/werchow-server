@@ -9,15 +9,7 @@ import { agregarTitular, ultimoContrato } from "../../actions/titularActions";
 import { registrarHistoria } from "../../actions/historiaActions";
 
 class NuevoTitular extends Component {
-  grupoRef = React.createRef();
-  OSRef = React.createRef();
-  PlanRef = React.createRef();
-  SubPlanRef = React.createRef();
-  SucursalRef = React.createRef();
   ContratoRef = React.createRef();
-  LocalidadesRef = React.createRef();
-  ProductorRef = React.createRef();
-  ZonaRef = React.createRef();
   AltaRef = React.createRef();
   VigenciaRef = React.createRef();
   nro_docRef = React.createRef();
@@ -49,6 +41,8 @@ class NuevoTitular extends Component {
     BARRIO: "",
     LOCALIDAD: "",
     EMPRESA: "W",
+    MOD_5: "",
+    TSEG: "",
     error: false,
 
     newContrato: ""
@@ -56,6 +50,10 @@ class NuevoTitular extends Component {
 
   leerDatos = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleChange = (value, state) => {
+    this.setState({ [state]: value.value });
   };
 
   historial = () => {
@@ -78,14 +76,22 @@ class NuevoTitular extends Component {
   nuevoTitular = e => {
     e.preventDefault();
 
+    const { user } = this.props.auth;
+
     const {
+      SUCURSAL,
+      PLAN,
+      SUB_PLAN,
+      GRUPO,
+      ZONA,
+      OBRA_SOC,
+      PRODUCTOR,
+      LOCALIDAD,
       APELLIDOS,
       MOVIL,
-      OPERADOR,
       CUOTA,
       NACIMIENTO,
       NOMBRES,
-      NRO_DOC,
       RECIBO,
       SEXO,
       TELEFONO,
@@ -94,21 +100,23 @@ class NuevoTitular extends Component {
       DOMI_COBR,
       DOM_LAB,
       BARRIO,
-      EMPRESA
+      EMPRESA,
+      MOD_5,
+      TSEG
     } = this.state;
 
     const titular = {
-      SUCURSAL: this.SucursalRef.current.value,
-      PLAN: this.PlanRef.current.value,
-      SUB_PLAN: this.SubPlanRef.current.value,
-      GRUPO: this.grupoRef.current.value,
-      ZONA: this.ZonaRef.current.value,
-      OBRA_SOC: this.OSRef.current.value,
+      SUCURSAL,
+      PLAN,
+      SUB_PLAN,
+      GRUPO,
+      ZONA,
+      OBRA_SOC,
       CONTRATO: this.ContratoRef.current.value,
       APELLIDOS,
       MOVIL,
-      OPERADOR,
-      PRODUCTOR: this.ProductorRef.current.value,
+      OPERADOR: user.usuario,
+      PRODUCTOR,
       CUOTA,
       NACIMIENTO,
       ALTA: this.AltaRef.current.value,
@@ -116,6 +124,8 @@ class NuevoTitular extends Component {
       NOMBRES,
       NRO_DOC: this.nro_docRef.current.value,
       RECIBO,
+      TSEG,
+      MOD_5,
       SEXO,
       TELEFONO,
       CALLE,
@@ -123,20 +133,33 @@ class NuevoTitular extends Component {
       DOMI_COBR,
       DOM_LAB,
       BARRIO,
-      LOCALIDAD: this.LocalidadesRef.current.value,
+      LOCALIDAD,
       EMPRESA,
       ESTADO: true
     };
 
     if (
-      APELLIDOS === "" 
+      APELLIDOS === "" ||
+      NOMBRES === "" ||
+      TELEFONO === "" ||
+      GRUPO === "" ||
+      OBRA_SOC === "" ||
+      ZONA === "" ||
+      PLAN === "" ||
+      PRODUCTOR === "" ||
+      SUCURSAL === ""
     ) {
       this.setState({ error: true });
       return;
     }
     this.setState({ error: false });
 
-    this.props.agregarTitular(titular);
+    if (TSEG !== "") {
+      titular.MOD_5 = this.AltaRef.current.value;
+    }
+
+    console.log(titular);
+    //this.props.agregarTitular(titular);
 
     confirmAlert({
       title: "Atencion",
@@ -183,19 +206,12 @@ class NuevoTitular extends Component {
     return (
       <div>
         <FormNuevoTitular
+          handleChange={this.handleChange}
           leerDatos={this.leerDatos}
           nuevoTitular={this.nuevoTitular}
           error={this.state.error}
           newContrato={this.state.newContrato}
-          grupoRef={this.grupoRef}
-          OSRef={this.OSRef}
-          PlanRef={this.PlanRef}
-          SubPlanRef={this.SubPlanRef}
-          SucursalRef={this.SucursalRef}
           ContratoRef={this.ContratoRef}
-          LocalidadesRef={this.LocalidadesRef}
-          ProductorRef={this.ProductorRef}
-          ZonaRef={this.ZonaRef}
           AltaRef={this.AltaRef}
           VigenciaRef={this.VigenciaRef}
           nro_docRef={this.nro_docRef}

@@ -1,20 +1,20 @@
 import React from "react";
-import GrupoSelect from "../layouts/Select/Select";
-import OSSelect from "../layouts/Select/Select";
-import PlanSelect from "../layouts/Select/Select";
-import SubPlanSelect from "../layouts/Select/Select";
-import SucursalSelect from "../layouts/Select/Select";
-import ProductorSelect from "../layouts/Select/Select";
+import OSSelect from "react-select";
+import PlanSelect from "react-select";
+import SubPlanSelect from "react-select";
+import SucursalSelect from "react-select";
+import ProductorSelect from "react-select";
 import ParentescoSelect from "react-select";
+import SeguroVidaSelect from "react-select";
 
 import {
-  grupos,
   productores,
   obra_social,
   planes,
   subplanes,
   parentesco,
-  sucursal
+  sucursal,
+  segurovida
 } from "../layouts/Arrays/arrays";
 
 const FormNuevoAdherente = props => {
@@ -22,17 +22,11 @@ const FormNuevoAdherente = props => {
     error,
     leerDatos,
     nuevoAdh,
-    grupoRef,
-    OSRef,
-    PlanRef,
-    SucursalRef,
-    ContratoRef,
-    ProductorRef,
+    Nro_DocRef,
     AltaRef,
     VigenciaRef,
-    SubPlanRef,
-    ParentescoRef,
-    id
+    id,
+    handleChange
   } = props;
 
   let tmp = new Date(Date.now());
@@ -46,6 +40,7 @@ const FormNuevoAdherente = props => {
 
   return (
     <div className="form-style-8">
+      <h2 className="mt-4">Nuevo Adherente</h2>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -59,41 +54,44 @@ const FormNuevoAdherente = props => {
               <input
                 type="text"
                 className=""
-                ref={ContratoRef}
                 id="contrato"
                 name="CONTRATO"
-                value={id}
                 placeholder="Contrato"
-                readOnly
+                onChange={leerDatos}
               />
               <label>CONTRATO</label>
             </p>
           </div>
 
           <div className="form-group col-md-6">
-            <GrupoSelect
-              options={grupos}
-              ref={grupoRef}
-              placeholder={"Grupo"}
-            />
-          </div>
-          <div className="form-group col-md-6">
             <SucursalSelect
               options={sucursal}
-              ref={SucursalRef}
               placeholder={"Sucursal"}
+              onChange={value => handleChange(value, "SUCURSAL")}
             />
           </div>
 
           <div className="form-group col-md-6">
-            <PlanSelect options={planes} ref={PlanRef} placeholder={"Plan"} />
+            <SeguroVidaSelect
+              options={segurovida}
+              placeholder={"Seguro de Vida"}
+              onChange={value => handleChange(value, "TSEG")}
+            />
+          </div>
+
+          <div className="form-group col-md-6">
+            <PlanSelect
+              options={planes}
+              placeholder={"Plan"}
+              onChange={value => handleChange(value, "PLAN")}
+            />
           </div>
 
           <div className="form-group col-md-6">
             <SubPlanSelect
               options={subplanes}
-              ref={SubPlanRef}
               placeholder={"Sub Plan"}
+              onChange={value => handleChange(value, "SUB_PLAN")}
             />
           </div>
 
@@ -114,8 +112,8 @@ const FormNuevoAdherente = props => {
           <div className="form-group col-md-6">
             <ProductorSelect
               options={productores}
-              ref={ProductorRef}
               placeholder={"Productor"}
+              onChange={value => handleChange(value, "PRODUCTOR")}
             />
           </div>
         </div>
@@ -155,11 +153,9 @@ const FormNuevoAdherente = props => {
         <div className="form-row">
           <div className="form-group col-md-6">
             <ParentescoSelect
-              name="PARENT"
               options={parentesco}
-              ref={ParentescoRef}
               placeholder={"Parentesco"}
-              //onChange={leerDatos}
+              onChange={value => handleChange(value, "PARENT")}
             />
           </div>
 
@@ -182,11 +178,13 @@ const FormNuevoAdherente = props => {
               <input
                 type="number"
                 className=""
-                onChange={leerDatos}
+                ref={Nro_DocRef}
                 id="in-range-input"
                 name="NRO_DOC"
                 minLength="8"
                 placeholder="DNI"
+                value={id}
+                readOnly
               />
               <label>DNI</label>
             </p>
@@ -244,8 +242,8 @@ const FormNuevoAdherente = props => {
           <div className="form-group col-md-6">
             <OSSelect
               options={obra_social}
-              ref={OSRef}
               placeholder={"Obra Social"}
+              onChange={value => handleChange(value, "OBRA_SOC")}
             />
           </div>
         </div>

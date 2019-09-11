@@ -1,12 +1,14 @@
 import React from "react";
-import GrupoAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import OSAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import PlanAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import SubPlanAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import SucursalAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import LocalidadesAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import ProductorAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
-import ZonaAutosuggest from "../layouts/Autosuggest/DefaultAutosuggest";
+
+import OSSelect from "react-select";
+import ZonaSelect from "react-select";
+import GrupoSelect from "react-select";
+import PlanSelect from "react-select";
+import SubPlanSelect from "react-select";
+import SucursalSelect from "react-select";
+import ProductorSelect from "react-select";
+import LocalidadesSelect from "react-select";
+import SeguroVidaSelect from "react-select";
 
 import {
   localidades,
@@ -15,26 +17,21 @@ import {
   zonas,
   obra_social,
   planes,
-  subplanes
+  subplanes,
+  sucursal,
+  segurovida
 } from "../layouts/Arrays/arrays";
 
 const FormNuevoTitular = props => {
   const {
+    handleChange,
     error,
     newContrato,
     leerDatos,
     nuevoTitular,
-    grupoRef,
-    OSRef,
-    PlanRef,
-    SucursalRef,
     ContratoRef,
-    LocalidadesRef,
-    ProductorRef,
-    ZonaRef,
     AltaRef,
     VigenciaRef,
-    SubPlanRef,
     nro_docRef,
     dni
   } = props;
@@ -50,6 +47,8 @@ const FormNuevoTitular = props => {
 
   return (
     <div className="form-style-8 ">
+      <h2 className="mt-4">Nuevo Socio</h2>
+
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -75,88 +74,59 @@ const FormNuevoTitular = props => {
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <GrupoAutosuggest
-                suggestions={grupos}
-                placeholder="Grupo"
-                Ref={grupoRef}
-              />
-              <label>GRUPO</label>
-            </p>
+            <GrupoSelect
+              options={grupos}
+              placeholder={"Grupo"}
+              onChange={value => handleChange(value, "GRUPO")}
+            />
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <ZonaAutosuggest
-                suggestions={zonas}
-                placeholder="Zona"
-                Ref={ZonaRef}
-              />
-              <label>Zona</label>
-            </p>
+            <ZonaSelect
+              options={zonas}
+              placeholder={"Zona"}
+              onChange={value => handleChange(value, "ZONA")}
+            />
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <SucursalAutosuggest
-                suggestions={[
-                  "W - Casa Central",
-                  "L - Palpala",
-                  "R - Perico",
-                  "P - San Pedro"
-                ]}
-                placeholder="Sucursal"
-                Ref={SucursalRef}
-              />
-              <label>Sucursal</label>
-            </p>
+            <SucursalSelect
+              options={sucursal}
+              placeholder={"Sucursal"}
+              onChange={value => handleChange(value, "SUCURSAL")}
+            />
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <PlanAutosuggest
-                suggestions={planes}
-                placeholder="Plan"
-                Ref={PlanRef}
-              />
-              <label>Plan</label>
-            </p>
+            <PlanSelect
+              options={planes}
+              placeholder={"Plan"}
+              onChange={value => handleChange(value, "PLAN")}
+            />
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <SubPlanAutosuggest
-                suggestions={subplanes}
-                placeholder="Sub Plan"
-                Ref={SubPlanRef}
-              />
-              <label>Sub Plan</label>
-            </p>
+            <SubPlanSelect
+              options={subplanes}
+              placeholder={"Sub Plan"}
+              onChange={value => handleChange(value, "SUBPLAN")}
+            />
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <input
-                type="text"
-                className=""
-                onChange={leerDatos}
-                id="dynamic-label-input"
-                name="SEGURO_VIDA"
-                placeholder="Seguro de Vida"
-              />
-              <label>Seguro de Vida</label>
-            </p>
+            <SeguroVidaSelect
+              options={segurovida}
+              placeholder={"Seguro de Vida"}
+              onChange={value => handleChange(value, "TSEG")}
+            />
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <ProductorAutosuggest
-                suggestions={productores}
-                placeholder="Productor"
-                Ref={ProductorRef}
-              />
-              <label>Productor</label>
-            </p>
+            <ProductorSelect
+              options={productores}
+              placeholder={"Productor"}
+              onChange={value => handleChange(value, "PRODUCTOR")}
+            />
           </div>
 
           <div className="form-group col-md-6">
@@ -297,15 +267,13 @@ const FormNuevoTitular = props => {
               <label>Vigencia</label>
             </p>
           </div>
+
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <OSAutosuggest
-                suggestions={obra_social}
-                placeholder="Obra Social"
-                Ref={OSRef}
-              />
-              <label>Obra Social</label>
-            </p>
+            <OSSelect
+              options={obra_social}
+              placeholder={"Obra Social"}
+              onChange={value => handleChange(value, "OBRA_SOC")}
+            />
           </div>
 
           <div className="form-group col-md-6">
@@ -383,14 +351,11 @@ const FormNuevoTitular = props => {
           </div>
 
           <div className="form-group col-md-6">
-            <p className="has-dynamic-label">
-              <LocalidadesAutosuggest
-                suggestions={localidades}
-                placeholder="Localidad"
-                Ref={LocalidadesRef}
-              />
-              <label>localidad</label>
-            </p>
+            <LocalidadesSelect
+              options={localidades}
+              placeholder={"Localidad"}
+              onChange={value => handleChange(value, "LOCALIDAD")}
+            />
           </div>
 
           <div className="form-group col-md-6">

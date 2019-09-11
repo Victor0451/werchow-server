@@ -269,11 +269,9 @@ input:focus {
   width: 100%;
   border: 1px solid #000;
   color: black;
-  
 }
 
-.tabla th,
-td {
+.tabla-th-td {
   text-align: left;
   vertical-align: top;
   border: 1px solid #000;
@@ -281,12 +279,12 @@ td {
   caption-side: bottom;
 }
 
-.tabla thead {
+.tabla-thead {
   background: #4d4d4d;
   color: white;
 }
 
-.select{
+.select {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

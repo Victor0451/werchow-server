@@ -1013,6 +1013,12 @@ export const sucursal = [
   { value: "P", label: "SAN PEDRO" }
 ];
 
+export const segurovida = [
+  { value: "C10", label: "10.000" },
+  { value: "C30", label: "30.000" },
+  { value: "C40", label: "10.000 + 30.000" }
+];
+
 export const zonas = [
   { value: 4, label: "PERICO NARVAEZ GENARO" },
   { value: 1, label: "OFICINA MUTUAL" },
