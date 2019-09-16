@@ -10,25 +10,34 @@ const app = express();
 app.use(morgan("dev"));
 
 app.use(cors());
-app.set("port", process.env.PORT || 5002);
+app.set("port", process.env.PORT || 5000);
 
 //middlewares
 app.use(bodyparser.json());
 app.use("*", cors());
 
 //Routes
+//MUTUAL
+app.use("/api/werchow/maestro", require("./routes/werchow/maestro"));
+app.use("/api/werchow/adherent", require("./routes/werchow/adherente"));
+app.use("/api/werchow/fichas", require("./routes/werchow/fichas"));
+app.use("/api/werchow/historia", require("./routes/werchow/historia"));
+app.use("/api/werchow/memo", require("./routes/werchow/memo"));
+app.use("/api/werchow/pagos", require("./routes/werchow/pagos"));
+app.use("/api/werchow/pagobco", require("./routes/werchow/pagos_bco"));
 
-app.use("/api/maestro", require("./routes/maestro"));
-app.use("/api/adherent", require("./routes/aderhente"));
-app.use("/api/campañas", require("./routes/campañas"));
-app.use("/api/pagos", require("./routes/pagos"));
-app.use("/api/pagobco", require("./routes/pagos_bco"));
-app.use("/api/memo", require("./routes/memo"));
-app.use("/api/historia", require("./routes/historia"));
-app.use("/api/fichas", require("./routes/fichas"));
-app.use("/api/prestamos", require("./routes/prestamos"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/operador", require("./routes/operador"));
+//WERCHOW
+app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
+app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
+app.use("/api/mutual/adherent", require("./routes/mutual/adherente"));
+app.use("/api/mutual/fichas", require("./routes/mutual/fichas"));
+app.use("/api/mutual/historia", require("./routes/mutual/historia"));
+app.use("/api/mutual/memo", require("./routes/mutual/memo"));
+app.use("/api/mutual/pagos", require("./routes/mutual/pagos"));
+app.use("/api/mutual/pagobco", require("./routes/mutual/pagos_bco"));
+
+//SGI
+app.use("/api/sgi/operador", require("./routes/sgi/operador"));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
@@ -42,9 +51,19 @@ if (process.env.NODE_ENV === "production") {
 
 //Conecting DB
 
-db.sequelize
+db.werchowSequelize
   .authenticate()
-  .then(() => console.log("Database conected..."))
+  .then(() => console.log("Database Werchow conected..."))
+  .catch(err => console.log("error" + err));
+
+db.mutualSequelize
+  .authenticate()
+  .then(() => console.log("Database Mutual conected..."))
+  .catch(err => console.log("error" + err));
+
+db.sgiSequelize
+  .authenticate()
+  .then(() => console.log("Database SGI conected..."))
   .catch(err => console.log("error" + err));
 
 // server escuchando
