@@ -10,7 +10,7 @@ const app = express();
 app.use(morgan("dev"));
 
 app.use(cors());
-app.set("port", process.env.PORT || 5000);
+app.set("port", process.env.PORT || 5002);
 
 //middlewares
 app.use(bodyparser.json());
@@ -38,6 +38,7 @@ app.use("/api/mutual/pagobco", require("./routes/mutual/pagos_bco"));
 
 //SGI
 app.use("/api/sgi/operador", require("./routes/sgi/operador"));
+app.use("/api/sgi/auth", require("./routes/sgi/auth"));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

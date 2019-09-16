@@ -66,6 +66,22 @@ router.put("/cambiotitular/:id", (req, res, next) => {
     .catch(err => res.status(400).json(err));
 });
 
+//CAMBIO GRUPO
+
+router.put("/cambiogrupo/:id", (req, res, next) => {
+  const cambioGrupo = ({ GRUPO, CONTRATO } = req.body);
+
+  maestro
+    .update(
+      {
+        GRUPO: cambioGrupo.GRUPO
+      },
+      { where: { CONTRATO: cambioGrupo.CONTRATO } }
+    )
+    .then(grupo => res.status(200).json(grupo))
+    .catch(err => res.status(400).json(err));
+});
+
 router.post("/viejotitular", (req, res, next) => {
   let tmp = new Date(Date.now());
   let baja = tmp.toISOString().split("T")[0];
