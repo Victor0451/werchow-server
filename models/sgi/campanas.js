@@ -2,37 +2,34 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.sgiSequelize.define(
-  "operador",
+  "campanas",
   {
-    id: {
+    idcampana: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    nombre: {
+    descripcion: {
       type: Sequelize.DataTypes.STRING
     },
-    apellido: {
+    operador: {
+        type: Sequelize.DataTypes.STRING
+      },
+    fecha: {
+      type: Sequelize.DataTypes.DATE
+    },
+    empresa: {
       type: Sequelize.DataTypes.STRING
     },
-    usuario: {
+    sucursal: {
       type: Sequelize.DataTypes.STRING
-    },
-    contrasena: {
-      type: Sequelize.DataTypes.STRING
-    },
-    perfil: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    estado: {
-      type: Sequelize.DataTypes.TINYINT
     }
   },
-  {
-    timestamps: true,
+  { 
+    timestamps: false,
     freezeTableName: true
   },
   {
-    tableName: "operador"
+    tableName: "campanas"
   }
 );

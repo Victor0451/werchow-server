@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const maestro = require("../../models/mutual/maestro");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 //INSERT
 
@@ -163,6 +164,19 @@ router.get("/titulares", (req, res, next) => {
 router.get("/titular/:id", (req, res) => {
   maestro
     .findByPk(req.params.id)
+    .then(titular => res.json(titular))
+    .catch(err => res.json(err));
+});
+
+//GET BY APELLIDO
+
+router.get("/titularapellido/:id", (req, res) => {
+  console.log(req.params.id);
+  maestro
+    .findAll({
+      attributes: ["CONTRATO", "APELLIDOS", "NOMBRES", "NRO_DOC", "ESTADO"],
+      where: { APELLIDOS: { [Op.like]: req.params.id } }
+    })
     .then(titular => res.json(titular))
     .catch(err => res.json(err));
 });
