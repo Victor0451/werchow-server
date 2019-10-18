@@ -15,6 +15,13 @@ module.exports = db.sgiSequelize.define(
     fechacampana: {
       type: Sequelize.DataTypes.DATE
     },
+    mes: {
+      type: Sequelize.DataTypes.INTEGER   
+
+    },
+    ano: {
+      type: Sequelize.DataTypes.INTEGER
+    },
     sucursal: {
       type: Sequelize.DataTypes.STRING
     },
@@ -28,6 +35,12 @@ module.exports = db.sgiSequelize.define(
       type: Sequelize.DataTypes.INTEGER
     },
     dni: {
+      type: Sequelize.DataTypes.STRING
+    },
+    telefono: {
+      type: Sequelize.DataTypes.STRING
+    },
+    movil: {
       type: Sequelize.DataTypes.INTEGER
     },
     calle: {
@@ -64,7 +77,7 @@ module.exports = db.sgiSequelize.define(
       type: Sequelize.DataTypes.TINYINT
     }
   },
-  { 
+  {
     timestamps: false,
     freezeTableName: true
   },

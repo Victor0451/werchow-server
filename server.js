@@ -40,7 +40,9 @@ app.use("/api/mutual/pagobco", require("./routes/mutual/pagos_bco"));
 app.use("/api/sgi/operador", require("./routes/sgi/operador"));
 app.use("/api/sgi/auth", require("./routes/sgi/auth"));
 app.use("/api/sgi/campanas", require("./routes/sgi/campanas"));
-
+app.use("/api/sgi/campanasM", require("./routes/sgi/campanasM"));
+app.use("/api/sgi/estadistica", require("./routes/sgi/estadistica"));
+app.use("/api/sgi/noticia", require("./routes/sgi/noticia"));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
