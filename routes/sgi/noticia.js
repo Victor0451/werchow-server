@@ -12,7 +12,6 @@ router.post("/nuevanoticia", (req, res, next) => {
     noticia,
     operador
   };
-console.log(notii)
   
     Noticia
       .create(notii)
@@ -29,7 +28,7 @@ console.log(notii)
 router.get("/noticias", (req, res, next) => {
   Noticia
     .findOne({
-      order: [["fecha", "DESC"]]
+      order: [["idnoticia", "DESC"]]
     })
     .then(noticias => {
       res.status(200).json(noticias);

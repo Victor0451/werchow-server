@@ -109,8 +109,6 @@ router.get("/buscarcaso/:id", (req, res, next) => {
     });
 });
 
-
-
 //GET CAMP BY OPERADOR
 
 router.get("/campanaoperador/:id", (req, res, next) => {
@@ -440,7 +438,8 @@ router.get("/getgestioncaso/:id", (req, res, next) => {
 
   gestioncaso
     .findAll({
-      where: { idcaso: id }
+      where: { idcaso: id },
+      order: [["idgestion", "DESC"]]
     })
     .then(campanacasos => {
       res.status(200).json(campanacasos);

@@ -8,31 +8,27 @@ const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
 
 router.get("/atM", (req, res, next) => {
-    db.sgiSequelize
-      .query(
-        `SELECT * FROM atcampanaM AS at
-      WHERE NOT EXISTS (
-        SELECT null FROM campanacasos AS cc
-        WHERE at.CONTRATO = cc.contrato
-        AND cc.estadocaso = 1
-      ) 
+  db.sgiSequelize
+    .query(
+      `SELECT * FROM atcampanaM AS at
+     
       `
-      )
-      .then(atcampana => {
-        res.status(200).json(atcampana);
-      })
-  
-      .catch(err => {
-        res.status(400).json(err);
-      });
-  });
-  
-  //GET REC WERCHOW
-  
-  router.get("/recM", (req, res, next) => {
-    db.sgiSequelize
-      .query(
-        `SELECT * FROM reccampanaM as rc
+    )
+    .then(atcampana => {
+      res.status(200).json(atcampana);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+//GET REC WERCHOW
+
+router.get("/recM", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `SELECT * FROM reccampanaM as rc
         WHERE not exists (
           SELECT null FROM campanacasos AS cc
           WHERE rc.CONTRATO = cc.contrato
@@ -40,58 +36,57 @@ router.get("/atM", (req, res, next) => {
         ) 
        
       `
-      )
-      .then(reccampana => {
-        res.status(200).json(reccampana);
-      })
-  
-      .catch(err => {
-        res.status(400).json(err);
-      });
-  });
-  
-  //GET REIN WERCHOW
-  
-  router.get("/reinM", (req, res, next) => {
-    db.sgiSequelize
-      .query(
-        `SELECT * FROM reincampanaM as rn
+    )
+    .then(reccampana => {
+      res.status(200).json(reccampana);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+//GET REIN WERCHOW
+
+router.get("/reinM", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `SELECT * FROM reincampanaM as rn
         WHERE not exists (
           SELECT null FROM campanacasos AS cc
           WHERE rn.CONTRATO = cc.contrato
           AND cc.estadocaso = 1)
       `
-      )
-      .then(reincampana => {
-        res.status(200).json(reincampana);
-      })
-  
-      .catch(err => {
-        res.status(400).json(err);
-      });
-  });
-  
-  //GET BLAN WERCHOW
-  
-  router.get("/blanM", (req, res, next) => {
-    db.sgiSequelize
-      .query(
-        `SELECT * FROM blancampanaM as bl
+    )
+    .then(reincampana => {
+      res.status(200).json(reincampana);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+//GET BLAN WERCHOW
+
+router.get("/blanM", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `SELECT * FROM blancampanaM as bl
         WHERE not exists (
           SELECT null FROM campanacasos AS cc
           WHERE bl.CONTRATO = cc.contrato
           AND cc.estadocaso = 1)
       `
-      )
-      .then(blancampana => {
-        res.status(200).json(blancampana);
-      })
-  
-      .catch(err => {
-        res.status(400).json(err);
-      });
-  });
+    )
+    .then(blancampana => {
+      res.status(200).json(blancampana);
+    })
 
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
 
 //GET CAMP BY OPERADOR
 
@@ -422,7 +417,8 @@ router.get("/getgestioncaso/:id", (req, res, next) => {
 
   gestioncaso
     .findAll({
-      where: { idcaso: id }
+      where: { idcaso: id },
+      order: [["idgestion", "DESC"]]
     })
     .then(campanacasos => {
       res.status(200).json(campanacasos);
@@ -432,7 +428,6 @@ router.get("/getgestioncaso/:id", (req, res, next) => {
     });
 });
 
-  
 //GET NOTIFICACIONES BY OPERADOR
 
 router.get("/campanaoperadornotiatM/:id", (req, res, next) => {
@@ -531,4 +526,4 @@ router.get("/campanaoperadornotireinM/:id", (req, res, next) => {
     });
 });
 
-  module.exports = router;
+module.exports = router;
