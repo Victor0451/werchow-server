@@ -17,6 +17,7 @@ app.use(bodyparser.json());
 app.use("*", cors());
 
 //Routes
+
 //MUTUAL
 app.use("/api/werchow/maestro", require("./routes/werchow/maestro"));
 app.use("/api/werchow/adherent", require("./routes/werchow/adherente"));
@@ -43,16 +44,9 @@ app.use("/api/sgi/campanas", require("./routes/sgi/campanas"));
 app.use("/api/sgi/campanasM", require("./routes/sgi/campanasM"));
 app.use("/api/sgi/estadistica", require("./routes/sgi/estadistica"));
 app.use("/api/sgi/noticia", require("./routes/sgi/noticia"));
-
-// Serve static assets if in production
-if (process.env.NODE_ENV === "production") {
-  // Set static folder
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+app.use("/api/sgi/moraw", require("./routes/sgi/moraw"));
+app.use("/api/sgi/moram", require("./routes/sgi/moram"));
+app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
 
 //Conecting DB
 
@@ -70,7 +64,11 @@ db.sgiSequelize
   .authenticate()
   .then(() => console.log("Database SGI conected..."))
   .catch(err => console.log("error" + err));
-
+  
+  db.wSequelize
+  .authenticate()
+  .then(() => console.log("Database W conected..."))
+  .catch(err => console.log("error" + err)); 
 // server escuchando
 
 app.listen(app.get("port"), () => {

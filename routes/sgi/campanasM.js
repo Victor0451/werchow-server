@@ -101,6 +101,7 @@ router.get("/campanaoperadorM/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "mutual"
       AND cc.accion IS NULL
+      AND cc.estadocaso = 1
 
     `
     )
@@ -123,7 +124,7 @@ router.get("/campanaoperadorrecM/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "mutual"
       AND cc.accion IS NULL
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -145,7 +146,7 @@ router.get("/campanaoperadorreinM/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "mutual"
       AND cc.accion IS NULL
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -167,7 +168,7 @@ router.get("/campanaoperadorblanM/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "mutual"
       AND cc.accion IS NULL
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -189,7 +190,7 @@ router.get("/campanaoperadorrecordatorioM/:id", (req, res, next) => {
       AND c.descripcion = "Recordatorio"
       AND c.empresa =  "mutual"
       AND cc.accion IS NULL
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -213,7 +214,7 @@ router.get("/campanaoperadortrabM/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "mutual"
       AND cc.accion = 1
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -235,7 +236,7 @@ router.get("/campanaoperadortrabrecM/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "mutual"
       AND cc.accion = 1
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -257,7 +258,7 @@ router.get("/campanaoperadortrabblanM/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "mutual"
       AND cc.accion = 1
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -279,7 +280,7 @@ router.get("/campanaoperadortrabreinM/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "mutual"
       AND cc.accion = 1
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -301,6 +302,123 @@ router.get("/campanaoperadortrabrecordatorioM/:id", (req, res, next) => {
       AND c.descripcion = "Recordatorio"
       AND c.empresa =  "mutual"
       AND cc.accion = 1
+      AND cc.estadocaso = 1
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET CAMPANA OP HISTORIA
+
+router.get("/campanaoperadorhist/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Atrasados"
+      AND c.empresa =  "mutual"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistrec/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Recuperacion"
+      AND c.empresa =  "mutual"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistrein/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Reincidente"
+      AND c.empresa =  "mutual"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistblan/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Blanqueo"
+      AND c.empresa =  "mutual"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistrecordatorio/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Recordatorio"
+      AND c.empresa =  "mutual"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
 
     `
     )

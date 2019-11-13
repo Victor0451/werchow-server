@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require("../../db/database");
 //const Op = Sequelize.Op;
 
-const paymentM = require("../../models/mutual/payment");
 const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
 
@@ -30,12 +29,8 @@ router.get("/atW", (req, res, next) => {
 router.get("/recW", (req, res, next) => {
   db.sgiSequelize
     .query(
-      `SELECT * FROM reccampana as rc
-      WHERE not exists (
-        SELECT null FROM campanacasos AS cc
-        WHERE rc.CONTRATO = cc.contrato
-        AND cc.estadocaso = 1
-      ) 
+      `SELECT * FROM reccampana as rc    
+     
     `
     )
     .then(reccampana => {
@@ -98,8 +93,8 @@ router.get("/buscarcaso/:id", (req, res, next) => {
   campanacasos
     .findOne({
       attributes: ["contrato", "idcampana"],
-      where: { contrato: id }
-      // order: [["CONTRATO", "DESC"]]
+      where: { contrato: id },
+      order: [["idcampana", "DESC"]]
     })
     .then(pagos => {
       res.status(200).json(pagos);
@@ -122,6 +117,7 @@ router.get("/campanaoperador/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
+      AND cc.estadocaso = 1
 
     `
     )
@@ -144,6 +140,7 @@ router.get("/campanaoperadorrec/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
+      AND cc.estadocaso = 1
 
     `
     )
@@ -166,6 +163,7 @@ router.get("/campanaoperadorrein/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
+      AND cc.estadocaso = 1
 
     `
     )
@@ -188,6 +186,7 @@ router.get("/campanaoperadorblan/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
+      AND cc.estadocaso = 1
 
     `
     )
@@ -210,6 +209,7 @@ router.get("/campanaoperadorrecordatorio/:id", (req, res, next) => {
       AND c.descripcion = "Recordatorio"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
+      AND cc.estadocaso = 1 
 
     `
     )
@@ -234,6 +234,7 @@ router.get("/campanaoperadortrab/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+      AND cc.estadocaso = 1
 
     `
     )
@@ -256,6 +257,7 @@ router.get("/campanaoperadortrabrec/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+      AND cc.estadocaso = 1
 
     `
     )
@@ -278,7 +280,7 @@ router.get("/campanaoperadortrabblan/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -300,7 +302,7 @@ router.get("/campanaoperadortrabrein/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-
+      AND cc.estadocaso = 1
     `
     )
     .then(campanacasos => {
@@ -322,6 +324,123 @@ router.get("/campanaoperadortrabrecordatorio/:id", (req, res, next) => {
       AND c.descripcion = "Recordatorio"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+      AND cc.estadocaso = 1
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET CAMPANA OP HISTORIA
+
+router.get("/campanaoperadorhist/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Atrasados"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistrec/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Recuperacion"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistrein/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Reincidente"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistblan/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Blanqueo"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadorhistrecordatorio/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Recordatorio"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND cc.estadocaso = 0
 
     `
     )
