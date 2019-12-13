@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.sgiSequelize.define(
-  "moraw",
+module.exports = db.infoSequelize.define(
+  "moram",
   {
     contrato: {
       type: Sequelize.DataTypes.INTEGER,
@@ -65,6 +65,6 @@ module.exports = db.sgiSequelize.define(
     freezeTableName: true
   },
   {
-    tableName: "moraw"
+    tableName: "moram"
   }
 );

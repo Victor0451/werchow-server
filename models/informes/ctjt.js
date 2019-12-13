@@ -1,26 +1,28 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.sgiSequelize.define(
-  "m1000",
+module.exports = db.infoSequelize.define(
+  "ctjt",
   {
-    id_mora: {
-      type: Sequelize.DataTypes.INTEGER,
-      primaryKey: true
+    grupo: {
+      type: Sequelize.DataTypes.INTEGER
     },
-    tipo: {
+    sucursal: {
       type: Sequelize.DataTypes.STRING
     },
-    mora: {
+    total: {
       type: Sequelize.DataTypes.INTEGER
     },
     fichas: {
       type: Sequelize.DataTypes.INTEGER
     },
-    morarec: {
+    cobrado: {
       type: Sequelize.DataTypes.INTEGER
     },
-    fichasrec: {
+    fichascob: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    adelantado: {
       type: Sequelize.DataTypes.INTEGER
     },
     mes: {
@@ -35,6 +37,6 @@ module.exports = db.sgiSequelize.define(
     freezeTableName: true
   },
   {
-    tableName: "m1000"
+    tableName: "ctjt"
   }
 );

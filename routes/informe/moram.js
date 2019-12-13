@@ -3,16 +3,18 @@ const router = express.Router();
 const sequelize = require("sequelize");
 const db = require("../../db/database");
 const Op = sequelize.Op;
-const m1000 = require("../../models/sgi/m1000m");
-const mtjt = require("../../models/sgi/mtjtm");
+const m1000 = require("../../models/informes/m1000m");
+const mtjt = require("../../models/informes/mtjtm");
 
 // MORA COBRADORES
 
-router.get("/mcobradores", (req, res, next) => {
+router.get("/mcobradores/:id", (req, res, next) => {
+  let mes = req.params.id; 
+
   m1000
     .findAll({
       attributes: ["zona", "fichas", "mora", "fichasrec", "morarec"],
-      where: { zona: { [Op.notIn]: [1, 3, 5, 60, 99] } },
+      where: { zona: { [Op.notIn]: [1, 3, 5, 60, 99] }, mes: mes },
       raw: true,
       order: sequelize.literal("zona ASC")
     })
@@ -28,10 +30,12 @@ router.get("/mcobradores", (req, res, next) => {
 
 // MORA TARJETAS
 
-router.get("/mtarjetas", (req, res, next) => {
+router.get("/mtarjetas/:id", (req, res, next) => {
+  let mes = req.params.id;
   mtjt
     .findAll({
       attributes: ["grupo", "fichas", "mora", "fichasrec", "morarec"],
+      where: { mes: mes },
       raw: true,
       order: sequelize.literal("grupo ASC")
     })
@@ -47,11 +51,12 @@ router.get("/mtarjetas", (req, res, next) => {
 
 // MORA OFICINA
 
-router.get("/moficina", (req, res, next) => {
+router.get("/moficina/:id", (req, res, next) => {
+  let mes = req.params.id;
   m1000
     .findAll({
       attributes: ["zona", "fichas", "mora", "fichasrec", "morarec"],
-      where: { zona: { [Op.in]: [1, 3, 5, 60] } },
+      where: { zona: { [Op.in]: [1, 3, 5, 60] }, mes: mes },
       raw: true,
       order: sequelize.literal("zona ASC")
     })

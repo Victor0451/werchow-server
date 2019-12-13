@@ -44,8 +44,12 @@ app.use("/api/sgi/campanas", require("./routes/sgi/campanas"));
 app.use("/api/sgi/campanasM", require("./routes/sgi/campanasM"));
 app.use("/api/sgi/estadistica", require("./routes/sgi/estadistica"));
 app.use("/api/sgi/noticia", require("./routes/sgi/noticia"));
-app.use("/api/sgi/moraw", require("./routes/sgi/moraw"));
-app.use("/api/sgi/moram", require("./routes/sgi/moram"));
+app.use("/api/sgi/moraw", require("./routes/informe/moraw"));
+app.use("/api/sgi/moram", require("./routes/informe/moram"));
+app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
+app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
+
+//SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
 
 //Conecting DB
@@ -64,11 +68,17 @@ db.sgiSequelize
   .authenticate()
   .then(() => console.log("Database SGI conected..."))
   .catch(err => console.log("error" + err));
-  
-  db.wSequelize
+
+db.wSequelize
   .authenticate()
   .then(() => console.log("Database W conected..."))
-  .catch(err => console.log("error" + err)); 
+  .catch(err => console.log("error" + err));
+
+db.infoSequelize
+  .authenticate()
+  .then(() => console.log("Database INFORMES conected..."))
+  .catch(err => console.log("error" + err));
+
 // server escuchando
 
 app.listen(app.get("port"), () => {

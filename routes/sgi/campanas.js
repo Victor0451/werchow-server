@@ -6,6 +6,24 @@ const db = require("../../db/database");
 const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
 
+// GET POLICIA
+
+router.get("/poliW", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `SELECT * FROM policampana AS poli
+    
+    `
+    )
+    .then(politcampana => {
+      res.status(200).json(politcampana);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 //GET AT WERCHOW
 
 router.get("/atW", (req, res, next) => {
@@ -94,7 +112,33 @@ router.get("/buscarcaso/:id", (req, res, next) => {
     .findOne({
       attributes: ["contrato", "idcampana"],
       where: { contrato: id },
-      order: [["idcampana", "DESC"]]
+      order: [["idcaso", "DESC"]]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+//GET GESTION CASO CAMPAÑA
+
+router.get("/buscargestioncaso/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  gestioncaso
+    .findAll({
+      attributes: [
+        "operador",
+        "contrato",
+        "accion",
+        "observacion",
+        "nuevaaccion",
+        "fechaaccion"
+      ],
+      where: { contrato: id },
+      order: [["idgestion", "DESC"]]
     })
     .then(pagos => {
       res.status(200).json(pagos);
@@ -198,6 +242,29 @@ router.get("/campanaoperadorblan/:id", (req, res, next) => {
     });
 });
 
+router.get("/campanaoperadorpoli/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Policia"
+      AND c.empresa =  "werchow"
+      AND cc.accion IS NULL
+      AND cc.estadocaso = 1
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 router.get("/campanaoperadorrecordatorio/:id", (req, res, next) => {
   const { id } = req.params;
 
@@ -278,6 +345,28 @@ router.get("/campanaoperadortrabblan/:id", (req, res, next) => {
       INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
       WHERE c.operador = "${id}"
       AND c.descripcion = "Blanqueo"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND cc.estadocaso = 1
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadortrabpoli/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Policia"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
       AND cc.estadocaso = 1
@@ -512,6 +601,30 @@ router.get("/campanaoperadornotiblan/:id", (req, res, next) => {
       INNER JOIN gestioncaso AS gc ON cc.idcaso = gc.idcaso
       WHERE c.operador = "${id}"
       AND c.descripcion = "Blanqueo"
+      AND c.empresa =  "werchow"
+      AND cc.accion = 1
+      AND gc.accion = 10
+
+    `
+    )
+    .then(campanacasos => {
+      res.status(200).json(campanacasos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/campanaoperadornotipoli/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  db.sgiSequelize
+    .query(
+      ` SELECT * FROM campanacasos AS cc 
+      INNER JOIN campanas AS c ON cc.idcampana = c.idcampana
+      INNER JOIN gestioncaso AS gc ON cc.idcaso = gc.idcaso
+      WHERE c.operador = "${id}"
+      AND c.descripcion = "Policia"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
       AND gc.accion = 10

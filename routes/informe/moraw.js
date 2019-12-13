@@ -3,17 +3,20 @@ const router = express.Router();
 const sequelize = require("sequelize");
 const db = require("../../db/database");
 const Op = sequelize.Op;
-const m1000 = require("../../models/sgi/m1000");
-const mtjt = require("../../models/sgi/mtjt");
-const mbanconv = require("../../models/sgi/mbanconv");
+const m1000 = require("../../models/informes/m1000");
+const mtjt = require("../../models/informes/mtjt");
+const mbanconv = require("../../models/informes/mbanconv");
+
 
 // MORA COBRADORES
 
-router.get("/mcobradores", (req, res, next) => {
+router.get("/mcobradores/:id", (req, res, next) => {
+  let mes = req.params.id;
+
   m1000
     .findAll({
       attributes: ["zona", "fichas", "mora", "fichasrec", "morarec"],
-      where: { zona: { [Op.notIn]: [1, 3, 5, 60, 99] } },
+      where: { zona: { [Op.notIn]: [1, 3, 5, 60, 99] }, mes: mes },
       raw: true,
       order: sequelize.literal("zona ASC")
     })
@@ -27,12 +30,15 @@ router.get("/mcobradores", (req, res, next) => {
     });
 });
 
+
 // MORA TARJETAS
 
-router.get("/mtarjetas", (req, res, next) => {
+router.get("/mtarjetas/:id", (req, res, next) => {
+  let mes = req.params.id;
   mtjt
     .findAll({
       attributes: ["grupo", "fichas", "mora", "fichasrec", "morarec"],
+      where: { mes: mes },
       raw: true,
       order: sequelize.literal("grupo ASC")
     })
@@ -48,11 +54,12 @@ router.get("/mtarjetas", (req, res, next) => {
 
 // MORA OFICINA
 
-router.get("/moficina", (req, res, next) => {
+router.get("/moficina/:id", (req, res, next) => {
+  let mes = req.params.id;
   m1000
     .findAll({
       attributes: ["zona", "fichas", "mora", "fichasrec", "morarec"],
-      where: { zona: { [Op.in]: [1, 3, 5, 60] } },
+      where: { zona: { [Op.in]: [1, 3, 5, 60] }, mes: mes },
       raw: true,
       order: sequelize.literal("zona ASC")
     })
@@ -68,10 +75,11 @@ router.get("/moficina", (req, res, next) => {
 
 // MORA BANCO-CONVENIO
 
-router.get("/mbanconv", (req, res, next) => {
+router.get("/mbanconv/:id", (req, res, next) => {
+  let mes = req.params.id;
   mbanconv
     .findAll({
-      where: { mes: 10, ano: 2019 },
+      where: { mes: mes, ano: 2019 },
       order: sequelize.literal("id_mora ASC")
     })
 
