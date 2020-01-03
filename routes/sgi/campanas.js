@@ -66,10 +66,7 @@ router.get("/reinW", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM reincampana as rn
-      WHERE not exists (
-        SELECT null FROM campanacasos AS cc
-        WHERE rn.CONTRATO = cc.contrato
-        AND cc.estadocaso = 1)
+     
     `
     )
     .then(reincampana => {
@@ -162,6 +159,7 @@ router.get("/campanaoperador/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
       AND cc.estadocaso = 1
+      ORDER BY cc.fechacampana DESC
 
     `
     )
@@ -185,7 +183,7 @@ router.get("/campanaoperadorrec/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
       AND cc.estadocaso = 1
-
+      ORDER BY cc.fechacampana DESC
     `
     )
     .then(campanacasos => {
@@ -208,6 +206,7 @@ router.get("/campanaoperadorrein/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
       AND cc.estadocaso = 1
+      ORDER BY cc.fechacampana DESC
 
     `
     )
@@ -231,6 +230,7 @@ router.get("/campanaoperadorblan/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
       AND cc.estadocaso = 1
+      ORDER BY cc.fechacampana DESC
 
     `
     )
@@ -254,6 +254,7 @@ router.get("/campanaoperadorpoli/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
       AND cc.estadocaso = 1
+      ORDER BY cc.fechacampana DESC
 
     `
     )
@@ -277,6 +278,7 @@ router.get("/campanaoperadorrecordatorio/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
       AND cc.estadocaso = 1 
+      ORDER BY cc.fechacampana DESC
 
     `
     )
@@ -302,6 +304,7 @@ router.get("/campanaoperadortrab/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion = 1
       AND cc.estadocaso = 1
+  
 
     `
     )
@@ -325,6 +328,7 @@ router.get("/campanaoperadortrabrec/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion = 1
       AND cc.estadocaso = 1
+     
 
     `
     )
@@ -348,6 +352,7 @@ router.get("/campanaoperadortrabblan/:id", (req, res, next) => {
       AND c.empresa =  "werchow"
       AND cc.accion = 1
       AND cc.estadocaso = 1
+ 
     `
     )
     .then(campanacasos => {

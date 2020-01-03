@@ -3,271 +3,32 @@ const router = express.Router();
 const sequelize = require("sequelize");
 const db = require("../../db/database");
 const Op = sequelize.Op;
-const paymentm = require("../../models/sgi/paymentm");
+const ctjt = require("../../models/informes/ctjtm");
+const c1000 = require("../../models/informes/c1000m");
 
 // EFETIVIDAD COBRADORES
 
-router.get("/ecobradorestotal", (req, res, next) => {
-  paymentm
+router.get("/ecobradores", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
     .findAll({
       attributes: [
         "zona",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
       ],
       where: {
         zona: { [Op.notIn]: [1, 3, 5, 60, 99] },
-        noviembre: { [Op.in]: [0, 1] },
-        grupo: 1000
+        mes: mes,
+        ano: ano
       },
       raw: true,
-      group: ["zona"],
       order: sequelize.literal("zona ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/ecobradorescobrado", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "zona",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        zona: { [Op.notIn]: [1, 3, 5, 60, 99] },
-        noviembre: 1,
-        grupo: 1000
-      },
-      raw: true,
-      group: ["zona"],
-      order: sequelize.literal("zona ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-// EFECTIVIDAD TARJETAS
-
-router.get("/etarjetassjtotal", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: { [Op.in]: [0, 1] },
-        sucursal: "W"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetassjcobrado", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: 1,
-        sucursal: "W"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetapalpalatotal", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: { [Op.in]: [0, 1] },
-        sucursal: "L"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetapalpalacobrado", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: 1,
-        sucursal: "L"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetasanpedrototal", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: { [Op.in]: [0, 1] },
-        sucursal: "P"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetasanpedrocobrado", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: 1,
-        sucursal: "P"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetapericototal", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: { [Op.in]: [0, 1] },
-        sucursal: "R"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
-    })
-
-    .then(efectividad => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/etarjetapericocobrado", (req, res, next) => {
-  paymentm
-    .findAll({
-      attributes: [
-        "grupo",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
-      ],
-      where: {
-        grupo: { [Op.in]: [3400, 3600, 3700, 3800, 3900, 4000] },
-        noviembre: 1,
-        sucursal: "R"
-      },
-      raw: true,
-      group: ["grupo"],
-      order: sequelize.literal("grupo ASC")
     })
 
     .then(efectividad => {
@@ -281,22 +42,58 @@ router.get("/etarjetapericocobrado", (req, res, next) => {
 
 //   EFECTIVIDAD OFICINA
 
-router.get("/eoficinatotal", (req, res, next) => {
-  paymentm
+router.get("/eoficina", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  c1000
     .findAll({
       attributes: [
         "zona",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
       ],
       where: {
         zona: { [Op.in]: [1, 3, 5, 60] },
-        noviembre: { [Op.in]: [0, 1] },
-        grupo: 1000
+        mes: mes,
+        ano: ano
       },
       raw: true,
-      group: ["zona"],
       order: sequelize.literal("zona ASC")
+    })
+    .then(efectividad => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD TARJETAS
+
+router.get("/etarjetapalpala", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  ctjt
+    .findAll({
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
+      where: {
+        sucursal: "L",
+        mes: mes,
+        ano: ano
+      },
+      raw: true,
+      order: sequelize.literal("grupo ASC")
     })
 
     .then(efectividad => {
@@ -308,18 +105,181 @@ router.get("/eoficinatotal", (req, res, next) => {
     });
 });
 
-router.get("/eoficinacobrado", (req, res, next) => {
-  paymentm
+router.get("/etarjetaperico", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  ctjt
     .findAll({
       attributes: [
-        "zona",
-        [sequelize.fn("count", sequelize.col("contrato")), "fichas"],
-        [sequelize.fn("sum", sequelize.col("cuota")), "cobranza"]
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
       ],
-      where: { zona: { [Op.in]: [1, 3, 5, 60] }, noviembre: 1, grupo: 1000 },
+      where: {
+        sucursal: "R",
+        mes: mes,
+        ano: ano
+      },
       raw: true,
-      group: ["zona"],
-      order: sequelize.literal("zona ASC")
+      order: sequelize.literal("grupo ASC")
+    })
+
+    .then(efectividad => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/etarjetasanpedro", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  ctjt
+    .findAll({
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
+      where: {
+        sucursal: "P",
+        mes: mes,
+        ano: ano
+      },
+      raw: true,
+      order: sequelize.literal("grupo ASC")
+    })
+
+    .then(efectividad => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/etarjetassj", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  ctjt
+    .findAll({
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
+      where: {
+        sucursal: "W",
+        mes: mes,
+        ano: ano
+      },
+      raw: true,
+      order: sequelize.literal("grupo ASC")
+    })
+
+    .then(efectividad => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+//POLICIA
+
+router.get("/epolicia", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cpolicia
+    .findAll({
+      attributes: [
+        "tipo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
+      where: {
+        mes: mes,
+        ano: ano
+      },
+      raw: true
+    })
+
+    .then(efectividad => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// BANCO MACRO
+
+router.get("/ebanco", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cbanco
+    .findAll({
+      attributes: [
+        "tipo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
+      where: {
+        mes: mes,
+        ano: ano
+      },
+      raw: true
+    })
+
+    .then(efectividad => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// CONVENIOS
+
+router.get("/econvenios", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cconvenio
+    .findAll({
+      attributes: [
+        "tipo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
+      where: {
+        mes: mes,
+        ano: ano
+      },
+      raw: true
     })
 
     .then(efectividad => {

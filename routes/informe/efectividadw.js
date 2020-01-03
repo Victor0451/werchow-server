@@ -11,14 +11,24 @@ const c1000 = require("../../models/informes/c1000");
 
 // EFETIVIDAD COBRADORES
 
-router.get("/ecobradores/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/ecobradores", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
   c1000
     .findAll({
-      attributes: ["zona", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "zona",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
         zona: { [Op.notIn]: [1, 3, 5, 60, 99] },
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true,
       order: sequelize.literal("zona ASC")
@@ -35,14 +45,23 @@ router.get("/ecobradores/:id", (req, res, next) => {
 
 //   EFECTIVIDAD OFICINA
 
-router.get("/eoficina/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/eoficina", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   c1000
     .findAll({
-      attributes: ["zona", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "zona",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
         zona: { [Op.in]: [1, 3, 5, 60] },
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true,
       order: sequelize.literal("zona ASC")
@@ -58,14 +77,23 @@ router.get("/eoficina/:id", (req, res, next) => {
 
 // EFECTIVIDAD TARJETAS
 
-router.get("/etarjetapalpala/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/etarjetapalpala", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: ["grupo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
         sucursal: "L",
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true,
       order: sequelize.literal("grupo ASC")
@@ -80,14 +108,23 @@ router.get("/etarjetapalpala/:id", (req, res, next) => {
     });
 });
 
-router.get("/etarjetaperico/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/etarjetaperico", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: ["grupo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
         sucursal: "R",
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true,
       order: sequelize.literal("grupo ASC")
@@ -102,14 +139,23 @@ router.get("/etarjetaperico/:id", (req, res, next) => {
     });
 });
 
-router.get("/etarjetasanpedro/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/etarjetasanpedro", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: ["grupo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
         sucursal: "P",
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true,
       order: sequelize.literal("grupo ASC")
@@ -124,14 +170,23 @@ router.get("/etarjetasanpedro/:id", (req, res, next) => {
     });
 });
 
-router.get("/etarjetassj/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/etarjetassj", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: ["grupo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "grupo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
         sucursal: "W",
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true,
       order: sequelize.literal("grupo ASC")
@@ -148,13 +203,22 @@ router.get("/etarjetassj/:id", (req, res, next) => {
 
 //POLICIA
 
-router.get("/epolicia/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/epolicia", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   cpolicia
     .findAll({
-      attributes: ["tipo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "tipo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true
     })
@@ -170,13 +234,22 @@ router.get("/epolicia/:id", (req, res, next) => {
 
 // BANCO MACRO
 
-router.get("/ebanco/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/ebanco", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   cbanco
     .findAll({
-      attributes: ["tipo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "tipo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true
     })
@@ -192,13 +265,22 @@ router.get("/ebanco/:id", (req, res, next) => {
 
 // CONVENIOS
 
-router.get("/econvenios/:id", (req, res, next) => {
-  let mes = req.params.id;
+router.get("/econvenios", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   cconvenio
     .findAll({
-      attributes: ["tipo", "total", "fichas", "cobrado", "fichascob"],
+      attributes: [
+        "tipo",
+        "total",
+        "fichas",
+        "cobrado",
+        "fichascob",
+        "adelantado"
+      ],
       where: {
-        mes: mes
+        mes: mes,
+        ano: ano
       },
       raw: true
     })
