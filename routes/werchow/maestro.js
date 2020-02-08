@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const maestro = require("../../models/werchow/maestro");
+const cuofija = require("../../models/werchow/cuo_fija");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -165,6 +166,20 @@ router.get("/titular/:id", (req, res) => {
   maestro
     .findByPk(req.params.id)
     .then(titular => res.json(titular))
+    .catch(err => res.json(err));
+});
+
+//GET CUOTA BY ID
+
+router.get("/cuota/:id", (req, res) => {
+  let id = req.params.id;
+
+  cuofija
+    .findOne({
+      attributes: ["CONTRATO", "IMPORTE"],
+      where: { CONTRATO: id }
+    })
+    .then(cuota => res.json(cuota))
     .catch(err => res.json(err));
 });
 

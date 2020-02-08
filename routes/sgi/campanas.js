@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../db/database");
-//const Op = Sequelize.Op;
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
@@ -24,13 +25,31 @@ router.get("/poliW", (req, res, next) => {
     });
 });
 
+// GET AUX
+
+router.get("/auxW", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `SELECT * FROM auxcampana AS aux
+    
+    `
+    )
+    .then(politcampana => {
+      res.status(200).json(politcampana);
+    })
+
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
 //GET AT WERCHOW
 
 router.get("/atW", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM atcampana AS at
-    
+      
     `
     )
     .then(atcampana => {
@@ -84,17 +103,148 @@ router.get("/blanW", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM blancampana as bl
-        WHERE not exists (
-          SELECT null FROM campanacasos AS cc
-          WHERE bl.CONTRATO = cc.contrato
-          AND cc.estadocaso = 1
-      )
+       
     `
     )
     .then(blancampana => {
       res.status(200).json(blancampana);
     })
 
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET AT CAMPANAS
+
+router.get("/consultacamp", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [11, 12, 13, 14, 15] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET REC CAMPANAS
+
+router.get("/consultacamprec", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [1, 2, 3, 4, 5] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET REIN CAMPANAS
+
+router.get("/consultacamprein", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [6, 7, 8, 9, 10] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET BLAN CAMPANAS
+
+router.get("/consultacampblan", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [16, 17, 18, 19, 20] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET AUX CAMPANAS
+
+router.get("/consultacampaux", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [22, 23, 24, 25, 26] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
     .catch(err => {
       res.status(400).json(err);
     });
@@ -158,7 +308,7 @@ router.get("/campanaoperador/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
-      AND cc.estadocaso = 1
+      and cc.estadocaso = 1
       ORDER BY cc.fechacampana DESC
 
     `
@@ -182,7 +332,7 @@ router.get("/campanaoperadorrec/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
-      AND cc.estadocaso = 1
+      and cc.estadocaso = 1
       ORDER BY cc.fechacampana DESC
     `
     )
@@ -205,7 +355,7 @@ router.get("/campanaoperadorrein/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
-      AND cc.estadocaso = 1
+      and cc.estadocaso = 1
       ORDER BY cc.fechacampana DESC
 
     `
@@ -229,7 +379,7 @@ router.get("/campanaoperadorblan/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
-      AND cc.estadocaso = 1
+      and cc.estadocaso = 1
       ORDER BY cc.fechacampana DESC
 
     `
@@ -253,7 +403,7 @@ router.get("/campanaoperadorpoli/:id", (req, res, next) => {
       AND c.descripcion = "Policia"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
-      AND cc.estadocaso = 1
+      and cc.estadocaso = 1
       ORDER BY cc.fechacampana DESC
 
     `
@@ -277,7 +427,7 @@ router.get("/campanaoperadorrecordatorio/:id", (req, res, next) => {
       AND c.descripcion = "Recordatorio"
       AND c.empresa =  "werchow"
       AND cc.accion IS NULL
-      AND cc.estadocaso = 1 
+      and cc.estadocaso = 1
       ORDER BY cc.fechacampana DESC
 
     `
@@ -303,7 +453,8 @@ router.get("/campanaoperadortrab/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-      AND cc.estadocaso = 1
+      and estadocaso = 1
+      Order by fechacampana DESC
   
 
     `
@@ -327,7 +478,8 @@ router.get("/campanaoperadortrabrec/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-      AND cc.estadocaso = 1
+      and estadocaso = 1
+      Order by fechacampana DESC
      
 
     `
@@ -351,7 +503,8 @@ router.get("/campanaoperadortrabblan/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-      AND cc.estadocaso = 1
+      and estadocaso = 1
+      Order by fechacampana DESC
  
     `
     )
@@ -374,7 +527,8 @@ router.get("/campanaoperadortrabpoli/:id", (req, res, next) => {
       AND c.descripcion = "Policia"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-      AND cc.estadocaso = 1
+      and estadocaso = 1
+      Order by fechacampana DESC
     `
     )
     .then(campanacasos => {
@@ -396,7 +550,8 @@ router.get("/campanaoperadortrabrein/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-      AND cc.estadocaso = 1
+      and estadocaso = 1
+      Order by fechacampana DESC
     `
     )
     .then(campanacasos => {
@@ -418,7 +573,8 @@ router.get("/campanaoperadortrabrecordatorio/:id", (req, res, next) => {
       AND c.descripcion = "Recordatorio"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
-      AND cc.estadocaso = 1
+      and estadocaso = 1
+      Order by fechacampana DESC
     `
     )
     .then(campanacasos => {
@@ -560,6 +716,7 @@ router.get("/campanaoperadornotiat/:id", (req, res, next) => {
       AND c.descripcion = "Atrasados"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+   
       AND gc.accion = 10
 
     `
@@ -584,6 +741,7 @@ router.get("/campanaoperadornotirec/:id", (req, res, next) => {
       AND c.descripcion = "Recuperacion"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+      
       AND gc.accion = 10
 
     `
@@ -608,6 +766,7 @@ router.get("/campanaoperadornotiblan/:id", (req, res, next) => {
       AND c.descripcion = "Blanqueo"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+     
       AND gc.accion = 10
 
     `
@@ -632,6 +791,7 @@ router.get("/campanaoperadornotipoli/:id", (req, res, next) => {
       AND c.descripcion = "Policia"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+     
       AND gc.accion = 10
 
     `
@@ -656,6 +816,7 @@ router.get("/campanaoperadornotirein/:id", (req, res, next) => {
       AND c.descripcion = "Reincidente"
       AND c.empresa =  "werchow"
       AND cc.accion = 1
+      
       AND gc.accion = 10
 
     `
@@ -824,6 +985,35 @@ router.put("/cerrarcaso/:id", (req, res, next) => {
         estadocaso: false
       },
       { where: { idcaso: req.params.id } }
+    )
+    .then(accion => {
+      res.status(200).json(accion);
+    })
+    .catch(error => {
+      res.status(400).json(error);
+      console.log(error);
+    });
+});
+
+//UPDATE CERRAR CAOMPAÑAS
+router.put("/cerrarcamps", (req, res, next) => {
+  let array = req.body;
+
+  console.log(array);
+
+  campanacasos
+    .update(
+      {
+        estadocaso: false
+      },
+
+      {
+        where: {
+          idcampana: {
+            [Op.in]: array
+          }
+        }
+      }
     )
     .then(accion => {
       res.status(200).json(accion);

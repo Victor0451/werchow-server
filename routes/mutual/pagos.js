@@ -7,8 +7,11 @@ const pagos = require("../../models/mutual/pagos");
 router.get("/pagos/:id", (req, res, next) => {
   pagos
     .findAll({
-      where: { CONTRATO: req.params.id },
-      order: [["DIA_PAG", "DESC"]]
+      where: { CONTRATO: req.params.id, MOVIM: "P" },
+      order: [
+        ["ANO", "DESC"],
+        ["MES", "DESC"]
+      ]
     })
     .then(pagos => res.status(200).json(pagos))
     .catch(err => res.status(400).json(err));

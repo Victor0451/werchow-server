@@ -1,36 +1,44 @@
 /* jshint indent: 2 */
+const Sequelize = require("sequelize");
+const db = require("../../db/database");
 
-module.exports = function(sequelize, DataTypes) {
-  return mutualSequelize.define('cuo_fija', {
+module.exports = db.mutualSequelize.define(
+  "cuo_fija",
+  {
     CONTRATO: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.DataTypes.INTEGER(11),
       allowNull: true
     },
     IMPORTE: {
-      type: "DOUBLE",
+      type: Sequelize.DataTypes.DOUBLE,
       allowNull: true
     },
     CUO_ANT: {
-      type: "DOUBLE",
+      type: Sequelize.DataTypes.DOUBLE,
       allowNull: true
     },
     DESDE: {
-      type: DataTypes.DATEONLY,
+      type: Sequelize.DataTypes.DATEONLY,
       allowNull: true
     },
     VENCIM: {
-      type: DataTypes.DATEONLY,
+      type: Sequelize.DataTypes.DATEONLY,
       allowNull: true
     },
     ACTUALIZA: {
-      type: DataTypes.STRING(13),
+      type: Sequelize.DataTypes.STRING(13),
       allowNull: true
     },
     OPERADOR: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.DataTypes.INTEGER(11),
       allowNull: true
     }
-  }, {
-    tableName: 'cuo_fija'
-  });
-};
+  },
+  {
+    timestamps: false,
+    freezeTableName: true
+  },
+  {
+    tableName: "cuo_fija"
+  }
+);

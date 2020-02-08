@@ -1,79 +1,64 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.sgiSequelize.define(
-  "campanacasos",
+module.exports = db.sepelioSequelize.define(
+  "gastos_caja",
   {
-    idcaso: {
+    idgastos: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    idcampana: {
+    idcaja: {
       type: Sequelize.DataTypes.INTEGER
     },
-    fechacampana: {
-      type: Sequelize.DataTypes.DATEONLY
-    },
-    mes: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    ano: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    sucursal: {
+    concepto: {
       type: Sequelize.DataTypes.STRING
     },
-    contrato: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    apellido: {
+    tipofactura: {
       type: Sequelize.DataTypes.STRING
     },
-    nombre: {
+    nfactura: {
       type: Sequelize.DataTypes.INTEGER
     },
-    dni: {
-      type: Sequelize.DataTypes.STRING
-    },
-    telefono: {
-      type: Sequelize.DataTypes.STRING
-    },
-    movil: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    calle: {
-      type: Sequelize.DataTypes.STRING
-    },
-    nro_calle: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    barrio: {
-      type: Sequelize.DataTypes.STRING
-    },
-    localidad: {
-      type: Sequelize.DataTypes.STRING
-    },
-    cuota: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    cuotasadeudadas: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    montoadeudado: {
-      type: Sequelize.DataTypes.INTEGER
-    },
-    accion: {
-      type: Sequelize.DataTypes.STRING
-    },
-    fechaaccion: {
+    fecha: {
       type: Sequelize.DataTypes.DATE
     },
-    observaciones: {
+    operadorgestion: {
       type: Sequelize.DataTypes.STRING
     },
-    estadocaso: {
-      type: Sequelize.DataTypes.TINYINT
+    operadortramite: {
+      type: Sequelize.DataTypes.STRING
+    },
+    ptoventa: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    porciva: {
+      type: Sequelize.DataTypes.STRING
+    },
+    montoiva: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    retiibb: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    retggcias: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    perciva: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    detalle: {
+      type: Sequelize.DataTypes.STRING
+    },
+    mediopago: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    proveedor: {
+      type: Sequelize.DataTypes.STRING
+    },
+    empresa: {
+      type: Sequelize.DataTypes.STRING
     }
   },
   {
@@ -81,6 +66,6 @@ module.exports = db.sgiSequelize.define(
     freezeTableName: true
   },
   {
-    tableName: "campanacasos"
+    tableName: "gastos_caja"
   }
 );

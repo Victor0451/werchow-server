@@ -18,7 +18,7 @@ app.use("*", cors());
 
 //Routes
 
-//MUTUAL
+//WERCHOW
 app.use("/api/werchow/maestro", require("./routes/werchow/maestro"));
 app.use("/api/werchow/adherent", require("./routes/werchow/adherente"));
 app.use("/api/werchow/fichas", require("./routes/werchow/fichas"));
@@ -27,7 +27,7 @@ app.use("/api/werchow/memo", require("./routes/werchow/memo"));
 app.use("/api/werchow/pagos", require("./routes/werchow/pagos"));
 app.use("/api/werchow/pagobco", require("./routes/werchow/pagos_bco"));
 
-//WERCHOW
+//MUTUAL
 app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
 app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
 app.use("/api/mutual/adherent", require("./routes/mutual/adherente"));
@@ -36,6 +36,7 @@ app.use("/api/mutual/historia", require("./routes/mutual/historia"));
 app.use("/api/mutual/memo", require("./routes/mutual/memo"));
 app.use("/api/mutual/pagos", require("./routes/mutual/pagos"));
 app.use("/api/mutual/pagobco", require("./routes/mutual/pagos_bco"));
+app.use("/api/mutual/caja", require("./routes/mutual/caja"));
 
 //SGI
 app.use("/api/sgi/operador", require("./routes/sgi/operador"));
@@ -51,17 +52,21 @@ app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
+app.use("/api/sepelio/cajasepelio", require("./routes/sepelio/caja_sepelio"));
+
+//VENTAS
+app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
 
 //Conecting DB
 
 db.werchowSequelize
   .authenticate()
-  .then(() => console.log("Database Werchow conected..."))
+  .then(() => console.log("Database WERCHOW conected..."))
   .catch(err => console.log("error" + err));
 
 db.mutualSequelize
   .authenticate()
-  .then(() => console.log("Database Mutual conected..."))
+  .then(() => console.log("Database MUTUAL conected..."))
   .catch(err => console.log("error" + err));
 
 db.sgiSequelize
@@ -77,6 +82,11 @@ db.wSequelize
 db.infoSequelize
   .authenticate()
   .then(() => console.log("Database INFORMES conected..."))
+  .catch(err => console.log("error" + err));
+
+db.sepelioSequelize
+  .authenticate()
+  .then(() => console.log("Database SEPELIO conected..."))
   .catch(err => console.log("error" + err));
 
 // server escuchando

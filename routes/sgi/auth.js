@@ -50,6 +50,10 @@ router.post("/auth", (req, res, next) => {
                 contrasena: user.contrasena,
                 perfil: user.perfil,
                 estado: user.estado,
+                puestom: user.puestom,
+                m: user.m,
+                puestow: user.puestow,
+                w: user.w,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt
               }

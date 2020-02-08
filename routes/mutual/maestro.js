@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const maestro = require("../../models/mutual/maestro");
+const cuofija = require("../../models/mutual/cuo_fija");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -199,6 +200,20 @@ router.get("/dni/:id", (req, res) => {
       }
     })
     .catch(err => res.status(400).json(err));
+});
+
+//GET CUOTA BY ID
+
+router.get("/cuota/:id", (req, res) => {
+  let id = req.params.id;
+
+  cuofija
+    .findOne({
+      attributes: ["CONTRATO", "IMPORTE"],
+      where: { CONTRATO: id }
+    })
+    .then(cuota => res.json(cuota))
+    .catch(err => res.json(err));
 });
 
 //GET LAST CONTRATO

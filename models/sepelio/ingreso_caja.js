@@ -1,50 +1,54 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.sgiSequelize.define(
-  "operador",
+module.exports = db.sepelioSequelize.define(
+  "ingreso_caja",
   {
-    id: {
+    idingreso: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    nombre: {
-      type: Sequelize.DataTypes.STRING
-    },
-    apellido: {
-      type: Sequelize.DataTypes.STRING
-    },
-    usuario: {
-      type: Sequelize.DataTypes.STRING
-    },
-    contrasena: {
-      type: Sequelize.DataTypes.STRING
-    },
-    perfil: {
+
+    idcaja: {
       type: Sequelize.DataTypes.INTEGER
     },
-    estado: {
-      type: Sequelize.DataTypes.TINYINT
+
+    concepto: {
+      type: Sequelize.DataTypes.STRING
     },
-    puestom: {
+
+    monto: {
       type: Sequelize.DataTypes.INTEGER
     },
-    puestow: {
+
+    fecha: {
+      type: Sequelize.DataTypes.DATE
+    },
+    operador: {
+      type: Sequelize.DataTypes.STRING
+    },
+    empresa: {
+      type: Sequelize.DataTypes.STRING
+    },
+    tipofactura: {
+      type: Sequelize.DataTypes.STRING
+    },
+    nfactura: {
       type: Sequelize.DataTypes.INTEGER
     },
-    m: {
-      type: Sequelize.DataTypes.TINYINT
+    detalle: {
+      type: Sequelize.DataTypes.STRING
     },
-    w: {
-      type: Sequelize.DataTypes.TINYINT
+    ptoventa: {
+      type: Sequelize.DataTypes.INTEGER
     }
   },
   {
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true
-  }, 
+  },
   {
-    tableName: "operador"
+    tableName: "ingreso_caja"
   }
 );

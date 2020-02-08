@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../db/database");
-//const Op = Sequelize.Op;
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 const paymentM = require("../../models/mutual/payment");
 const campanacasos = require("../../models/sgi/campanacasos");
@@ -11,7 +12,10 @@ router.get("/atM", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM atcampanaM AS at
-     
+      WHERE not exists (
+        SELECT null FROM campanacasos AS cc
+        WHERE at.CONTRATO = cc.contrato
+        AND cc.estadocaso = 1)
       `
     )
     .then(atcampana => {
@@ -29,11 +33,8 @@ router.get("/recM", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM reccampanaM as rc
-        WHERE not exists (
-          SELECT null FROM campanacasos AS cc
-          WHERE rc.CONTRATO = cc.contrato
-          AND cc.estadocaso = 1
-        ) 
+       
+      
        
       `
     )
@@ -52,10 +53,7 @@ router.get("/reinM", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM reincampanaM as rn
-        WHERE not exists (
-          SELECT null FROM campanacasos AS cc
-          WHERE rn.CONTRATO = cc.contrato
-          AND cc.estadocaso = 1)
+        
       `
     )
     .then(reincampana => {
@@ -73,16 +71,121 @@ router.get("/blanM", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM blancampanaM as bl
-        WHERE not exists (
-          SELECT null FROM campanacasos AS cc
-          WHERE bl.CONTRATO = cc.contrato
-          AND cc.estadocaso = 1)
+        
       `
     )
     .then(blancampana => {
       res.status(200).json(blancampana);
     })
 
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET AT CAMPANA
+
+router.get("/consultacamp", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [28, 29, 30, 31, 32] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET REC CAMPANAS
+
+router.get("/consultacamprec", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [33, 34, 35, 36, 37] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET REIN CAMPANAS
+
+router.get("/consultacamprein", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [38, 39, 40, 41, 42] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+// GET BLAN CAMPANAS
+
+router.get("/consultacampblan", (req, res, next) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+  console.log(desde, hasta);
+
+  campanacasos
+    .findAll({
+      attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
+      where: {
+        fechacampana: {
+          [Op.between]: [desde, hasta]
+        },
+        estadocaso: 1,
+        idcampana: { [Op.in]: [43, 44, 45, 46, 47] }
+      },
+      group: ["idcampana"]
+    })
+    .then(pagos => {
+      res.status(200).json(pagos);
+    })
     .catch(err => {
       res.status(400).json(err);
     });

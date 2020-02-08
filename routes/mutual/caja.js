@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const pagos = require("../../models/werchow/pagos");
+const pagos = require("../../models/mutual/pagos");
 
 //GET PAGOS BY CONTRATO
 
-router.get("/pagos/:id", (req, res, next) => {
+router.get("/ultimorecibo", (req, res, next) => {
   pagos
-    .findAll({
-      where: { CONTRATO: req.params.id, MOVIM: "P" },
-      order: [["DIA_PAG", "DESC"]]
+    .findOne({
+      attributes: ["SERIE", "NRO_RECIBO"],
+      where: { SERIE: 22 },
+      order: [["NRO_RECIBO", "DESC"]]
     })
     .then(pagos => res.status(200).json(pagos))
     .catch(err => res.status(400).json(err));
