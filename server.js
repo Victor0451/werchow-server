@@ -49,45 +49,50 @@ app.use("/api/sgi/moraw", require("./routes/informe/moraw"));
 app.use("/api/sgi/moram", require("./routes/informe/moram"));
 app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
 app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
+app.use("/api/sgi/prestamos", require("./routes/sgi/prestamos"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
 app.use("/api/sepelio/cajasepelio", require("./routes/sepelio/caja_sepelio"));
+app.use("/api/sepelio/servicio", require("./routes/sepelio/servicio"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
+
+// UPLOADS
+app.use("/api/archivos", require("./routes/archivos/FileUploader"));
 
 //Conecting DB
 
 db.werchowSequelize
   .authenticate()
   .then(() => console.log("Database WERCHOW conected..."))
-  .catch(err => console.log("error" + err));
+  .catch((err) => console.log("error" + err));
 
 db.mutualSequelize
   .authenticate()
   .then(() => console.log("Database MUTUAL conected..."))
-  .catch(err => console.log("error" + err));
+  .catch((err) => console.log("error" + err));
 
 db.sgiSequelize
   .authenticate()
   .then(() => console.log("Database SGI conected..."))
-  .catch(err => console.log("error" + err));
+  .catch((err) => console.log("error" + err));
 
 db.wSequelize
   .authenticate()
   .then(() => console.log("Database W conected..."))
-  .catch(err => console.log("error" + err));
+  .catch((err) => console.log("error" + err));
 
 db.infoSequelize
   .authenticate()
   .then(() => console.log("Database INFORMES conected..."))
-  .catch(err => console.log("error" + err));
+  .catch((err) => console.log("error" + err));
 
 db.sepelioSequelize
   .authenticate()
   .then(() => console.log("Database SEPELIO conected..."))
-  .catch(err => console.log("error" + err));
+  .catch((err) => console.log("error" + err));
 
 // server escuchando
 

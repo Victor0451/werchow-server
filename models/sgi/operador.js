@@ -38,12 +38,15 @@ module.exports = db.sgiSequelize.define(
     },
     w: {
       type: Sequelize.DataTypes.TINYINT
+    },
+    codigo: {
+      type: Sequelize.DataTypes.INTEGER
     }
   },
   {
     timestamps: true,
     freezeTableName: true
-  }, 
+  },
   {
     tableName: "operador"
   }

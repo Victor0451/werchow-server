@@ -12,10 +12,7 @@ router.get("/atM", (req, res, next) => {
   db.sgiSequelize
     .query(
       `SELECT * FROM atcampanaM AS at
-      WHERE not exists (
-        SELECT null FROM campanacasos AS cc
-        WHERE at.CONTRATO = cc.contrato
-        AND cc.estadocaso = 1)
+      
       `
     )
     .then(atcampana => {

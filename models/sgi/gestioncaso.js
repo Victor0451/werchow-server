@@ -32,6 +32,9 @@ module.exports = db.sgiSequelize.define(
     },
     fechanuevaaccion: {
       type: Sequelize.DataTypes.DATE
+    },
+    realizado: {
+      type: Sequelize.DataTypes.TINYINT
     }
   },
   {

@@ -19,10 +19,10 @@ router.post("/auth", (req, res, next) => {
   operador
     .findOne({
       where: {
-        usuario: usuario
-      }
+        usuario: usuario,
+      },
     })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         res.status(400).json({ msg: "Usuario Ingresado No Existe" });
       }
@@ -32,34 +32,37 @@ router.post("/auth", (req, res, next) => {
       }
 
       //Validate password
-      bcrypt.compare(contrasena, user.contrasena).then(isMatch => {
-        if (!isMatch)
-          return res.status(400).json({ msg: "Credenciales Invalidas" });
-
-        jwt.sign(
-          { id: user.id },
-          config.get("jwtSecret"),
-          { expiresIn: 3600 },
-          (err, token) => {
-            if (err) throw err;
-            res.status(200).json({
-              token,
-              user: {
-                id: user.id,
-                usuario: user.usuario,
-                contrasena: user.contrasena,
-                perfil: user.perfil,
-                estado: user.estado,
-                puestom: user.puestom,
-                m: user.m,
-                puestow: user.puestow,
-                w: user.w,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt
-              }
-            });
-          }
-        );
+      bcrypt.compare(contrasena, user.contrasena).then((isMatch) => {
+        if (!isMatch) {
+          res.status(400).json({ msg: "Credenciales Invalidas" });
+        }
+        {
+          jwt.sign(
+            { id: user.id },
+            config.get("jwtSecret"),
+            { expiresIn: 3600 },
+            (err, token) => {
+              if (err) throw err;
+              res.status(200).json({
+                token,
+                user: {
+                  id: user.id,
+                  usuario: user.usuario,
+                  contrasena: user.contrasena,
+                  perfil: user.perfil,
+                  estado: user.estado,
+                  puestom: user.puestom,
+                  m: user.m,
+                  puestow: user.puestow,
+                  w: user.w,
+                  codigo: user.codigo,
+                  createdAt: user.createdAt,
+                  updatedAt: user.updatedAt,
+                },
+              });
+            }
+          );
+        }
       });
     });
 });
@@ -68,8 +71,8 @@ router.get("/operador", auth, (req, res) => {
   operador
     .findByPk(req.user.id)
 
-    .then(operador => res.json(operador))
-    .catch(err => res.json(err));
+    .then((operador) => res.json(operador))
+    .catch((err) => res.json(err));
 });
 
 module.exports = router;
