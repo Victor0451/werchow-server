@@ -4,6 +4,7 @@ const sequelize = require("sequelize");
 
 const maestro = require("../../models/werchow/maestro");
 const servicios = require("../../models/sepelio/servicios");
+const PrecioServicio = require("../../models/sepelio/precio_servicio");
 
 router.get("/consultarficha/:id", (req, res) => {
   let id = req.params.id;
@@ -13,6 +14,7 @@ router.get("/consultarficha/:id", (req, res) => {
       attributes: [
         "CONTRATO",
         "ALTA",
+        "PLAN",
         "NRO_DOC",
         "SUCURSAL",
         "GRUPO",
@@ -76,14 +78,44 @@ router.post("/nuevoservicio", (req, res) => {
     salavel: salavel,
     tiposalavel: tiposalavel,
     ataud: ataud,
-    carasteristicas: carasteristicas,
+    caracteristicas: caracteristicas,
     observacion: observacion,
+    precio: precio,
+    descuento: descuento,
+    uso:uso,
+    cremacion:cremacion,    
+    estado: estado,
   } = req.body);
+
+  console.log(nuevoservicio);
 
   servicios
     .create(nuevoservicio)
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
+});
+
+router.get("/precioservicio/:id", (req, res, next) => {
+  let id = req.params.id;
+
+  PrecioServicio.findOne({
+    attributes: [
+      "contado",
+      "contado_cremacion",
+      "descuento1",
+      "descuento1_cremacion",
+      "descuento2",
+      "descuento2_cremacion",
+      "fecha_vigencia",
+    ],
+    where: { codigo: id },
+  })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 });
 
 module.exports = router;

@@ -4,60 +4,57 @@ const db = require("../../db/database");
 module.exports = db.sepelioSequelize.define(
   "ataudes",
   {
-    COD_ART: {
+    idataud: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
-    CODIGO: {
-      type: Sequelize.DataTypes.INTEGER
+    nombre: {
+      type: Sequelize.DataTypes.STRING,
     },
 
-    DESCRI_ART: {
-      type: Sequelize.DataTypes.STRING
+    tipo: {
+      type: Sequelize.DataTypes.STRING,
     },
-    TAMA_LARGO: {
-      type: Sequelize.DataTypes.STRING
+    medidas: {
+      type: Sequelize.DataTypes.STRING,
     },
-    PTO_REPO: {
-      type: Sequelize.DataTypes.INTEGER
+    uso: {
+      type: Sequelize.DataTypes.STRING,
     },
-    STOCK_ACT: {
-      type: Sequelize.DataTypes.INTEGER
+    fabricante: {
+      type: Sequelize.DataTypes.STRING,
     },
-    STOCK_SRL: {
-      type: Sequelize.DataTypes.INTEGER
+    codigo: {
+      type: Sequelize.DataTypes.INTEGER,
     },
-    FECHA_ALTA: {
-      type: Sequelize.DataTypes.DATE
+    fecha_alta: {
+      type: Sequelize.DataTypes.DATE,
     },
-    FECHA_UPDATE_STOCK: {
-      type: Sequelize.DataTypes.DATE
+    stock: {
+      type: Sequelize.DataTypes.INTEGER,
     },
-    CARACT: {
-      type: Sequelize.DataTypes.STRING
+    fecha_reposicion: {
+      type: Sequelize.DataTypes.DATE,
     },
-    MODELOS: {
-      type: Sequelize.DataTypes.STRING
+    estado: {
+      type: Sequelize.DataTypes.TINYINT,
     },
-    PRECIO_ART: {
-      type: Sequelize.DataTypes.STRING
+    fecha_baja: {
+      type: Sequelize.DataTypes.DATE,
     },
-    FECHA_BAJA: {
-      type: Sequelize.DataTypes.DATE
+    observaciones: {
+      type: Sequelize.DataTypes.STRING,
     },
-    OPERADOR: {
-      type: Sequelize.DataTypes.STRING
+    operador: {
+      type: Sequelize.DataTypes.STRING,
     },
-    NOMB_OPER: {
-      type: Sequelize.DataTypes.STRING
-    }
   },
   {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   },
   {
-    tableName: "ataudes"
+    tableName: "ataudes",
   }
 );

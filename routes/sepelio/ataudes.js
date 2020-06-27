@@ -3,35 +3,33 @@ const router = express.Router();
 
 const Ataudes = require("../../models/sepelio/ataudes");
 
-//INSERT NOTICIA
+// //INSERT NOTICIA
 
-router.post("/nuevanoticia", (req, res, next) => {
-  const { fecha, noticia, operador } = req.body;
-  const notii = {
-    fecha,
-    noticia,
-    operador
-  };
+// router.post("/nuevanoticia", (req, res, next) => {
+//   const { fecha, noticia, operador } = req.body;
+//   const notii = {
+//     fecha,
+//     noticia,
+//     operador
+//   };
 
-  Noticia.create(notii)
-    .then(notii => {
-      res.status(200).json(notii);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
+//   Noticia.create(notii)
+//     .then(notii => {
+//       res.status(200).json(notii);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+//});
 
-//GET NOTICIA
+//GET ATAUDES
 
 router.get("/cantidad", (req, res, next) => {
-  Ataudes.findAll({
-    order: [["COD_ART", "ASC"]]
-  })
-    .then(cantidad => {
+  Ataudes.findAll()
+    .then((cantidad) => {
       res.status(200).json(cantidad);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });

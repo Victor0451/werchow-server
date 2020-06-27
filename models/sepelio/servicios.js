@@ -117,6 +117,24 @@ module.exports = db.sepelioSequelize.define(
     observacion: {
       type: Sequelize.DataTypes.STRING,
     },
+    estado: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    precio: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    descuento: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    cremacion: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    caracteristicas: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    uso: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

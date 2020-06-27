@@ -271,6 +271,44 @@ router.get("/buscarcaso/:id", (req, res, next) => {
     });
 });
 
+//GET CASO CAMPAÑA DNI
+
+router.get("/buscarcasodni/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  campanacasos
+    .findOne({
+      attributes: ["contrato", "idcampana", "dni"],
+      where: { dni: id, estadocaso: 1 },
+      order: [["idcaso", "DESC"]],
+    })
+    .then((pagos) => {
+      res.status(200).json(pagos);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+//GET CASO CAMPAÑA APELLIDO
+
+router.get("/buscarcasoapellido/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  campanacasos
+    .findAll({
+      attributes: ["contrato", "idcampana", "apellido", "nombre", "dni"],
+      where: { apellido: id, estadocaso: 1 },
+      order: [["idcaso", "DESC"]],
+    })
+    .then((pagos) => {
+      res.status(200).json(pagos);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 //GET GESTION CASO CAMPAÑA
 
 router.get("/buscargestioncaso/:id", (req, res, next) => {

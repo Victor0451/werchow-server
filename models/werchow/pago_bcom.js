@@ -4,7 +4,7 @@ const db = require("../../db/database");
 
 //module.exports = db.werchowSequelize.define(
 module.exports = db.wSequelize.define(
-  "pago_bco",
+  "pago_bcom",
   {
     NRO_DOC: {
       type: Sequelize.DataTypes.INTEGER(11),
@@ -61,6 +61,6 @@ module.exports = db.wSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "pago_bco",
+    tableName: "pago_bcom",
   }
 );

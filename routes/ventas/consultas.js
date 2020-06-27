@@ -2,47 +2,93 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../db/database");
 //const Op = Sequelize.Op;
+//const produccion = require("../../models/werchow/produccion");
 
 //GET AT WERCHOW
 
 router.get("/consultaventas", (req, res, next) => {
-  let desde = req.query.desde;
-  let hasta = req.query.hasta;
-  console.log(desde, hasta);
+  let mes = req.query.mes;
+  let ano = req.query.ano;
   db.wSequelize
     .query(
-      ` select  m.EMPRESA, m.CONTRATO, m.APELLIDOS, m.NOMBRES, m.NRO_DOC, m.ALTA, m.PLAN, m.LOCALIDAD, m.PRODUCTOR, cf.IMPORTE
-      from werchow.maestro as m
-      inner join werchow.cuo_fija as cf on cf.CONTRATO = m.CONTRATO
-      where m.ALTA between '${desde}' and '${hasta}'
+      `
+      SELECT 
+      p.prod_empre,
+      p.prod_mes,
+      p.prod_anio,
+      p.prod_afiliado,
+      p.prod_apeafi,
+      p.prod_nomafi,
+      p.prod_dniafi,
+      p.prod_plan,
+      p.prod_recibo,
+      p.prod_monto,
+      p.prod_pago,
+      p.prod_cta_tar,
+      p.prod_estado,
+      u.usu_nick,
+      u.usu_ide,
+       (CASE 
+          WHEN p.prod_empre = 'W' 
+              AND EXISTS( 
+                  SELECT NULL
+                  FROM maestro
+                  WHERE p.prod_dniafi = NRO_DOC		
+                  )			
+          
+          THEN 'CARGADA'           
+    
+          WHEN p.prod_empre = 'M' 
+              AND EXISTS( 
+                SELECT NULL
+                FROM mutual
+                WHERE p.prod_dniafi = NRO_DOC		
+                )			
+
+          THEN 'CARGADA'          
+          ELSE 'NO CARGADA'
+          
+      END) AS carga,
+      
+      (CASE 
+          WHEN p.prod_empre = 'W' 
+             AND EXISTS( 
+               SELECT NULL
+               FROM pagos
+               WHERE p.prod_recibo = NRO_RECIBO 						
+               AND ANO = 2020
+               AND movim = 'P'
+               )
+          THEN 'SI PAGO'
+             
+    
+          WHEN p.prod_empre = 'M' 
+             AND EXISTS( 
+               SELECT NULL
+             FROM pagos_mutual
+             WHERE p.prod_recibo = NRO_RECIBO 
+             AND ANO = 2020
+             AND movim = 'P'
+             )
+          THEN 'SI PAGO'
+
+          ELSE 'NO PAGO'
+          
+      END) AS pago
+  
+      FROM produccion AS p
+      INNER JOIN usuario AS u ON p.prod_asesor = u.usu_ide
+            
+      WHERE p.prod_mes = '${mes}'
+      AND p.prod_anio = ${ano}
+
       `
     )
-    .then(atcampana => {
-      res.status(200).json(atcampana);
+    .then((ventas) => {
+      res.status(200).json(ventas);
     })
 
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/consultaventasm", (req, res, next) => {
-  let desde = req.query.desde;
-  let hasta = req.query.hasta;
-  console.log(desde, hasta);
-  db.wSequelize
-    .query(
-      ` select  m.EMPRESA, m.CONTRATO, m.APELLIDOS, m.NOMBRES, m.NRO_DOC, m.ALTA, m.PLAN, m.LOCALIDAD, m.PRODUCTOR, cf.IMPORTE
-      from werchow.mutual as m
-      inner join werchow.cuo_mutual as cf on cf.CONTRATO = m.CONTRATO
-      where m.ALTA between '${desde}' and '${hasta}'
-      `
-    )
-    .then(atcampana => {
-      res.status(200).json(atcampana);
-    })
-
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });

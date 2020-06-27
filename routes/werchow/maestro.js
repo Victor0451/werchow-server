@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const maestro = require("../../models/werchow/maestro");
+const mutual = require("../../models/werchow/mutual");
 const cuofija = require("../../models/werchow/cuo_fija");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -36,15 +37,15 @@ router.post("/nuevo", (req, res) => {
     BARRIO,
     LOCALIDAD,
     EMPRESA,
-    ESTADO
+    ESTADO,
   } = req.body);
 
   maestro
     .create(newTitular)
-    .then(titular => {
+    .then((titular) => {
       res.status(200).json(titular);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -76,7 +77,7 @@ router.put("/editar/:id", (req, res) => {
     DOMI_COBR,
     DOM_LAB,
     BARRIO,
-    LOCALIDAD
+    LOCALIDAD,
   } = req.body);
 
   maestro
@@ -104,14 +105,14 @@ router.put("/editar/:id", (req, res) => {
         DOMI_COBR: titularModf.DOMI_COBR,
         DOM_LAB: titularModf.DOM_LAB,
         BARRIO: titularModf.BARRIO,
-        LOCALIDAD: titularModf.LOCALIDAD
+        LOCALIDAD: titularModf.LOCALIDAD,
       },
       { where: { CONTRATO: titularModf.CONTRATO, ESTADO: 1 } }
     )
-    .then(titularModf => {
+    .then((titularModf) => {
       res.status(200).json(titularModf);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).json(error);
       console.log(error);
     });
@@ -129,14 +130,14 @@ router.put("/baja/:id", (req, res) => {
     .update(
       {
         BAJA: baja,
-        ESTADO: false
+        ESTADO: false,
       }, //what going to be updated
       { where: { CONTRATO: contrato } } // where clause
     )
-    .then(titularModf => {
+    .then((titularModf) => {
       res.status(200).json(titularModf);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).json(error);
       console.log(error);
     });
@@ -150,12 +151,12 @@ router.get("/titulares", (req, res, next) => {
   maestro
     .findAll({
       where: { ESTADO: 1 },
-      order: [["CONTRATO", "DESC"]]
+      order: [["CONTRATO", "DESC"]],
     })
-    .then(titulares => {
+    .then((titulares) => {
       res.status(200).json(titulares);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -165,8 +166,15 @@ router.get("/titulares", (req, res, next) => {
 router.get("/titular/:id", (req, res) => {
   maestro
     .findByPk(req.params.id)
-    .then(titular => res.json(titular))
-    .catch(err => res.json(err));
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/titularm/:id", (req, res) => {
+  mutual
+    .findByPk(req.params.id)
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
 });
 
 //GET CUOTA BY ID
@@ -177,10 +185,10 @@ router.get("/cuota/:id", (req, res) => {
   cuofija
     .findOne({
       attributes: ["CONTRATO", "IMPORTE"],
-      where: { CONTRATO: id }
+      where: { CONTRATO: id },
     })
-    .then(cuota => res.json(cuota))
-    .catch(err => res.json(err));
+    .then((cuota) => res.json(cuota))
+    .catch((err) => res.json(err));
 });
 
 //GET BY APELLIDO
@@ -190,10 +198,10 @@ router.get("/titularapellido/:id", (req, res) => {
   maestro
     .findAll({
       attributes: ["CONTRATO", "APELLIDOS", "NOMBRES", "NRO_DOC", "ESTADO"],
-      where: { APELLIDOS: { [Op.like]: req.params.id } }
+      where: { APELLIDOS: { [Op.like]: req.params.id } },
     })
-    .then(titular => res.json(titular))
-    .catch(err => res.json(err));
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
 });
 
 //GET BY DNI
@@ -203,17 +211,17 @@ router.get("/dni/:id", (req, res) => {
     .findOne({
       attributes: ["NRO_DOC", "CONTRATO", "ESTADO", "APELLIDOS", "NOMBRES"],
       where: { NRO_DOC: req.params.id },
-      order: [["NRO_DOC", "DESC"]]
+      order: [["NRO_DOC", "DESC"]],
     })
 
-    .then(dni => {
+    .then((dni) => {
       if (dni) {
         res.status(200).json(dni);
       } else {
         res.status(200).json("no existe dni");
       }
     })
-    .catch(err => res.status(400).json(err));
+    .catch((err) => res.status(400).json(err));
 });
 
 //GET LAST CONTRATO
@@ -223,10 +231,10 @@ router.get("/lastcontrato", (req, res) => {
     .findOne({
       attributes: ["CONTRATO"],
       where: { ESTADO: 1 },
-      order: [["CONTRATO", "DESC"]]
+      order: [["CONTRATO", "DESC"]],
     })
-    .then(maestro => res.json(maestro))
-    .catch(err => res.json(err));
+    .then((maestro) => res.json(maestro))
+    .catch((err) => res.json(err));
 });
 
 module.exports = router;

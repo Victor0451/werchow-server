@@ -4,160 +4,159 @@ const db = require("../../db/database");
 
 //module.exports = db.werchowSequelize.define(
 module.exports = db.wSequelize.define(
- 
-"pagos",
+  "pagos_mutual",
   {
     CONTRATO: {
       type: Sequelize.DataTypes.INTEGER(11),
       primaryKey: true,
-      allowNull: true
+      allowNull: true,
     },
     NRO_RECIBO: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     SERIE: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     COMPROB: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     DIA_REN: {
       type: Sequelize.DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
     },
     DIA_CAR: {
       type: Sequelize.DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
     },
     DIA_EMI: {
       type: Sequelize.DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
     },
     DIA_PAG: {
       type: Sequelize.DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
     },
     HORA_CAR: {
       type: Sequelize.DataTypes.STRING(8),
-      allowNull: true
+      allowNull: true,
     },
     MES: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     ANO: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     IMPORTE: {
       type: "DOUBLE",
-      allowNull: true
+      allowNull: true,
     },
     MAN_COM: {
       type: Sequelize.DataTypes.STRING(1),
-      allowNull: true
+      allowNull: true,
     },
     MOVIM: {
       type: Sequelize.DataTypes.STRING(1),
-      allowNull: true
+      allowNull: true,
     },
     EX: {
       type: "DOUBLE",
-      allowNull: true
+      allowNull: true,
     },
     GR: {
       type: "DOUBLE",
-      allowNull: true
+      allowNull: true,
     },
     SEGURO: {
       type: "DOUBLE",
-      allowNull: true
+      allowNull: true,
     },
     CARGA: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     OPERADOR: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     EXTRA: {
       type: Sequelize.DataTypes.INTEGER(4),
-      allowNull: true
+      allowNull: true,
     },
     TIP_EXT: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     SUCURSAL: {
       type: Sequelize.DataTypes.STRING(1),
-      allowNull: true
+      allowNull: true,
     },
     PUESTO: {
       type: Sequelize.DataTypes.STRING(2),
-      allowNull: true
+      allowNull: true,
     },
     ACTUALIZA: {
       type: Sequelize.DataTypes.STRING(13),
-      allowNull: true
+      allowNull: true,
     },
     MARCA: {
       type: Sequelize.DataTypes.INTEGER(4),
-      allowNull: true
+      allowNull: true,
     },
     ZONA: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     CUOTA: {
       type: "DOUBLE",
-      allowNull: true
+      allowNull: true,
     },
     EMPRESA: {
       type: Sequelize.DataTypes.STRING(1),
-      allowNull: true
+      allowNull: true,
     },
     CAE: {
       type: Sequelize.DataTypes.STRING(20),
-      allowNull: true
+      allowNull: true,
     },
     CAE_VTO: {
       type: Sequelize.DataTypes.STRING(8),
-      allowNull: true
+      allowNull: true,
     },
     NCR_SERIE: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     NCR_NRO: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     BARCOD: {
       type: Sequelize.DataTypes.STRING(40),
-      allowNull: true
+      allowNull: true,
     },
     DNI: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     FE_SERIE: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     FE_NRO: {
       type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true
-    }
+      allowNull: true,
+    },
   },
   {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   },
   {
-    tableName: "pagos"
+    tableName: "pagos_mutual",
   }
 );

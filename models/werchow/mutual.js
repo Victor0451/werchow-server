@@ -4,7 +4,7 @@ const db = require("../../db/database");
 
 //module.exports = db.werchowSequelize.define(
 module.exports = db.wSequelize.define(
-  "maestro",
+  "mutual",
   {
     SUCURSAL: {
       type: Sequelize.DataTypes.STRING(1),
@@ -63,18 +63,12 @@ module.exports = db.wSequelize.define(
       type: Sequelize.DataTypes.DATEONLY,
       allowNull: true,
     },
-    BAJA: {
-      type: Sequelize.DataTypes.DATEONLY,
-      allowNull: true,
-    },
+
     VIGENCIA: {
       type: Sequelize.DataTypes.DATEONLY,
       allowNull: true,
     },
-    ESTADO: {
-      type: Sequelize.DataTypes.TINYINT,
-      allowNull: true,
-    },
+
     ALT_SEG: {
       type: Sequelize.DataTypes.DATEONLY,
       allowNull: true,
@@ -350,6 +344,6 @@ module.exports = db.wSequelize.define(
   },
 
   {
-    tableName: "maestro",
+    tableName: "mutual",
   }
 );

@@ -207,7 +207,10 @@ router.get("/prestamosporcodigo", (req, res) => {
         ptm_op: id,
       },
     })
-    .then((titular) => res.json(titular))
+    .then((titular) => {
+      res.json(titular);
+      console.log(titular);
+    })
     .catch((err) => res.json(err));
 });
 

@@ -50,6 +50,7 @@ app.use("/api/sgi/moram", require("./routes/informe/moram"));
 app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
 app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
 app.use("/api/sgi/prestamos", require("./routes/sgi/prestamos"));
+app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
