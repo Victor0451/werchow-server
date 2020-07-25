@@ -1,4 +1,9 @@
 const express = require("express");
+const http = require("http");
+const https = require("https");
+const fs = require("fs");
+const path = require("path");
+
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -12,8 +17,14 @@ app.use(morgan("dev"));
 app.use(cors());
 app.set("port", process.env.PORT || 5002);
 
-//middlewares
-app.use(bodyparser.json());
+const options = {
+  key: fs.readFileSync(path.resolve(__dirname, "./clubwerchow.com.key")),
+
+  cert: fs.readFileSync(path.resolve(__dirname, "./clubwerchow.com.crt")),
+};
+console.log(options),
+  //middlewares
+  app.use(bodyparser.json());
 app.use("*", cors());
 
 //Routes
@@ -61,7 +72,16 @@ app.use("/api/sepelio/servicio", require("./routes/sepelio/servicio"));
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
 
 // UPLOADS
-app.use("/api/archivos", require("./routes/archivos/FileUploader"));
+app.use("/api/archivos/legajovirtual", require("./routes/archivos/LegajoVirtual"));
+app.use("/api/archivos/legajovirtualm", require("./routes/archivos/LegajoVirtualM"));
+
+
+// CLUBWERCHOW
+app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));
+app.use(
+  "/api/clubwerchow/comercios",
+  require("./routes/clubwerchow/comercios")
+);
 
 //Conecting DB
 
@@ -100,3 +120,5 @@ db.sepelioSequelize
 app.listen(app.get("port"), () => {
   console.log("Server on port", app.get("port"));
 });
+
+https.createServer(options, app).listen("5001");

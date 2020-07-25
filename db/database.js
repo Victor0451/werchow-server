@@ -12,8 +12,8 @@ const wSequelize = new Sequelize({
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
 const werchowSequelize = new Sequelize({
@@ -27,8 +27,8 @@ const werchowSequelize = new Sequelize({
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
 const mutualSequelize = new Sequelize({
@@ -42,8 +42,8 @@ const mutualSequelize = new Sequelize({
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
 const sgiSequelize = new Sequelize({
@@ -57,8 +57,8 @@ const sgiSequelize = new Sequelize({
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
 const infoSequelize = new Sequelize({
@@ -72,8 +72,8 @@ const infoSequelize = new Sequelize({
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
 const sepelioSequelize = new Sequelize({
@@ -87,8 +87,23 @@ const sepelioSequelize = new Sequelize({
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
+});
+
+const clubWerchowSequelize = new Sequelize({
+  host: "192.168.1.102",
+  database: "clubwerchow",
+  username: "vlongo",
+  password: "nokia5800",
+  dialect: "mysql",
+
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
 });
 
 db.werchowSequelize = werchowSequelize;
@@ -97,6 +112,7 @@ db.sgiSequelize = sgiSequelize;
 db.infoSequelize = infoSequelize;
 db.sepelioSequelize = sepelioSequelize;
 db.wSequelize = wSequelize;
+db.clubWerchowSequelize = clubWerchowSequelize;
 
 db.Sequelize = Sequelize;
 

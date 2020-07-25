@@ -5,6 +5,7 @@ const mutual = require("../../models/werchow/mutual");
 const cuofija = require("../../models/werchow/cuo_fija");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const db = require("../../db/database");
 
 //INSERT
 
@@ -164,15 +165,35 @@ router.get("/titulares", (req, res, next) => {
 //GET BY ID
 
 router.get("/titular/:id", (req, res) => {
-  maestro
-    .findByPk(req.params.id)
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+    from maestro as m
+    inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
+    where m.CONTRATO = ${id} 
+    
+    `
+    )
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });
 
 router.get("/titularm/:id", (req, res) => {
-  mutual
-    .findByPk(req.params.id)
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+    from mutual as m
+    inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+    where m.CONTRATO = ${id} 
+    
+    `
+    )
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });
@@ -191,37 +212,82 @@ router.get("/cuota/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-//GET BY APELLIDO
+//GET BY DNI
 
-router.get("/titularapellido/:id", (req, res) => {
-  console.log(req.params.id);
-  maestro
-    .findAll({
-      attributes: ["CONTRATO", "APELLIDOS", "NOMBRES", "NRO_DOC", "ESTADO"],
-      where: { APELLIDOS: { [Op.like]: req.params.id } },
-    })
+router.get("/titulardni/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+  from maestro as m
+  inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
+  where m.NRO_DOC = ${id} 
+  
+  `
+    )
+
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });
 
-//GET BY DNI
+//GET BY DNI MUTUAL
 
-router.get("/dni/:id", (req, res) => {
-  maestro
-    .findOne({
-      attributes: ["NRO_DOC", "CONTRATO", "ESTADO", "APELLIDOS", "NOMBRES"],
-      where: { NRO_DOC: req.params.id },
-      order: [["NRO_DOC", "DESC"]],
-    })
+router.get("/titulardnim/:id", (req, res) => {
+  let id = req.params.id;
 
-    .then((dni) => {
-      if (dni) {
-        res.status(200).json(dni);
-      } else {
-        res.status(200).json("no existe dni");
-      }
-    })
-    .catch((err) => res.status(400).json(err));
+  db.wSequelize
+    .query(
+      `
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+  from mutual as m
+  inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+  where m.NRO_DOC = ${id} 
+  
+  `
+    )
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+//GET BY APELLIDO
+
+router.get("/titularapellido/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+  from maestro as m
+  inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
+  where m.APELLIDOS like '${id}%'
+  
+  `
+    )
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+//GET BY APELLIDO MUTUAL
+
+router.get("/titulardnim/:id", (req, res) => {
+  db.wSequelize
+    .query(
+      `
+      select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+      from mutual as m
+      inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+      where m.APELLIDOS like '${id}%'
+  
+  `
+    )
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
 });
 
 //GET LAST CONTRATO
