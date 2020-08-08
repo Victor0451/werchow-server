@@ -24,15 +24,6 @@ module.exports = db.sepelioSequelize.define(
     edad: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    calle: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    numero: {
-      type: Sequelize.DataTypes.INTEGER,
-    },
-    barrio: {
-      type: Sequelize.DataTypes.STRING,
-    },
     fecha_fallecimiento: {
       type: Sequelize.DataTypes.DATE,
     },
@@ -54,86 +45,32 @@ module.exports = db.sepelioSequelize.define(
     cementerio: {
       type: Sequelize.DataTypes.STRING,
     },
-    retirocuerpo: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tiporetirocuerpo: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    traslado: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tipotraslado: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    capar: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    placa: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tramites: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tipotramites: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    aviso: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tipoaviso: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    carroza: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tipocarroza: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    portacorona: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tipococheporta: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    autoduelo: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tipoautoduel: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    salavel: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    tiposalavel: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    ataud: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    caracteristicas: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    observacion: {
-      type: Sequelize.DataTypes.STRING,
-    },
     estado: {
       type: Sequelize.DataTypes.TINYINT,
     },
-    precio: {
+    contrato: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    descuento: {
+    fecha_recepcion: {
+      type: Sequelize.DataTypes.DATE,
+    },
+    motivo: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    retiro: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    solicitado: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    parentesco: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    altura: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    cremacion: {
-      type: Sequelize.DataTypes.TINYINT,
-    },
-    caracteristicas: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    uso: {
-      type: Sequelize.DataTypes.STRING,
+    peso: {
+      type: Sequelize.DataTypes.INTEGER,
     },
   },
   {

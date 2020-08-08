@@ -51,6 +51,7 @@ router.post("/altaprestamo", (req, res, next) => {
     valcuota,
     neto,
     estado,
+    codptmleg,
   } = req.body;
 
   console.log(req.body);
@@ -69,6 +70,7 @@ router.post("/altaprestamo", (req, res, next) => {
       ptm_valcuota: valcuota,
       ptm_neto: neto,
       ptm_estado: estado,
+      cod_ptm_leg: codptmleg,
     })
     .then((prestamo) => {
       res.status(200).json(prestamo);
@@ -197,21 +199,41 @@ router.get("/prestamosporestado", (req, res) => {
 router.get("/prestamosporcodigo", (req, res) => {
   let id = req.query.id;
 
+  console.log(id);
+
   let desde = moment().startOf("month").format("YYYY/MM/DD");
   let hasta = moment().endOf("month").format("YYYY/MM/DD");
 
-  prestamos
-    .findAll({
-      where: {
-        ptm_fechasol: { [Op.between]: [desde, hasta] },
-        ptm_op: id,
-      },
-    })
-    .then((titular) => {
-      res.json(titular);
-      console.log(titular);
-    })
-    .catch((err) => res.json(err));
+  if (req.query.id === "1") {
+    console.log("igual");
+
+    prestamos
+      .findAll({
+        where: {
+          ptm_fechasol: { [Op.between]: [desde, hasta] },
+        },
+      })
+      .then((titular) => {
+        res.json(titular);
+        console.log(titular);
+      })
+      .catch((err) => res.json(err));
+  } else if (req.query.id !== "1") {
+    console.log("distinto");
+
+    prestamos
+      .findAll({
+        where: {
+          ptm_fechasol: { [Op.between]: [desde, hasta] },
+          ptm_op: id,
+        },
+      })
+      .then((titular) => {
+        res.json(titular);
+        console.log(titular);
+      })
+      .catch((err) => res.json(err));
+  }
 });
 
 router.get("/prestamosporid/:id", (req, res) => {

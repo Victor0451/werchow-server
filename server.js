@@ -67,14 +67,24 @@ app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
 app.use("/api/sepelio/cajasepelio", require("./routes/sepelio/caja_sepelio"));
 app.use("/api/sepelio/servicio", require("./routes/sepelio/servicio"));
+app.use("/api/sepelio/planificacion", require("./routes/sepelio/planificacion_guardias"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
 
 // UPLOADS
-app.use("/api/archivos/legajovirtual", require("./routes/archivos/LegajoVirtual"));
-app.use("/api/archivos/legajovirtualm", require("./routes/archivos/LegajoVirtualM"));
-
+app.use(
+  "/api/archivos/legajovirtual",
+  require("./routes/archivos/LegajoVirtual")
+);
+app.use(
+  "/api/archivos/legajovirtualm",
+  require("./routes/archivos/LegajoVirtualM")
+);
+app.use(
+  "/api/archivos/legajovirtualprestamos",
+  require("./routes/archivos/LegajoVirtualPrestamos")
+);
 
 // CLUBWERCHOW
 app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));

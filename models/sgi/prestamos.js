@@ -46,9 +46,9 @@ module.exports = db.wSequelize.define(
     ptm_estado: {
       type: Sequelize.DataTypes.STRING,
     },
-    // ptm_fechafin: {
-    //   type: Sequelize.DataTypes.DATE
-    // }
+    cod_ptm_leg: {
+      type: Sequelize.DataTypes.STRING
+    }
   },
   {
     timestamps: false,

@@ -277,4 +277,39 @@ router.get("/estadocarteram", (req, res) => {
   }
 });
 
+// LISTADO CUMPLE
+router.get("/listcumple", (req, res) => {
+  let fecha = req.query.fecha;
+
+  db.wSequelize
+    .query(
+      `
+        select m.CONTRATO, m.APELLIDOS, m.NOMBRES,  m.NACIMIENTO ,YEAR(CURDATE())-YEAR(m.NACIMIENTO)  AS EDAD, YEAR(CURDATE())-YEAR(m.ALTA)  AS ANTI,  m.GRUPO, g.DESCRIP,  m.TELEFONO, m.MOVIL
+        from werchow.maestro as m
+        inner join werchow.grupos as g on g.CODIGO = m.GRUPO
+        where m.GRUPO not in (66, 55, 500, 1001, 2000, 2001, 2010 ,3444,3777,3666,3888,3999,4004,7500, 7777, 8500, 8888)
+        and day(m.NACIMIENTO)=day('${fecha}') and month(m.NACIMIENTO)=month('${fecha}')
+
+        `
+    )
+    .then((listado) => res.json(listado))
+    .catch((err) => res.json(err));
+});
+
+router.get("/listcumpleM", (req, res) => {
+  db.wSequelize
+    .query(
+      `
+        select m.CONTRATO, m.APELLIDOS, m.NOMBRES,  m.NACIMIENTO ,YEAR(CURDATE())-YEAR(m.NACIMIENTO)  AS EDAD, YEAR(CURDATE())-YEAR(m.ALTA)  AS ANTI,  m.GRUPO, g.DESCRIP,  m.TELEFONO, m.MOVIL
+        from werchow.mutual as m
+        inner join werchow.grupos as g on g.CODIGO = m.GRUPO
+        where m.GRUPO not in (66, 55, 500, 1001, 2000, 2001, 2010 ,3444,3777,3666,3888,3999,4004,7500, 7777, 8500, 8888)
+        and day(m.NACIMIENTO)=day(NOW()) and month(m.NACIMIENTO)=month(NOW())
+
+        `
+    )
+    .then((listado) => res.json(listado))
+    .catch((err) => res.json(err));
+});
+
 module.exports = router;

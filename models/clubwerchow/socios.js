@@ -22,7 +22,7 @@ module.exports = db.clubWerchowSequelize.define(
       type: Sequelize.DataTypes.STRING,
     },
     telefono: {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.BIGINT,
     },
     socio: {
       type: Sequelize.DataTypes.TINYINT,
@@ -31,6 +31,9 @@ module.exports = db.clubWerchowSequelize.define(
       type: Sequelize.DataTypes.TINYINT,
     },
     referido: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    cargada: {
       type: Sequelize.DataTypes.TINYINT,
     },
     fecha_solicitud: {

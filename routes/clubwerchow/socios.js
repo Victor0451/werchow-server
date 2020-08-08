@@ -11,7 +11,6 @@ const socios = require("../../models/clubwerchow/socios");
 //GET BY ID
 
 router.post("/nuevasol", (req, res, next) => {
-
   const solicitud = ({
     fecha_solicitud,
     apellido,
@@ -28,6 +27,20 @@ router.post("/nuevasol", (req, res, next) => {
 
   socios
     .create(solicitud)
+    .then((solicitud) => {
+      res.status(200).json(solicitud);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.put("/solcargada/:id", (req, res, next) => {
+  let id = req.params.id;
+
+  console.log(id);
+  socios
+    .update({ cargada: true }, { where: { idsocio: id } })
     .then((solicitud) => {
       res.status(200).json(solicitud);
     })
