@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const moment = require("moment");
+const fs = require("fs");
 const legajovirtualprestamos = require("../../models/sgi/legajovirtualprestamos");
 
 let storage = multer.diskStorage({
@@ -68,6 +69,27 @@ router.get("/listaarchivos/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+router.delete("/eliminararchivos/:id", (req, res) => {
+  let id = req.params.id;
+  const file = path.join(
+    __dirname,
+    `../../uploads/legajoPrestamos/werchow/${id}`
+  );
+
+  legajovirtualprestamos
+    .destroy({
+      where: { archivo: id },
+    })
+    .then((leg) => {
+      res.status(200).json(leg);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  fs.unlinkSync(file);
 });
 
 module.exports = router;

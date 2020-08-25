@@ -70,7 +70,13 @@ module.exports = db.sepelioSequelize.define(
       type: Sequelize.DataTypes.INTEGER,
     },
     peso: {
+      type: Sequelize.DataTypes.FLOAT,
+    },
+    dni_nuevotitular: {
       type: Sequelize.DataTypes.INTEGER,
+    },
+    operador: {
+      type: Sequelize.DataTypes.STRING,
     },
   },
   {

@@ -6,6 +6,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 
 router.get("/operador/:id", (req, res, next) => {
+  console.log(req.params.id);
   operador
     .findOne({
       where: { usuario: req.params.id },
@@ -86,10 +87,9 @@ router.post("/postoperador", (req, res, next) => {
 });
 
 router.put("/editar/:id", (req, res, next) => {
-  const { contrasena, apellido, nombre, perfil, codigo, id } = req.body;
+  const { contrasena, apellido, nombre, perfil, codigo } = req.body;
 
   const OperadorEdit = {
-    id,
     contrasena,
     nombre,
     apellido,
@@ -112,7 +112,7 @@ router.put("/editar/:id", (req, res, next) => {
           estado: OperadorEdit.estado,
           contrasena: OperadorEdit.contrasena,
         },
-        { where: { id: OperadorEdit.id } }
+        { where: { usuario: req.params.id } }
       );
     });
   });
