@@ -1,13 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const sequelize = require("sequelize");
-
+const Op = sequelize.Op;
 const maestro = require("../../models/werchow/maestro");
-const mutual = require("../../models/werchow/mutual");
 const adherent = require("../../models/werchow/adherent");
+const adherentM = require("../../models/werchow/mutual_adh");
+
+const mutual = require("../../models/werchow/mutual");
 const mutualadh = require("../../models/werchow/mutual_adh");
 const servicios = require("../../models/sepelio/servicios");
+const servHistoricos = require("../../models/sepelio/servicios_historico");
 const PrecioServicio = require("../../models/sepelio/precio_servicio");
+const grupos = require("../../models/werchow/grupos");
 
 router.get("/consultarficha/:id", (req, res) => {
   let id = req.params.id;
@@ -109,9 +113,44 @@ router.get("/consultarfichaadhm/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-router.get("/listadoservicios", (req, res) => {
-  servicios
+router.get("/adherentestit/:id", (req, res, next) => {
+  adherent
+    .findAll({ where: { CONTRATO: req.params.id } })
+    .then((adherent) => res.json(adherent))
+    .catch((err) => res.json(err));
+});
+
+router.get("/adherentestitm/:id", (req, res, next) => {
+  adherentM
+    .findAll({ where: { CONTRATO: req.params.id } })
+    .then((adherent) => res.json(adherent))
+    .catch((err) => res.json(err));
+});
+
+router.get("/grupo/:id", (req, res, next) => {
+  grupos
+    .findOne({ where: { CODIGO: req.params.id } })
+    .then((grupo) => res.json(grupo))
+    .catch((err) => res.json(err));
+});
+
+router.get("/servhistoricos", (req, res, next) => {
+  servHistoricos
     .findAll()
+    .then((grupo) => res.json(grupo))
+    .catch((err) => res.json(err));
+});
+
+router.get("/listadoservicios", (req, res) => {
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+
+  console.log(req.query);
+
+  servicios
+    .findAll({
+      where: { fecha_fallecimiento: { [Op.between]: [desde, hasta] } },
+    })
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });
@@ -152,7 +191,13 @@ router.post("/nuevoservicio", (req, res) => {
     estado: estado,
     dni_nuevotitular: dni_nuevotitular,
     operador: opreador,
+    idataud: idataud,
+    dni_solicitante: dni_solicitante,
   } = req.body);
+
+  if (nuevoservicio.dni_nuevotitular === "") {
+    nuevoservicio.dni_nuevotitular = 1;
+  }
 
   console.log(nuevoservicio);
 
@@ -188,6 +233,8 @@ router.put("/editarservicio/:id", (req, res) => {
     fecha_recepcion: fecha_recepcion,
     sucursal: sucursal,
     estado: estado,
+    operador: operador,
+    idataud: idataud,
   } = req.body);
 
   servicios

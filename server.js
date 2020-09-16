@@ -85,7 +85,10 @@ app.use(
   "/api/archivos/legajovirtualprestamos",
   require("./routes/archivos/LegajoVirtualPrestamos")
 );
-
+app.use(
+  "/api/archivos/legajovirtualservicios",
+  require("./routes/archivos/LegajoVirtualServicios")
+);
 // CLUBWERCHOW
 app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));
 app.use(

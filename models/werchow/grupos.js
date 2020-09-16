@@ -2,30 +2,26 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.werchowSequelize.define(
-  "memo",
+module.exports = db.wSequelize.define(
+  "grupos",
   {
-    ID: {
+    CODIGO: {
       type: Sequelize.DataTypes.INTEGER(11),
       allowNull: true,
       autoIncrement: true,
       primaryKey: true,
     },
 
-    CONTRATO: {
-      type: Sequelize.DataTypes.INTEGER(11),
-      allowNull: true,
-    },
-    MEMO: {
-      type: Sequelize.DataTypes.TEXT(300),
+    DESCRIP: {
+      type: Sequelize.DataTypes.STRING,
       allowNull: true,
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true,
   },
   {
-    tableName: "memo",
+    tableName: "grupos",
   }
 );

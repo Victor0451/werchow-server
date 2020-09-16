@@ -72,12 +72,24 @@ module.exports = db.sepelioSequelize.define(
     peso: {
       type: Sequelize.DataTypes.FLOAT,
     },
-    dni_nuevotitular: {
+    idataud: {
       type: Sequelize.DataTypes.INTEGER,
     },
     operador: {
       type: Sequelize.DataTypes.STRING,
     },
+    dni_nuevotitular: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    dni_solicitante: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    // grupo: {
+    //   type: Sequelize.DataTypes.INTEGER,
+    // },
+    // nro_tarcuenta: {
+    //   type: Sequelize.DataTypes.INTEGER,
+    // },
   },
   {
     timestamps: false,

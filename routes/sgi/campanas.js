@@ -688,6 +688,9 @@ router.get("/campanaoperadornoti", (req, res, next) => {
   let empresa = req.query.empresa;
   let campana = req.query.campana;
 
+  let desde = moment().startOf("month").format("YYYY-MM-DD");
+  let hasta = moment().endOf("month").format("YYYY-MM-DD");
+  
   db.sgiSequelize
     .query(
       ` SELECT * FROM campanacasos AS cc 
@@ -698,6 +701,7 @@ router.get("/campanaoperadornoti", (req, res, next) => {
       AND c.empresa =  "${empresa}"
       AND cc.accion = 1      
       AND gc.accion = 10
+      AND fechaaccion BETWEEN ${desde} AND ${hasta}
   `
     )
 

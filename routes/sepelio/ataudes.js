@@ -39,4 +39,16 @@ router.get("/cantidad", (req, res, next) => {
     });
 });
 
+router.get("/ataud/:id", (req, res, next) => {
+  Ataudes.findOne({
+    where: { idataud: req.params.id },
+  })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 module.exports = router;

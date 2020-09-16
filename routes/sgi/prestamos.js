@@ -52,6 +52,7 @@ router.post("/altaprestamo", (req, res, next) => {
     neto,
     estado,
     codptmleg,
+    ptm_afi,
   } = req.body;
 
   console.log(req.body);
@@ -71,6 +72,7 @@ router.post("/altaprestamo", (req, res, next) => {
       ptm_neto: neto,
       ptm_estado: estado,
       cod_ptm_leg: codptmleg,
+      ptm_afi: ptm_afi,
     })
     .then((prestamo) => {
       res.status(200).json(prestamo);
@@ -201,8 +203,8 @@ router.get("/prestamosporcodigo", (req, res) => {
 
   console.log(id);
 
-  let desde = moment().startOf("month").format("YYYY/MM/DD");
-  let hasta = moment().endOf("month").format("YYYY/MM/DD");
+  let desde = moment().startOf("month").format("YYYY-MM-DD");
+  let hasta = moment().endOf("month").format("YYYY-MM-DD");
 
   if (req.query.id === "1") {
     console.log("igual");
@@ -286,4 +288,17 @@ router.get("/ingresomensual", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/afiliado/:id", (req, res) => {
+  maestro
+    .findOne({
+      attributes: ["APELLIDOS", "NOMBRES"],
+
+      where: {
+        ptm_ficha: req.params.id,
+      },
+    })
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
 module.exports = router;

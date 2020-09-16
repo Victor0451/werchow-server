@@ -5,12 +5,12 @@ const db = require("../../db/database");
 module.exports = db.wSequelize.define(
   "mutual_adh",
   {
-    ID: {
-      type: Sequelize.DataTypes.INTEGER,
-      allowNull: true,
-      autoIncrement: true,
-      primaryKey: true,
-    },
+    // ID: {
+    //   type: Sequelize.DataTypes.INTEGER,
+    //   allowNull: true,
+    //   autoIncrement: true,
+    //   primaryKey: true,
+    // },
     SUCURSAL: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
@@ -262,10 +262,6 @@ module.exports = db.wSequelize.define(
     },
     PACOMISE: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNull: true,
-    },
-    ESTADO: {
-      type: Sequelize.DataTypes.TINYINT,
       allowNull: true,
     },
   },

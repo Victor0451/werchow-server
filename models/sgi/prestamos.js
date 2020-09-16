@@ -47,8 +47,11 @@ module.exports = db.wSequelize.define(
       type: Sequelize.DataTypes.STRING,
     },
     cod_ptm_leg: {
-      type: Sequelize.DataTypes.STRING
-    }
+      type: Sequelize.DataTypes.STRING,
+    },
+    ptm_afi: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
