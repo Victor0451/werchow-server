@@ -11,7 +11,7 @@ const gestioncaso = require("../../models/sgi/gestioncaso");
 // GET POLICIA
 
 router.get("/poliW", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM policampana AS p
     
@@ -30,7 +30,7 @@ router.get("/poliW", (req, res, next) => {
 // GET AUX
 
 router.get("/auxW", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM auxcampana AS aux
     
@@ -48,7 +48,7 @@ router.get("/auxW", (req, res, next) => {
 //GET AT WERCHOW
 
 router.get("/atW", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM atcampana AS at
       
@@ -66,7 +66,7 @@ router.get("/atW", (req, res, next) => {
 //GET REC WERCHOW
 
 router.get("/recW", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM reccampana as rc    
      
@@ -84,7 +84,7 @@ router.get("/recW", (req, res, next) => {
 //GET REIN WERCHOW
 
 router.get("/reinW", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM reincampana as rn
      
@@ -102,7 +102,7 @@ router.get("/reinW", (req, res, next) => {
 //GET BLAN WERCHOW
 
 router.get("/blanW", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM blancampana as bl
        
@@ -323,6 +323,7 @@ router.get("/buscargestioncaso/:id", (req, res, next) => {
         "observacion",
         "nuevaaccion",
         "fechaaccion",
+        "fechanuevaaccion"
       ],
       where: { contrato: id },
       order: [["idgestion", "DESC"]],

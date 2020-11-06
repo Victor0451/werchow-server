@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 const Ataudes = require("../../models/sepelio/ataudes");
 
@@ -30,7 +32,7 @@ router.post("/nuevo", (req, res, next) => {
 //GET ATAUDES
 
 router.get("/cantidad", (req, res, next) => {
-  Ataudes.findAll()
+  Ataudes.findAll({ where: { stock: { [Op.gt]: 0 } } })
     .then((cantidad) => {
       res.status(200).json(cantidad);
     })
@@ -43,6 +45,19 @@ router.get("/ataud/:id", (req, res, next) => {
   Ataudes.findOne({
     where: { idataud: req.params.id },
   })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/updatestock/:id", (req, res, next) => {
+  Ataudes.update(
+    { stock: req.body.nustock },
+    { where: { idataud: req.params.id } }
+  )
     .then((cantidad) => {
       res.status(200).json(cantidad);
     })

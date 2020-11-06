@@ -106,6 +106,21 @@ const clubWerchowSequelize = new Sequelize({
   },
 });
 
+const campsSequelize = new Sequelize({
+  host: "192.168.1.102",
+  database: "werchow-camps",
+  username: "vlongo",
+  password: "nokia5800",
+  dialect: "mysql",
+
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+});
+
 db.werchowSequelize = werchowSequelize;
 db.mutualSequelize = mutualSequelize;
 db.sgiSequelize = sgiSequelize;
@@ -113,6 +128,7 @@ db.infoSequelize = infoSequelize;
 db.sepelioSequelize = sepelioSequelize;
 db.wSequelize = wSequelize;
 db.clubWerchowSequelize = clubWerchowSequelize;
+db.campsSequelize = campsSequelize;
 
 db.Sequelize = Sequelize;
 

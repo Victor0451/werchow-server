@@ -62,12 +62,25 @@ app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
 app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
 app.use("/api/sgi/prestamos", require("./routes/sgi/prestamos"));
 app.use("/api/sgi/socios", require("./routes/sgi/socios"));
+app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
 app.use("/api/sepelio/cajasepelio", require("./routes/sepelio/caja_sepelio"));
 app.use("/api/sepelio/servicio", require("./routes/sepelio/servicio"));
-app.use("/api/sepelio/planificacion", require("./routes/sepelio/planificacion_guardias"));
+app.use(
+  "/api/sepelio/planificacion",
+  require("./routes/sepelio/planificacion_guardias")
+);
+app.use(
+  "/api/sepelio/serviciogastos",
+  require("./routes/sepelio/servicio_gastos")
+);
+app.use(
+  "/api/sepelio/servicioliquidacion",
+  require("./routes/sepelio/servicio_liquidacion")
+);
+app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));

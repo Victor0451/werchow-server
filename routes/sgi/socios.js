@@ -7,6 +7,7 @@ const moment = require("moment");
 const rehabilitaciones = require("../../models/sgi/rehabilitaciones");
 const maestro = require("../../models/werchow/maestro");
 const maestroM = require("../../models/mutual/maestro");
+const altanovell = require("../../models/sgi/altanovell");
 
 // GET FICHA WERCHOW
 router.get("/consultarficha/:id", (req, res) => {
@@ -308,6 +309,72 @@ router.get("/listcumpleM", (req, res) => {
 
         `
     )
+    .then((listado) => res.json(listado))
+    .catch((err) => res.json(err));
+});
+
+// POST NOVELL
+
+router.post("/nuevonovell", (req, res) => {
+  const novell = ({
+    servicio: servicio,
+    fecha_recepcion: fecha_recepcion,
+    monto: monto,
+    monto_letra: monto_letra,
+    anticipo: anticipo,
+    cuota: cuota,
+    gastos_adm: gastos_adm,
+    apellido_sol: apellido_sol,
+    nombre_sol: nombre_sol,
+    dni_sol: dni_sol,
+    estcivil_sol: estcivil_sol,
+    fecha_nac_sol: fecha_nac_sol,
+    dom_sol: dom_sol,
+    domnum_sol: domnum_sol,
+    piso_sol: piso_sol,
+    barrio_sol: barrio_sol,
+    localidad_sol: localidad_sol,
+    codpostal_sol: codpostal_sol,
+    telefono_sol: telefono_sol,
+    movil_sol: movil_sol,
+    apellido_ben: apellido_ben,
+    nombre_ben: nombre_ben,
+    dni_ben: dni_ben,
+    estcivil_ben: estcivil_ben,
+    fecha_nac_ben: fecha_nac_ben,
+    dom_ben: dom_ben,
+    domnum_ben: domnum_ben,
+    piso_ben: piso_ben,
+    barrio_ben: barrio_ben,
+    localidad_ben: localidad_ben,
+    codpostal_ben: codpostal_ben,
+    telefono_ben: telefono_ben,
+    movil_ben: movil_ben,
+    operador: operador,
+  } = req.body);
+
+  altanovell
+    .create(novell)
+    .then((res) => res.json(res))
+    .catch((err) => res.json(err));
+});
+
+// GET ALL NOVELL
+
+router.get("/listadonovell", (req, res) => {
+  altanovell
+    .findAll()
+    .then((listado) => res.json(listado))
+    .catch((err) => res.json(err));
+});
+
+// GET NOVELL BY ID
+
+router.get("/traernovell/:id", (req, res) => {
+  let id = req.params.id;
+
+  altanovell
+    .findOne({ where: { idnovell: id } })
     .then((listado) => res.json(listado))
     .catch((err) => res.json(err));
 });

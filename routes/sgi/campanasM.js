@@ -9,17 +9,17 @@ const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
 
 router.get("/atM", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM atcampanaM AS at
       
       `
     )
-    .then(atcampana => {
+    .then((atcampana) => {
       res.status(200).json(atcampana);
     })
 
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -27,7 +27,7 @@ router.get("/atM", (req, res, next) => {
 //GET REC WERCHOW
 
 router.get("/recM", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM reccampanaM as rc
        
@@ -35,11 +35,11 @@ router.get("/recM", (req, res, next) => {
        
       `
     )
-    .then(reccampana => {
+    .then((reccampana) => {
       res.status(200).json(reccampana);
     })
 
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -47,17 +47,17 @@ router.get("/recM", (req, res, next) => {
 //GET REIN WERCHOW
 
 router.get("/reinM", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM reincampanaM as rn
         
       `
     )
-    .then(reincampana => {
+    .then((reincampana) => {
       res.status(200).json(reincampana);
     })
 
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -65,17 +65,17 @@ router.get("/reinM", (req, res, next) => {
 //GET BLAN WERCHOW
 
 router.get("/blanM", (req, res, next) => {
-  db.sgiSequelize
+  db.campsSequelize
     .query(
       `SELECT * FROM blancampanaM as bl
         
       `
     )
-    .then(blancampana => {
+    .then((blancampana) => {
       res.status(200).json(blancampana);
     })
 
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -92,17 +92,17 @@ router.get("/consultacamp", (req, res, next) => {
       attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
       where: {
         fechacampana: {
-          [Op.between]: [desde, hasta]
+          [Op.between]: [desde, hasta],
         },
         estadocaso: 1,
-        idcampana: { [Op.in]: [28, 29, 30, 31, 32] }
+        idcampana: { [Op.in]: [28, 29, 30, 31, 32] },
       },
-      group: ["idcampana"]
+      group: ["idcampana"],
     })
-    .then(pagos => {
+    .then((pagos) => {
       res.status(200).json(pagos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -119,17 +119,17 @@ router.get("/consultacamprec", (req, res, next) => {
       attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
       where: {
         fechacampana: {
-          [Op.between]: [desde, hasta]
+          [Op.between]: [desde, hasta],
         },
         estadocaso: 1,
-        idcampana: { [Op.in]: [33, 34, 35, 36, 37] }
+        idcampana: { [Op.in]: [33, 34, 35, 36, 37] },
       },
-      group: ["idcampana"]
+      group: ["idcampana"],
     })
-    .then(pagos => {
+    .then((pagos) => {
       res.status(200).json(pagos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -146,17 +146,17 @@ router.get("/consultacamprein", (req, res, next) => {
       attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
       where: {
         fechacampana: {
-          [Op.between]: [desde, hasta]
+          [Op.between]: [desde, hasta],
         },
         estadocaso: 1,
-        idcampana: { [Op.in]: [38, 39, 40, 41, 42] }
+        idcampana: { [Op.in]: [38, 39, 40, 41, 42] },
       },
-      group: ["idcampana"]
+      group: ["idcampana"],
     })
-    .then(pagos => {
+    .then((pagos) => {
       res.status(200).json(pagos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -173,17 +173,17 @@ router.get("/consultacampblan", (req, res, next) => {
       attributes: ["idcampana", [Sequelize.fn("COUNT", "contrato"), "casos"]],
       where: {
         fechacampana: {
-          [Op.between]: [desde, hasta]
+          [Op.between]: [desde, hasta],
         },
         estadocaso: 1,
-        idcampana: { [Op.in]: [43, 44, 45, 46, 47] }
+        idcampana: { [Op.in]: [43, 44, 45, 46, 47] },
       },
-      group: ["idcampana"]
+      group: ["idcampana"],
     })
-    .then(pagos => {
+    .then((pagos) => {
       res.status(200).json(pagos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -205,10 +205,10 @@ router.get("/campanaoperadorM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -227,10 +227,10 @@ router.get("/campanaoperadorrecM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -249,10 +249,10 @@ router.get("/campanaoperadorreinM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -271,10 +271,10 @@ router.get("/campanaoperadorblanM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -293,10 +293,10 @@ router.get("/campanaoperadorrecordatorioM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -317,10 +317,10 @@ router.get("/campanaoperadortrabM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -339,10 +339,10 @@ router.get("/campanaoperadortrabrecM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -361,10 +361,10 @@ router.get("/campanaoperadortrabblanM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -383,10 +383,10 @@ router.get("/campanaoperadortrabreinM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -405,10 +405,10 @@ router.get("/campanaoperadortrabrecordatorioM/:id", (req, res, next) => {
       AND cc.estadocaso = 1
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -430,10 +430,10 @@ router.get("/campanaoperadorhist/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -453,10 +453,10 @@ router.get("/campanaoperadorhistrec/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -476,10 +476,10 @@ router.get("/campanaoperadorhistrein/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -499,10 +499,10 @@ router.get("/campanaoperadorhistblan/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -522,10 +522,10 @@ router.get("/campanaoperadorhistrecordatorio/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -548,10 +548,10 @@ router.get("/campanaoperadornotiatM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -572,10 +572,10 @@ router.get("/campanaoperadornotirecM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -596,10 +596,10 @@ router.get("/campanaoperadornotiblanM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -620,10 +620,10 @@ router.get("/campanaoperadornotireinM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -636,12 +636,12 @@ router.get("/getgestioncaso/:id", (req, res, next) => {
   gestioncaso
     .findAll({
       where: { idcaso: id },
-      order: [["idgestion", "DESC"]]
+      order: [["idgestion", "DESC"]],
     })
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -664,10 +664,10 @@ router.get("/campanaoperadornotiatM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -688,10 +688,10 @@ router.get("/campanaoperadornotirecM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -712,10 +712,10 @@ router.get("/campanaoperadornotiblanM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -736,10 +736,10 @@ router.get("/campanaoperadornotireinM/:id", (req, res, next) => {
 
     `
     )
-    .then(campanacasos => {
+    .then((campanacasos) => {
       res.status(200).json(campanacasos);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });

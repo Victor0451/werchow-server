@@ -1,26 +1,32 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.clubWerchowSequelize.define(
-  "participantes_sorteo",
+module.exports = db.sepelioSequelize.define(
+  "servicio_liquidacion",
   {
-    idparticipante: {
+    idliquidacion: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    participante: {
-      type: Sequelize.DataTypes.STRING,
+
+    idservicio: {
+      type: Sequelize.DataTypes.INTEGER,
     },
 
-    dni: {
+    total_gastos: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    doblechance: {
+
+    total_sueldo: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    fecha: {
-      type: Sequelize.DataTypes.DATE,
+
+    total_liquidacion: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    fecha_liquidacion: {
+      type: Sequelize.DataTypes.STRING,
     },
   },
   {
@@ -28,6 +34,6 @@ module.exports = db.clubWerchowSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "participantes_sorteo",
+    tableName: "servicio_liquidacion",
   }
 );

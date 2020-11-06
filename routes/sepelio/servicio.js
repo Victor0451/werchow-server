@@ -5,7 +5,7 @@ const Op = sequelize.Op;
 const maestro = require("../../models/werchow/maestro");
 const adherent = require("../../models/werchow/adherent");
 const adherentM = require("../../models/werchow/mutual_adh");
-
+const db = require("../../db/database");
 const mutual = require("../../models/werchow/mutual");
 const mutualadh = require("../../models/werchow/mutual_adh");
 const servicios = require("../../models/sepelio/servicios");
@@ -141,6 +141,15 @@ router.get("/servhistoricos", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/todoslosservicios", (req, res, next) => {
+  servicios
+    .findAll({
+      order: [["fecha_fallecimiento", "DESC"]],
+    })
+    .then((grupo) => res.json(grupo))
+    .catch((err) => res.json(err));
+});
+
 router.get("/listadoservicios", (req, res) => {
   let desde = req.query.desde;
   let hasta = req.query.hasta;
@@ -150,6 +159,7 @@ router.get("/listadoservicios", (req, res) => {
   servicios
     .findAll({
       where: { fecha_fallecimiento: { [Op.between]: [desde, hasta] } },
+      order: [["fecha_fallecimiento", "DESC"]],
     })
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
@@ -193,6 +203,7 @@ router.post("/nuevoservicio", (req, res) => {
     operador: opreador,
     idataud: idataud,
     dni_solicitante: dni_solicitante,
+    cremacion: cremacion,
   } = req.body);
 
   if (nuevoservicio.dni_nuevotitular === "") {
@@ -264,6 +275,247 @@ router.get("/precioservicio/:id", (req, res, next) => {
     .catch((err) => {
       res.status(400).json(err);
     });
+});
+
+router.get("/serviciossinimpactar", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      SELECT empresa,contrato, dni  as 'difunto',
+
+      (
+      CASE
+      WHEN dni_nuevotitular = 11111111
+      THEN 'NOVELL/SIN ADH'
+      
+      WHEN dni_nuevotitular = 1
+      THEN 'ADHERENTE'
+      
+      WHEN dni_nuevotitular IS NULL
+      THEN 'PARTICULAR'
+      
+      ELSE CONCAT('NUEVO TITULAR',' ', dni_nuevotitular)
+      END
+      ) as 'estado_ficha',
+      
+      fecha_fallecimiento
+      
+      FROM servicios 
+      WHERE impactado	= 0
+      and dni IS NOT NULL
+      
+      
+      ;
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/puttitularesw", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      UPDATE servicios AS s
+
+      SET impactado = (
+        CASE
+        WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.maestro AS a
+          WHERE
+            a.NRO_DOC = s.dni
+          AND a.BAJA IS NOT NULL
+        ) THEN
+          TRUE
+      
+      WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.maestro AS a
+          WHERE
+            a.NRO_DOC = s.dni
+          AND a.BAJA IS NULL
+        ) THEN
+          FALSE
+        
+        END
+      )
+      WHERE empresa = 'Werchow'
+      and dni_nuevotitular is not NULL
+      and dni_nuevotitular != 1
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/puttitularesm", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      UPDATE servicios AS s
+
+      SET impactado = (
+        CASE
+        WHEN NOT EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.mutual AS a
+          WHERE
+            a.NRO_DOC = s.dni
+        
+        ) THEN
+          TRUE
+      
+      WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.mutual AS a
+          WHERE
+            a.NRO_DOC = s.dni
+        
+        ) THEN
+          FALSE
+        
+        END
+      )
+      WHERE empresa = 'Mutual'
+      and dni_nuevotitular is not NULL
+      and dni_nuevotitular != 1
+      
+
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/putadherentesw", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      UPDATE servicios AS s
+
+      SET impactado = (
+        CASE
+        WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.adherent AS a
+          WHERE
+            a.NRO_DOC = s.dni
+          AND a.BAJA IS NOT NULL
+        ) THEN
+          TRUE
+      
+      WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.adherent AS a
+          WHERE
+            a.NRO_DOC = s.dni
+          AND a.BAJA IS NULL
+        ) THEN
+          FALSE
+        
+        END
+      )
+      WHERE empresa = 'Werchow'
+      and dni_nuevotitular = 1
+      
+
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/putadherentesm", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      UPDATE servicios AS s
+            
+      SET impactado = (
+        CASE
+        WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.mutual_adh AS a
+          WHERE
+            a.NRO_DOC = s.dni
+          AND a.BAJA IS NOT NULL
+        ) THEN
+          TRUE
+
+      WHEN EXISTS (
+          SELECT
+            a.NRO_DOC
+          FROM
+            werchow.mutual_adh AS a
+          WHERE
+            a.NRO_DOC = s.dni
+          AND a.BAJA IS NULL
+        ) THEN
+          FALSE
+        
+        END
+      )
+      where empresa = 'Mutual'
+      and dni_nuevotitular = 1      
+
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/asignaridparcela/:id", (req, res) => {
+  let id = req.params.id;
+
+  const idparcela = req.body.idparcela;
+
+  servicios
+    .update({
+      idparcela: idparcela,
+      where: { idservicio: id },
+    })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
 });
 
 module.exports = router;

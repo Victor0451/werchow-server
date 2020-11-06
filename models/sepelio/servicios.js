@@ -78,18 +78,24 @@ module.exports = db.sepelioSequelize.define(
     operador: {
       type: Sequelize.DataTypes.STRING,
     },
+    sucursal: {
+      type: Sequelize.DataTypes.STRING,
+    },
     dni_nuevotitular: {
       type: Sequelize.DataTypes.INTEGER,
     },
     dni_solicitante: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    // grupo: {
-    //   type: Sequelize.DataTypes.INTEGER,
-    // },
-    // nro_tarcuenta: {
-    //   type: Sequelize.DataTypes.INTEGER,
-    // },
+    cremacion: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    idataud: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    idparcela: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
   },
   {
     timestamps: false,
