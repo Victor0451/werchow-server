@@ -56,10 +56,6 @@ app.use("/api/sgi/campanas", require("./routes/sgi/campanas"));
 app.use("/api/sgi/campanasM", require("./routes/sgi/campanasM"));
 app.use("/api/sgi/estadistica", require("./routes/sgi/estadistica"));
 app.use("/api/sgi/noticia", require("./routes/sgi/noticia"));
-app.use("/api/sgi/moraw", require("./routes/informe/moraw"));
-app.use("/api/sgi/moram", require("./routes/informe/moram"));
-app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
-app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
 app.use("/api/sgi/prestamos", require("./routes/sgi/prestamos"));
 app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sgi/datos", require("./routes/sgi/datos"));
@@ -107,6 +103,30 @@ app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));
 app.use(
   "/api/clubwerchow/comercios",
   require("./routes/clubwerchow/comercios")
+);
+
+// // INFORMES
+app.use("/api/sgi/moraw", require("./routes/informe/moraw"));
+app.use("/api/sgi/moram", require("./routes/informe/moram"));
+app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
+app.use("/api/sgi/efectividadm", require("./routes/informe/efectividadm"));
+app.use(
+  "/api/sgi/actualizartablasm",
+  require("./routes/informe/actualizartablasM")
+);
+app.use(
+  "/api/sgi/actualizartablasw",
+  require("./routes/informe/actualizartablasW")
+);
+
+app.use(
+  "/api/sgi/insertartablasw",
+  require("./routes/informe/insertartablasW")
+);
+
+app.use(
+  "/api/sgi/insertartablasm",
+  require("./routes/informe/insertartablasM")
 );
 
 //Conecting DB
