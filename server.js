@@ -59,6 +59,7 @@ app.use("/api/sgi/noticia", require("./routes/sgi/noticia"));
 app.use("/api/sgi/prestamos", require("./routes/sgi/prestamos"));
 app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sgi/datos", require("./routes/sgi/datos"));
+app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
@@ -104,6 +105,10 @@ app.use(
   "/api/clubwerchow/comercios",
   require("./routes/clubwerchow/comercios")
 );
+
+// SEPELIO PAGINA
+app.use("/api/sepeliospag/grupos", require("./routes/sepeliopag/grupos"));
+app.use("/api/clubwerchow/connac", require("./routes/sepeliopag/connac"));
 
 // // INFORMES
 app.use("/api/sgi/moraw", require("./routes/informe/moraw"));

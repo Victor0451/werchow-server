@@ -24,9 +24,7 @@ module.exports = db.sgiSequelize.define(
     anticipo: {
       type: Sequelize.DataTypes.INTEGER,
     },
-    cuota: {
-      type: Sequelize.DataTypes.INTEGER,
-    },
+  
     gastos_adm: {
       type: Sequelize.DataTypes.INTEGER,
     },
@@ -127,10 +125,31 @@ module.exports = db.sgiSequelize.define(
     },
 
     movil_ben: {
-      type: Sequelize.DataTypes.STRING,
+      type: Sequelize.DataTypes.INTEGER,
     },
     operador: {
       type: Sequelize.DataTypes.STRING,
+    },
+    nacionalidad_sol: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    nacionalidad_ben: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    anticipo_letra: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    cuotas: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    cuotasaldo_letra: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    cuotasaldo: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    cuota_mantenimiento: {
+      type: Sequelize.DataTypes.INTEGER,
     },
   },
 

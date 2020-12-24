@@ -10,40 +10,42 @@ let mesadel = moment().add(1, "M").format("MM");
 let ano = moment().format("YYYY");
 
 router.put("/c1000mcob", (req, res, next) => {
+  console.log(iniMes, finMes, mes, ano, mes, mesadel);
+
   db.infoSequelize
     .query(
       `
-    UPDATE c1000m i
-    JOIN werchow.som AS m ON i.zona = m.ZONA
-    SET i.cobrado = 
-    (
-    SELECT  sum(p.IMPORTE)
-    FROM  werchow.pagos_mutual AS p
-    inner join werchow.som as so on so.CONTRATO = p.CONTRATO 
-    WHERE  i.zona = so.ZONA
-    and p.MOVIM = 'P'
-    and p.DIA_REN between '${iniMes}' and '${finMes}'
-    and so.ZONA not in (1,3,5,60,99)
-    group by so.ZONA
-    ),
-    
-    i.fichascob = 
-    (
-    SELECT  count(p.CONTRATO)
-    FROM  werchow.pagos_mutual AS p
-    inner join werchow.som as so on so.CONTRATO = p.CONTRATO 
-    WHERE  i.zona = so.ZONA
-    and p.MOVIM = 'P'
-    and p.DIA_REN between '${iniMes}' and '${finMes}'
-    and so.ZONA not in (1,3,5,60,99)
-    group by so.ZONA
-    )
-    
-    where i.mes = ${mes}
-    and i.ano = ${ano}
-    and i.zona not in (1,3,5,60)
- 
-`
+      UPDATE c1000m i
+      JOIN werchow.som AS m ON i.zona = m.ZONA
+      SET i.cobrado =
+      (
+      SELECT  sum(p.IMPORTE)
+      FROM  werchow.pagos_mutual AS p
+      inner join werchow.som as so on so.CONTRATO = p.CONTRATO
+      WHERE  i.zona = so.ZONA
+      and p.MOVIM = 'P'
+      and p.DIA_REN between '${iniMes}' and '${finMes}'
+      and so.ZONA not in (1,3,5,60,99)
+      group by so.ZONA
+      ),
+
+      i.fichascob =
+      (
+      SELECT  count(p.CONTRATO)
+      FROM  werchow.pagos_mutual AS p
+      inner join werchow.som as so on so.CONTRATO = p.CONTRATO
+      WHERE  i.zona = so.ZONA
+      and p.MOVIM = 'P'
+      and p.DIA_REN between '${iniMes}' and '${finMes}'
+      and so.ZONA not in (1,3,5,60,99)
+      group by so.ZONA
+      )
+
+      where i.mes = ${mes}
+      and i.ano = ${ano}
+      and i.zona not in (1,3,5,60)
+
+  `
     )
 
     .then((efectividad) => {

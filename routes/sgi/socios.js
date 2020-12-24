@@ -105,6 +105,95 @@ router.get("/estadocarteraw", (req, res) => {
   let hasta = req.query.hasta;
   let sucursal = req.query.sucursal;
 
+  if (flag === "W") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM maestro as m
+    INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (21,22,39,40,41,42,45,23,48,54,69)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+  if (flag === "L") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM maestro as m
+    INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (14,15)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+  if (flag === "R") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM maestro as m
+    INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (4,47)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+  if (flag === "P") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM maestro as m
+    INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (28,63,64,53)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+
   // AT 1000
   if (flag === "1") {
     db.wSequelize
@@ -196,6 +285,95 @@ router.get("/estadocarteram", (req, res) => {
   let desde = req.query.desde;
   let hasta = req.query.hasta;
   let sucursal = req.query.sucursal;
+
+  if (flag === "W") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM mutual as m
+    INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos_mutual as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (21,22,39,40,41,42,45,23,48,54,69)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+  if (flag === "L") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM mutual as m
+    INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos_mutual as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (14,15)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+  if (flag === "R") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM mutual as m
+    INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos_mutual as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (4,47)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+  if (flag === "P") {
+    db.wSequelize
+      .query(
+        `
+    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    FROM mutual as m
+    INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
+    WHERE NOT EXISTS
+    (SELECT * FROM pagos_mutual as p
+    WHERE p.CONTRATO = m.CONTRATO
+    and p.MES = ${mes}
+    and p.ANO = ${ano}
+    and p.MOVIM = 'P'
+    )
+    and m.PLAN != 'P'
+    and m.GRUPO in (${grupo})
+    and m.ZONA in (28,63,64,53)
+    `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
 
   // AT 1000
   if (flag === "1") {
@@ -322,7 +500,11 @@ router.post("/nuevonovell", (req, res) => {
     monto: monto,
     monto_letra: monto_letra,
     anticipo: anticipo,
+    anticipo_letra: anticipo_letra,
     cuota: cuota,
+    cuotasaldo: cuotasaldo,
+    cuotasaldo_letra: cuotasaldo_letra,
+    cuota_mantenimiento: cuota_mantenimiento,
     gastos_adm: gastos_adm,
     apellido_sol: apellido_sol,
     nombre_sol: nombre_sol,
@@ -334,6 +516,7 @@ router.post("/nuevonovell", (req, res) => {
     piso_sol: piso_sol,
     barrio_sol: barrio_sol,
     localidad_sol: localidad_sol,
+    nacionalidad_sol: nacionalidad_sol,
     codpostal_sol: codpostal_sol,
     telefono_sol: telefono_sol,
     movil_sol: movil_sol,
@@ -347,6 +530,7 @@ router.post("/nuevonovell", (req, res) => {
     piso_ben: piso_ben,
     barrio_ben: barrio_ben,
     localidad_ben: localidad_ben,
+    nacionalidad_ben: nacionalidad_ben,
     codpostal_ben: codpostal_ben,
     telefono_ben: telefono_ben,
     movil_ben: movil_ben,

@@ -9,27 +9,37 @@ const Op = Sequelize.Op;
 const socios = require("../../models/clubwerchow/socios");
 const participantesorteo = require("../../models/clubwerchow/participantes_sorteo");
 const ganadores = require("../../models/clubwerchow/ganadores");
-const { where } = require("sequelize");
 
 //GET BY ID
 
 router.post("/nuevasol", (req, res, next) => {
-  const solicitud = ({
-    fecha_solicitud,
-    apellido,
-    nombre,
-    dni,
-    telefono,
-    mail,
-    socio,
-    nosocio,
-    referido,
-  } = req.body);
+  const solicitud = ({ apellido, nombre, dni, telefono, mail, es } = req.body);
 
-  console.log(req.body);
+  const data = {
+    fecha_solicitud: moment().format("YYYY-MM-DD"),
+    apellido: solicitud.apellido,
+    nombre: solicitud.nombre,
+    dni: solicitud.dni,
+    telefono: solicitud.telefono,
+    mail: solicitud.mail,
+    socio: 0,
+    nosocio: 0,
+    referido: 0,
+  };
+
+  if (solicitud.es === "1") {
+    data.socio = 1;
+  } else if (solicitud.es === "2") {
+    data.nosocio = 1;
+  } else if (solicitud.es === "3") {
+    data.referido = 1;
+  }
+
+  console.log("soli", solicitud);
+  console.log("data", data);
 
   socios
-    .create(solicitud)
+    .create(data)
     .then((solicitud) => {
       res.status(200).json(solicitud);
     })

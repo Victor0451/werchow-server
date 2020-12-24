@@ -9,7 +9,7 @@ router.get("/pagobco/:id", (req, res, next) => {
   pagobco
     .findAll({
       where: { CONTRATO: req.params.id },
-      order: [["DIA_PAGO", "DESC"]],
+      order: [["ANO", "DESC"]],
     })
     .then((pagobco) => res.status(200).json(pagobco))
     .catch((err) => res.status(400).json(err));
@@ -19,7 +19,7 @@ router.get("/pagobcom/:id", (req, res, next) => {
   pagobcom
     .findAll({
       where: { CONTRATO: req.params.id },
-      order: [["DIA_PAGO", "DESC"]],
+      order: [["ANO", "DESC"]],
     })
     .then((pagobco) => res.status(200).json(pagobco))
     .catch((err) => res.status(400).json(err));
