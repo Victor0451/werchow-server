@@ -41,6 +41,16 @@ router.get("/cantidad", (req, res, next) => {
     });
 });
 
+router.get("/stockagotado", (req, res, next) => {
+  Ataudes.findAll({ where: { stock: { [Op.lte]: 5 } } })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 router.get("/ataud/:id", (req, res, next) => {
   Ataudes.findOne({
     where: { idataud: req.params.id },
@@ -53,10 +63,25 @@ router.get("/ataud/:id", (req, res, next) => {
     });
 });
 
-router.put("/updatestock/:id", (req, res, next) => {
+router.put("/nuevostock/:id", (req, res, next) => {
+  const {
+    stock,
+    observaciones,
+    fecha_reposicion,
+    idataud,
+    operador,
+  } = req.body;
+
+  console.log(req.body);
+
   Ataudes.update(
-    { stock: req.body.nustock },
-    { where: { idataud: req.params.id } }
+    {
+      stock: stock,
+      observaciones: observaciones,
+      operador: operador,
+      fecha_reposicion: fecha_reposicion,
+    },
+    { where: { idataud: idataud } }
   )
     .then((cantidad) => {
       res.status(200).json(cantidad);

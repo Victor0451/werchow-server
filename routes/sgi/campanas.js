@@ -323,7 +323,7 @@ router.get("/buscargestioncaso/:id", (req, res, next) => {
         "observacion",
         "nuevaaccion",
         "fechaaccion",
-        "fechanuevaaccion"
+        "fechanuevaaccion",
       ],
       where: { contrato: id },
       order: [["idgestion", "DESC"]],
@@ -691,7 +691,7 @@ router.get("/campanaoperadornoti", (req, res, next) => {
 
   let desde = moment().startOf("month").format("YYYY-MM-DD");
   let hasta = moment().endOf("month").format("YYYY-MM-DD");
-  
+
   db.sgiSequelize
     .query(
       ` SELECT * FROM campanacasos AS cc 

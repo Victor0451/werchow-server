@@ -4,6 +4,7 @@ const router = express.Router();
 const CajaSepelio = require("../../models/sepelio/caja_sepelio");
 const IngresoCaja = require("../../models/sepelio/ingreso_caja");
 const GastosCaja = require("../../models/sepelio/gastos_caja");
+const db = require("../../db/database");
 
 //INSERT CAJA
 
@@ -18,15 +19,15 @@ router.post("/nuevacaja", (req, res, next) => {
     nfactura,
     operador,
     estado,
-    gastis,
-    totalcaja
+    gastos,
+    totalcaja,
   } = req.body);
 
   CajaSepelio.create(nuevaCaja)
-    .then(nuevaCaja => {
+    .then((nuevaCaja) => {
       res.status(200).json(nuevaCaja);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 });
@@ -51,18 +52,36 @@ router.post("/gastocaja", (req, res, next) => {
     retggcias,
     perciva,
     detalle,
-    total
+    total,
   } = req.body);
 
-  console.log(gasto);
-
-  GastosCaja.create(gasto)
-    .then(nuevoGastos => {
-      res.status(200).json(nuevoGastos);
+  for (let i = 0; i < gasto.length; i++) {
+    GastosCaja.create({
+      idcaja: gasto[i].idcaja,
+      concepto: gasto[i].concepto,
+      mediopago: gasto[i].mediopago,
+      tipofactura: gasto[i].tipofactura,
+      proveedor: gasto[i].proveedor,
+      empresa: gasto[i].empresa,
+      porciva: gasto[i].porciva,
+      fecha: gasto[i].fecha,
+      nfactura: gasto[i].nfactura,
+      operadorgestion: gasto[i].operadorgestion,
+      operadortramite: gasto[i].operadortramite,
+      montoiva: gasto[i].montoiva,
+      retiibb: gasto[i].retiibb,
+      retggcias: gasto[i].retggcias,
+      perciva: gasto[i].perciva,
+      detalle: gasto[i].detalle,
+      total: gasto[i].total,
     })
-    .catch(err => {
-      console.log(err);
-    });
+      .then((nuevoGastos) => {
+        res.status(200).json(nuevoGastos);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 });
 
 // INSERT INGRESO
@@ -77,7 +96,7 @@ router.post("/ingresocaja", (req, res, next) => {
     nfactura,
     operador,
     detalle,
-    monto
+    monto,
   } = req.body;
 
   const ingreso = {
@@ -89,14 +108,14 @@ router.post("/ingresocaja", (req, res, next) => {
     nfactura,
     operador,
     detalle,
-    monto
+    monto,
   };
 
   IngresoCaja.create(ingreso)
-    .then(ingreso => {
+    .then((ingreso) => {
       res.status(200).json(ingreso);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 });
@@ -123,7 +142,7 @@ router.put("/updategasto/:id", (req, res, next) => {
     retggcias,
     perciva,
     detalle,
-    total
+    total,
   } = req.body);
 
   console.log(gasto);
@@ -145,14 +164,14 @@ router.put("/updategasto/:id", (req, res, next) => {
       retggcias: gasto.retggcias,
       perciva: gasto.perciva,
       detalle: gasto.detalle,
-      total: gasto.total
+      total: gasto.total,
     },
     { where: { idgastos: idgastos } }
   )
-    .then(editarGastos => {
+    .then((editarGastos) => {
       res.status(200).json(editarGastos);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 });
@@ -167,14 +186,14 @@ router.put("/updatetotales/:id", (req, res) => {
   CajaSepelio.update(
     {
       gastos: gastos,
-      totalcaja: totalcaja
+      totalcaja: totalcaja,
     },
     { where: { idcaja: idcaja } }
   )
-    .then(updategastos => {
+    .then((updategastos) => {
       res.status(200).json(updategastos);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).json(error);
     });
 });
@@ -190,14 +209,14 @@ router.put("/updatetotalesing/:id", (req, res) => {
   CajaSepelio.update(
     {
       monto: monto,
-      totalcaja: totalcaja
+      totalcaja: totalcaja,
     },
     { where: { idcaja: idcaja } }
   )
-    .then(updateingresos => {
+    .then((updateingresos) => {
       res.status(200).json(updateingresos);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).json(error);
     });
 });
@@ -209,14 +228,14 @@ router.put("/updatecierrecaja/:id", (req, res) => {
 
   CajaSepelio.update(
     {
-      estado: 0
+      estado: 0,
     },
     { where: { idcaja: idcaja } }
   )
-    .then(cierrecaja => {
+    .then((cierrecaja) => {
       res.status(200).json(cierrecaja);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).json(error);
     });
 });
@@ -226,13 +245,13 @@ router.delete("/eliminargasto/:id", (req, res, next) => {
   const idgastos = req.params.id;
   GastosCaja.destroy({
     where: {
-      idgastos: idgastos
-    }
+      idgastos: idgastos,
+    },
   })
-    .then(gasto => {
+    .then((gasto) => {
       res.status(200).json(gasto);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -242,13 +261,13 @@ router.delete("/eliminaringreso/:id", (req, res, next) => {
   const idingreso = req.params.id;
   IngresoCaja.destroy({
     where: {
-      idingreso: idingreso
-    }
+      idingreso: idingreso,
+    },
   })
-    .then(gasto => {
+    .then((gasto) => {
       res.status(200).json(gasto);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -258,13 +277,13 @@ router.delete("/eliminarcaja/:id", (req, res, next) => {
   const idcaja = req.params.id;
   CajaSepelio.destroy({
     where: {
-      idcaja: idcaja
-    }
+      idcaja: idcaja,
+    },
   })
-    .then(gasto => {
+    .then((gasto) => {
       res.status(200).json(gasto);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -273,10 +292,10 @@ router.delete("/eliminarcaja/:id", (req, res, next) => {
 
 router.get("/listadocajas", (req, res, next) => {
   CajaSepelio.findAll()
-    .then(listado => {
+    .then((listado) => {
       res.status(200).json(listado);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -285,12 +304,12 @@ router.get("/listadocajas", (req, res, next) => {
 
 router.get("/listadogastos/:id", (req, res, next) => {
   GastosCaja.findAll({
-    where: { idcaja: req.params.id }
+    where: { idcaja: req.params.id },
   })
-    .then(listado => {
+    .then((listado) => {
       res.status(200).json(listado);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -299,12 +318,12 @@ router.get("/listadogastos/:id", (req, res, next) => {
 
 router.get("/listadoingresos/:id", (req, res, next) => {
   IngresoCaja.findAll({
-    where: { idcaja: req.params.id }
+    where: { idcaja: req.params.id },
   })
-    .then(listado => {
+    .then((listado) => {
       res.status(200).json(listado);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -313,12 +332,12 @@ router.get("/listadoingresos/:id", (req, res, next) => {
 
 router.get("/caja/:id", (req, res, next) => {
   CajaSepelio.findOne({
-    where: { idcaja: req.params.id }
+    where: { idcaja: req.params.id },
   })
-    .then(listado => {
+    .then((listado) => {
       res.status(200).json(listado);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json(err);
     });
 });
@@ -327,12 +346,50 @@ router.get("/caja/:id", (req, res, next) => {
 
 router.get("/gasto/:id", (req, res, next) => {
   GastosCaja.findOne({
-    where: { idgastos: req.params.id }
+    where: { idgastos: req.params.id },
   })
-    .then(listado => {
+    .then((listado) => {
       res.status(200).json(listado);
     })
-    .catch(err => {
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// GET PROV
+
+router.get("/listprov", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      SELECT razon as 'value', razon as 'label'
+      from proveedores
+
+      `
+    )
+    .then((listado) => {
+      res.status(200).json(listado);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// GET CONCEPTO
+
+router.get("/listconcepto", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      SELECT concepto as 'value', concepto as 'label'
+      from conceptos
+
+      `
+    )
+    .then((listado) => {
+      res.status(200).json(listado);
+    })
+    .catch((err) => {
       res.status(400).json(err);
     });
 });

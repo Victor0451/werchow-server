@@ -37,6 +37,10 @@ app.use("/api/werchow/historia", require("./routes/werchow/historia"));
 app.use("/api/werchow/memo", require("./routes/werchow/memo"));
 app.use("/api/werchow/pagos", require("./routes/werchow/pagos"));
 app.use("/api/werchow/pagobco", require("./routes/werchow/pagos_bco"));
+app.use(
+  "/api/werchow/movimientosmutual",
+  require("./routes/werchow/movimientos")
+);
 
 //MUTUAL
 app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
@@ -133,6 +137,8 @@ app.use(
   "/api/sgi/insertartablasm",
   require("./routes/informe/insertartablasM")
 );
+
+app.use("/api/sgi/mapa", require("./routes/informe/mapa"));
 
 //Conecting DB
 
