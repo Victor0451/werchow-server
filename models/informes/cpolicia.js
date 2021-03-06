@@ -4,9 +4,6 @@ const db = require("../../db/database");
 module.exports = db.infoSequelize.define(
   "cpolicia",
   {
-    tipo: {
-      type: Sequelize.DataTypes.STRING
-    },
     sucursal: {
       type: Sequelize.DataTypes.STRING
     },
@@ -30,7 +27,10 @@ module.exports = db.infoSequelize.define(
     },
     ano: {
       type: Sequelize.DataTypes.INTEGER
-    }
+    },
+    descr: {
+      type: Sequelize.DataTypes.STRING
+    },
   },
   {
     timestamps: false,

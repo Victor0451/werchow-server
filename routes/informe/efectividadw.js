@@ -11,20 +11,13 @@ const c1000 = require("../../models/informes/c1000");
 
 // EFETIVIDAD COBRADORES
 
-router.get("/ecobradores", (req, res, next) => {
+router.get("/cobtotal", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
 
   c1000
     .findAll({
-      attributes: [
-        "zona",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
         zona: { [Op.notIn]: [1, 3, 5, 60, 99] },
         mes: mes,
@@ -43,21 +36,120 @@ router.get("/ecobradores", (req, res, next) => {
     });
 });
 
+
+// EFECTIVIDAD COBRADORES JUJUY
+
+router.get("/cobw", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: { [Op.in]: [21, 22, 39, 40, 41, 42, 45, 23, 48, 54, 69] },
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD COBRADORES PALPALA
+
+router.get("/cobl", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: { [Op.in]: [14, 15] },
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD COBRADORES PERICO
+
+router.get("/cobr", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: { [Op.in]: [4, 47] },
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD COBRADORES SAN PEDRO
+
+router.get("/cobp", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: { [Op.in]: [28, 61, 63, 64] },
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
 //   EFECTIVIDAD OFICINA
 
-router.get("/eoficina", (req, res, next) => {
+router.get("/oftotal", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   c1000
     .findAll({
-      attributes: [
-        "zona",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
         zona: { [Op.in]: [1, 3, 5, 60] },
         mes: mes,
@@ -75,21 +167,153 @@ router.get("/eoficina", (req, res, next) => {
     });
 });
 
+
+// EFECTIVIDAD OFICINA JUJUY
+
+router.get("/ofw", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: 1,
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD OFICINA PALPALA
+
+router.get("/ofl", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: 3,
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD OFICINA PERICO
+
+router.get("/ofr", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: 5,
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// EFECTIVIDAD OFICINA SAN PEDRO
+
+router.get("/ofp", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  c1000
+    .findAll({
+      where: {
+        zona: 60,
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+      order: sequelize.literal("zona ASC"),
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+
+
 // EFECTIVIDAD TARJETAS
 
-router.get("/etarjetapalpala", (req, res, next) => {
+router.get("/tjttotal", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  db.infoSequelize.query(
+
+    `
+    select grupo, descr, 
+    sum(total) as 'total', 
+    sum(fichas) as 'fichas', 
+    sum(cobrado) as 'cobrado',
+    sum(fichascob) as 'fichascob',
+    sum(adelantado) as 'adelantado'
+    from ctjt
+    where mes = ${mes}
+    and ano = ${ano}
+    group by grupo, descr
+
+    `
+  )
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+router.get("/tjtl", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: [
-        "grupo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
         sucursal: "L",
         mes: mes,
@@ -108,19 +332,12 @@ router.get("/etarjetapalpala", (req, res, next) => {
     });
 });
 
-router.get("/etarjetaperico", (req, res, next) => {
+router.get("/tjtr", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: [
-        "grupo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
         sucursal: "R",
         mes: mes,
@@ -139,19 +356,12 @@ router.get("/etarjetaperico", (req, res, next) => {
     });
 });
 
-router.get("/etarjetasanpedro", (req, res, next) => {
+router.get("/tjtp", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: [
-        "grupo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
         sucursal: "P",
         mes: mes,
@@ -170,19 +380,12 @@ router.get("/etarjetasanpedro", (req, res, next) => {
     });
 });
 
-router.get("/etarjetassj", (req, res, next) => {
+router.get("/tjtw", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   ctjt
     .findAll({
-      attributes: [
-        "grupo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
         sucursal: "W",
         mes: mes,
@@ -201,22 +404,45 @@ router.get("/etarjetassj", (req, res, next) => {
     });
 });
 
-//POLICIA
+//POLICIA JUJUY
 
-router.get("/epolicia", (req, res, next) => {
+router.get("/poltotal", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  db.infoSequelize.query(
+
+    `
+    select 'Policia' as 'descr', 
+    sum(total) as 'total' , 
+    sum(fichas) as 'fichas', 
+    sum(cobrado) as 'cobrado', 
+    sum(fichascob) as 'fichascob',
+    sum(adelantado) as 'adelantado'
+    from cpolicia
+    where mes = ${mes}
+    and ano = ${ano}
+
+    `
+  )
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/polw", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   cpolicia
     .findAll({
-      attributes: [
-        "tipo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
+        sucursal: "W",
         mes: mes,
         ano: ano,
       },
@@ -232,22 +458,124 @@ router.get("/epolicia", (req, res, next) => {
     });
 });
 
-// BANCO MACRO
+//POLICIA PALPALA
 
-router.get("/ebanco", (req, res, next) => {
+router.get("/poll", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cpolicia
+    .findAll({
+
+      where: {
+        sucursal: "L",
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+//POLICIA PERICO
+
+router.get("/polr", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cpolicia
+    .findAll({
+
+      where: {
+        sucursal: "R",
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+//POLICIA SAN PEDRO
+
+router.get("/polp", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cpolicia
+    .findAll({
+
+      where: {
+        sucursal: "p",
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+// BANCO MACRO JUJUY
+
+router.get("/bantotal", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+
+  db.infoSequelize.query(
+
+    `
+    select 'Banco Macro' as 'descr', 
+    sum(total) as 'total' , 
+    sum(fichas) as 'fichas', 
+    sum(cobrado) as 'cobrado', 
+    sum(fichascob) as 'fichascob', 
+    sum(adelantado) as 'adelantado'
+    from cbanco
+    where mes = ${mes}
+    and ano = ${ano}
+
+    `
+  )
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+router.get("/banw", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
   cbanco
     .findAll({
-      attributes: [
-        "tipo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
+        sucursal: 'W',
         mes: mes,
         ano: ano,
       },
@@ -263,22 +591,17 @@ router.get("/ebanco", (req, res, next) => {
     });
 });
 
-// CONVENIOS
 
-router.get("/econvenios", (req, res, next) => {
+// BANCO MACRO PALPALA
+
+router.get("/banl", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  cconvenio
+  cbanco
     .findAll({
-      attributes: [
-        "tipo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
+
       where: {
+        sucursal: 'L',
         mes: mes,
         ano: ano,
       },
@@ -293,6 +616,57 @@ router.get("/econvenios", (req, res, next) => {
       res.status(400).json(err);
     });
 });
+
+// BANCO MACRO PERICO
+
+router.get("/banr", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cbanco
+    .findAll({
+
+      where: {
+        sucursal: 'R',
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// BANCO MACRO SAN PEDRO
+
+router.get("/banp", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cbanco
+    .findAll({
+
+      where: {
+        sucursal: 'P',
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 
 // RESUMEN COB SUCURSALES
 

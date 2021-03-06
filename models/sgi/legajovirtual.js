@@ -21,6 +21,9 @@ module.exports = db.sgiSequelize.define(
     empresa: {
       type: Sequelize.DataTypes.STRING,
     },
+    tipoarchivo: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

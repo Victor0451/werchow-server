@@ -150,6 +150,17 @@ router.get("/todoslosservicios", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/serviciocombo", (req, res) => {
+  db.sepelioSequelize
+    .query(
+      `SELECT idservicio as 'value', CONCAT(apellido, ', ' ,nombre) as 'label'
+       from servicios   
+      `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
 router.get("/listadoservicios", (req, res) => {
   let desde = req.query.desde;
   let hasta = req.query.hasta;

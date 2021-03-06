@@ -3,8 +3,22 @@ const router = express.Router();
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const db = require("../../db/database");
-const serviciosliduidacion = require('../../models/sepelio/servicio_liquidacion')
+const serviciosliquidacion = require('../../models/sepelio/servicio_liquidacion')
 
+
+router.post("/postliquidacion", (req, res) => {
+
+  const liquidacion = req.body
+
+  serviciosliquidacion.create(liquidacion)
+    .then((servicio) => {
+      res.status(200).json(servicio);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 router.get("/serviciosaliquidar", (req, res) => {
   db.sepelioSequelize
@@ -37,7 +51,8 @@ router.get("/liquidacionoperador/:id", (req, res) => {
       `
         SELECT
         operador,
-        
+        hs_inicio,
+        hs_fin,        
         tipo_gasto,
         (
         CASE
@@ -57,19 +72,19 @@ router.get("/liquidacionoperador/:id", (req, res) => {
         then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
         
         when s.tipo_gasto = 'Instalacion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then (h.finde)
+        then ( DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
         when s.tipo_gasto = 'Instalacion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (h.dias_habiles)
+        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
         
         when s.tipo_gasto = 'Conduccion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then (h.finde)
+        then ( DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
         when s.tipo_gasto = 'Conduccion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (h.dias_habiles)
+        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
         
         when s.tipo_gasto = 'Limpieza sala' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
         then (h.finde)
         when s.tipo_gasto = 'Limpieza sala' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (h.dias_habiles)
+        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
         end
         ) as 'liquidacion'
         

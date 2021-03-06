@@ -4,23 +4,26 @@ const db = require("../../db/database");
 module.exports = db.infoSequelize.define(
   "mtjt",
   {
-    id_mora: {
+    idmtjt: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true
     },
-    tipo: {
+    grupo: {
+      type: Sequelize.DataTypes.INTEGER
+    },
+    descr: {
       type: Sequelize.DataTypes.STRING
     },
-    mora: {
+    morainicial: {
       type: Sequelize.DataTypes.INTEGER
     },
-    fichas: {
+    fichasinicial: {
       type: Sequelize.DataTypes.INTEGER
     },
-    morarec: {
+    moraactual: {
       type: Sequelize.DataTypes.INTEGER
     },
-    fichasrec: {
+    fichasactual: {
       type: Sequelize.DataTypes.INTEGER
     },
     mes: {
@@ -28,6 +31,12 @@ module.exports = db.infoSequelize.define(
     },
     ano: {
       type: Sequelize.DataTypes.INTEGER
+    },
+    fecha_creacion: {
+      type: Sequelize.DataTypes.DATE
+    },
+    fecha_actualizacion: {
+      type: Sequelize.DataTypes.DATE
     }
   },
   {

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const moment = require("moment");
 
 const CajaSepelio = require("../../models/sepelio/caja_sepelio");
 const IngresoCaja = require("../../models/sepelio/ingreso_caja");
@@ -53,6 +54,7 @@ router.post("/gastocaja", (req, res, next) => {
     perciva,
     detalle,
     total,
+    idservicio,
   } = req.body);
 
   for (let i = 0; i < gasto.length; i++) {
@@ -74,6 +76,7 @@ router.post("/gastocaja", (req, res, next) => {
       perciva: gasto[i].perciva,
       detalle: gasto[i].detalle,
       total: gasto[i].total,
+      idservicio: gasto[i].idservicio,
     })
       .then((nuevoGastos) => {
         res.status(200).json(nuevoGastos);
@@ -114,6 +117,25 @@ router.post("/ingresocaja", (req, res, next) => {
   IngresoCaja.create(ingreso)
     .then((ingreso) => {
       res.status(200).json(ingreso);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// UPDATE FECHA CIERRE CAJA
+router.put("/updatefechacierre/:id", (req, res, next) => {
+  const id = req.params.id;
+  let cierre = moment().format("YYYY-MM-DD HH:mm:ss");
+
+  CajaSepelio.update(
+    {
+      cierre: cierre,
+    },
+    { where: { idcaja: id } }
+  )
+    .then((editarGastos) => {
+      res.status(200).json(editarGastos);
     })
     .catch((err) => {
       console.log(err);
@@ -204,7 +226,7 @@ router.put("/updatetotalesing/:id", (req, res) => {
   const idcaja = req.params.id;
 
   const { monto, totalcaja } = req.body;
-  console.log(monto, totalcaja);
+  console.log(req.body);
 
   CajaSepelio.update(
     {

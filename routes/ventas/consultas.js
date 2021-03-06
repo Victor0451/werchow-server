@@ -84,6 +84,7 @@ router.get("/consultaventas", (req, res, next) => {
             
       WHERE p.prod_mes = '${mes}'
       AND p.prod_anio = ${ano}
+      AND p.prod_adh != 'A'
 
       `
     )
@@ -109,6 +110,7 @@ router.get("/consultaventasporasesor", (req, res, next) => {
         INNER JOIN usuario as u on u.usu_ide = p.prod_asesor
         WHERE p.prod_mes = '${mes}'
         AND p.prod_anio = ${ano}
+        AND p.prod_adh != 'A'
         GROUP BY p.prod_asesor
 
       `
@@ -134,8 +136,70 @@ router.get("/consultaventasmediopago", (req, res, next) => {
         FROM produccion as p        
         WHERE p.prod_mes = '${mes}'
         AND p.prod_anio = ${ano}
+        AND p.prod_adh != 'A'
         GROUP BY p.prod_pago        
 
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+// GET VENTAS POR LOCALIDAD
+
+router.get("/consultaventaslocalidad", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  db.wSequelize
+    .query(
+      `
+        SELECT m.LOCALIDAD as 'localidad', COUNT(p.prod_afiliado) as 'cantidad'
+        FROM produccion as p 
+        INNER JOIN maestro as m on p.prod_dniafi = m.NRO_DOC       
+        WHERE p.prod_mes = '${mes}'
+        AND p.prod_anio = ${ano}
+        AND p.prod_adh != 'A'
+        GROUP BY m.LOCALIDAD  
+      `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/consultaotrasventas", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  db.wSequelize
+    .query(
+      `
+        SELECT p.DESCRIP, COUNT(m.CONTRATO) 
+        FROM maestro as m
+        INNER JOIN cuo_fija as c on c.CONTRATO = m.CONTRATO
+        INNER JOIN producto as p on p.CODIGO = m.PRODUCTOR
+        
+        WHERE not EXISTS
+        (
+        SELECT usu_dni
+        FROM usuario
+        WHERE p.NRO_DOC = usu_dni
+        )
+        
+        AND m.ALTA = MONTH(${mes})
+        AND  m.ALTA = YEAR(${ano})
+        
+        GROUP BY p.DESCRIP
+
+        
       `
     )
     .then((ventas) => {

@@ -210,7 +210,7 @@ router.get("/estadocarteraw", (req, res) => {
     and p.MOVIM = 'P'
     )
     and m.PLAN != 'P'
-    and m.GRUPO in (${grupo})
+    and m.GRUPO = ${grupo}
     and m.ZONA = ${zona}
     `
       )

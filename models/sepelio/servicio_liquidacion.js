@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.sepelioSequelize.define(
-  "servicio_liquidacion",
+  "servicios_liquidacion",
   {
     idliquidacion: {
       type: Sequelize.DataTypes.INTEGER,
@@ -34,6 +34,6 @@ module.exports = db.sepelioSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "servicio_liquidacion",
+    tableName: "servicios_liquidacion",
   }
 );

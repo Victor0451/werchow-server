@@ -7,50 +7,53 @@ module.exports = db.sepelioSequelize.define(
     idcaja: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     operador: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.STRING,
     },
     detalle: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.STRING,
     },
     monto: {
-      type: Sequelize.DataTypes.INTEGER
+      type: Sequelize.DataTypes.INTEGER,
     },
     gastos: {
-      type: Sequelize.DataTypes.INTEGER
+      type: Sequelize.DataTypes.INTEGER,
     },
     totalcaja: {
-      type: Sequelize.DataTypes.INTEGER
+      type: Sequelize.DataTypes.INTEGER,
     },
     estado: {
-      type: Sequelize.DataTypes.TINYINT
+      type: Sequelize.DataTypes.TINYINT,
     },
     fecha: {
-      type: Sequelize.DataTypes.DATE
+      type: Sequelize.DataTypes.DATE,
+    },
+    cierre: {
+      type: Sequelize.DataTypes.DATE,
     },
     empresa: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.STRING,
     },
     tipofactura: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.STRING,
     },
     nfactura: {
-      type: Sequelize.DataTypes.INTEGER
+      type: Sequelize.DataTypes.INTEGER,
     },
     ptoventa: {
-      type: Sequelize.DataTypes.INTEGER
+      type: Sequelize.DataTypes.INTEGER,
     },
     concepto: {
-      type: Sequelize.DataTypes.STRING
-    }
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   },
   {
-    tableName: "caja_sepelio"
+    tableName: "caja_sepelio",
   }
 );

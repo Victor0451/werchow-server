@@ -5,6 +5,17 @@ const Op = sequelize.Op;
 const parcelas = require("../../models/sepelio/parcelas");
 const servicios = require("../../models/sepelio/servicios");
 
+router.get("/traerparcela/:id", (req, res) => {
+  let id = req.params.id;
+  parcelas
+    .findAll({
+      attributes: ["idparcela", "parcela", "mza", "lote"],
+      where: { idparcela: id },
+    })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
 router.get("/parcelaslibres", (req, res) => {
   parcelas
     .findAll({

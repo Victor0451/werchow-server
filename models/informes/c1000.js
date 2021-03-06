@@ -27,6 +27,9 @@ module.exports = db.infoSequelize.define(
     },
     ano: {
       type: Sequelize.DataTypes.INTEGER
+    },
+    descr: {
+      type: Sequelize.DataTypes.STRING
     }
   },
   {

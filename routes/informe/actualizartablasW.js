@@ -13,8 +13,7 @@ router.put("/c1000cob", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-    UPDATE c1000 i
-    JOIN werchow.sow AS m ON i.zona = m.ZONA
+    UPDATE c1000 i    
     SET i.cobrado = 
     (
     SELECT  sum(p.IMPORTE)
@@ -56,40 +55,43 @@ router.put("/c1000cob", (req, res, next) => {
 });
 
 router.put("/c1000of", (req, res, next) => {
+
   db.infoSequelize
     .query(
       `
-      UPDATE c1000 i
-      JOIN werchow.sow AS m ON i.zona = m.ZONA
-      SET i.cobrado = 
-      (
-      SELECT  sum(p.IMPORTE)
-      FROM  werchow.pagos AS p
-      inner join werchow.sow as so on so.CONTRATO = p.CONTRATO 
-      WHERE  i.zona = so.ZONA
-      and p.MOVIM = 'P'
-      and p.DIA_REN between '${iniMes}' and '${finMes}'
-      and so.ZONA in (1,3,5,60)
-      group by so.ZONA
-      ),
-      
-      i.fichascob = 
+      UPDATE .c1000 i
+      SET i.fichascob = 
       (
       SELECT  count(p.CONTRATO)
       FROM  werchow.pagos AS p
       inner join werchow.sow as so on so.CONTRATO = p.CONTRATO 
       WHERE  i.zona = so.ZONA
+      and so.ZONA in (1,3,5,60)
+      and p.MES = ${mes}
+      and p.ANO = ${ano}
       and p.MOVIM = 'P'
       and p.DIA_REN between '${iniMes}' and '${finMes}'
-      and so.ZONA in (1,3,5,60)
       group by so.ZONA
-      )
-      
+      ),
+
+      i.cobrado = (
+      SELECT  sum(p.IMPORTE)
+      FROM  werchow.pagos AS p
+      inner join werchow.sow as so on so.CONTRATO = p.CONTRATO 
+      WHERE  i.zona = so.ZONA
+      and so.ZONA in (1,3,5,60)
+      and p.MES = ${mes}
+      and p.ANO = ${ano}
+      and p.MOVIM = 'P'
+      and p.DIA_REN between '${iniMes}' and '${finMes}'
+      group by so.ZONA
+    )
+
       where i.mes = ${mes}
       and i.ano = ${ano}
-      and i.zona in (1,3,5,60)
-   
-  `
+      and i.zona in (1, 3, 5, 60)
+
+    `
     )
 
     .then((efectividad) => {
@@ -105,25 +107,25 @@ router.put("/c1000adelantado", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-        UPDATE c1000 i
-        JOIN werchow.sow AS m ON i.zona = m.ZONA
-        SET i.adelantado = 
-        (
-        SELECT   sum(p.IMPORTE)
-        FROM  werchow.pagos AS p
-        inner join werchow.sow as so on so.CONTRATO = p.CONTRATO 
-        WHERE  i.zona = so.ZONA
-        and so.GRUPO = 1000
-        and p.MES in (${mesadel})
-        and p.ANO in (2020, 2021)
-        and p.MOVIM = 'P'
-        and p.DIA_REN between '${iniMes}' and '${finMes}'
-        group by so.ZONA
+  UPDATE c1000 i
+  JOIN werchow.sow AS m ON i.zona = m.ZONA
+  SET i.adelantado =
+    (
+      SELECT   sum(p.IMPORTE)
+  FROM  werchow.pagos AS p
+  inner join werchow.sow as so on so.CONTRATO = p.CONTRATO
+  WHERE  i.zona = so.ZONA
+  and so.GRUPO = 1000
+  and p.MES in (${mesadel})
+and p.ANO = ${ano}
+and p.MOVIM = 'P'
+and p.DIA_REN between '${iniMes}' and '${finMes}'
+group by so.ZONA
         )
-        where i.mes = ${mes}
-        and i.ano = ${ano}
-     
-    `
+where i.mes = ${mes}
+and i.ano = ${ano}
+
+`
     )
 
     .then((efectividad) => {
@@ -139,10 +141,10 @@ router.put("/c1000nonull", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-          UPDATE c1000         
-          SET adelantado = 0
-          where adelantado is null
-      `
+UPDATE c1000
+SET adelantado = 0
+where adelantado is null
+  `
     )
 
     .then((efectividad) => {
@@ -156,10 +158,10 @@ router.put("/c1000nonull", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-          UPDATE c1000         
-          SET fichascob = 0
-          where fichascob is null
-      `
+UPDATE c1000
+SET fichascob = 0
+where fichascob is null
+  `
     )
 
     .then((efectividad) => {
@@ -173,10 +175,10 @@ router.put("/c1000nonull", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-          UPDATE c1000         
-          SET cobrado = 0
-          where cobrado is null
-      `
+UPDATE c1000
+SET cobrado = 0
+where cobrado is null
+  `
     )
 
     .then((efectividad) => {
@@ -194,35 +196,35 @@ router.put("/ctjt/:id", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-        UPDATE ctjt i
-        JOIN werchow.sow AS m ON i.GRUPO = m.GRUPO
-        SET i.fichascob =  
-        (
-        
-        SELECT  count(p.ID_ABONADO)
-        FROM werchow.sow as m
-        join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
-        WHERE m.GRUPO  = i.grupo
-        and  p.CONVENIO in (3400,3600,3700,3800,3900,4000)
-        and m.SUCURSAL = '${id}'
+UPDATE ctjt i
+JOIN werchow.sow AS m ON i.GRUPO = m.GRUPO
+SET i.fichascob =
+  (
+
+    SELECT  count(p.ID_ABONADO)
+FROM werchow.sow as m
+join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
+WHERE m.GRUPO = i.grupo
+and  p.CONVENIO in (3400, 3600, 3700, 3800, 3900, 4000)
+and m.SUCURSAL = '${id}'
         
         ),
-        
-        i.cobrado= (
-        SELECT  sum(p.IMPORTE)
-        FROM werchow.sow as m
-        join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
-        WHERE m.GRUPO  = i.grupo
-        and  p.CONVENIO in (3400,3600,3700,3800,3900,4000)
-        and m.SUCURSAL = '${id}'
+
+i.cobrado = (
+  SELECT  sum(p.IMPORTE)
+FROM werchow.sow as m
+join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
+WHERE m.GRUPO = i.grupo
+and  p.CONVENIO in (3400, 3600, 3700, 3800, 3900, 4000)
+and m.SUCURSAL = '${id}'
         )
-        
-        where i.sucursal = '${id}'
-        and m.GRUPO  = i.grupo
-        and i.mes= ${mes}
-        and i.ano = ${ano}  
-     
-        `
+
+where i.sucursal = '${id}'
+and m.GRUPO = i.grupo
+and i.mes = ${mes}
+and i.ano = ${ano}
+
+`
     )
 
     .then((efectividad) => {
@@ -240,35 +242,35 @@ router.put("/ctjt/:id", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-          UPDATE ctjt i
-          JOIN werchow.sow AS m ON i.GRUPO = m.GRUPO
-          SET i.fichascob =  
-          (
-          
-          SELECT  count(p.ID_ABONADO)
-          FROM werchow.sow as m
-          join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
-          WHERE m.GRUPO  = i.grupo
-          and  p.CONVENIO in (3400,3600,3700,3800,3900,4000)
-          and m.SUCURSAL = '${id}'
+UPDATE ctjt i
+JOIN werchow.sow AS m ON i.GRUPO = m.GRUPO
+SET i.fichascob =
+  (
+
+    SELECT  count(p.ID_ABONADO)
+FROM werchow.sow as m
+join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
+WHERE m.GRUPO = i.grupo
+and  p.CONVENIO in (3400, 3600, 3700, 3800, 3900, 4000)
+and m.SUCURSAL = '${id}'
           
           ),
-          
-          i.cobrado= (
-          SELECT  sum(p.IMPORTE)
-          FROM werchow.sow as m
-          join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
-          WHERE m.GRUPO  = i.grupo
-          and  p.CONVENIO in (3400,3600,3700,3800,3900,4000)
-          and m.SUCURSAL = '${id}'
+
+i.cobrado = (
+  SELECT  sum(p.IMPORTE)
+FROM werchow.sow as m
+join werchow.debpesoW AS p on p.ID_ABONADO = m.CONTRATO
+WHERE m.GRUPO = i.grupo
+and  p.CONVENIO in (3400, 3600, 3700, 3800, 3900, 4000)
+and m.SUCURSAL = '${id}'
           )
-          
-          where i.sucursal = '${id}'
-          and m.GRUPO  = i.grupo
-          and i.mes= ${mes}
-          and i.ano = ${ano}  
-       
-          `
+
+where i.sucursal = '${id}'
+and m.GRUPO = i.grupo
+and i.mes = ${mes}
+and i.ano = ${ano}
+
+`
     )
 
     .then((efectividad) => {
@@ -284,33 +286,33 @@ router.put("/cbanco", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-        UPDATE cbanco i
-        SET i.fichascob = 
-        (
-        
-        
-        SELECT COUNT(p.ID_ABONADO)
-        FROM werchow.debpesoW AS p
-        INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
-        WHERE  p.CONVENIO = 10666
-        and s.SUCURSAL = i.sucursal
+UPDATE cbanco i
+SET i.fichascob =
+  (
+
+
+    SELECT COUNT(p.ID_ABONADO)
+FROM werchow.debpesoW AS p
+INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
+WHERE  p.CONVENIO = 10666
+and s.SUCURSAL = i.sucursal
         
         
         ),
-        
-        i.cobrado= (
-        SELECT sum(p.IMPORTE)
-        FROM werchow.debpesoW AS p
-        INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
-        WHERE  p.CONVENIO = 10666
-        and s.SUCURSAL = i.sucursal
+
+i.cobrado = (
+  SELECT sum(p.IMPORTE)
+FROM werchow.debpesoW AS p
+INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
+WHERE  p.CONVENIO = 10666
+and s.SUCURSAL = i.sucursal
         
         )
-        
-        where  i.mes = ${mes}
-        and i.ano = ${ano}
-       
-          `
+
+where  i.mes = ${mes}
+and i.ano = ${ano}
+
+`
     )
 
     .then((efectividad) => {
