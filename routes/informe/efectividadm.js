@@ -481,7 +481,7 @@ router.get("/eoficina", (req, res, next) => {
 router.get("/etarjetapalpala", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         "grupo",
@@ -512,7 +512,7 @@ router.get("/etarjetapalpala", (req, res, next) => {
 router.get("/etarjetaperico", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         "grupo",
@@ -543,7 +543,7 @@ router.get("/etarjetaperico", (req, res, next) => {
 router.get("/etarjetasanpedro", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         "grupo",
@@ -574,7 +574,7 @@ router.get("/etarjetasanpedro", (req, res, next) => {
 router.get("/etarjetassj", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         "grupo",
@@ -602,74 +602,13 @@ router.get("/etarjetassj", (req, res, next) => {
     });
 });
 
-//POLICIA
-
-router.get("/epolicia", (req, res, next) => {
-  let mes = req.query.mes;
-  let ano = req.query.ano;
-  cpolicia
-    .findAll({
-      attributes: [
-        "tipo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
-      where: {
-        mes: mes,
-        ano: ano,
-      },
-      raw: true,
-    })
-
-    .then((efectividad) => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
-
-// BANCO MACRO
-
-router.get("/ebanco", (req, res, next) => {
-  let mes = req.query.mes;
-  let ano = req.query.ano;
-  cbanco
-    .findAll({
-      attributes: [
-        "tipo",
-        "total",
-        "fichas",
-        "cobrado",
-        "fichascob",
-        "adelantado",
-      ],
-      where: {
-        mes: mes,
-        ano: ano,
-      },
-      raw: true,
-    })
-
-    .then((efectividad) => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
 
 // RESUMEN COB SUCURSALES
 
 router.get("/respercob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -695,7 +634,7 @@ router.get("/respercob", (req, res, next) => {
 router.get("/respalcob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -721,7 +660,7 @@ router.get("/respalcob", (req, res, next) => {
 router.get("/resspcob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -747,7 +686,7 @@ router.get("/resspcob", (req, res, next) => {
 router.get("/resssjcob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -773,7 +712,7 @@ router.get("/resssjcob", (req, res, next) => {
 router.get("/respalofi", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -799,7 +738,7 @@ router.get("/respalofi", (req, res, next) => {
 router.get("/resperofi", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -825,7 +764,7 @@ router.get("/resperofi", (req, res, next) => {
 router.get("/resspofi", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -851,7 +790,7 @@ router.get("/resspofi", (req, res, next) => {
 router.get("/resssjofi", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -877,7 +816,7 @@ router.get("/resssjofi", (req, res, next) => {
 router.get("/respaltar", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -903,7 +842,7 @@ router.get("/respaltar", (req, res, next) => {
 router.get("/respertar", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -929,7 +868,7 @@ router.get("/respertar", (req, res, next) => {
 router.get("/ressptar", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -955,7 +894,7 @@ router.get("/ressptar", (req, res, next) => {
 router.get("/resssjtar", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -983,7 +922,7 @@ router.get("/resssjtar", (req, res, next) => {
 router.get("/resofi", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         "zona",
@@ -1009,66 +948,12 @@ router.get("/resofi", (req, res, next) => {
     });
 });
 
-router.get("/resban", (req, res, next) => {
-  let mes = req.query.mes;
-  let ano = req.query.ano;
-  cbanco
-    .findAll({
-      attributes: [
-        "sucursal",
-        [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
-        [sequelize.literal("COALESCE(SUM(cobrado + adelantado))"), "cobrado"],
-      ],
-      where: {
-        mes: mes,
-        ano: ano,
-      },
-      raw: true,
-      group: ["sucursal"],
-      order: ["sucursal"],
-    })
 
-    .then((efectividad) => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
-
-router.get("/respol", (req, res, next) => {
-  let mes = req.query.mes;
-  let ano = req.query.ano;
-  cpolicia
-    .findAll({
-      attributes: [
-        "sucursal",
-        [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
-        [sequelize.literal("COALESCE(SUM(cobrado + adelantado))"), "cobrado"],
-      ],
-      where: {
-        mes: mes,
-        ano: ano,
-      },
-      raw: true,
-      group: ["sucursal"],
-      order: ["sucursal"],
-    })
-
-    .then((efectividad) => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
 
 router.get("/restar", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  ctjt
+  ctjtm
     .findAll({
       attributes: [
         "sucursal",
@@ -1096,7 +981,7 @@ router.get("/restar", (req, res, next) => {
 router.get("/respercob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -1122,7 +1007,7 @@ router.get("/respercob", (req, res, next) => {
 router.get("/respalcob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -1148,7 +1033,7 @@ router.get("/respalcob", (req, res, next) => {
 router.get("/resspcob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -1174,7 +1059,7 @@ router.get("/resspcob", (req, res, next) => {
 router.get("/resssjcob", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  c1000
+  c1000m
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],

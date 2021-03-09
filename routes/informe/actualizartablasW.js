@@ -64,26 +64,26 @@ router.put("/c1000of", (req, res, next) => {
       (
       SELECT  count(p.CONTRATO)
       FROM  werchow.pagos AS p
-      inner join werchow.sow as so on so.CONTRATO = p.CONTRATO 
+       join werchow.sow as so on so.CONTRATO = p.CONTRATO 
       WHERE  i.zona = so.ZONA
       and so.ZONA in (1,3,5,60)
       and p.MES = ${mes}
       and p.ANO = ${ano}
       and p.MOVIM = 'P'
-      and p.DIA_REN between '${iniMes}' and '${finMes}'
+      
       group by so.ZONA
       ),
 
       i.cobrado = (
       SELECT  sum(p.IMPORTE)
       FROM  werchow.pagos AS p
-      inner join werchow.sow as so on so.CONTRATO = p.CONTRATO 
+       join werchow.sow as so on so.CONTRATO = p.CONTRATO 
       WHERE  i.zona = so.ZONA
       and so.ZONA in (1,3,5,60)
       and p.MES = ${mes}
       and p.ANO = ${ano}
       and p.MOVIM = 'P'
-      and p.DIA_REN between '${iniMes}' and '${finMes}'
+      
       group by so.ZONA
     )
 

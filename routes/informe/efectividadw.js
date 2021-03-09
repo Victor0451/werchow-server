@@ -8,6 +8,7 @@ const cbanco = require("../../models/informes/cbanco");
 const cpolicia = require("../../models/informes/cpolicia");
 const cconvenio = require("../../models/informes/cconvenio");
 const c1000 = require("../../models/informes/c1000");
+const cprestamos = require("../../models/informes/cprestamos");
 
 // EFETIVIDAD COBRADORES
 
@@ -668,6 +669,129 @@ router.get("/banp", (req, res, next) => {
 });
 
 
+// EFECTIVIDAD PRESTAMOS
+
+router.get("/prestotal", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cprestamos
+    .findAll({
+      attributes: [
+        [sequelize.literal("'Prestamos'"), "descr"],
+        [sequelize.literal("COALESCE(SUM(total))"), "total"],
+        [sequelize.literal("COALESCE(SUM(cobrado))"), "cobrado"],
+
+      ],
+
+      where: {
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/presw", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cprestamos
+    .findAll({
+
+      where: {
+        sucursal: 'W',
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/presl", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cprestamos
+    .findAll({
+
+      where: {
+        sucursal: 'L',
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/presr", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cprestamos
+    .findAll({
+
+      where: {
+        sucursal: 'R',
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+router.get("/presp", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cprestamos
+    .findAll({
+
+      where: {
+        sucursal: 'P',
+        mes: mes,
+        ano: ano,
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 // RESUMEN COB SUCURSALES
 
 router.get("/respalofi", (req, res, next) => {
@@ -1086,10 +1210,37 @@ router.get("/resssjpol", (req, res, next) => {
     });
 });
 
-router.get("/respalconv", (req, res, next) => {
+
+router.get("/resssjprest", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  cconvenio
+  cprestamos
+    .findAll({
+      attributes: [
+        [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
+        [sequelize.literal("COALESCE(SUM(cobrado + adelantado))"), "cobrado"],
+      ],
+      where: {
+        mes: mes,
+        ano: ano,
+        sucursal: "W",
+      },
+      raw: true,
+    })
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/respalprest", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  cprestamos
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -1112,10 +1263,11 @@ router.get("/respalconv", (req, res, next) => {
     });
 });
 
-router.get("/resperconv", (req, res, next) => {
+
+router.get("/resperprest", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  cconvenio
+  cprestamos
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -1138,10 +1290,10 @@ router.get("/resperconv", (req, res, next) => {
     });
 });
 
-router.get("/resspconv", (req, res, next) => {
+router.get("/resspprest", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
-  cconvenio
+  cprestamos
     .findAll({
       attributes: [
         [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
@@ -1164,31 +1316,6 @@ router.get("/resspconv", (req, res, next) => {
     });
 });
 
-router.get("/resssjconv", (req, res, next) => {
-  let mes = req.query.mes;
-  let ano = req.query.ano;
-  cconvenio
-    .findAll({
-      attributes: [
-        [sequelize.literal("COALESCE(SUM(total + adelantado))"), "total"],
-        [sequelize.literal("COALESCE(SUM(cobrado + adelantado))"), "cobrado"],
-      ],
-      where: {
-        mes: mes,
-        ano: ano,
-        sucursal: "W",
-      },
-      raw: true,
-    })
-
-    .then((efectividad) => {
-      res.status(200).json(efectividad);
-    })
-
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
 
 // APIS WERCHOW NEXT
 
