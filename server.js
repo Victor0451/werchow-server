@@ -85,6 +85,7 @@ app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
+app.use("/api/ventas/planes", require("./routes/ventas/planes"));
 
 // UPLOADS
 app.use(
@@ -139,6 +140,7 @@ app.use(
 );
 
 app.use("/api/sgi/mapa", require("./routes/informe/mapa"));
+app.use("/api/sgi/orgamerica", require("./routes/informe/orgamerica"));
 
 //Conecting DB
 

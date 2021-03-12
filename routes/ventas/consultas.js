@@ -52,25 +52,29 @@ router.get("/consultaventas", (req, res, next) => {
       
       (CASE 
           WHEN p.prod_empre = 'W' 
-          AND p.prod_recibo != 0   
+          AND p.prod_recibo NOT IN (0,1)   
           AND EXISTS( 
                SELECT CONTRATO
                FROM pagos
                WHERE p.prod_recibo = NRO_RECIBO 	               				
-               AND ANO = 2020
+               AND ANO = ${ano}
                AND movim = 'P'
                )
           THEN 'SI PAGO'
              
+          WHEN p.prod_empre = 'W' 
+          AND p.prod_pago IN ('POLICIA', 'CONVENIO')
+          THEN 'DESC. POR PLANILLA'            
+
     
           WHEN p.prod_empre = 'M' 
-          AND p.prod_recibo != 0
+          AND p.prod_recibo NOT IN (0,1)
              AND EXISTS( 
               SELECT CONTRATO
              FROM pagos_mutual
              WHERE p.prod_recibo = NRO_RECIBO 
              
-             AND ANO = 2020
+             AND ANO = ${ano}
              AND movim = 'P'
              )
           THEN 'SI PAGO'
