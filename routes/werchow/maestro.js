@@ -170,7 +170,7 @@ router.get("/titular/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG 
     from maestro as m
     inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
     where m.CONTRATO = ${id} 
@@ -187,7 +187,7 @@ router.get("/titularm/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG
     from mutual as m
     inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
     where m.CONTRATO = ${id} 

@@ -42,7 +42,8 @@ router.get("/cantidad", (req, res, next) => {
 });
 
 router.get("/stockagotado", (req, res, next) => {
-  Ataudes.findAll({ where: { stock: { [Op.lte]: 5 } } })
+  // Ataudes.findAll({ where: { stock: { [Op.lte]: 5 } } })
+  Ataudes.findAll()
     .then((cantidad) => {
       res.status(200).json(cantidad);
     })
@@ -82,6 +83,23 @@ router.put("/nuevostock/:id", (req, res, next) => {
       fecha_reposicion: fecha_reposicion,
     },
     { where: { idataud: idataud } }
+  )
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/updatestock/:id", (req, res, next) => {
+  const {
+    nustock
+  } = req.body;
+  console.log(req.params.id)
+  Ataudes.update(
+    { stock: nustock },
+    { where: { idataud: req.params.id } }
   )
     .then((cantidad) => {
       res.status(200).json(cantidad);

@@ -86,6 +86,7 @@ app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
 app.use("/api/ventas/planes", require("./routes/ventas/planes"));
+app.use("/api/ventas/asesores", require("./routes/ventas/asesores"));
 
 // UPLOADS
 app.use(
@@ -103,6 +104,10 @@ app.use(
 app.use(
   "/api/archivos/legajovirtualservicios",
   require("./routes/archivos/LegajoVirtualServicios")
+);
+app.use(
+  "/api/archivos/legajovirtualasesores",
+  require("./routes/archivos/LegajoVirtualAsesores")
 );
 // CLUBWERCHOW
 app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));

@@ -5,8 +5,9 @@ const db = require("../../db/database");
 const moment = require("moment");
 
 const rehabilitaciones = require("../../models/sgi/rehabilitaciones");
+const conveniodeuda = require("../../models/sgi/conveniodeuda");
 const maestro = require("../../models/werchow/maestro");
-const maestroM = require("../../models/mutual/maestro");
+const maestroM = require("../../models/werchow/mutual");
 const altanovell = require("../../models/sgi/altanovell");
 
 // GET FICHA WERCHOW
@@ -86,10 +87,57 @@ router.post("/nuevarehab", (req, res) => {
     empresa: empresa,
   } = req.body);
 
-  console.log(nuevarehab);
-
   rehabilitaciones
     .create(nuevarehab)
+    .then((rehab) => res.json(rehab))
+    .catch((err) => res.json(err));
+});
+
+
+// POST CONVDEUDA
+router.post("/nuevoconvdeuda", (req, res) => {
+
+  const convenio = ({
+    contrato: contrato,
+    apellido: apellido,
+    nombre: nombre,
+    operador: operador,
+    vigencia: vigencia,
+    fecha: fecha,
+    cuotas: cuotas,
+    dni: dni,
+    empresa: empresa,
+    idoperador: idoperador,
+    vencimiento1: vencimiento1,
+    vencimiento2: vencimiento2,
+    importe1: importe1,
+    importe2: importe2,
+    deuda: deuda,
+    bonificacion: bonificacion,
+    saldo: saldo,
+  } = req.body);
+
+  conveniodeuda
+    .create(convenio)
+    .then((rehab) => res.json(rehab))
+    .catch((err) => res.json(err));
+});
+
+
+router.get("/traerconvenio/:id", (req, res) => {
+
+  conveniodeuda
+    .findOne({
+      where: { contrato: req.params.id }
+    })
+    .then((rehab) => res.json(rehab))
+    .catch((err) => res.json(err));
+});
+
+router.get("/traerconvenios", (req, res) => {
+
+  conveniodeuda
+    .findAll()
     .then((rehab) => res.json(rehab))
     .catch((err) => res.json(err));
 });
