@@ -33,6 +33,9 @@ module.exports = db.sepelioSequelize.define(
     cierre: {
       type: Sequelize.DataTypes.DATE,
     },
+    ultimacarga: {
+      type: Sequelize.DataTypes.DATE,
+    },
     empresa: {
       type: Sequelize.DataTypes.STRING,
     },

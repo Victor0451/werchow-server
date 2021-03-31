@@ -64,6 +64,8 @@ app.use("/api/sgi/prestamos", require("./routes/sgi/prestamos"));
 app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
+app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
+
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
@@ -82,6 +84,7 @@ app.use(
   require("./routes/sepelio/servicio_liquidacion")
 );
 app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
+app.use("/api/sepelio/tareas", require("./routes/sepelio/tareas"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));

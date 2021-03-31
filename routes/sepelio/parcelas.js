@@ -19,8 +19,18 @@ router.get("/traerparcela/:id", (req, res) => {
 router.get("/parcelaslibres", (req, res) => {
   parcelas
     .findAll({
-      attributes: ["idparcela", "parcela", "mza", "lote"],
+      
       where: { asignada: 0 },
+    })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
+router.get("/parcelasocupadas", (req, res) => {
+  parcelas
+    .findAll({
+      
+      where: { asignada: 1 },
     })
     .then((list) => res.json(list))
     .catch((err) => res.json(err));

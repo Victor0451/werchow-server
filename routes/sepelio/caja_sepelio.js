@@ -142,6 +142,25 @@ router.put("/updatefechacierre/:id", (req, res, next) => {
     });
 });
 
+// UPDATE FECHA ULTIMA CARGA CAJA
+router.put("/updatefechacierre/:id", (req, res, next) => {
+  const id = req.params.id;
+  let fecha = moment().format("YYYY-MM-DD HH:mm:ss");
+
+  CajaSepelio.update(
+    {
+      ultimacarga: fecha,
+    },
+    { where: { idcaja: id } }
+  )
+    .then((editarGastos) => {
+      res.status(200).json(editarGastos);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // UPDATE GASTO
 
 router.put("/updategasto/:id", (req, res, next) => {
