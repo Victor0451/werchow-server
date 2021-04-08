@@ -12,7 +12,21 @@ router.post("/cargargasto", (req, res) => {
 
   servicioGasto
     .create(gasto)
-    .then((titular) => res.json(titular))
+    .then((titular) => {
+      res.json(titular)
+
+      db.sepelioSequelize.query(
+
+        `
+        UPDATE servicio_gastos
+        SET horas = TIMEDIFF(fin, inicio)
+        WHERE horas IS NULL 
+        `
+
+      )
+
+    })
+
     .catch((err) => res.json(err));
 });
 

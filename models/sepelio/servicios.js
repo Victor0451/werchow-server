@@ -96,6 +96,12 @@ module.exports = db.sepelioSequelize.define(
     idparcela: {
       type: Sequelize.DataTypes.INTEGER,
     },
+    liquidado: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    fecha_liquidacion: {
+      type: Sequelize.DataTypes.DATE,
+    },
   },
   {
     timestamps: false,

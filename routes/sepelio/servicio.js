@@ -215,6 +215,7 @@ router.post("/nuevoservicio", (req, res) => {
     idataud: idataud,
     dni_solicitante: dni_solicitante,
     cremacion: cremacion,
+    liquidado: liquidado
   } = req.body);
 
   if (nuevoservicio.dni_nuevotitular === "") {

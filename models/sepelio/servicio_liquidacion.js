@@ -26,7 +26,10 @@ module.exports = db.sepelioSequelize.define(
       type: Sequelize.DataTypes.INTEGER,
     },
     fecha_liquidacion: {
-      type: Sequelize.DataTypes.STRING,
+      type: Sequelize.DataTypes.DATE,
+    },
+    operador: {
+      type: Sequelize.DataTypes.DATE,
     },
   },
   {

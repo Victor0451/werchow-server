@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const adherent = require("../../models/mutual/adherent");
+const adherent = require("../../models/mutual/mutual_adh");
 
 //GET ALL
 

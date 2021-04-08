@@ -2,8 +2,8 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.mutualSequelize.define(
-  "cuo_fija",
+module.exports = db.wSequelize.define(
+  "cuo_mutual",
   {
     CONTRATO: {
       type: Sequelize.DataTypes.INTEGER(11),

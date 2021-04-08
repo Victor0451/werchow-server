@@ -4,6 +4,7 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const db = require("../../db/database");
 const serviciosliquidacion = require('../../models/sepelio/servicio_liquidacion')
+const moment = require('moment')
 
 
 router.post("/postliquidacion", (req, res) => {
@@ -13,6 +14,25 @@ router.post("/postliquidacion", (req, res) => {
   serviciosliquidacion.create(liquidacion)
     .then((servicio) => {
       res.status(200).json(servicio);
+
+      db.sepelioSequelize.query(
+        `
+          UPDATE servicio_gastos
+          SET liquidado = 1
+          WHERE idservicio = ${liquidacion.idservicio}
+
+  `
+      )
+
+      db.sepelioSequelize.query(
+        `
+          UPDATE servicios
+          SET liquidado = 1, fecha_liquidacion = '${moment(liquidacion.fecha_liquidacion).format('YYYY-MM-DD HH:mm:ss')}'
+          WHERE idservicio = ${liquidacion.idservicio}
+
+  `
+      )
+
     })
 
     .catch((err) => {
@@ -51,43 +71,63 @@ router.get("/liquidacionoperador/:id", (req, res) => {
       `
         SELECT
         operador,
-        hs_inicio,
-        hs_fin,        
+        inicio,
+        fin,        
         tipo_gasto,
-        (
-        CASE
-        when s.tipo_gasto = 'Viaje interior' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
-        when s.tipo_gasto = 'Viaje interior' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
-        
-        when s.tipo_gasto = 'Guardia oficina' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then ( DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
-        when s.tipo_gasto = 'Guardia oficina' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
-        
-        when s.tipo_gasto = 'Atencion sala' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then ( DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
-        when s.tipo_gasto = 'Atencion sala' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
-        
-        when s.tipo_gasto = 'Instalacion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then ( DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
-        when s.tipo_gasto = 'Instalacion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
-        
-        when s.tipo_gasto = 'Conduccion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then ( DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.finde)
-        when s.tipo_gasto = 'Conduccion' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
-        
-        when s.tipo_gasto = 'Limpieza sala' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Sabado',NULL) 
-        then (h.finde)
-        when s.tipo_gasto = 'Limpieza sala' and CONCAT(ELT(WEEKDAY(s.fecha_gasto + 1), 'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo')) in ('Lunes','Martes','Miercoles','Jueves','Viernes')
-        then (DATE_FORMAT(TIMEDIFF(s.hs_fin ,  s.hs_inicio), "%h") * h.dias_habiles)
-        end
-        ) as 'liquidacion'
-        
+         (         
+          
+          CASE
+          when s.tipo_gasto = 'Viaje interior' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%h") * h.feriado
+          when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.dias_habiles
+          when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.finde
+          
+          
+          when s.tipo_gasto = 'Guardia oficina' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%h") * h.feriado
+          when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.dias_habiles
+          when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.finde
+          
+          
+          when s.tipo_gasto = 'Atencion sala' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%h") * h.feriado
+          when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.dias_habiles
+          when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.finde
+          
+          
+          when s.tipo_gasto = 'Instalacion' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%h") * h.feriado
+          when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.dias_habiles
+          when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.finde
+          
+          
+          when s.tipo_gasto = 'Conduccion' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%h") * h.feriado
+          when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.dias_habiles
+          when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.finde
+          
+          
+          when s.tipo_gasto = 'Limpieza sala' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%h") * h.feriado
+          when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.dias_habiles
+          when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%h") * h.finde
+          end
+          
+          ) as 'liquidacion'
+          
+                  
         FROM servicio_gastos as s
         INNER JOIN honorarios as h on h.trabajo = s.tipo_gasto
         where s.idservicio = ${req.params.id}

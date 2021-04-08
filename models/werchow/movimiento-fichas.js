@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const db = require('../../db/database');
 
 
-module.exports = db.werchowSequelize.define('movimiento-fichas', {
+module.exports = db.wSequelize.define('movimiento-fichas', {
     ID_MOV: {
         type: Sequelize.DataTypes.INTEGER(11),
         allowNull: false,

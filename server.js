@@ -42,16 +42,9 @@ app.use(
   require("./routes/werchow/movimientos")
 );
 
-//MUTUAL
-app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
-app.use("/api/mutual/maestro", require("./routes/mutual/maestro"));
-app.use("/api/mutual/adherent", require("./routes/mutual/adherente"));
-app.use("/api/mutual/fichas", require("./routes/mutual/fichas"));
-app.use("/api/mutual/historia", require("./routes/mutual/historia"));
-app.use("/api/mutual/memo", require("./routes/mutual/memo"));
-app.use("/api/mutual/pagos", require("./routes/mutual/pagos"));
-app.use("/api/mutual/pagobco", require("./routes/mutual/pagos_bco"));
-app.use("/api/mutual/caja", require("./routes/mutual/caja"));
+// MUTUAL
+app.use("/api/mutual/adherent", require("./routes/werchow/adherente"));
+
 
 //SGI
 app.use("/api/sgi/operador", require("./routes/sgi/operador"));
@@ -65,6 +58,7 @@ app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
+
 
 
 //SEPELIO
@@ -85,6 +79,9 @@ app.use(
 );
 app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
 app.use("/api/sepelio/tareas", require("./routes/sepelio/tareas"));
+app.use("/api/sepelio/tareasadicionales", require("./routes/sepelio/tareas_adicionales"));
+app.use("/api/sepelio/liquidacionsepelio", require("./routes/sepelio/liquidacion_sepelio"));
+
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
@@ -152,16 +149,6 @@ app.use("/api/sgi/orgamerica", require("./routes/informe/orgamerica"));
 
 //Conecting DB
 
-db.werchowSequelize
-  .authenticate()
-  .then(() => console.log("Database WERCHOW conected..."))
-  .catch((err) => console.log("error" + err));
-
-db.mutualSequelize
-  .authenticate()
-  .then(() => console.log("Database MUTUAL conected..."))
-  .catch((err) => console.log("error" + err));
-
 db.sgiSequelize
   .authenticate()
   .then(() => console.log("Database SGI conected..."))
@@ -169,7 +156,7 @@ db.sgiSequelize
 
 db.wSequelize
   .authenticate()
-  .then(() => console.log("Database W conected..."))
+  .then(() => console.log("Database WERCHOW conected..."))
   .catch((err) => console.log("error" + err));
 
 db.infoSequelize
@@ -180,6 +167,11 @@ db.infoSequelize
 db.sepelioSequelize
   .authenticate()
   .then(() => console.log("Database SEPELIO conected..."))
+  .catch((err) => console.log("error" + err));
+
+db.liqSequelize
+  .authenticate()
+  .then(() => console.log("Database LIQUIDACIONES conected..."))
   .catch((err) => console.log("error" + err));
 
 // server escuchando

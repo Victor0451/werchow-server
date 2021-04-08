@@ -9,33 +9,33 @@ module.exports = db.sepelioSequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-
     idservicio: {
       type: Sequelize.DataTypes.INTEGER,
     },
-
-    fecha_gasto: {
+    inicio: {
       type: Sequelize.DataTypes.DATE,
     },
 
-    hs_inicio: {
-      type: Sequelize.DataTypes.TIME,
-    },
-
-    hs_fin: {
-      type: Sequelize.DataTypes.TIME,
+    fin: {
+      type: Sequelize.DataTypes.DATE,
     },
     tipo_gasto: {
       type: Sequelize.DataTypes.STRING,
     },
-    importe: {
-      type: Sequelize.DataTypes.FLOAT,
+    horas: {
+      type: Sequelize.DataTypes.TIME,
     },
     operador: {
       type: Sequelize.DataTypes.STRING,
     },
     observaciones: {
       type: Sequelize.DataTypes.STRING,
+    },
+    feriado: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    liquidado: {
+      type: Sequelize.DataTypes.TINYINT,
     },
   },
   {

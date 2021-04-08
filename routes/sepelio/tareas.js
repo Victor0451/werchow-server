@@ -7,7 +7,7 @@ const tareas = require("../../models/sepelio/tareas");
 
 router.get("/traerparcela/:id", (req, res) => {
   let id = req.params.id;
-  parcelas
+  tareas
     .findAll({
       attributes: ["idparcela", "parcela", "mza", "lote"],
       where: { idparcela: id },
@@ -28,7 +28,7 @@ router.put("/asignarparcela/:id", (req, res) => {
 
   console.log(id);
 
-  parcelas
+  tareas
     .update(parcelaAsig, { where: { idparcela: id } })
     .then((list) => res.json(list))
     .catch((err) => res.json(err));

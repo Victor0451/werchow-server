@@ -2,41 +2,55 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.sepelioSequelize.define(
-  "planificacion_guardias",
+  "tareas_adicionales",
   {
-    idturno: {
+    idtarea: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    lugar: {
-      type: Sequelize.DataTypes.STRING,
+
+    idturno: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+
+    fecha: {
+      type: Sequelize.DataTypes.DATE,
     },
 
     inicio: {
-      type: Sequelize.DataTypes.DATE,
+      type: Sequelize.DataTypes.TIME,
     },
+
     fin: {
-      type: Sequelize.DataTypes.DATE,
+      type: Sequelize.DataTypes.TIME,
     },
+    tarea: {
+      type: Sequelize.DataTypes.STRING,
+    },
+
     horas: {
       type: Sequelize.DataTypes.TIME,
     },
+
     operador: {
       type: Sequelize.DataTypes.STRING,
     },
-    mes_planificacion: {
+
+    observaciones: {
       type: Sequelize.DataTypes.STRING,
     },
+
     feriado: {
       type: Sequelize.DataTypes.TINYINT,
     },
+
   },
   {
     timestamps: false,
     freezeTableName: true,
   },
   {
-    tableName: "planificacion_guardias",
+    tableName: "tareas_adicionales",
   }
 );

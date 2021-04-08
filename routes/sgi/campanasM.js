@@ -4,7 +4,7 @@ const db = require("../../db/database");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-const paymentM = require("../../models/mutual/payment");
+
 const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
 

@@ -3,8 +3,8 @@ const Sequelize = require("sequelize");
 const db = require('../../db/database');
 
 
-module.exports = db.mutualSequelize.define(
-  "historia",
+module.exports = db.wSequelize.define(
+  "historiam",
   {
     ID: {
       type: Sequelize.DataTypes.INTEGER,

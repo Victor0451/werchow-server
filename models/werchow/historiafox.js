@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const db = require('../../db/database');
 
 
-module.exports = db.werchowSequelize.define(
+module.exports = db.wSequelize.define(
   "historiafox",
   {
     ID: {
