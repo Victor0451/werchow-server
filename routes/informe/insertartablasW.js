@@ -12,10 +12,10 @@ router.post("/insertcbanco", (req, res, next) => {
       `
       INSERT INTO cbanco
       (
-        tipo, total, fichas, cobrado, fichascob, mes, ano, adelantado, sucursal, descr
+        total, fichas, cobrado, fichascob, mes, ano, adelantado, sucursal, descr
        )
       (
-      select  'ssj' as tipo, 
+      select  
        sum(m.CUOTA) as total ,
        count(m.CONTRATO) as fichas, 
        0 as cobrado, 
@@ -55,10 +55,10 @@ router.post("/insertcpolicia", (req, res, next) => {
       `
         INSERT INTO cpolicia
         (
-          tipo, total, fichas, cobrado, fichascob, mes, ano, adelantado, sucursal, descr
+           total, fichas, cobrado, fichascob, mes, ano, adelantado, sucursal, descr
          )
         (
-        select  'ssj' as tipo,
+        select 
           sum(m.CUOTA) as total ,
           count(m.CONTRATO) as fichas,
            0 as cobrado, 
@@ -91,6 +91,54 @@ router.post("/insertcpolicia", (req, res, next) => {
       res.status(400).json(err);
     });
 });
+
+
+router.post("/insertcprestamos", (req, res, next) => {
+  db.infoSequelize
+    .query(
+      `
+
+      INSERT INTO cprestamos
+      (
+       descr, total, cobrado ,  mes, ano, sucursal
+       )
+      
+      select 
+      
+      CASE
+      when m.SUCURSAL = 'W' then 'Casa Central'
+      when m.SUCURSAL = 'L' then 'Palpala'
+      when m.SUCURSAL = 'P' then 'San Pedro'
+      when m.SUCURSAL = 'R' then 'Perico'
+      ELSE 'Verificar'
+      END as 'descr',
+      
+      SUM(p.CUOTA) as 'total',
+      
+      0 as 'cobrado',
+      
+      ${mes} as 'mes',
+      
+      ${ano} as 'ano',
+      
+      m.SUCURSAL as 'sucursal'
+      
+      from prespoli as p
+      INNER JOIN werchow.maestro as m on m.NRO_DOC = p.DNI
+      where CANCELADO = 0
+      GROUP BY m.SUCURSAL
+         `
+    )
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 
 router.post("/insertc1000", (req, res, next) => {
   db.infoSequelize

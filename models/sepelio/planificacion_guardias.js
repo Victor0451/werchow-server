@@ -31,6 +31,12 @@ module.exports = db.sepelioSequelize.define(
     feriado: {
       type: Sequelize.DataTypes.TINYINT,
     },
+    liquidado: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    fecha_liquidacion: {
+      type: Sequelize.DataTypes.DATE,
+    },
   },
   {
     timestamps: false,

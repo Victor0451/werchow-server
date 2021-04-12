@@ -49,17 +49,24 @@ router.post("/nuevaplani", (req, res) => {
 
 router.get("/liquidarguardias", (req, res) => {
 
+  let mes = req.query.mes
+  let ano = req.query.ano
+
+
   db.sepelioSequelize.query(
 
     `
   
     SELECT
-    idturno,
-    operador,
-    mes_planificacion,
-    inicio, 
-    fin,
-    horas,
+    s.idturno,
+    s.operador,
+    s.mes_planificacion,
+    s.inicio, 
+    s.fin,
+    s.horas,
+    s.liquidado,
+
+    
     (
     CASE
 
@@ -75,6 +82,8 @@ router.get("/liquidarguardias", (req, res) => {
 
     FROM planificacion_guardias as s
     INNER JOIN honorarios as h on h.trabajo = s.tarea
+    where MONTH(s.inicio) = ${mes}
+    and YEAR(s.inicio) = ${ano}
    `
   )
     .then((titular) => res.json(titular))
@@ -82,39 +91,40 @@ router.get("/liquidarguardias", (req, res) => {
 });
 
 
+router.get("/resumenguardias", (req, res) => {
 
-router.get("/registrarliqguardias", (req, res) => {
-
-  let titulo = `liqguardia${moment().format('MMYYYY')}`
+  let mes = req.query.mes
+  let ano = req.query.ano
 
   db.sepelioSequelize.query(
 
     `
-    CREATE TABLE IF NOT EXISTS ${titulo} (INDEX(operador)) AS
+    
+      SELECT
+ 
+      s.operador,           
+      sum((
+          CASE
+      
+          when s.tarea = 'Guardia oficina' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H")* h.feriado
+          when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) in (1,7) 
+          then TIME_FORMAT(s.horas, "%H")* h.finde
+          when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) not in (1,7) 
+          then TIME_FORMAT(s.horas, "%H")* h.dias_habiles
+      
+          end
+          )) as 'liquidacion',
+           s.mes_planificacion
+  
+      FROM planificacion_guardias as s
+      INNER JOIN honorarios as h on h.trabajo = s.tarea
+      where MONTH(s.inicio) = ${mes}
+      and YEAR(s.inicio) = ${ano}
 
-    SELECT
-    idturno,
-    operador,
-    mes_planificacion,
-    inicio, 
-    fin,
-    horas,
-    (
-    CASE
+      GROUP BY s.operador, s.mes_planificacion
+     `
 
-    when s.tarea = 'Guardia oficina' and s.feriado = 1
-    then TIME_FORMAT(s.horas, "%H")* h.feriado
-    when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) in (1,7) 
-    then TIME_FORMAT(s.horas, "%H")* h.finde
-    when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) not in (1,7) 
-    then TIME_FORMAT(s.horas, "%H")* h.dias_habiles
-
-    end
-    ) as 'liquidacion'
-
-    FROM planificacion_guardias as s
-    INNER JOIN honorarios as h on h.trabajo = s.tarea
-   `
   )
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));

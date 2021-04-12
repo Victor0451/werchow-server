@@ -23,7 +23,6 @@ router.get("/traertareas/:id", (req, res) => {
 router.post("/registrartarea", (req, res) => {
 
     const task = {
-        idturno: idturno,
         fecha: fecha,
         inicio: inicio,
         fin: fin,
@@ -52,16 +51,20 @@ router.post("/registrartarea", (req, res) => {
 
 
 router.get("/liquidartareas", (req, res) => {
+    let mes = req.query.mes
+    let ano = req.query.ano
+
     db.sepelioSequelize.query(
 
         `
         SELECT
+        s.idtarea,
         s.operador,
-        s.idturno,
         s.tarea,
         s.inicio,
         s.fin,
         s.horas,
+        s.liquidado,
         (
         CASE
         
@@ -125,7 +128,9 @@ router.get("/liquidartareas", (req, res) => {
         
         FROM tareas_adicionales as s
         INNER JOIN honorarios as h on h.trabajo = s.tarea
-        INNER JOIN planificacion_guardias as p on p.idturno = s.idturno
+        where MONTH(s.inicio) = ${mes}
+        and YEAR(s.inicio) = ${ano}
+        
      `
     )
         .then((titular) => res.json(titular))
@@ -133,39 +138,28 @@ router.get("/liquidartareas", (req, res) => {
 });
 
 
-router.get("/registrarliqtareas", (req, res) => {
-    let titulo = `liqguardia${moment().format('MMYYYY')}`
+router.get("/resumentareas", (req, res) => {
+
+    let mes = req.query.mes
+    let ano = req.query.ano
 
     db.sepelioSequelize.query(
 
         `
-        INSERT INTO ${titulo} 
-        (
-            operador,
-            idturno,
-            inicio,
-            fin,
-            horas,
-            liquidacion
-        )
-
-        (        
-            SELECT
-            s.operador,
-            s.idturno,
-            s.inicio,
-            s.fin,
-            s.horas,
-            (
+      
+        SELECT
+   
+        s.operador,           
+        sum((
             CASE
-            
+        
             when s.tarea = 'Tramites' and s.feriado = 1
             then TIME_FORMAT(s.horas, "%H") * h.feriado
             when s.tarea = 'Tramites' and DAYOFWEEK(s.inicio) not in (1,7)
             then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
             when s.tarea = 'Tramites' and DAYOFWEEK(s.inicio) in (1,7)
             then TIME_FORMAT(s.horas, "%H") * h.finde
-
+    
             when s.tarea = 'Viaje interior' and s.feriado = 1
             then TIME_FORMAT(s.horas, "%H") * h.feriado
             when s.tarea = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
@@ -212,20 +206,41 @@ router.get("/registrarliqtareas", (req, res) => {
             then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
             when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
             then TIME_FORMAT(s.horas, "%H") * h.finde
-            
-            
-            END
-            ) as 'liquidacion'
 
+            END
+            )) as 'liquidacion',
+
+            s.mes_planificacion
+    
         FROM tareas_adicionales as s
         INNER JOIN honorarios as h on h.trabajo = s.tarea
-        INNER JOIN planificacion_guardias as p on p.idturno = s.idturno
-        )
+        where MONTH(s.inicio) = ${mes}
+        and YEAR(s.inicio) = ${ano}
+        
+        GROUP BY s.operador, s.mes_planificacion
+       `
 
-        `
     )
         .then((titular) => res.json(titular))
         .catch((err) => res.json(err));
+});
+
+
+router.put("/regliqtareas/:id", (req, res) => {
+
+    db.sepelioSequelize.query(
+        `
+            UPDATE tareas_adicionales
+            SET liquidado = 1 , 
+            fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}'
+            WHERE idtarea = ${req.params.id}
+   
+          `
+    )
+        .then((titular) => res.json(titular))
+        .catch((err) => res.json(err));
+
+
 });
 
 module.exports = router;

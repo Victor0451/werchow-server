@@ -80,7 +80,7 @@ app.use(
 app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
 app.use("/api/sepelio/tareas", require("./routes/sepelio/tareas"));
 app.use("/api/sepelio/tareasadicionales", require("./routes/sepelio/tareas_adicionales"));
-app.use("/api/sepelio/liquidacionsepelio", require("./routes/sepelio/liquidacion_sepelio"));
+app.use("/api/sepelio/servicioventa", require("./routes/sepelio/servicio_venta"));
 
 
 //VENTAS

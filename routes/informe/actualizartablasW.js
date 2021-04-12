@@ -59,7 +59,7 @@ router.put("/c1000of", (req, res, next) => {
   db.infoSequelize
     .query(
       `
-      UPDATE .c1000 i
+      UPDATE c1000 i
       SET i.fichascob = 
       (
       SELECT  count(p.CONTRATO)

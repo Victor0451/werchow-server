@@ -10,10 +10,6 @@ module.exports = db.sepelioSequelize.define(
       autoIncrement: true,
     },
 
-    idturno: {
-      type: Sequelize.DataTypes.INTEGER,
-    },
-
     fecha: {
       type: Sequelize.DataTypes.DATE,
     },
@@ -44,7 +40,15 @@ module.exports = db.sepelioSequelize.define(
     feriado: {
       type: Sequelize.DataTypes.TINYINT,
     },
-
+    liquidado: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    fecha_liquidacion: {
+      type: Sequelize.DataTypes.DATE,
+    },
+    mes_planificacion: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
