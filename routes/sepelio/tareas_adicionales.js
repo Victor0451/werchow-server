@@ -65,6 +65,7 @@ router.get("/liquidartareas", (req, res) => {
         s.fin,
         s.horas,
         s.liquidado,
+        s.aprobado,
         (
         CASE
         
@@ -228,11 +229,55 @@ router.get("/resumentareas", (req, res) => {
 
 router.put("/regliqtareas/:id", (req, res) => {
 
+    let operador = req.body.params.operador
+
     db.sepelioSequelize.query(
         `
             UPDATE tareas_adicionales
             SET liquidado = 1 , 
-            fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}'
+            fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+            operadorliq = ${operador}
+            WHERE idtarea = ${req.params.id}
+   
+          `
+    )
+        .then((titular) => res.json(titular))
+        .catch((err) => res.json(err));
+
+
+});
+
+
+router.put("/aprobarliqtarea/:id", (req, res) => {
+
+    let operador = req.body.params.operador
+
+    db.sepelioSequelize.query(
+        `
+            UPDATE tareas_adicionales
+            SET aprobado = 1 , 
+            fecha_aprobacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+            operadorap = '${operador}'
+            WHERE idtarea = ${req.params.id}
+   
+          `
+    )
+        .then((titular) => res.json(titular))
+        .catch((err) => res.json(err));
+
+
+});
+
+router.put("/cancelarliqtarea/:id", (req, res) => {
+
+    let operador = req.body.params.operador
+
+    db.sepelioSequelize.query(
+        `
+            UPDATE tareas_adicionales
+            SET aprobado = 0 , 
+            fecha_aprobacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+            operadorap = '${operador}'
             WHERE idtarea = ${req.params.id}
    
           `

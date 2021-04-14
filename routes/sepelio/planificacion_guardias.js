@@ -65,6 +65,7 @@ router.get("/liquidarguardias", (req, res) => {
     s.fin,
     s.horas,
     s.liquidado,
+    s.aprobado,
 
     
     (
@@ -130,6 +131,64 @@ router.get("/resumenguardias", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.put("/regliqguardia/:id", (req, res) => {
 
+  let operador = req.body.params.operador
+
+  db.sepelioSequelize.query(
+    `
+          UPDATE planificacion_guardias
+          SET liquidado = 1 , 
+          fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+          operadorliq = ${operador}
+          WHERE idturno = ${req.params.id}
+ 
+        `
+  )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
+
+router.put("/aprobarliqguardia/:id", (req, res) => {
+
+  let operador = req.body.params.operador
+
+  db.sepelioSequelize.query(
+    `
+          UPDATE planificacion_guardias
+          SET aprobado = 1 , 
+          fecha_aprobacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+          operadorap = '${operador}'
+          WHERE idturno = ${req.params.id}
+ 
+        `
+  )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
+
+router.put("/cancelarliqguardia/:id", (req, res) => {
+
+  let operador = req.body.params.operador
+
+  db.sepelioSequelize.query(
+    `
+          UPDATE planificacion_guardias
+          SET aprobado = 0 , 
+          fecha_aprobacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+          operadorap = '${operador}'
+          WHERE idturno = ${req.params.id}
+ 
+        `
+  )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
 
 module.exports = router;

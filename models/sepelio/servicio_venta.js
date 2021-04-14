@@ -38,6 +38,30 @@ module.exports = db.sepelioSequelize.define(
         operador_venta: {
             type: Sequelize.DataTypes.STRING,
         },
+
+        liquidado: {
+            type: Sequelize.DataTypes.TINYINT,
+        },
+
+        operadorliq: {
+            type: Sequelize.DataTypes.STRING,
+        },
+
+        fecha_liquidacion: {
+            type: Sequelize.DataTypes.DATE,
+        },
+
+        aprobado: {
+            type: Sequelize.DataTypes.TINYINT,
+        },
+
+        operadorap: {
+            type: Sequelize.DataTypes.STRING,
+        },
+
+        fecha_aprobacion: {
+            type: Sequelize.DataTypes.DATE,
+        },
     },
     {
         timestamps: false,

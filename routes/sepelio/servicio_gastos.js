@@ -63,4 +63,66 @@ router.get("/gastliq", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+
+router.put("/regliqgasto/:id", (req, res) => {
+
+  let operador = req.body.params.operador
+
+  db.sepelioSequelize.query(
+    `
+          UPDATE servicio_gastos
+          SET liquidado = 1 , 
+          fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+          operadorliq = '${operador}'
+          WHERE idgastos = ${req.params.id}
+ 
+        `
+  )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
+
+router.put("/aprobarliqgasto/:id", (req, res) => {
+
+  let operador = req.body.params.operador
+
+
+  db.sepelioSequelize.query(
+    `
+          UPDATE servicio_gastos
+          SET aprobado = 1 , 
+          fecha_aprobacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+          operadorap = '${operador}'
+          WHERE idgastos = ${req.params.id}
+
+        `
+  )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
+
+router.put("/cancelarliqgasto/:id", (req, res) => {
+
+  let operador = req.body.params.operador
+
+  db.sepelioSequelize.query(
+    `
+          UPDATE servicio_gastos
+          SET aprobado = 0 , 
+          fecha_aprobacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+          operadorap = '${operador}'
+          WHERE idgastos = ${req.params.id}
+ 
+        `
+  )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
+
 module.exports = router;

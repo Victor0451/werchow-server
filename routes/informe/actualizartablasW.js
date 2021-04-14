@@ -327,58 +327,60 @@ and i.ano = ${ano}
 router.put("/cpolicia", (req, res, next) => {
   db.infoSequelize
     .query(
-      //   `
-      //       UPDATE cpolicia i
-      //       SET i.fichascob =
-      //       (
-
-      //       SELECT COUNT(p.ID_ABONADO)
-      //       FROM werchow.debpesoW AS p
-      //       INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
-      //       WHERE  p.CONVENIO = 6
-      //       and s.SUCURSAL = i.sucursal
-
-      //       ),
-
-      //       i.cobrado= (
-      //       SELECT sum(p.IMPORTE)
-      //       FROM werchow.debpesoW AS p
-      //       INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
-      //       WHERE  p.CONVENIO = 6
-      //       and s.SUCURSAL = i.sucursal
-
-      //       )
-
-      //       where  i.mes = ${mes}
-      //       and i.ano = ${ano}
-      //     `
-
       `
-        UPDATE cpolicia i
-        SET i.fichascob = 
+      UPDATE cpolicia i
+      SET i.fichascob =
         (
+      
+      
+      SELECT COUNT(p.ID_ABONADO)
+      FROM werchow.debpesoW AS p
+      INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
+      WHERE  p.CONVENIO = 6
+      and s.SUCURSAL = i.sucursal
+              
+              
+              ),
+      
+      i.cobrado = (
+      SELECT sum(p.IMPORTE - p.PRESTAMO)
+      FROM werchow.debpesoW AS p
+      INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
+      WHERE  p.CONVENIO = 6
+      and s.SUCURSAL = i.sucursal
+              
+              )
+      
+      where  i.mes = ${mes}
+      and i.ano = ${ano}
+        `
 
 
-        SELECT COUNT(p.CONTRATO)
-        FROM werchow.pago_bco AS p
-        INNER JOIN werchow.sow as s on p.CONTRATO = s.CONTRATO
-        WHERE   s.GRUPO = 6
-        and p.MES = ${mes}
-        and p.ANO = ${ano}
+    )
+
+    .then((efectividad) => {
+      res.status(200).json(efectividad);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/cprestamos", (req, res, next) => {
+  db.infoSequelize
+    .query(
+      `
+      UPDATE cprestamos i
+      SET i.cobrado = (
+        SELECT sum(p.PRESTAMO)
+        FROM werchow.debpesoW AS p
+        INNER JOIN werchow.sow as s on p.ID_ABONADO = s.CONTRATO
+        WHERE  p.CONVENIO = 6
         and s.SUCURSAL = i.sucursal
-
-
-        ),
-
-        i.cobrado= (
-        SELECT sum(p.IMPORTE)
-        FROM werchow.pago_bco AS p
-        INNER JOIN werchow.sow as s on p.CONTRATO = s.CONTRATO
-        WHERE   s.GRUPO = 6
-        and p.MES = ${mes}
-        and p.ANO = ${ano}
-        and s.SUCURSAL = i.sucursal
-        )
+        GROUP BY s.SUCURSAL
+                
+                )
 
         where  i.mes = ${mes}
         and i.ano = ${ano}

@@ -37,6 +37,18 @@ module.exports = db.sepelioSequelize.define(
     fecha_liquidacion: {
       type: Sequelize.DataTypes.DATE,
     },
+    aprobado: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    fecha_aprobacion: {
+      type: Sequelize.DataTypes.DATE,
+    },
+    operadorliq: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    operadorap: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

@@ -186,6 +186,16 @@ router.get("/impservicio/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/impservicio2/:id", (req, res) => {
+  const id = req.params.id;
+  servicios
+    .findOne({
+      where: { idservicio: id },
+    })
+    .then((servicio) => res.json(servicio))
+    .catch((err) => res.json(err));
+});
+
 router.post("/nuevoservicio", (req, res) => {
   const nuevoservicio = ({
     contrato: contrato,
@@ -344,7 +354,7 @@ router.put("/puttitularesw", (req, res, next) => {
             werchow.maestro AS a
           WHERE
             a.NRO_DOC = s.dni
-          AND a.BAJA IS NOT NULL
+         
         ) THEN
           TRUE
       
@@ -354,8 +364,7 @@ router.put("/puttitularesw", (req, res, next) => {
           FROM
             werchow.maestro AS a
           WHERE
-            a.NRO_DOC = s.dni
-          AND a.BAJA IS NULL
+            a.NRO_DOC = s.dni          
         ) THEN
           FALSE
         

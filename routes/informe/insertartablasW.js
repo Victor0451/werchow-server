@@ -58,9 +58,9 @@ router.post("/insertcpolicia", (req, res, next) => {
            total, fichas, cobrado, fichascob, mes, ano, adelantado, sucursal, descr
          )
         (
-        select 
-          sum(m.CUOTA) as total ,
-          count(m.CONTRATO) as fichas,
+          select 
+          sum(d.IMPMOV) - SUM(d.PRESTAMO) as total ,
+          count(d.CONTRATO) as fichas,
            0 as cobrado, 
            0 as fichascob ,
            ${mes} as mes, 
@@ -76,8 +76,9 @@ router.post("/insertcpolicia", (req, res, next) => {
            ELSE 'Verificar'
            END as descr
 
-        from werchow.sow as m
-        where m.GRUPO = 6
+        from de_poli as d
+				INNER JOIN werchow.sow as m on m.CONTRATO = d.CONTRATO
+        
         group by m.SUCURSAL
          )
          `
