@@ -102,6 +102,9 @@ module.exports = db.sepelioSequelize.define(
     fecha_liquidacion: {
       type: Sequelize.DataTypes.DATE,
     },
+    gastos_cargados: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
   },
   {
     timestamps: false,

@@ -64,6 +64,48 @@ router.get("/gastliq", (req, res) => {
 });
 
 
+router.put("/updatetareasservicio/:id", (req, res) => {
+  db.sepelioSequelize
+    .query(
+      `
+   UPDATE servicios as s
+   SET gastos_cargados = (
+
+      SELECT count(sg.idservicio)
+      FROM servicio_gastos as sg
+      WHERE sg.idservicio = ${req.params.id}
+   )
+   WHERE s.idservicio = ${req.params.id}
+     
+   `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.put("/updatetareasapservicio/:id", (req, res) => {
+  db.sepelioSequelize
+    .query(
+      `
+   UPDATE servicios as s
+   SET gastos_cargados = (
+
+      SELECT count(sg.idservicio)
+      FROM servicio_gastos as sg
+      WHERE sg.idservicio = ${req.params.id}
+      AND sg.aprobado IS NULL
+   )
+   
+   WHERE s.idservicio = ${req.params.id} 
+   `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+
+
+
 router.put("/regliqgasto/:id", (req, res) => {
 
   let operador = req.body.params.operador

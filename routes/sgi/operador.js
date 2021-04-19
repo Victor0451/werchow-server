@@ -113,7 +113,13 @@ router.put("/editar/:id", (req, res, next) => {
           contrasena: OperadorEdit.contrasena,
         },
         { where: { usuario: req.params.id } }
-      );
+      )
+        .then((operador) => {
+          res.status(200).json(operador);
+        })
+        .catch((err) => {
+          res.status(400).json(err);
+        });
     });
   });
 });

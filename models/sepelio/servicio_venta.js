@@ -16,6 +16,10 @@ module.exports = db.sepelioSequelize.define(
             type: Sequelize.DataTypes.FLOAT,
         },
 
+        comision: {
+            type: Sequelize.DataTypes.FLOAT,
+        },
+
         fecha_venta: {
             type: Sequelize.DataTypes.DATE,
         },
@@ -60,6 +64,10 @@ module.exports = db.sepelioSequelize.define(
         },
 
         fecha_aprobacion: {
+            type: Sequelize.DataTypes.DATE,
+        },
+
+        fecha_carga: {
             type: Sequelize.DataTypes.DATE,
         },
     },
