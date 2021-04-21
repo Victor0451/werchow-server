@@ -56,6 +56,24 @@ router.get("/cajassepelio", (req, res, next) => {
 });
 
 
+router.get("/cajasepelio/:id", (req, res, next) => {
+
+    db.sepelioSequelize.query(
+
+        `   
+            SELECT 'gastos en caja' as 'tipo' ,operadortramite 'operador', concepto,  total 'monto'
+            FROM gastos_caja
+            WHERE idservicio = ${req.params.id}            
+        `
+    )
+        .then((cantidad) => {
+            res.status(200).json(cantidad);
+        })
+        .catch((err) => {
+            res.status(400).json(err);
+        });
+});
+
 // GET GASTOS SERVICIO
 
 router.get("/gastosservicio", (req, res, next) => {
@@ -119,6 +137,14 @@ router.get("/gastosservicio", (req, res, next) => {
           then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
           when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
           then TIME_FORMAT(s.horas, "%H") * h.finde
+
+          when s.tipo_gasto = 'Extra' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+
           end
           
           )) as 'monto'
@@ -129,6 +155,91 @@ router.get("/gastosservicio", (req, res, next) => {
         WHERE MONTH(s.inicio) = ${mes}
         AND YEAR(s.inicio) = ${ano}
         GROUP BY operador
+            
+            `
+    )
+        .then((cantidad) => {
+            res.status(200).json(cantidad);
+        })
+        .catch((err) => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/gastosservicio/:id", (req, res, next) => {
+
+    db.sepelioSequelize.query(
+
+        `   
+        SELECT
+       'gastos en servicios' as 'tipo',
+        operador,        
+        s.tipo_gasto,        
+               
+        (  
+          CASE
+          when s.tipo_gasto = 'Viaje interior' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+          
+          
+          when s.tipo_gasto = 'Guardia oficina' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+          
+          
+          when s.tipo_gasto = 'Atencion sala' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+          
+          
+          when s.tipo_gasto = 'Instalacion' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+          
+          
+          when s.tipo_gasto = 'Conduccion' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+          
+          
+          when s.tipo_gasto = 'Limpieza sala' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+
+          when s.tipo_gasto = 'Extra' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
+
+          end
+          
+          ) as 'monto'
+          
+                  
+        FROM servicio_gastos as s
+        INNER JOIN honorarios as h on h.trabajo = s.tipo_gasto
+        WHERE s.idservicio = ${req.params.id}
             
             `
     )

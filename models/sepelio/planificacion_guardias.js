@@ -49,6 +49,9 @@ module.exports = db.sepelioSequelize.define(
     operadorap: {
       type: Sequelize.DataTypes.STRING,
     },
+    tarea: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

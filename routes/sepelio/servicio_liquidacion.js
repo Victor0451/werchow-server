@@ -130,6 +130,13 @@ router.get("/liquidacionoperador/:id", (req, res) => {
           then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
           when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
           then TIME_FORMAT(s.horas, "%H") * h.finde
+
+          when s.tipo_gasto = 'Extra' and s.feriado = 1
+          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
+          then TIME_FORMAT(s.horas, "%H") * h.finde
           end
           
           ) as 'liquidacion'

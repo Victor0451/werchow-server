@@ -17,6 +17,17 @@ router.get("/listadoplani", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/plani/:id", (req, res) => {
+  planificacionGuardias
+    .findOne({
+      where: {
+        idturno: req.params.id
+      },
+    })
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
 router.post("/nuevaplani", (req, res) => {
   const planificacion = ({
     lugar,
@@ -24,7 +35,8 @@ router.post("/nuevaplani", (req, res) => {
     fin,
     operador,
     mes_planificacion,
-    feriado
+    feriado,
+    tarea
   } = req.body);
 
   planificacionGuardias
@@ -38,6 +50,45 @@ router.post("/nuevaplani", (req, res) => {
           UPDATE planificacion_guardias
           SET horas = TIMEDIFF(fin,inicio)
           WHERE horas IS NULL
+ 
+        `
+      )
+    }
+
+    )
+    .catch((err) => res.json(err));
+});
+
+router.put("/editarplani/:id", (req, res) => {
+  const p = ({
+    lugar,
+    inicio,
+    fin,
+    operador,
+    mes_planificacion,
+    feriado
+  } = req.body);
+
+  planificacionGuardias
+    .update({
+      lugar: p.lugar,
+      inicio: p.inicio,
+      fin: p.fin,
+      operador: p.operador,
+      mes_planificacion: p.mes_planificacion,
+      feriado: p.feriado,
+    },
+      { where: { idturno: req.params.id } })
+
+    .then((plani) => {
+
+      res.json(plani)
+
+      db.sepelioSequelize.query(
+        `
+          UPDATE planificacion_guardias
+          SET horas = TIMEDIFF(fin,inicio)
+          WHERE idturno = ${req.params.id}
  
         `
       )
@@ -66,6 +117,10 @@ router.get("/liquidarguardias", (req, res) => {
     s.horas,
     s.liquidado,
     s.aprobado,
+    s.operadorliq,
+    s.fecha_liquidacion,
+    s.fecha_aprobacion,
+    s.operadorap,
 
     
     (
@@ -140,7 +195,7 @@ router.put("/regliqguardia/:id", (req, res) => {
           UPDATE planificacion_guardias
           SET liquidado = 1 , 
           fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
-          operadorliq = ${operador}
+          operadorliq = '${operador}'
           WHERE idturno = ${req.params.id}
  
         `
@@ -185,6 +240,17 @@ router.put("/cancelarliqguardia/:id", (req, res) => {
  
         `
   )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+
+
+});
+
+router.delete("/eliminarturno/:id", (req, res) => {
+
+  planificacionGuardias.destroy({
+    where: { idturno: req.params.id }
+  })
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 

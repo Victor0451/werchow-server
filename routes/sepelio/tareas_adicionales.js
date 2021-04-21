@@ -66,6 +66,11 @@ router.get("/liquidartareas", (req, res) => {
         s.horas,
         s.liquidado,
         s.aprobado,
+        s.operadorliq,
+        s.fecha_liquidacion,
+        s.fecha_aprobacion,
+        s.operadorap,
+        
         (
         CASE
         
@@ -121,6 +126,13 @@ router.get("/liquidartareas", (req, res) => {
         when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
         then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
         when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
+        then TIME_FORMAT(s.horas, "%H") * h.finde
+
+        when s.tarea = 'Extra' and s.feriado = 1
+        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
+        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
         then TIME_FORMAT(s.horas, "%H") * h.finde
         
         
@@ -208,6 +220,13 @@ router.get("/resumentareas", (req, res) => {
             when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
             then TIME_FORMAT(s.horas, "%H") * h.finde
 
+            when s.tarea = 'Extra' and s.feriado = 1
+            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
+            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
+            then TIME_FORMAT(s.horas, "%H") * h.finde
+
             END
             )) as 'liquidacion',
 
@@ -236,7 +255,7 @@ router.put("/regliqtareas/:id", (req, res) => {
             UPDATE tareas_adicionales
             SET liquidado = 1 , 
             fecha_liquidacion = '${moment().format('YYYY-MM-DD HH:mm:ss')}',
-            operadorliq = ${operador}
+            operadorliq = '${operador}'
             WHERE idtarea = ${req.params.id}
    
           `
