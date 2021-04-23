@@ -32,13 +32,30 @@ router.post("/nuevo", (req, res, next) => {
 //GET ATAUDES
 
 router.get("/cantidad", (req, res, next) => {
-  Ataudes.findAll({ where: { stock: { [Op.gt]: 0 } } })
-    .then((cantidad) => {
-      res.status(200).json(cantidad);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+
+  let flag = req.query.flag
+  console.log(req.query.flag)
+
+  if (req.query.flag === '1') {
+    console.log('sin')
+    Ataudes.findAll({ where: { stock: { [Op.gt]: 0 }, nombre: { [Op.not]: 'SIN ATAUD' } } })
+      .then((cantidad) => {
+        res.status(200).json(cantidad);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  } else {
+    console.log('cpn')
+    Ataudes.findAll({ where: { stock: { [Op.gt]: 0 } } })
+      .then((cantidad) => {
+        res.status(200).json(cantidad);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+
 });
 
 router.get("/stockagotado", (req, res, next) => {

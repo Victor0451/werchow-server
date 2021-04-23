@@ -30,6 +30,40 @@ router.post("/cargargasto", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.put("/editargasto/:id", (req, res) => {
+  const gasto = req.body;
+
+  servicioGasto
+    .update(gasto, {
+      where: { idgastos: req.params.id }
+    })
+    .then((titular) => {
+      res.json(titular)
+
+      db.sepelioSequelize.query(
+
+        `
+        UPDATE servicio_gastos
+        SET horas = TIMEDIFF(fin, inicio)
+        WHERE idgastos = ${req.params.id}
+     `
+      )
+    })
+
+    .catch((err) => res.json(err));
+});
+
+router.delete("/eliminargasto/:id", (req, res) => {
+
+  servicioGasto.destroy({
+    where: { idgastos: req.params.id }
+  })
+    .then((titular) => {
+      res.json(titular)
+    })
+    .catch((err) => res.json(err));
+})
+
 router.get("/listadogastos/:id", (req, res) => {
   servicioGasto
     .findAll({
