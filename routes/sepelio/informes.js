@@ -92,58 +92,58 @@ router.get("/gastosservicio", (req, res, next) => {
           
           CASE
           when s.tipo_gasto = 'Viaje interior' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Guardia oficina' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Atencion sala' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Instalacion' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Conduccion' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Limpieza sala' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
 
           when s.tipo_gasto = 'Extra' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
 
           end
           
@@ -179,58 +179,58 @@ router.get("/gastosservicio/:id", (req, res, next) => {
         (  
           CASE
           when s.tipo_gasto = 'Viaje interior' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Viaje interior' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Guardia oficina' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Guardia oficina' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Atencion sala' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Atencion sala' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Instalacion' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Instalacion' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Conduccion' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Conduccion' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
           
           
           when s.tipo_gasto = 'Limpieza sala' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
 
           when s.tipo_gasto = 'Extra' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H") * h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
           when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
           when s.tipo_gasto = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
-          then TIME_FORMAT(s.horas, "%H") * h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
 
           end
           

@@ -83,12 +83,14 @@ app.use("/api/sepelio/tareasadicionales", require("./routes/sepelio/tareas_adici
 app.use("/api/sepelio/servicioventa", require("./routes/sepelio/servicio_venta"));
 app.use("/api/sepelio/informes", require("./routes/sepelio/informes"));
 app.use("/api/sepelio/serviciodetalles", require("./routes/sepelio/servicio_detalles"));
+app.use("/api/sepelio/gastoluto", require("./routes/sepelio/gasto_luto"));
 
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
 app.use("/api/ventas/planes", require("./routes/ventas/planes"));
 app.use("/api/ventas/asesores", require("./routes/ventas/asesores"));
+app.use("/api/ventas/obsequios", require("./routes/ventas/obsequios"));
 
 // UPLOADS
 app.use(

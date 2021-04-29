@@ -75,65 +75,65 @@ router.get("/liquidartareas", (req, res) => {
         CASE
         
         when s.tarea = 'Tramites' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
         when s.tarea = 'Tramites' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
         when s.tarea = 'Tramites' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
 
         when s.tarea = 'Viaje interior' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then  h.feriado
         when s.tarea = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then  h.dias_habiles
         when s.tarea = 'Viaje interior' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then  h.finde
         
         
         when s.tarea = 'Guardia oficina' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
         when s.tarea = 'Guardia oficina' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
         when s.tarea = 'Guardia oficina' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
         
         
         when s.tarea = 'Atencion sala' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then  h.feriado
         when s.tarea = 'Atencion sala' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then  h.dias_habiles
         when s.tarea = 'Atencion sala' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then  h.finde
         
         
         when s.tarea = 'Instalacion' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then  h.feriado
         when s.tarea = 'Instalacion' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then  h.dias_habiles
         when s.tarea = 'Instalacion' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then  h.finde
         
         
         when s.tarea = 'Conduccion' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then  h.feriado
         when s.tarea = 'Conduccion' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then  h.dias_habiles
         when s.tarea = 'Conduccion' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then  h.finde
         
         
         when s.tarea = 'Limpieza sala' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then  h.feriado
         when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then  h.dias_habiles
         when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then  h.finde
 
         when s.tarea = 'Extra' and s.feriado = 1
-        then TIME_FORMAT(s.horas, "%H") * h.feriado
+        then  h.feriado
         when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+        then  h.dias_habiles
         when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
-        then TIME_FORMAT(s.horas, "%H") * h.finde
+        then  h.finde
         
         
         END
@@ -167,65 +167,65 @@ router.get("/resumentareas", (req, res) => {
             CASE
         
             when s.tarea = 'Tramites' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
             when s.tarea = 'Tramites' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
             when s.tarea = 'Tramites' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
     
             when s.tarea = 'Viaje interior' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then  h.feriado
             when s.tarea = 'Viaje interior' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then  h.dias_habiles
             when s.tarea = 'Viaje interior' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then  h.finde
             
             
             when s.tarea = 'Guardia oficina' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
             when s.tarea = 'Guardia oficina' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
             when s.tarea = 'Guardia oficina' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
             
             
             when s.tarea = 'Atencion sala' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then  h.feriado
             when s.tarea = 'Atencion sala' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then  h.dias_habiles
             when s.tarea = 'Atencion sala' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then  h.finde
             
             
             when s.tarea = 'Instalacion' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then  h.feriado
             when s.tarea = 'Instalacion' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then  h.dias_habiles
             when s.tarea = 'Instalacion' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then  h.finde
             
             
             when s.tarea = 'Conduccion' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then  h.feriado
             when s.tarea = 'Conduccion' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then  h.dias_habiles
             when s.tarea = 'Conduccion' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then  h.finde
             
             
             when s.tarea = 'Limpieza sala' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then  h.feriado
             when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then  h.dias_habiles
             when s.tarea = 'Limpieza sala' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then  h.finde
 
             when s.tarea = 'Extra' and s.feriado = 1
-            then TIME_FORMAT(s.horas, "%H") * h.feriado
+            then  h.feriado
             when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) not in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.dias_habiles
+            then  h.dias_habiles
             when s.tarea = 'Extra' and DAYOFWEEK(s.inicio) in (1,7)
-            then TIME_FORMAT(s.horas, "%H") * h.finde
+            then  h.finde
 
             END
             )) as 'liquidacion',

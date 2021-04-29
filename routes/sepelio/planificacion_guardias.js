@@ -127,11 +127,11 @@ router.get("/liquidarguardias", (req, res) => {
     CASE
 
     when s.tarea = 'Guardia oficina' and s.feriado = 1
-    then TIME_FORMAT(s.horas, "%H")* h.feriado
+    then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.feriado
     when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) in (1,7) 
-    then TIME_FORMAT(s.horas, "%H")* h.finde
+    then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.finde
     when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) not in (1,7) 
-    then TIME_FORMAT(s.horas, "%H")* h.dias_habiles
+    then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60)) * h.dias_habiles
 
     end
     ) as 'liquidacion'
@@ -163,11 +163,11 @@ router.get("/resumenguardias", (req, res) => {
           CASE
       
           when s.tarea = 'Guardia oficina' and s.feriado = 1
-          then TIME_FORMAT(s.horas, "%H")* h.feriado
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60))* h.feriado
           when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) in (1,7) 
-          then TIME_FORMAT(s.horas, "%H")* h.finde
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60))* h.finde
           when s.tarea = 'Guardia oficina' and DAYOFWEEK(inicio) not in (1,7) 
-          then TIME_FORMAT(s.horas, "%H")* h.dias_habiles
+          then (TIME_FORMAT(s.horas, "%H" ) + (TIME_FORMAT(s.horas, "%i")  / 60))* h.dias_habiles
       
           end
           )) as 'liquidacion',
