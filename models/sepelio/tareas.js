@@ -21,7 +21,9 @@ module.exports = db.sepelioSequelize.define(
         end: {
             type: Sequelize.DataTypes.DATE,
         },
-
+        priority: {
+            type: Sequelize.DataTypes.TINYINT,
+        },
     },
     {
         timestamps: false,

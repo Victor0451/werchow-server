@@ -4,35 +4,58 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const tareas = require("../../models/sepelio/tareas");
 
+router.get("/traertareas", (req, res) => {
 
-router.get("/traerparcela/:id", (req, res) => {
-  let id = req.params.id;
   tareas
-    .findAll({
-      attributes: ["idparcela", "parcela", "mza", "lote"],
-      where: { idparcela: id },
-    })
+    .findAll()
     .then((list) => res.json(list))
     .catch((err) => res.json(err));
 });
 
-router.put("/asignarparcela/:id", (req, res) => {
-  let id = req.params.id;
-
-  const parcelaAsig = ({
-    dni_extinto: dni_extinto,
-    ficha: ficha,
-    fecha: fecha,
-    asignada: asignada,
-  } = req.body);
-
-  console.log(id);
+router.post("/nuevatarea", (req, res) => {
+  const task = {
+    title: title,
+    allDay: allDay,
+    start: start,
+    end: end,
+    priority: priority,
+  } = req.body
 
   tareas
-    .update(parcelaAsig, { where: { idparcela: id } })
+    .create(task)
     .then((list) => res.json(list))
     .catch((err) => res.json(err));
 });
+
+
+router.put("/editartarea/:id", (req, res) => {
+  let id = req.params.id;
+
+  const taskedit = {
+    title: title,
+    allDay: allDay,
+    startstar,
+    end: end,
+    priority: priority,
+
+  } = req.body;
+
+  tareas
+    .update(taskedit, { where: { idevents: id } })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
+router.delete("/eliminartarea/:id", (req, res) => {
+  let id = req.params.id;
+
+
+  tareas
+    .destroy({ where: { idevents: id } })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
 
 
 

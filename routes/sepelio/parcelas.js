@@ -58,9 +58,7 @@ router.put("/asignarparcela/:id", (req, res) => {
     asignada: asignada,
   } = req.body);
 
-  console.log(id);
-
-  parcelas
+    parcelas
     .update(parcelaAsig, { where: { idparcela: id } })
     .then((list) => res.json(list))
     .catch((err) => res.json(err));
