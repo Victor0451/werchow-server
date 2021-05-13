@@ -84,6 +84,9 @@ app.use("/api/sepelio/servicioventa", require("./routes/sepelio/servicio_venta")
 app.use("/api/sepelio/informes", require("./routes/sepelio/informes"));
 app.use("/api/sepelio/serviciodetalles", require("./routes/sepelio/servicio_detalles"));
 app.use("/api/sepelio/gastoluto", require("./routes/sepelio/gasto_luto"));
+app.use("/api/sepelio/proveedores", require("./routes/sepelio/proveedores"));
+app.use("/api/sepelio/autos", require("./routes/sepelio/autos"));
+
 
 
 //VENTAS
