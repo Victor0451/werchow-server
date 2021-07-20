@@ -75,7 +75,45 @@ router.get("/solicitudes", (req, res, next) => {
 
 router.get("/participantes", (req, res, next) => {
   participantesorteo
-    .findAll({ attributes: ["participante"], where: { estado: 1 } })
+    .findAll({ attributes: ["participante", "dni"], where: { estado: 1 } })
+    .then((solicitud) => {
+      res.status(200).json(solicitud);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.get("/ganadores", (req, res, next) => {
+  ganadores
+    .findAll()
+    .then((solicitud) => {
+      res.status(200).json(solicitud);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.delete("/eliminarganador/:id", (req, res, next) => {
+  ganadores
+    .destroy({
+      where: { ganador: req.params.id },
+    })
+    .then((solicitud) => {
+      res.status(200).json(solicitud);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.delete("/eliminarganadores", (req, res, next) => {
+  ganadores
+    .destroy({
+      where: {},
+      truncate: true,
+    })
     .then((solicitud) => {
       res.status(200).json(solicitud);
     })

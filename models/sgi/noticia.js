@@ -7,24 +7,26 @@ module.exports = db.sgiSequelize.define(
     idnoticia: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     fecha: {
-      type: Sequelize.DataTypes.DATE
+      type: Sequelize.DataTypes.DATE,
     },
     noticia: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.STRING,
     },
     operador: {
-      type: Sequelize.DataTypes.STRING
+      type: Sequelize.DataTypes.STRING,
     },
-   
+    perfil: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
   },
   {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   },
   {
-    tableName: "noticia"
+    tableName: "noticia",
   }
 );

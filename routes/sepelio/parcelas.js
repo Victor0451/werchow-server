@@ -5,6 +5,16 @@ const Op = sequelize.Op;
 const parcelas = require("../../models/sepelio/parcelas");
 const servicios = require("../../models/sepelio/servicios");
 
+router.get("/verificarparcela/:id", (req, res) => {
+  let id = req.params.id;
+  parcelas
+    .findAll({
+      where: { idservicio: id },
+    })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
 router.get("/traerparcela/:id", (req, res) => {
   let id = req.params.id;
   parcelas
@@ -19,7 +29,6 @@ router.get("/traerparcela/:id", (req, res) => {
 router.get("/parcelaslibres", (req, res) => {
   parcelas
     .findAll({
-      
       where: { asignada: 0 },
     })
     .then((list) => res.json(list))
@@ -29,7 +38,6 @@ router.get("/parcelaslibres", (req, res) => {
 router.get("/parcelasocupadas", (req, res) => {
   parcelas
     .findAll({
-      
       where: { asignada: 1 },
     })
     .then((list) => res.json(list))
@@ -58,8 +66,27 @@ router.put("/asignarparcela/:id", (req, res) => {
     asignada: asignada,
   } = req.body);
 
-    parcelas
+  parcelas
     .update(parcelaAsig, { where: { idparcela: id } })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
+router.put("/asignarparcelaaparte/:id", (req, res) => {
+  let id = req.params.id;
+
+  const parce = ({
+    idservicio: idservicio,
+    dni_extinto: dni_extinto,
+    fecha: fecha,
+    ficha: ficha,
+    operador_asignacion: operador_asignacion,
+    fecha_asignacion: fecha_asignacion,
+    asignada: asignada,
+  } = req.body);
+
+  parcelas
+    .update(parce, { where: { idparcela: id } })
     .then((list) => res.json(list))
     .catch((err) => res.json(err));
 });

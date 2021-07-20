@@ -13,6 +13,14 @@ module.exports = db.clubWerchowSequelize.define(
       type: Sequelize.DataTypes.STRING,
     },
 
+    dni: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+
+    telefono: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+
     premio: {
       type: Sequelize.DataTypes.INTEGER,
     },

@@ -63,6 +63,24 @@ router.get("/atW", (req, res, next) => {
     });
 });
 
+//GET AT WERCHOW
+
+router.get("/at2W", (req, res, next) => {
+  db.campsSequelize
+    .query(
+      `SELECT * FROM at2campana AS at2
+      
+    `
+    )
+    .then((at2campana) => {
+      res.status(200).json(at2campana);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 //GET REC WERCHOW
 
 router.get("/recW", (req, res, next) => {
@@ -501,6 +519,7 @@ router.post("/crearcamp", (req, res, next) => {
     contrato,
     apellido,
     nombre,
+    edad,
     dni,
     telefono,
     movil,
@@ -642,7 +661,7 @@ router.get("/campanaoperador", (req, res, next) => {
       AND c.empresa =  "${empresa}"
       AND cc.accion IS NULL
       and cc.estadocaso = 1
-      ORDER BY cc.fechacampana DESC
+      ORDER BY cc.barrio, cc.calle, cc.nro_calle 
 
     `
     )
@@ -671,7 +690,7 @@ router.get("/campanaoperadortrab", (req, res, next) => {
     AND c.empresa =  "${empresa}"
     AND cc.accion = 1
     and cc.estadocaso = 1
-    ORDER BY cc.fechacampana DESC
+    ORDER BY cc.barrio, cc.calle, cc.nro_calle 
 
   `
     )

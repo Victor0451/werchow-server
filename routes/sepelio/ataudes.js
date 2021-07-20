@@ -4,6 +4,8 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const Ataudes = require("../../models/sepelio/ataudes");
+const servicios = require("../../models/sepelio/servicios");
+const Servicio = require("../../models/sepelio/servicios");
 
 // //INSERT NOTICIA
 
@@ -32,13 +34,14 @@ router.post("/nuevo", (req, res, next) => {
 //GET ATAUDES
 
 router.get("/cantidad", (req, res, next) => {
+  let flag = req.query.flag;
+  console.log(req.query.flag);
 
-  let flag = req.query.flag
-  console.log(req.query.flag)
-
-  if (req.query.flag === '1') {
-    console.log('sin')
-    Ataudes.findAll({ where: { stock: { [Op.gt]: 0 }, nombre: { [Op.not]: 'SIN ATAUD' } } })
+  if (req.query.flag === "1") {
+    console.log("sin");
+    Ataudes.findAll({
+      where: { stock: { [Op.gt]: 0 }, nombre: { [Op.not]: "SIN ATAUD" } },
+    })
       .then((cantidad) => {
         res.status(200).json(cantidad);
       })
@@ -46,7 +49,7 @@ router.get("/cantidad", (req, res, next) => {
         res.status(400).json(err);
       });
   } else {
-    console.log('cpn')
+    console.log("cpn");
     Ataudes.findAll({ where: { stock: { [Op.gt]: 0 } } })
       .then((cantidad) => {
         res.status(200).json(cantidad);
@@ -55,7 +58,6 @@ router.get("/cantidad", (req, res, next) => {
         res.status(400).json(err);
       });
   }
-
 });
 
 router.get("/stockagotado", (req, res, next) => {
@@ -82,13 +84,8 @@ router.get("/ataud/:id", (req, res, next) => {
 });
 
 router.put("/nuevostock/:id", (req, res, next) => {
-  const {
-    stock,
-    observaciones,
-    fecha_reposicion,
-    idataud,
-    operador,
-  } = req.body;
+  const { stock, observaciones, fecha_reposicion, idataud, operador } =
+    req.body;
 
   console.log(req.body);
 
@@ -110,14 +107,9 @@ router.put("/nuevostock/:id", (req, res, next) => {
 });
 
 router.put("/updatestock/:id", (req, res, next) => {
-  const {
-    nustock
-  } = req.body;
-  console.log(req.params.id)
-  Ataudes.update(
-    { stock: nustock },
-    { where: { idataud: req.params.id } }
-  )
+  const { nustock } = req.body;
+
+  Ataudes.update({ stock: nustock }, { where: { idataud: req.params.id } })
     .then((cantidad) => {
       res.status(200).json(cantidad);
     })
@@ -126,4 +118,39 @@ router.put("/updatestock/:id", (req, res, next) => {
     });
 });
 
+router.put("/updatestock2", (req, res, next) => {
+  const datos = ({ nustock, nuid, oldstock, oldid } = req.body);
+
+  Ataudes.update({ stock: datos.nustock }, { where: { idataud: datos.nuid } })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+  if (datos.oldid) {
+    Ataudes.update(
+      { stock: datos.oldstock },
+      { where: { idataud: datos.oldid } }
+    )
+      .then((cantidad) => {
+        res.status(200).json(cantidad);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+
+    servicios
+      .update(
+        { idataud: datos.nuid },
+        { where: { idservicio: datos.idservicio } }
+      )
+      .then((cantidad) => {
+        res.status(200).json(cantidad);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+});
 module.exports = router;

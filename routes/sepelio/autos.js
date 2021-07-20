@@ -26,17 +26,24 @@ router.get("/traerauto/:id", (req, res) => {
 });
 
 
-router.post("/nuevaauto", (req, res) => {
-    const task = {
-        title: title,
-        allDay: allDay,
-        start: start,
-        end: end,
-        priority: priority,
+router.post("/nuevoauto", (req, res) => {
+    const car = {
+        patente: patente,
+        auto: auto,
+        kilometros: kilometros,
+        responsable: responsable,
+        nro_poliza: nro_poliza,
+        empresa: empresa,
+        vencimiento: vencimiento,
+        motor: motor,
+        chasis: chasis,
+        modelo: modelo,
+        cobertura: cobertura,
+        estado: estado,
     } = req.body
 
-    autosPagosPatente
-        .create(pago)
+    autos
+        .create(car)
         .then((list) => res.json(list))
         .catch((err) => res.json(err));
 });

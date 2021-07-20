@@ -332,7 +332,9 @@ router.delete("/eliminarcaja/:id", (req, res, next) => {
 //GET LIST CAJAS
 
 router.get("/listadocajas", (req, res, next) => {
-  CajaSepelio.findAll()
+  CajaSepelio.findAll({
+    order: [["idcaja", "DESC"]],
+  })
     .then((listado) => {
       res.status(200).json(listado);
     })

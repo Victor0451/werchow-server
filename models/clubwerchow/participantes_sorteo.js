@@ -16,6 +16,9 @@ module.exports = db.clubWerchowSequelize.define(
     dni: {
       type: Sequelize.DataTypes.INTEGER,
     },
+    telefono: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
     doblechance: {
       type: Sequelize.DataTypes.INTEGER,
     },

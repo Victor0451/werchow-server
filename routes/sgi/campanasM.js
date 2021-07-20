@@ -4,9 +4,10 @@ const db = require("../../db/database");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-
 const campanacasos = require("../../models/sgi/campanacasos");
 const gestioncaso = require("../../models/sgi/gestioncaso");
+
+//GET AT MUTUAL
 
 router.get("/atM", (req, res, next) => {
   db.campsSequelize
@@ -17,6 +18,24 @@ router.get("/atM", (req, res, next) => {
     )
     .then((atcampana) => {
       res.status(200).json(atcampana);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+//GET AT2 MUTUAL
+
+router.get("/at2M", (req, res, next) => {
+  db.campsSequelize
+    .query(
+      `SELECT * FROM at2campanaM AS at
+      
+      `
+    )
+    .then((at2campana) => {
+      res.status(200).json(at2campana);
     })
 
     .catch((err) => {

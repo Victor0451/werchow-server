@@ -19,7 +19,7 @@ router.post("/uploadfichalegajosoli/:id", upload.single("file"), (req, res) => {
   const legajo = {
     contrato: req.params.id,
     archivo: req.params.id + "-" + req.file.originalname,
-    empresa: "W",
+    empresa: "M",
     fecha_subida: moment().format("YYYY-MM-DD"),
     tipoarchivo: "S",
   };
@@ -44,7 +44,7 @@ router.post(
     const legajo = {
       contrato: req.params.id,
       archivo: req.params.id + "-" + req.file.originalname,
-      empresa: "W",
+      empresa: "M",
       fecha_subida: moment().format("YYYY-MM-DD"),
       tipoarchivo: "C",
     };
@@ -70,7 +70,7 @@ router.post(
     const legajo = {
       contrato: req.params.id,
       archivo: req.params.id + "-" + req.file.originalname,
-      empresa: "W",
+      empresa: "M",
       fecha_subida: moment().format("YYYY-MM-DD"),
       tipoarchivo: "R",
     };
@@ -88,6 +88,50 @@ router.post(
     return res.send(req.file);
   }
 );
+
+router.post("/uploadfichalegajorecf/:id", upload.single("file"), (req, res) => {
+  const legajo = {
+    contrato: req.params.id,
+    archivo: req.params.id + "-" + req.file.originalname,
+    empresa: "M",
+    fecha_subida: moment().format("YYYY-MM-DD"),
+    tipoarchivo: "ReF",
+  };
+
+  legajovirtual
+    .create(legajo)
+    .then((leg) => {
+      res.status(200).json(leg);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  console.log(`Storage location is ${req.hostname}/${req.file.path}`);
+  return res.send(req.file);
+});
+
+router.post("/uploadfichalegajorecd/:id", upload.single("file"), (req, res) => {
+  const legajo = {
+    contrato: req.params.id,
+    archivo: req.params.id + "-" + req.file.originalname,
+    empresa: "M",
+    fecha_subida: moment().format("YYYY-MM-DD"),
+    tipoarchivo: "ReD",
+  };
+
+  legajovirtual
+    .create(legajo)
+    .then((leg) => {
+      res.status(200).json(leg);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  console.log(`Storage location is ${req.hostname}/${req.file.path}`);
+  return res.send(req.file);
+});
 
 router.get("/archivo/:id", (req, res) => {
   const id = req.params.id;

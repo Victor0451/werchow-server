@@ -21,6 +21,9 @@ module.exports = db.sepelioSequelize.define(
     fecha: {
       type: Sequelize.DataTypes.DATE,
     },
+    cementerio: {
+      type: Sequelize.DataTypes.STRING,
+    },
     parcela: {
       type: Sequelize.DataTypes.STRING,
     },
@@ -32,6 +35,18 @@ module.exports = db.sepelioSequelize.define(
     },
     asignada: {
       type: Sequelize.DataTypes.TINYINT,
+    },
+    operador: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    fecha_alta: {
+      type: Sequelize.DataTypes.DATE,
+    },
+    operador_asignacion: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    fecha_asignacion: {
+      type: Sequelize.DataTypes.DATE,
     },
   },
   {

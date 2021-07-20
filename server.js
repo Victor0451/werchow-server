@@ -45,7 +45,6 @@ app.use(
 // MUTUAL
 app.use("/api/mutual/adherent", require("./routes/werchow/adherente"));
 
-
 //SGI
 app.use("/api/sgi/operador", require("./routes/sgi/operador"));
 app.use("/api/sgi/auth", require("./routes/sgi/auth"));
@@ -58,8 +57,6 @@ app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
-
-
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
@@ -79,15 +76,23 @@ app.use(
 );
 app.use("/api/sepelio/parcelas", require("./routes/sepelio/parcelas"));
 app.use("/api/sepelio/tareas", require("./routes/sepelio/tareas"));
-app.use("/api/sepelio/tareasadicionales", require("./routes/sepelio/tareas_adicionales"));
-app.use("/api/sepelio/servicioventa", require("./routes/sepelio/servicio_venta"));
+app.use(
+  "/api/sepelio/tareasadicionales",
+  require("./routes/sepelio/tareas_adicionales")
+);
+app.use(
+  "/api/sepelio/servicioventa",
+  require("./routes/sepelio/servicio_venta")
+);
 app.use("/api/sepelio/informes", require("./routes/sepelio/informes"));
-app.use("/api/sepelio/serviciodetalles", require("./routes/sepelio/servicio_detalles"));
+app.use(
+  "/api/sepelio/serviciodetalles",
+  require("./routes/sepelio/servicio_detalles")
+);
 app.use("/api/sepelio/gastoluto", require("./routes/sepelio/gasto_luto"));
 app.use("/api/sepelio/proveedores", require("./routes/sepelio/proveedores"));
 app.use("/api/sepelio/autos", require("./routes/sepelio/autos"));
-
-
+app.use("/api/sepelio/ataudventa", require("./routes/sepelio/ataud_venta"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
@@ -116,6 +121,9 @@ app.use(
   "/api/archivos/legajovirtualasesores",
   require("./routes/archivos/LegajoVirtualAsesores")
 );
+
+app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));
+app.use("/api/archivos/ventas", require("./routes/archivos/Ventas"));
 // CLUBWERCHOW
 app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));
 app.use(

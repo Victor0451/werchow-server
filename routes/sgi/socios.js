@@ -93,10 +93,8 @@ router.post("/nuevarehab", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-
 // POST CONVDEUDA
 router.post("/nuevoconvdeuda", (req, res) => {
-
   const convenio = ({
     contrato: contrato,
     apellido: apellido,
@@ -123,19 +121,16 @@ router.post("/nuevoconvdeuda", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-
 router.get("/traerconvenio/:id", (req, res) => {
-
   conveniodeuda
     .findOne({
-      where: { contrato: req.params.id }
+      where: { contrato: req.params.id },
     })
     .then((rehab) => res.json(rehab))
     .catch((err) => res.json(err));
 });
 
 router.get("/traerconvenios", (req, res) => {
-
   conveniodeuda
     .findAll()
     .then((rehab) => res.json(rehab))
@@ -281,6 +276,7 @@ router.get("/estadocarteraw", (req, res) => {
         )
         and m.PLAN != 'P'
         and m.GRUPO in (${grupo})
+        and m.SUCURSAL = '${sucursal}'
         `
       )
       .then((listado) => res.json(listado))

@@ -225,7 +225,7 @@ router.post("/nuevoservicio", (req, res) => {
     idataud: idataud,
     dni_solicitante: dni_solicitante,
     cremacion: cremacion,
-    liquidado: liquidado
+    liquidado: liquidado,
   } = req.body);
 
   if (nuevoservicio.dni_nuevotitular === "") {
@@ -347,7 +347,7 @@ router.put("/puttitularesw", (req, res, next) => {
 
       SET impactado = (
         CASE
-        WHEN EXISTS (
+        WHEN NOT EXISTS (
           SELECT
             a.NRO_DOC
           FROM
@@ -448,6 +448,7 @@ router.put("/putadherentesw", (req, res, next) => {
           WHERE
             a.NRO_DOC = s.dni
           AND a.BAJA IS NOT NULL
+          AND a.EDAD = 999
         ) THEN
           TRUE
       
@@ -459,6 +460,7 @@ router.put("/putadherentesw", (req, res, next) => {
           WHERE
             a.NRO_DOC = s.dni
           AND a.BAJA IS NULL
+          AND a.EDAD != 999
         ) THEN
           FALSE
         
@@ -495,6 +497,7 @@ router.put("/putadherentesm", (req, res, next) => {
           WHERE
             a.NRO_DOC = s.dni
           AND a.BAJA IS NOT NULL
+          AND a.EDAD = 999
         ) THEN
           TRUE
 
@@ -506,6 +509,7 @@ router.put("/putadherentesm", (req, res, next) => {
           WHERE
             a.NRO_DOC = s.dni
           AND a.BAJA IS NULL
+          AND a.EDAD != 999
         ) THEN
           FALSE
         

@@ -27,7 +27,7 @@ module.exports = db.sepelioSequelize.define(
         empresa: {
             type: Sequelize.DataTypes.STRING,
         },
-        
+
         vencimiento: {
             type: Sequelize.DataTypes.DATE,
         },
@@ -41,7 +41,7 @@ module.exports = db.sepelioSequelize.define(
             type: Sequelize.DataTypes.INTEGER,
         },
         cobertura: {
-            type: Sequelize.DataTypes.DATE,
+            type: Sequelize.DataTypes.STRING,
         },
         estado: {
             type: Sequelize.DataTypes.TINYINT,
