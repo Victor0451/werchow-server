@@ -41,6 +41,8 @@ app.use(
   "/api/werchow/movimientosmutual",
   require("./routes/werchow/movimientos")
 );
+app.use("/api/werchow/cuofija", require("./routes/werchow/cuo_fija"));
+
 
 // MUTUAL
 app.use("/api/mutual/adherent", require("./routes/werchow/adherente"));

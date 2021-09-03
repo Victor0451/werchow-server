@@ -8,6 +8,7 @@ const Op = Sequelize.Op;
 
 const maestro = require("../../models/werchow/maestro");
 const prestamos = require("../../models/sgi/prestamos");
+const historialAprobacion = require("../../models/sgi/historial_aprobacion_prestamos");
 
 //GET BY ID
 
@@ -35,51 +36,6 @@ router.get("/consultarficha/:id", (req, res) => {
     })
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
-});
-
-router.post("/altaprestamo", (req, res, next) => {
-  const {
-    fechacarga,
-    operador,
-    ficha,
-    legajo,
-    anti,
-    fechasol,
-    renova,
-    capital,
-    cuotas,
-    valcuota,
-    neto,
-    estado,
-    codptmleg,
-    ptm_afi,
-  } = req.body;
-
-  console.log(req.body);
-
-  prestamos
-    .create({
-      ptm_fechacarga: fechacarga,
-      ptm_op: operador,
-      ptm_ficha: ficha,
-      ptm_legajo: legajo,
-      ptm_ant: anti,
-      ptm_fechasol: fechasol,
-      ptm_renov: renova,
-      ptm_prestamo: capital,
-      ptm_cuotas: cuotas,
-      ptm_valcuota: valcuota,
-      ptm_neto: neto,
-      ptm_estado: estado,
-      cod_ptm_leg: codptmleg,
-      ptm_afi: ptm_afi,
-    })
-    .then((prestamo) => {
-      res.status(200).json(prestamo);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 });
 
 router.get("/prestamosactivos/:id", (req, res, next) => {
@@ -249,6 +205,70 @@ router.get("/prestamosporid/:id", (req, res) => {
     })
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
+});
+
+router.post("/altaprestamo", (req, res, next) => {
+  const {
+    fechacarga,
+    operador,
+    ficha,
+    legajo,
+    anti,
+    fechasol,
+    renova,
+    capital,
+    cuotas,
+    valcuota,
+    neto,
+    estado,
+    codptmleg,
+    ptm_afi,
+  } = req.body;
+
+  prestamos
+    .create({
+      ptm_fechacarga: fechacarga,
+      ptm_op: operador,
+      ptm_ficha: ficha,
+      ptm_legajo: legajo,
+      ptm_ant: anti,
+      ptm_fechasol: fechasol,
+      ptm_renov: renova,
+      ptm_prestamo: capital,
+      ptm_cuotas: cuotas,
+      ptm_valcuota: valcuota,
+      ptm_neto: neto,
+      ptm_estado: estado,
+      cod_ptm_leg: codptmleg,
+      ptm_afi: ptm_afi,
+    })
+    .then((prestamo) => {
+      res.status(200).json(prestamo);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.post("/reghistorial", (req, res, next) => {
+  const { operador, idprestamo, contrato, afiliado, fecha, productor } =
+    req.body;
+
+  historialAprobacion
+    .create({
+      operador: operador,
+      idprestamo: idprestamo,
+      contrato: contrato,
+      afiliado: afiliado,
+      fecha: fecha,
+      productor: productor,
+    })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 });
 
 router.put("/aprobarprestamo/:id", (req, res) => {

@@ -152,7 +152,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -174,7 +196,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -196,7 +240,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -218,7 +284,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -242,7 +330,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    SELECT 
+    m.SUCURSAL, 
+    m.CONTRATO,
+    m.NRO_DOC, 
+    m.APELLIDOS, 
+    m.NOMBRES, 
+    m.ALTA, 
+    m.CALLE, 
+    m.NRO_CALLE, 
+    m.BARRIO,
+    m.LOCALIDAD, 
+    m.GRUPO, 
+    m.ZONA, 
+    m.TELEFONO, 
+    m.MOVIL, 
+    CASE
+    WHEN DAY(CURDATE()) <= 15 
+    THEN c.IMPORTE          
+    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+    THEN c.IMPORTE + (c.IMPORTE * 0.10)
+    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+    THEN c.IMPORTE 
+    END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -265,7 +375,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-        SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
         FROM maestro as m
         INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
         WHERE NOT EXISTS
@@ -287,7 +419,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-        SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, so.CUOTA as IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
         FROM maestro as m
         INNER JOIN sow as so ON so.CONTRATO = m.CONTRATO
         WHERE so.GRUPO in (${grupo})
@@ -304,7 +458,29 @@ router.get("/estadocarteraw", (req, res) => {
     db.wSequelize
       .query(
         `
-        SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, so.CUOTA as IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
         FROM maestro as m
         INNER JOIN sow as so ON so.CONTRATO = m.CONTRATO
         WHERE so.GRUPO > 5000
@@ -334,7 +510,29 @@ router.get("/estadocarteram", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -356,7 +554,29 @@ router.get("/estadocarteram", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -378,7 +598,29 @@ router.get("/estadocarteram", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -400,7 +642,29 @@ router.get("/estadocarteram", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+    SELECT
+    m.SUCURSAL, 
+    m.CONTRATO,
+    m.NRO_DOC, 
+    m.APELLIDOS, 
+    m.NOMBRES, 
+    m.ALTA, 
+    m.CALLE, 
+    m.NRO_CALLE, 
+    m.BARRIO,
+    m.LOCALIDAD, 
+    m.GRUPO, 
+    m.ZONA, 
+    m.TELEFONO, 
+    m.MOVIL, 
+    CASE
+    WHEN DAY(CURDATE()) <= 15 
+    THEN c.IMPORTE          
+    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+    THEN c.IMPORTE + (c.IMPORTE * 0.10)
+    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+    THEN c.IMPORTE 
+    END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS
@@ -424,7 +688,29 @@ router.get("/estadocarteram", (req, res) => {
     db.wSequelize
       .query(
         `
-    SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL, c.IMPORTE
+        SELECT
+        m.SUCURSAL, 
+        m.CONTRATO,
+        m.NRO_DOC, 
+        m.APELLIDOS, 
+        m.NOMBRES, 
+        m.ALTA, 
+        m.CALLE, 
+        m.NRO_CALLE, 
+        m.BARRIO,
+        m.LOCALIDAD, 
+        m.GRUPO, 
+        m.ZONA, 
+        m.TELEFONO, 
+        m.MOVIL, 
+        CASE
+          WHEN DAY(CURDATE()) <= 15 
+          THEN c.IMPORTE          
+          WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+          THEN c.IMPORTE + (c.IMPORTE * 0.10)
+          WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+          THEN c.IMPORTE 
+        END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
     WHERE NOT EXISTS

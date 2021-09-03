@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../db/database");
 
+const historialLiquidacion = require("../../models/sgi/historial_liquidaciones");
+
 router.get("/liquidacion", (req, res, next) => {
   let mes = req.query.mes;
   let ano = req.query.ano;
@@ -37,5 +39,45 @@ router.get("/liquidacion", (req, res, next) => {
     });
 });
 
+router.get("/verhistorial", (req, res, next) => {
+  let mes = req.query.mes;
+  let ano = req.query.ano;
+  let entidad = req.query.entidad;
+
+  historialLiquidacion
+    .findOne({
+      where: { mes: mes, ano: ano, entidad: entidad },
+    })
+    .then((liq) => {
+      res.status(200).json(liq);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.post("/reghistorial", (req, res, next) => {
+  const { operador, fecha, mes, ano, cobranza, total, comision, entidad } =
+    req.body;
+
+  historialLiquidacion
+    .create({
+      operador: operador,
+      fecha: fecha,
+      mes: mes,
+      ano: ano,
+      cobranza: cobranza,
+      total: total,
+      comision: comision,
+      entidad: entidad,
+    })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 module.exports = router;

@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.wSequelize.define(
-  "cuo_fija",
+  "cuo_mutual",
   {
     CONTRATO: {
       type: Sequelize.DataTypes.INTEGER(11),
@@ -40,6 +40,6 @@ module.exports = db.wSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "cuo_fija",
+    tableName: "cuo_mutual",
   }
 );

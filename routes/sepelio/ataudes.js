@@ -5,7 +5,7 @@ const Op = Sequelize.Op;
 
 const Ataudes = require("../../models/sepelio/ataudes");
 const servicios = require("../../models/sepelio/servicios");
-const Servicio = require("../../models/sepelio/servicios");
+const historialStock = require("../../models/sepelio/historial_sotck_ataud");
 
 // //INSERT NOTICIA
 
@@ -98,6 +98,50 @@ router.put("/nuevostock/:id", (req, res, next) => {
     },
     { where: { idataud: idataud } }
   )
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/historial/:id", (req, res, next) => {
+  historialStock
+    .findAll({
+      where: {
+        idataud: req.params.id,
+      },
+    })
+    .then((cantidad) => {
+      res.status(200).json(cantidad);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.post("/reghistorial", (req, res, next) => {
+  const {
+    idataud,
+    stock_anterior,
+    stock_nuevo,
+    fecha_carga,
+    fecha_recepcion,
+    remito,
+    operador,
+  } = req.body;
+
+  historialStock
+    .create({
+      idataud: idataud,
+      stock_anterior: stock_anterior,
+      stock_nuevo: stock_nuevo,
+      fecha_carga: fecha_carga,
+      fecha_recepcion: fecha_recepcion,
+      remito: remito,
+      operador: operador,
+    })
     .then((cantidad) => {
       res.status(200).json(cantidad);
     })
