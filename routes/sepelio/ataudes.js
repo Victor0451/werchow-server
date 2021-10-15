@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-
+const db = require("../../db/database");
 const Ataudes = require("../../models/sepelio/ataudes");
 const servicios = require("../../models/sepelio/servicios");
 const historialStock = require("../../models/sepelio/historial_sotck_ataud");
@@ -32,6 +32,24 @@ router.post("/nuevo", (req, res, next) => {
 });
 
 //GET ATAUDES
+
+router.get("/traerfabricantes", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+    select fabricante as 'value'
+    from fabricante_ataud
+
+    `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 router.get("/cantidad", (req, res, next) => {
   let flag = req.query.flag;

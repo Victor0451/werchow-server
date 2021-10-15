@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../db/database");
+const moment = require("moment");
 
 router.get("/asesores", (req, res, next) => {
   db.wSequelize
@@ -8,7 +9,7 @@ router.get("/asesores", (req, res, next) => {
       `
         SELECT usu_ide as 'value',usu_nick as 'label'
         from werchow.usuario
-        where usu_perfil = 'ASESOR'
+        where usu_ide = 'ASESOR'
         and usu_estado = 'ACTIVO'
 `
     )
@@ -25,10 +26,9 @@ router.get("/recuperadores", (req, res, next) => {
   db.wSequelize
     .query(
       `
-          SELECT usu_ide as 'value',usu_nick as 'label'
-          from werchow.usuario
-          where usu_perfil = 'RECUPERADOR'
-          and usu_estado = 'ACTIVO'
+      SELECT usu_ide as 'value',usu_nick as 'label'
+      from werchow.usuario
+      where usu_ide in (4,7,8,77,97)
   `
     )
     .then((mapa) => {
@@ -101,6 +101,59 @@ router.get("/maparec", (req, res, next) => {
     });
 });
 
+router.get("/mapareccamp", (req, res, next) => {
+  let rec = req.query.rec;
+  let emp = req.query.emp;
+  let desde = req.query.desde;
+  let hasta = req.query.hasta;
+
+  if (rec === "4") {
+    db.sgiSequelize
+      .query(
+        `
+      SELECT c.operador, c.descripcion, COUNT(cc.contrato) as 'cantidad', SUM(cc.cuota) as 'monto', '${emp}' as 'empresa'
+      FROM campanas as c
+      INNER JOIN campanacasos as cc on c.idcampana = cc.idcampana
+      WHERE fechacampana BETWEEN '${desde}' and '${hasta}'        
+      AND c.operador = 'mgalian'
+      and c.empresa = '${emp}'
+      and c.descripcion != 'Policia'
+      GROUP BY c.descripcion       
+      `
+      )
+
+      .then((mapa) => {
+        res.status(200).json(mapa);
+      })
+
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  } else if (rec === "97") {
+    db.sgiSequelize
+      .query(
+        `
+      SELECT c.operador, c.descripcion, COUNT(cc.contrato) as 'cantidad', SUM(cc.cuota) as 'monto', '${emp}' as 'empresa'
+      FROM campanas as c
+      INNER JOIN campanacasos as cc on c.idcampana = cc.idcampana
+      WHERE fechacampana BETWEEN '${desde}' and '${hasta}'        
+      AND c.operador = 'ggimenez'
+      and c.empresa = '${emp}'
+      and c.descripcion != 'Policia'
+      GROUP BY c.descripcion       
+      `
+      )
+
+      .then((mapa) => {
+        res.status(200).json(mapa);
+      })
+
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+});
+
 router.get("/maparec2", (req, res, next) => {
   let rec = req.query.rec;
   let emp = req.query.emp;
@@ -121,6 +174,57 @@ router.get("/maparec2", (req, res, next) => {
       ORDER BY MONTH(l.liq_fechacarga) asc
 
         `
+    )
+
+    .then((mapa) => {
+      res.status(200).json(mapa);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/mapacampanasactivas", (req, res, next) => {
+  let rec = req.query.rec;
+  let emp = req.query.emp;
+  let camp = req.query.camp;
+
+  db.sgiSequelize
+    .query(
+      `
+      select cc.estadocaso, cc.contrato, cc.apellido, cc.nombre, cc.calle, cc.nro_calle, cc.barrio, cc.localidad, cc.telefono, cc.movil, cc.cuota, cc.idcaso, cc.accion
+      from campanas as c
+      INNER JOIN campanacasos as cc on cc.idcampana = c.idcampana
+      where c.descripcion = '${camp}'
+      and c.empresa = '${emp}'
+      and c.operador = '${rec}'
+      and cc.fechacampana BETWEEN '${moment()
+        .startOf("month")
+        .format("YYYY-MM-DD")}' and '${moment()
+        .endOf("month")
+        .format("YYYY-MM-DD")}'
+
+        `
+    )
+
+    .then((mapa) => {
+      res.status(200).json(mapa);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/traeraccionesreg/:id", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `
+      select *
+      from gestioncaso
+      where idcaso = ${req.params.id}
+      `
     )
 
     .then((mapa) => {

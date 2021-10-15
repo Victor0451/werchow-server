@@ -43,7 +43,6 @@ app.use(
 );
 app.use("/api/werchow/cuofija", require("./routes/werchow/cuo_fija"));
 
-
 // MUTUAL
 app.use("/api/mutual/adherent", require("./routes/werchow/adherente"));
 
@@ -59,6 +58,7 @@ app.use("/api/sgi/socios", require("./routes/sgi/socios"));
 app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
+app.use("/api/sgi/personal", require("./routes/sgi/personal"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
@@ -95,11 +95,12 @@ app.use("/api/sepelio/gastoluto", require("./routes/sepelio/gasto_luto"));
 app.use("/api/sepelio/proveedores", require("./routes/sepelio/proveedores"));
 app.use("/api/sepelio/autos", require("./routes/sepelio/autos"));
 app.use("/api/sepelio/ataudventa", require("./routes/sepelio/ataud_venta"));
+app.use("/api/sepelio/visitantes", require("./routes/sepelio/visitantes"));
+app.use("/api/sepelio/novedades", require("./routes/sepelio/novedades"));
 
 //VENTAS
 app.use("/api/ventas/consultas", require("./routes/ventas/consultas"));
 app.use("/api/ventas/planes", require("./routes/ventas/planes"));
-app.use("/api/ventas/asesores", require("./routes/ventas/asesores"));
 app.use("/api/ventas/obsequios", require("./routes/ventas/obsequios"));
 
 // UPLOADS
@@ -120,8 +121,8 @@ app.use(
   require("./routes/archivos/LegajoVirtualServicios")
 );
 app.use(
-  "/api/archivos/legajovirtualasesores",
-  require("./routes/archivos/LegajoVirtualAsesores")
+  "/api/archivos/legajovirtualpersonal",
+  require("./routes/archivos/LegajoVirtualPersonal")
 );
 
 app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));

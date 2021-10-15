@@ -170,7 +170,7 @@ router.get("/titular/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG 
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG , "T" as "perfil"
     from maestro as m
     inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
     where m.CONTRATO = ${id} 
@@ -187,7 +187,7 @@ router.get("/titularm/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG, "T" as "perfil"
     from mutual as m
     inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
     where m.CONTRATO = ${id} 
@@ -220,7 +220,7 @@ router.get("/titulardni/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
   from maestro as m
   inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
   where m.NRO_DOC = ${id} 
@@ -240,7 +240,7 @@ router.get("/titulardnim/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
   from mutual as m
   inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
   where m.NRO_DOC = ${id} 
@@ -260,7 +260,7 @@ router.get("/titularapellido/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
   from maestro as m
   inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
   where m.APELLIDOS like '${id}%'
@@ -278,7 +278,7 @@ router.get("/titulardnim/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-      select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE
+      select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
       from mutual as m
       inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
       where m.APELLIDOS like '${id}%'
@@ -286,6 +286,23 @@ router.get("/titulardnim/:id", (req, res) => {
   `
     )
 
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/adherentes/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    select m.CONTRATO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.NACIMIENTO,  "A" as "perfil"
+    from adherent as m    
+    where m.CONTRATO = ${id} 
+    and BAJA IS NULL
+    
+    `
+    )
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });

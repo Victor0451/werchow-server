@@ -113,7 +113,7 @@ router.get("/prestamosporop", (req, res) => {
         [Sequelize.literal("COALESCE(ptm_op)"), "operador"],
         [Sequelize.literal("COALESCE(count(*))"), "prestamos"],
         [Sequelize.literal("COALESCE(SUM(ptm_prestamo ))"), "capital"],
-        [Sequelize.literal("COALESCE(SUM(ptm_valcuota))"), "interes"],
+        [Sequelize.literal("COALESCE(SUM(ptm_valcuota ))"), "interes"],
         [
           Sequelize.literal("COALESCE(SUM(ptm_valcuota * ptm_cuotas))"),
           "capconint",
@@ -139,7 +139,7 @@ router.get("/prestamosporestado", (req, res) => {
         [Sequelize.literal("COALESCE(ptm_estado)"), "estado"],
         [Sequelize.literal("COALESCE(count(*))"), "prestamos"],
         [Sequelize.literal("COALESCE(SUM(ptm_prestamo ))"), "capital"],
-        [Sequelize.literal("COALESCE(SUM(ptm_valcuota))"), "interes"],
+        [Sequelize.literal("COALESCE(SUM(ptm_valcuota ))"), "interes"],
         [
           Sequelize.literal("COALESCE(SUM(ptm_valcuota * ptm_cuotas))"),
           "capconint",

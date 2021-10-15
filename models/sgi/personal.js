@@ -2,29 +2,40 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.sgiSequelize.define(
-  "legajo_virtual_asesores",
+  "personal",
   {
-    idlegajo: {
+    idpersonal: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    idasesor: {
-      type: Sequelize.DataTypes.INTEGER,
-    },
-    archivo: {
+    nombre: {
       type: Sequelize.DataTypes.STRING,
     },
-    fecha_subida: {
+    apellido: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    dni: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    rol: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    alta: {
       type: Sequelize.DataTypes.DATE,
     },
-
+    baja: {
+      type: Sequelize.DataTypes.DATE,
+    },
+    legajo: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
     freezeTableName: true,
   },
   {
-    tableName: "legajo_virtual_asesores",
+    tableName: "personal",
   }
 );

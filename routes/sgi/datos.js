@@ -3,6 +3,7 @@ const router = express.Router();
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const datos = require("../../models/sgi/datos");
+const datosAtencion = require("../../models/sgi/datos_atencion");
 
 router.get("/datosop/:id", (req, res) => {
   let op = req.params.id;
@@ -36,20 +37,28 @@ router.post("/altadato", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-router.put("/asignarparcela/:id", (req, res) => {
-  let id = req.params.id;
+router.get("/tarerdatosatencion", (req, res) => {
+  datosAtencion
+    .findAll()
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
 
-  const parcelaAsig = ({
-    dni_extinto: dni_extinto,
-    ficha: ficha,
-    fecha: fecha,
-    asignada: asignada,
+router.post("/altadatomesaentrada", (req, res) => {
+  const dato = ({
+    apellido = apellido,
+    nombre = nombre,
+    dni = dni,
+    parentezco = parentezco,
+    telefono = telefono,
+    motivo = motivo,
+    operador = operado,
+    fecha = fecha,
+    operadoratencion = operadoratencion,
   } = req.body);
 
-  console.log(id);
-
-  parcelas
-    .update(parcelaAsig, { where: { idparcela: id } })
+  datosAtencion
+    .create(dato)
     .then((list) => res.json(list))
     .catch((err) => res.json(err));
 });

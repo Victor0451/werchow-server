@@ -4,10 +4,10 @@ const multer = require("multer");
 const path = require("path");
 const moment = require("moment");
 const fs = require("fs");
-const legajovirtualAsesores = require("../../models/sgi/legajovirtualasesores");
+const legajovirtualPersonal = require("../../models/sgi/legajovirtual_personal");
 
 let storage = multer.diskStorage({
-  destination: path.join(__dirname, "../../uploads/legajoAsesores"),
+  destination: path.join(__dirname, "../../uploads/legajoPersonal"),
   filename: function (req, file, cb) {
     const fileName = req.params.id + "-" + file.originalname;
     cb(null, fileName);
@@ -18,12 +18,12 @@ const upload = multer({ storage: storage });
 
 router.post("/uploadfichalegajo/:id", upload.single("file"), (req, res) => {
   const legajo = {
-    idasesor: req.params.id,
+    idpersonal: req.params.id,
     archivo: req.params.id + "-" + req.file.originalname,
     fecha_subida: moment().format("YYYY-MM-DD"),
   };
 
-  legajovirtualAsesores
+  legajovirtualPersonal
     .create(legajo)
     .then((leg) => {
       res.status(200).json(leg);
@@ -38,28 +38,22 @@ router.post("/uploadfichalegajo/:id", upload.single("file"), (req, res) => {
 
 router.get("/archivo/:id", (req, res) => {
   const id = req.params.id;
-  const file = path.join(
-    __dirname,
-    `../../uploads/legajoAsesores/${id}`
-  );
+  const file = path.join(__dirname, `../../uploads/legajoPersonal/${id}`);
   res.sendFile(file); // Set disposition and send it.
 });
 
 router.get("/descargararchivo/:id", (req, res) => {
   const id = req.params.id;
-  const file = path.join(
-    __dirname,
-    `../../uploads/legajoAsesores/${id}`
-  );
+  const file = path.join(__dirname, `../../uploads/legajoPersonal/${id}`);
   res.download(file); // Set disposition and send it.
 });
 
 router.get("/listaarchivos/:id", (req, res) => {
   let id = req.params.id;
 
-  legajovirtualAsesores
+  legajovirtualPersonal
     .findAll({
-      where: { idasesor: id },
+      where: { idpersonal: id },
     })
     .then((leg) => {
       res.status(200).json(leg);
@@ -71,12 +65,9 @@ router.get("/listaarchivos/:id", (req, res) => {
 
 router.delete("/eliminararchivos/:id", (req, res) => {
   let id = req.params.id;
-  const file = path.join(
-    __dirname,
-    `../../uploads/legajoAsesores/${id}`
-  );
+  const file = path.join(__dirname, `../../uploads/legajoPersonal/${id}`);
 
-  legajovirtualAsesores
+  legajovirtualPersonal
     .destroy({
       where: { archivo: id },
     })
