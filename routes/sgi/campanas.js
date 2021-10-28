@@ -659,8 +659,8 @@ router.get("/campanaoperador", (req, res, next) => {
       WHERE c.operador = "${operador}"
       AND c.descripcion = "${campana}"
       AND c.empresa =  "${empresa}"
+      AND cc.estadocaso = 1
       AND cc.accion IS NULL
-      and cc.estadocaso = 1
       ORDER BY cc.barrio, cc.calle, cc.nro_calle 
 
     `

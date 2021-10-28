@@ -59,6 +59,7 @@ app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
 app.use("/api/sgi/personal", require("./routes/sgi/personal"));
+app.use("/api/sgi/constanciaafiliacion", require("./routes/sgi/registroConstanciaAfiliacion"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));

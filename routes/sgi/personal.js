@@ -9,7 +9,9 @@ const personal = require("../../models/sgi/personal");
 
 router.get("/traerpersonal", (req, res, next) => {
   personal
-    .findAll()
+    .findAll({
+      order: [["idpersonal", "DESC"]],
+    })
     .then((ventas) => {
       res.status(200).json(ventas);
     })
