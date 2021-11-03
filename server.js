@@ -125,6 +125,10 @@ app.use(
   "/api/archivos/legajovirtualpersonal",
   require("./routes/archivos/LegajoVirtualPersonal")
 );
+app.use(
+  "/api/archivos/legajovirtualautos",
+  require("./routes/archivos/LegajoVirtualAutos")
+);
 
 app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));
 app.use("/api/archivos/ventas", require("./routes/archivos/Ventas"));

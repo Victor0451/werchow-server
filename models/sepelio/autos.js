@@ -46,6 +46,9 @@ module.exports = db.sepelioSequelize.define(
         estado: {
             type: Sequelize.DataTypes.TINYINT,
         },
+        operador: {
+            type: Sequelize.DataTypes.STRING,
+        },
     },
     {
         timestamps: false,

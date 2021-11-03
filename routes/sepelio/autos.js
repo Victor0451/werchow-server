@@ -4,11 +4,15 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const autos = require("../../models/sepelio/autos");
 const autosPagosPatente = require("../../models/sepelio/autos_pago_patente");
+const autosNovedades = require('../../models/sepelio/autos_novedades')
+
 
 router.get("/traerautos", (req, res) => {
 
     autos
-        .findAll()
+        .findAll({
+            where: { estado: 1 }
+        })
         .then((list) => res.json(list))
         .catch((err) => res.json(err));
 });
@@ -40,6 +44,7 @@ router.post("/nuevoauto", (req, res) => {
         modelo: modelo,
         cobertura: cobertura,
         estado: estado,
+        operador: operador
     } = req.body
 
     autos
@@ -48,23 +53,10 @@ router.post("/nuevoauto", (req, res) => {
         .catch((err) => res.json(err));
 });
 
-router.put("/editartarea/:id", (req, res) => {
-    let id = req.params.id;
 
-    const taskedit = {
-        title: title,
-        allDay: allDay,
-        startstar,
-        end: end,
-        priority: priority,
 
-    } = req.body;
 
-    autos
-        .update(taskedit, { where: { idevents: id } })
-        .then((list) => res.json(list))
-        .catch((err) => res.json(err));
-});
+// API POLIZA
 
 router.put("/renovpol/:id", (req, res) => {
     let id = req.params.id;
@@ -81,15 +73,6 @@ router.put("/renovpol/:id", (req, res) => {
         .catch((err) => res.json(err));
 });
 
-router.delete("/eliminartarea/:id", (req, res) => {
-    let id = req.params.id;
-
-
-    autos
-        .destroy({ where: { idevents: id } })
-        .then((list) => res.json(list))
-        .catch((err) => res.json(err));
-});
 
 
 // APIS PAGO PATENTE
@@ -131,5 +114,23 @@ router.delete("/eliminarpagopatente/:id", (req, res) => {
         .then((list) => res.json(list))
         .catch((err) => res.json(err));
 });
+
+
+// API NOVEDADES
+
+router.post("/registrarnovedades", (req, res) => {
+    const nov = {
+        novedad,
+        patente,
+        operador,
+        fecha,
+    } = req.body
+
+    autosNovedades
+        .create(nov)
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
 
 module.exports = router;
