@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const pagos = require("../../models/werchow/pagos");
 const pagosmutual = require("../../models/werchow/pagos_mutual");
+const db = require(`../../db/database`)
+const moment = require('moment')
 
 //GET PAGOS BY CONTRATO
 
@@ -84,5 +86,30 @@ router.post("/regpagom", (req, res, next) => {
       });
   }
 });
+
+
+router.get("/traerdatosrecibo", (req, res, next) => {
+  let rec = req.query.rec;
+  let contrato = req.query.contrato;
+  let fecha = req.query.fecha;
+
+console.log(req.query)
+
+  db.wSequelize.query(
+    `
+  SELECT m.CONTRATO, m.APELLIDOS, m.NOMBRES, m.NRO_DOC, p.SERIE, p.NRO_RECIBO, p.MES, p.ANO, p.IMPORTE
+  FROM pagos_mutual as p
+  INNER JOIN mutual as m ON m.CONTRATO = p.CONTRATO
+  WHERE m.CONTRATO = ${contrato}
+  AND p.NRO_RECIBO = ${rec}
+  AND p.DIA_PAG = '${moment(fecha).format('YYYY-MM-DD')}'
+
+  `
+  )
+    .then((pagos) => res.status(200).json(pagos[0]))
+    .catch((err) => res.status(400).json(err));
+});
+
+
 
 module.exports = router;

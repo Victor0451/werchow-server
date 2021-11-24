@@ -147,13 +147,35 @@ router.put("/baja/:id", (req, res) => {
 //GET ALL
 
 router.get("/titulares", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  maestro
-    .findAll({
-      where: { ESTADO: 1 },
-      order: [["CONTRATO", "DESC"]],
+  db.wSequelize
+    .query(
+      `
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG , "T" as "perfil", o.NOMBRE "OBRA_SOC"
+    from maestro as m
+    inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
+    inner join obra_soc as o on o.CODIGO = m.OBRA_SOC    
+    
+    `
+    )
+    .then((titulares) => {
+      res.status(200).json(titulares);
     })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/titularesm", (req, res, next) => {
+  db.wSequelize
+    .query(
+      `
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG , "T" as "perfil", o.NOMBRE "OBRA_SOC"
+    from mutual as m
+    inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+    inner join obra_soc as o on o.CODIGO = m.OBRA_SOC    
+    
+    `
+    )
     .then((titulares) => {
       res.status(200).json(titulares);
     })
@@ -170,9 +192,10 @@ router.get("/titular/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG , "T" as "perfil"
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG , "T" as "perfil", o.NOMBRE "OBRA_SOC"
     from maestro as m
     inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
+    inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
     where m.CONTRATO = ${id} 
     
     `
@@ -187,9 +210,10 @@ router.get("/titularm/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG, "T" as "perfil"
+    select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, m.PRODUCTOR, m.LOCALIDAD, m.DOM_LAB , m.TSEG, "T" as "perfil", o.NOMBRE "OBRA_SOC"
     from mutual as m
     inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+    inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
     where m.CONTRATO = ${id} 
     
     `
@@ -220,8 +244,9 @@ router.get("/titulardni/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil", o.NOMBRE "OBRA_SOC"
   from maestro as m
+  inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
   inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
   where m.NRO_DOC = ${id} 
   
@@ -240,9 +265,10 @@ router.get("/titulardnim/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil", o.NOMBRE "OBRA_SOC"
   from mutual as m
-  inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+    inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+    inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
   where m.NRO_DOC = ${id} 
   
   `
@@ -260,9 +286,10 @@ router.get("/titularapellido/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
+  select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil", o.NOMBRE "OBRA_SOC"
   from maestro as m
   inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
+  inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
   where m.APELLIDOS like '${id}%'
   
   `
@@ -278,9 +305,10 @@ router.get("/titulardnim/:id", (req, res) => {
   db.wSequelize
     .query(
       `
-      select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil"
+      select m.CONTRATO, m.GRUPO, m.SUCURSAL, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.VIGENCIA, m.DOM_LAB, m.PLAN, m.SUB_PLAN, m.CALLE, m.NRO_CALLE, m.BARRIO, m.NACIMIENTO, m.TELEFONO, m.MOVIL, m.MAIL, c.IMPORTE, "T" as "perfil", o.NOMBRE "OBRA_SOC"
       from mutual as m
       inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
+      inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
       where m.APELLIDOS like '${id}%'
   
   `

@@ -105,6 +105,9 @@ module.exports = db.sepelioSequelize.define(
     gastos_cargados: {
       type: Sequelize.DataTypes.INTEGER,
     },
+    obra_soc: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

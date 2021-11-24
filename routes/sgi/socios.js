@@ -174,6 +174,10 @@ router.get("/estadocarteraw", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
@@ -217,6 +221,10 @@ router.get("/estadocarteraw", (req, res) => {
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM maestro as m
@@ -262,6 +270,10 @@ router.get("/estadocarteraw", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
@@ -306,6 +318,10 @@ router.get("/estadocarteraw", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
@@ -347,11 +363,15 @@ router.get("/estadocarteraw", (req, res) => {
     m.MOVIL, 
     CASE
     WHEN DAY(CURDATE()) <= 15 
-    THEN c.IMPORTE          
-    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
-    THEN c.IMPORTE + (c.IMPORTE * 0.10)
-    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
-    THEN c.IMPORTE 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
     END 'IMPORTE' 
     FROM maestro as m
     INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
@@ -397,6 +417,10 @@ router.get("/estadocarteraw", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
         FROM maestro as m
         INNER JOIN cuo_fija as c ON c.CONTRATO = m.CONTRATO
@@ -441,6 +465,10 @@ router.get("/estadocarteraw", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
         FROM maestro as m
         INNER JOIN sow as so ON so.CONTRATO = m.CONTRATO
@@ -479,6 +507,10 @@ router.get("/estadocarteraw", (req, res) => {
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
         END 'IMPORTE' 
         FROM maestro as m
@@ -532,6 +564,10 @@ router.get("/estadocarteram", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
@@ -575,6 +611,10 @@ router.get("/estadocarteram", (req, res) => {
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM mutual as m
@@ -620,6 +660,10 @@ router.get("/estadocarteram", (req, res) => {
         THEN c.IMPORTE + (c.IMPORTE * 0.10)
         WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
         THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
@@ -659,11 +703,15 @@ router.get("/estadocarteram", (req, res) => {
     m.MOVIL, 
     CASE
     WHEN DAY(CURDATE()) <= 15 
-    THEN c.IMPORTE          
-    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
-    THEN c.IMPORTE + (c.IMPORTE * 0.10)
-    WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
-    THEN c.IMPORTE 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
     END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO
@@ -704,12 +752,16 @@ router.get("/estadocarteram", (req, res) => {
         m.TELEFONO, 
         m.MOVIL, 
         CASE
-          WHEN DAY(CURDATE()) <= 15 
-          THEN c.IMPORTE          
-          WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
-          THEN c.IMPORTE + (c.IMPORTE * 0.10)
-          WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
-          THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) <= 15 
+        THEN c.IMPORTE          
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.10)
+        WHEN DAY(CURDATE()) > 15 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) >= ${mes}
+        THEN c.IMPORTE + (c.IMPORTE * 0.20)
+        WHEN DAY(CURDATE()) >= 28 && MONTH(CURDATE()) < ${mes}
+        THEN c.IMPORTE 
         END 'IMPORTE' 
     FROM mutual as m
     INNER JOIN cuo_mutual as c ON c.CONTRATO = m.CONTRATO

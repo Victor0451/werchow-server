@@ -1,4 +1,7 @@
 const express = require("express");
+const Sequelize = require("sequelize");
+const db = require("../../db/database");
+const Op = Sequelize.Op;
 const router = express.Router();
 const adherent = require("../../models/werchow/adherent");
 
@@ -21,6 +24,26 @@ router.get("/adherentestit/:id", (req, res, next) => {
     .then(adherent => res.json(adherent))
     .catch(err => res.json(err));
 });
+
+// PARA LA SOLICITUD
+router.get("/adherentestitsoli/:id", (req, res, next) => {
+  db.wSequelize.query(
+    `
+    SELECT *
+    FROM adherent
+    WHERE CONTRATO = ${req.params.id}
+    AND BAJA IS NULL
+
+`
+
+  )
+
+    // adherent
+    //   .findAll({ where: { CONTRATO: req.params.id }, BAJA: { $eq: null } })
+    .then(adherent => res.json(adherent[0]))
+    .catch(err => res.json(err));
+});
+
 
 //GET BY DNI
 
