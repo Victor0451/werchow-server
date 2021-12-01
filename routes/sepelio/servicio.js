@@ -59,7 +59,8 @@ router.get("/consultarficha/:id", (req, res) => {
             m.MAIL, 
             o.NOMBRE "OBRA_SOC",
             m.EMPRESA,
-        TIMESTAMPDIFF(YEAR, m.NACIMIENTO, CURDATE()) 'EDAD'
+            TIMESTAMPDIFF(YEAR, m.NACIMIENTO, CURDATE()) 'EDAD',
+            m.PLAN  
         FROM maestro as m
         INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
         WHERE m.NRO_DOC = ${id} 
@@ -72,30 +73,60 @@ router.get("/consultarficha/:id", (req, res) => {
 
 router.get("/consultarficham/:id", (req, res) => {
   let id = req.params.id;
-  console.log(id);
-  mutual
-    .findOne({
-      attributes: [
-        "CONTRATO",
-        "ALTA",
-        "PLAN",
-        "NRO_DOC",
-        "SUCURSAL",
-        "GRUPO",
-        "APELLIDOS",
-        "NOMBRES",
-        "CALLE",
-        "NRO_CALLE",
-        "BARRIO",
-        "LOCALIDAD",
-        "TELEFONO",
-        "MOVIL",
-        [sequelize.literal("YEAR(CURDATE())-YEAR(`NACIMIENTO`)"), "EDAD"],
-        "EMPRESA",
-      ],
-      where: { NRO_DOC: id },
-    })
-    .then((titular) => res.json(titular))
+
+  // mutual
+  //   .findOne({
+  //     attributes: [
+  //       "CONTRATO",
+  //       "ALTA",
+  //       "PLAN",
+  //       "NRO_DOC",
+  //       "SUCURSAL",
+  //       "GRUPO",
+  //       "APELLIDOS",
+  //       "NOMBRES",
+  //       "CALLE",
+  //       "NRO_CALLE",
+  //       "BARRIO",
+  //       "LOCALIDAD",
+  //       "TELEFONO",
+  //       "MOVIL",
+  //       [sequelize.literal("YEAR(CURDATE())-YEAR(`NACIMIENTO`)"), "EDAD"],
+  //       "EMPRESA",
+  //     ],
+  //     where: { NRO_DOC: id },
+  //   })
+
+  db.wSequelize
+    .query(
+      `
+        SELECT
+            m.CONTRATO, 
+            m.ALTA,
+            m.SUCURSAL,
+            m.NRO_DOC,
+            m.APELLIDOS,
+            m.NOMBRES,
+            m.ALTA,
+            m.VIGENCIA,
+            m.CALLE,
+            m.NRO_CALLE,
+            m.BARRIO,
+            m.NACIMIENTO, 
+            m.TELEFONO,
+            m.MOVIL,
+            m.MAIL, 
+            o.NOMBRE "OBRA_SOC",
+            m.EMPRESA,
+            TIMESTAMPDIFF(YEAR, m.NACIMIENTO, CURDATE()) 'EDAD',
+            m.PLAN  
+        FROM mutual as m
+        INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
+        WHERE m.NRO_DOC = ${id} 
+`
+    )
+
+    .then((titular) => res.json(titular[0][0]))
     .catch((err) => res.json(err));
 });
 

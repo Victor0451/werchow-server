@@ -838,6 +838,174 @@ router.get("/estadocarteram", (req, res) => {
   }
 });
 
+router.get("/carterasintelefono", (req, res) => {
+  let zona = req.query.zona;
+  let grupo = req.query.grupo;
+  let cartera = req.query.cartera;
+  let sucursal = req.query.sucursal;
+
+  if (grupo === "1000") {
+
+    db.wSequelize
+      .query(
+        `
+          SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+          FROM maestro as m
+          WHERE m.TELEFONO in (" ", "-")
+          AND m.MOVIL in (" ", "-")
+          AND m.GRUPO = ${grupo}
+          AND m.ZONA = ${zona}
+          
+          ORDER BY m.ALTA ASC
+
+        `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+
+  } else if (grupo === "6") {
+
+    db.wSequelize
+      .query(
+        `
+        SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+        FROM maestro as m
+        WHERE m.TELEFONO in (" ", "-")
+        AND m.MOVIL in (" ", "-")
+        AND m.GRUPO = ${grupo}
+        AND m.SUCURSAL = '${sucursal}'
+        
+        ORDER BY m.ALTA ASC
+
+      `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+
+  } else if (cartera === "1") {
+    db.wSequelize
+      .query(
+        `
+          SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+          FROM maestro as m
+          WHERE m.TELEFONO in (" ", "-")
+          AND m.MOVIL in (" ", "-")
+          AND m.GRUPO in (3400,3600,3700,3800,3900,4000)
+          AND m.SUCURSAL = '${sucursal}'
+          
+          ORDER BY m.ALTA ASC
+
+        `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+
+  } else if (cartera === "2") {
+    db.wSequelize
+      .query(
+        `
+             SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+             FROM maestro as m
+             WHERE m.TELEFONO in (" ", "-")
+             AND m.MOVIL in (" ", "-")
+             AND m.GRUPO > 5000
+             AND m.GRUPO NOT IN (7777,8500)
+             AND m.SUCURSAL = '${sucursal}'
+             
+             ORDER BY m.ALTA ASC
+   
+           `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+
+});
+
+router.get("/carterasintelefonom", (req, res) => {
+  let zona = req.query.zona;
+  let grupo = req.query.grupo;
+  let cartera = req.query.cartera;
+  let sucursal = req.query.sucursal;
+
+  if (grupo === "1000") {
+
+    db.wSequelize
+      .query(
+        `
+          SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+          FROM mutual as m
+          WHERE m.TELEFONO in (" ", "-")
+          AND m.MOVIL in (" ", "-")
+          AND m.GRUPO = ${grupo}
+          AND m.ZONA = ${zona}
+          
+          ORDER BY m.ALTA ASC
+
+        `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+
+  } else if (grupo === "6") {
+
+    db.wSequelize
+      .query(
+        `
+        SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+        FROM mutual as m
+        WHERE m.TELEFONO in (" ", "-")
+        AND m.MOVIL in (" ", "-")
+        AND m.GRUPO = ${grupo}
+        AND m.SUCURSAL = '${sucursal}'
+        
+        ORDER BY m.ALTA ASC
+
+      `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+
+  } else if (cartera === "1") {
+    db.wSequelize
+      .query(
+        `
+          SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+          FROM mutual as m
+          WHERE m.TELEFONO in (" ", "-")
+          AND m.MOVIL in (" ", "-")
+          AND m.GRUPO in (3400,3600,3700,3800,3900,4000)
+          AND m.SUCURSAL = '${sucursal}'
+          
+          ORDER BY m.ALTA ASC
+
+        `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+
+  } else if (cartera === "2") {
+    db.wSequelize
+      .query(
+        `
+             SELECT m.SUCURSAL, m.CONTRATO, m.NRO_DOC, m.APELLIDOS, m.NOMBRES, m.ALTA, m.CALLE, m.NRO_CALLE, m.BARRIO, m.LOCALIDAD, m.GRUPO, m.ZONA, m.TELEFONO, m.MOVIL
+             FROM mutual as m
+             WHERE m.TELEFONO in (" ", "-")
+             AND m.MOVIL in (" ", "-")
+             AND m.GRUPO > 5000
+             AND m.GRUPO NOT IN (7777,8500)
+             AND m.SUCURSAL = '${sucursal}'
+             
+             ORDER BY m.ALTA ASC
+   
+           `
+      )
+      .then((listado) => res.json(listado))
+      .catch((err) => res.json(err));
+  }
+
+});
+
 // LISTADO CUMPLE
 router.get("/listcumple", (req, res) => {
   let fecha = req.query.fecha;

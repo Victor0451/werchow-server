@@ -8,6 +8,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const db = require("./db/database");
+require('dotenv').config();
 
 // settings
 
@@ -143,7 +144,7 @@ app.use(
 app.use("/api/sepeliospag/grupos", require("./routes/sepeliopag/grupos"));
 app.use("/api/clubwerchow/connac", require("./routes/sepeliopag/connac"));
 
-// // INFORMES
+//  INFORMES
 app.use("/api/sgi/moraw", require("./routes/informe/moraw"));
 app.use("/api/sgi/moram", require("./routes/informe/moram"));
 app.use("/api/sgi/efectividadw", require("./routes/informe/efectividadw"));
@@ -169,6 +170,7 @@ app.use(
 
 app.use("/api/sgi/mapa", require("./routes/informe/mapa"));
 app.use("/api/sgi/orgamerica", require("./routes/informe/orgamerica"));
+
 
 //Conecting DB
 

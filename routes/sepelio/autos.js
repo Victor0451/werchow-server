@@ -5,6 +5,7 @@ const Op = sequelize.Op;
 const autos = require("../../models/sepelio/autos");
 const autosPagosPatente = require("../../models/sepelio/autos_pago_patente");
 const autosNovedades = require('../../models/sepelio/autos_novedades')
+const historialAutos = require('../../models/sepelio/historial_autos')
 
 
 router.get("/traerautos", (req, res) => {
@@ -53,6 +54,29 @@ router.post("/nuevoauto", (req, res) => {
         .catch((err) => res.json(err));
 });
 
+router.put("/editarauto/:id", (req, res) => {
+    const car = {
+        auto: auto,
+        kilometros: kilometros,
+        responsable: responsable,
+        nro_poliza: nro_poliza,
+        empresa: empresa,
+        vencimiento: vencimiento,
+        motor: motor,
+        chasis: chasis,
+        modelo: modelo,
+        cobertura: cobertura,
+    } = req.body
+
+    autos
+        .update(car, {
+            where: {
+                idauto: req.params.id
+            }
+        })
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
 
 
 
@@ -122,6 +146,7 @@ router.post("/registrarnovedades", (req, res) => {
     const nov = {
         novedad,
         patente,
+        auto,
         operador,
         fecha,
     } = req.body
@@ -132,5 +157,22 @@ router.post("/registrarnovedades", (req, res) => {
         .catch((err) => res.json(err));
 });
 
+
+// API HISTORIAL
+
+router.post("/registrarhistorial", (req, res) => {
+    const historial = {
+        patente,
+        idauto,
+        operador,
+        fecha,
+        accion
+    } = req.body
+
+    historialAutos
+        .create(historial)
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
 
 module.exports = router;

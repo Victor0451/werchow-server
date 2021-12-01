@@ -154,7 +154,7 @@ router.get("/titulares", (req, res, next) => {
     from maestro as m
     inner join cuo_fija as c on c.CONTRATO = m.CONTRATO
     inner join obra_soc as o on o.CODIGO = m.OBRA_SOC    
-    
+    order by m.GRUPO ASC
     `
     )
     .then((titulares) => {
@@ -173,7 +173,7 @@ router.get("/titularesm", (req, res, next) => {
     from mutual as m
     inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
     inner join obra_soc as o on o.CODIGO = m.OBRA_SOC    
-    
+    order by m.GRUPO ASC
     `
     )
     .then((titulares) => {
@@ -198,6 +198,7 @@ router.get("/titular/:id", (req, res) => {
     inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
     where m.CONTRATO = ${id} 
     
+    
     `
     )
     .then((titular) => res.json(titular))
@@ -215,6 +216,7 @@ router.get("/titularm/:id", (req, res) => {
     inner join cuo_mutual as c on c.CONTRATO = m.CONTRATO
     inner join obra_soc as o on o.CODIGO = m.OBRA_SOC
     where m.CONTRATO = ${id} 
+    
     
     `
     )

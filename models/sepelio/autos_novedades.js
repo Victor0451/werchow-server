@@ -13,6 +13,10 @@ module.exports = db.sepelioSequelize.define(
             type: Sequelize.DataTypes.STRING,
         },
 
+        auto: {
+            type: Sequelize.DataTypes.STRING,
+        },
+
         fecha: {
             type: Sequelize.DataTypes.DATE,
         },
