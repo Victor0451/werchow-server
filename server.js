@@ -61,6 +61,8 @@ app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
 app.use("/api/sgi/personal", require("./routes/sgi/personal"));
 app.use("/api/sgi/constanciaafiliacion", require("./routes/sgi/registroConstanciaAfiliacion"));
+app.use("/api/sgi/tareas", require("./routes/sgi/tareas"));
+
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
@@ -130,9 +132,16 @@ app.use(
   "/api/archivos/legajovirtualautos",
   require("./routes/archivos/LegajoVirtualAutos")
 );
+app.use(
+  "/api/archivos/legajovirtualcajasucursales",
+  require("./routes/archivos/LegajoVirtualCajasSucursales")
+);
 
 app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));
 app.use("/api/archivos/ventas", require("./routes/archivos/Ventas"));
+
+
+
 // CLUBWERCHOW
 app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));
 app.use(

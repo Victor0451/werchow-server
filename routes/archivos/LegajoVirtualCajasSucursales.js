@@ -3,11 +3,13 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const moment = require("moment");
-const legajoVirtualAutos = require("../../models/sepelio/legajovirtualautos");
+const cajaSucursales = require("../../models/sgi/caja_sucursales");
+const legajoCaja = require("../../models/sgi/legajovirtualcajas");
+
 const db = require("../../db/database");
 
 let storage = multer.diskStorage({
-  destination: path.join(__dirname, "../../uploads/legajoAutos"),
+  destination: path.join(__dirname, "../../uploads/legajoVirtualCajasSucursales"),
   filename: function (req, file, cb) {
     const fileName = req.params.id + "-" + file.originalname;
     cb(null, fileName);
@@ -16,16 +18,34 @@ let storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+router.post("/registrarcaja", (req, res) => {
+  const caja = {
+    entrada,
+    salida,
+    valor_depositar,
+    fecha_caja,
+    fecha_carga,
+    operador,
+    sucursal,
+  } = req.body
+
+  cajaSucursales
+    .create(caja)
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
 router.post("/uploadarchivo/:id", upload.single("file"), (req, res) => {
-  const legajo = {
-    patente: req.params.id,
+
+  let caja = {
     archivo: req.params.id + "-" + req.file.originalname,
-    fecha_subida: moment().format("YYYY-MM-DD"),
+    idcaja: req.params.id,
+    fecha_subida: moment().format('YYYY-MM-DD HH:mm:ss')
+  }
 
-  };
-
-  legajoVirtualAutos
-    .create(legajo)
+  legajoCaja
+    .create(caja)
     .then((leg) => {
       res.status(200).json(leg);
     })
@@ -42,8 +62,7 @@ router.get("/archivo/:id", (req, res) => {
   const id = req.params.id;
   const file = path.join(
     __dirname,
-    `../../uploads/legajoAutos/${id}`
-  );
+    `../../uploads/legajoVirtualCajasSucursales/${id}`);
   res.sendFile(file); // Set disposition and send it.
 });
 
@@ -51,7 +70,7 @@ router.get("/descargararchivo/:id", (req, res) => {
   const id = req.params.id;
   const file = path.join(
     __dirname,
-    `../../uploads/legajoAutos/${id}`
+    `../../uploads/legajoVirtualCajasSucursales/${id}`
   );
   res.download(file); // Set disposition and send it.
 });
@@ -59,14 +78,12 @@ router.get("/descargararchivo/:id", (req, res) => {
 router.get("/listaarchivos/:id", (req, res) => {
   let id = req.params.id;
 
-  db.sepelioSequelize.query(
+  db.sgiSequelize.query(
     `
   SELECT *
-  FROM legajo_virtual_autos
-  WHERE patente = '${id}'
-
+  FROM legajo_virtual_cajas
+  WHERE idcaja = ${id}
 `
-
   )
     .then((leg) => {
       res.status(200).json(leg[0]);
@@ -76,11 +93,22 @@ router.get("/listaarchivos/:id", (req, res) => {
     });
 });
 
+router.get("/listadocajas", (req, res) => {
+
+  cajaSucursales.findAll()
+    .then((leg) => {
+      res.status(200).json(leg);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.delete("/eliminararchivos/:id", (req, res) => {
   let id = req.params.id;
-  const file = path.join(__dirname, `../../uploads/legajoAutos/${id}`);
+  const file = path.join(__dirname, `./../uploads/legajoVirtualCajasSucursales/${id}`);
 
-  legajoVirtualAutos
+  legajoCaja
     .destroy({
       where: { archivo: id },
     })
