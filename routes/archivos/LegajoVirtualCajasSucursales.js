@@ -93,15 +93,37 @@ router.get("/listaarchivos/:id", (req, res) => {
     });
 });
 
-router.get("/listadocajas", (req, res) => {
+router.get("/listadocajas/:id", (req, res) => {
 
-  cajaSucursales.findAll()
-    .then((leg) => {
-      res.status(200).json(leg);
+  console.log(req.params.id)
+
+  if (req.params.id === 'vlongo' ||
+    req.params.id === 'joaquini' ||
+    req.params.id === 'isantiago' ||
+    req.params.id === 'jcmorales' ||
+    req.params.id === 'nquintana' ||
+    req.params.id === 'emoreno'
+  ) {
+    cajaSucursales.findAll()
+      .then((leg) => {
+        res.status(200).json(leg);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+
+    cajaSucursales.findAll({
+      where: { operador: `${req.params.id}` }
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((leg) => {
+        res.status(200).json(leg);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
 });
 
 router.delete("/eliminararchivos/:id", (req, res) => {
