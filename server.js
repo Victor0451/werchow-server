@@ -63,6 +63,8 @@ app.use("/api/sgi/personal", require("./routes/sgi/personal"));
 app.use("/api/sgi/constanciaafiliacion", require("./routes/sgi/registroConstanciaAfiliacion"));
 app.use("/api/sgi/tareas", require("./routes/sgi/tareas"));
 app.use("/api/sgi/historialacciones", require("./routes/sgi/historial_acciones"));
+app.use("/api/sgi/servicios", require("./routes/sgi/servicios"));
+
 
 
 //SEPELIO

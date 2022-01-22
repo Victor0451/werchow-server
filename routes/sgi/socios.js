@@ -140,7 +140,7 @@ router.get("/traerconvenios", (req, res) => {
 // GET LISTADO DEL MES WERCHOW
 router.get("/estadocarteraw", (req, res) => {
   let mes = req.query.mes;
-  let ano = moment().format("YYYY");
+  let ano = req.query.ano;
   let zona = req.query.zona;
   let grupo = req.query.grupo;
   let flag = req.query.flag;
@@ -530,7 +530,7 @@ router.get("/estadocarteraw", (req, res) => {
 // GET LISTADO DEL MES MUTUAL
 router.get("/estadocarteram", (req, res) => {
   let mes = req.query.mes;
-  let ano = moment().format("YYYY");
+  let ano = req.query.ano;
   let zona = req.query.zona;
   let grupo = req.query.grupo;
   let flag = req.query.flag;
