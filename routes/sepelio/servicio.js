@@ -15,34 +15,13 @@ const grupos = require("../../models/werchow/grupos");
 
 router.get("/consultarficha/:id", (req, res) => {
   let id = req.params.id;
-  console.log(id);
-  // maestro
-  //   .findOne({
-  //     attributes: [
-  //       "CONTRATO",
-  //       "ALTA",
-  //       "PLAN",
-  //       "NRO_DOC",
-  //       "SUCURSAL",
-  //       "GRUPO",
-  //       "APELLIDOS",
-  //       "NOMBRES",
-  //       "CALLE",
-  //       "NRO_CALLE",
-  //       "BARRIO",
-  //       "LOCALIDAD",
-  //       "TELEFONO",
-  //       "MOVIL",
-  //       [sequelize.literal("YEAR(CURDATE())-YEAR(`NACIMIENTO`)"), "EDAD"],
-  //       "EMPRESA",
-  //     ],
-  //     where: { NRO_DOC: id },
-  //   })
+
   db.wSequelize
     .query(
       `
         SELECT
             m.CONTRATO, 
+            m.GRUPO,
             m.ALTA,
             m.SUCURSAL,
             m.NRO_DOC,
@@ -74,34 +53,12 @@ router.get("/consultarficha/:id", (req, res) => {
 router.get("/consultarficham/:id", (req, res) => {
   let id = req.params.id;
 
-  // mutual
-  //   .findOne({
-  //     attributes: [
-  //       "CONTRATO",
-  //       "ALTA",
-  //       "PLAN",
-  //       "NRO_DOC",
-  //       "SUCURSAL",
-  //       "GRUPO",
-  //       "APELLIDOS",
-  //       "NOMBRES",
-  //       "CALLE",
-  //       "NRO_CALLE",
-  //       "BARRIO",
-  //       "LOCALIDAD",
-  //       "TELEFONO",
-  //       "MOVIL",
-  //       [sequelize.literal("YEAR(CURDATE())-YEAR(`NACIMIENTO`)"), "EDAD"],
-  //       "EMPRESA",
-  //     ],
-  //     where: { NRO_DOC: id },
-  //   })
-
   db.wSequelize
     .query(
       `
         SELECT
             m.CONTRATO, 
+            m.GRUPO,
             m.ALTA,
             m.SUCURSAL,
             m.NRO_DOC,

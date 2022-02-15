@@ -7,6 +7,7 @@ const usos = require('../../models/servicios/usos')
 const consulta = require('../../models/servicios/consulta')
 const practica = require('../../models/servicios/practica')
 const farmacia = require('../../models/servicios/farmacia')
+const enfermeria = require('../../models/servicios/enfermeria')
 const caja = require('../../models/servicios/caja')
 
 
@@ -55,6 +56,7 @@ router.get("/traermedporsuc", (req, res, next) => {
     FROM PRESTADO
     WHERE SUC = '${suc}' 
     AND SUBSTR(LIS_ESPE,1,3) = '${esp}'
+    AND DIRECCION LIKE '%OTERO%'
     
      `
     )
@@ -65,6 +67,28 @@ router.get("/traermedporsuc", (req, res, next) => {
             res.status(400).json(err);
         });
 });
+
+router.get("/traerefermporsuc", (req, res, next) => {
+
+    let suc = req.query.suc
+
+    db.serviciosSequelize.query(
+        `
+    SELECT COD_PRES, NOMBRE
+    FROM PRESTADO
+    WHERE SUC = '${suc}' 
+    AND SUBSTR(LIS_ESPE,1,3) = 'ENF'    
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 
 router.get("/traerdetallemedico/:id", (req, res, next) => {
 
@@ -148,12 +172,12 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
 
     let id = req.params.id
 
-    if (id === 'C_NAZ') {
+    if (id === 'C_YEV') {
         db.serviciosSequelize.query(
             `
-        SELECT CODIGOS, DESCRIP, PRECIO_01 "IMPORTE", idpractica
+        SELECT CODIGOS, DESCRIP, PRECIO_06 "IMPORTE", idpractica
         FROM AUT_PRAC
-        WHERE COD_PRES01 = '${req.params.id}'
+        WHERE COD_PRES06 = '${req.params.id}'
             
          `
         )
@@ -164,7 +188,7 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
                 res.status(400).json(err);
             });
 
-    } else if (id === 'C_SIU') {
+    } else if (id === 'C_PAR') {
         db.serviciosSequelize.query(
             `
             SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
@@ -196,7 +220,73 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
                 res.status(400).json(err);
             });
 
+    } else if (id === 'C_CVA') {
+        db.serviciosSequelize.query(
+            `
+        SELECT CODIGOS, DESCRIP, PRECIO_03 "IMPORTE", idpractica
+        FROM AUT_PRAC
+        WHERE COD_PRES03 = '${req.params.id}'
+            
+         `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+    } else if (id === 'C_TEM') {
+        db.serviciosSequelize.query(
+            `
+        SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
+        FROM AUT_PRAC
+        WHERE COD_PRES02 = '${req.params.id}'
+            
+         `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+    } else if (id === 'C_SOT') {
+        db.serviciosSequelize.query(
+            `
+        SELECT CODIGOS, DESCRIP, PRECIO_14 "IMPORTE", idpractica
+        FROM AUT_PRAC
+        WHERE COD_PRES14 = '${req.params.id}'
+            
+         `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+    } else if (id === 'C_KCA') {
+        db.serviciosSequelize.query(
+            `
+            SELECT CODIGOS, DESCRIP, PRECIO_17 "IMPORTE", idpractica
+            FROM AUT_PRAC
+            WHERE COD_PRES17 = '${req.params.id}'
+                
+             `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+
     }
+
 });
 
 router.get("/traerfarmacias", (req, res, next) => {
@@ -235,6 +325,28 @@ router.get("/traerfarmacia/:id", (req, res, next) => {
             res.status(400).json(err);
         });
 });
+
+router.get("/traerenfermeria/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+    SELECT p.practica, a.NOMBRE
+    FROM ENFERMER as e
+    INNER JOIN PRESTADO as a on a.COD_PRES = e.DESTINO
+    INNER JOIN PRACT_ENFER as p on p.idpractica = e.PRACTICA
+    WHERE e.NRO_ORDEN = '${req.params.id}'
+    
+        
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 
 
 router.get("/ordenessinrendir", (req, res, next) => {
@@ -410,6 +522,25 @@ router.get("/chekcaja/:id", (req, res, next) => {
         });
 });
 
+router.get("/traerpractenfer", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+            SELECT 
+                *
+            FROM PRACT_ENFER
+
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
 
 //INSERT 
 
@@ -532,6 +663,36 @@ router.post("/regfarmacia", (req, res, next) => {
 
 
     farmacia.create(farma)
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+
+});
+
+router.post("/regenfermeria", (req, res, next) => {
+
+    const enfer = {
+
+        CONTRATO,
+        FECHA,
+        HORA,
+        NRO_ORDEN,
+        DESTINO,
+        IMPORTE,
+        ANULADO,
+        PRACTICA,
+        CANTIDAD,
+        OPERADOR,
+        OPE_ANU,
+        NRO_DNI,
+
+    } = req.body
+
+
+    enfermeria.create(enfer)
         .then(list => {
             res.status(200).json(list);
         })
