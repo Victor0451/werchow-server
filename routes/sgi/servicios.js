@@ -540,6 +540,31 @@ router.get("/traerpractenfer", (req, res, next) => {
         });
 });
 
+router.get("/traerordenesemitidas", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+            SELECT 
+                iduso,
+                FECHA, 
+                ORDEN, 
+                CONTRATO,
+                NRO_DOC,
+                SERVICIO,
+                IMPORTE
+            FROM USOS
+            ORDER BY FECHA DESC
+
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 
 
 //INSERT 

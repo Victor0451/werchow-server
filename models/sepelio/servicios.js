@@ -108,6 +108,9 @@ module.exports = db.sepelioSequelize.define(
     obra_soc: {
       type: Sequelize.DataTypes.STRING,
     },
+    importe: {
+      type: Sequelize.DataTypes.FLOAT,
+    }
   },
   {
     timestamps: false,

@@ -242,13 +242,12 @@ router.post("/nuevoservicio", (req, res) => {
     dni_solicitante: dni_solicitante,
     cremacion: cremacion,
     liquidado: liquidado,
+    importe: importe
   } = req.body);
 
   if (nuevoservicio.dni_nuevotitular === "") {
     nuevoservicio.dni_nuevotitular = 1;
   }
-
-  console.log(nuevoservicio);
 
   servicios
     .create(nuevoservicio)
