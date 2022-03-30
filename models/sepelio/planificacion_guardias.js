@@ -28,6 +28,9 @@ module.exports = db.sepelioSequelize.define(
     mes_planificacion: {
       type: Sequelize.DataTypes.STRING,
     },
+    ano_planificacion: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
     feriado: {
       type: Sequelize.DataTypes.TINYINT,
     },

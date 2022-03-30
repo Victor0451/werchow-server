@@ -1026,6 +1026,8 @@ router.get("/listcumple", (req, res) => {
 });
 
 router.get("/listcumpleM", (req, res) => {
+  let fecha = req.query.fecha;
+
   db.wSequelize
     .query(
       `
@@ -1033,7 +1035,7 @@ router.get("/listcumpleM", (req, res) => {
         from werchow.mutual as m
         inner join werchow.grupos as g on g.CODIGO = m.GRUPO
         where m.GRUPO not in (66, 55, 500, 1001, 2000, 2001, 2010 ,3444,3777,3666,3888,3999,4004,7500, 7777, 8500, 8888)
-        and day(m.NACIMIENTO)=day(NOW()) and month(m.NACIMIENTO)=month(NOW())
+        and day(m.NACIMIENTO)=day('${fecha}') and month(m.NACIMIENTO)=month('${fecha}')
 
         `
     )

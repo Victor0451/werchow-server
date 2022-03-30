@@ -19,13 +19,11 @@ app.use(cors());
 app.set("port", process.env.PORT || 5002);
 
 const options = {
-  key: fs.readFileSync(path.resolve(__dirname, "./clubwerchow.com.key")),
-
-  cert: fs.readFileSync(path.resolve(__dirname, "./clubwerchow.com.crt")),
+  key: fs.readFileSync(path.resolve(__dirname, "./werchow.com.key"), "ascii"),
+  cert: fs.readFileSync(path.resolve(__dirname, "./werchow.com.crt"), "ascii"),
 };
-console.log(options),
-  //middlewares
-  app.use(bodyparser.json());
+//middlewares
+app.use(bodyparser.json());
 app.use("*", cors());
 
 //Routes
@@ -183,6 +181,12 @@ app.use(
 app.use("/api/sgi/mapa", require("./routes/informe/mapa"));
 app.use("/api/sgi/orgamerica", require("./routes/informe/orgamerica"));
 
+
+// SISTEMA STOCK
+app.use(
+  "/api/archivos/stock",
+  require("./routes/archivos/stock")
+);
 
 //Conecting DB
 

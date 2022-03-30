@@ -11,6 +11,7 @@ router.get("/listadoplani", (req, res) => {
     .findAll({
       where: {
         mes_planificacion: moment().locale("es-es").format("MMMM"),
+        ano_planificacion: moment().locale("es-es").format("YYYY"),
       },
     })
     .then((titular) => res.json(titular))

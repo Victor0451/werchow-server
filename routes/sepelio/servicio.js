@@ -318,31 +318,233 @@ router.get("/serviciossinimpactar", (req, res, next) => {
   db.sepelioSequelize
     .query(
       `
-      SELECT empresa,contrato, dni  as 'difunto',
-
+      SELECT
+      s.empresa,
+      s.contrato,
+      dni AS 'difunto',
       (
-      CASE
-      WHEN dni_nuevotitular = 11111111
-      THEN 'NOVELL/SIN ADH'
-      
-      WHEN dni_nuevotitular = 1
-      THEN 'ADHERENTE'
-      
-      WHEN dni_nuevotitular IS NULL
-      THEN 'PARTICULAR'
-      
-      ELSE CONCAT('NUEVO TITULAR',' ', dni_nuevotitular)
-      END
-      ) as 'estado_ficha',
-      
+        CASE
+        WHEN s.empresa = 'Werchow'
+        AND EXISTS (
+          SELECT
+            SEGURO
+          FROM
+            werchow.maestro AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND SEGURO = 1
+        ) THEN
+          'SI'
+        WHEN s.empresa = 'Werchow'
+        AND EXISTS (
+          SELECT
+            SEGURO
+          FROM
+            werchow.adherent AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND SEGURO = 1
+        ) THEN
+          'SI'
+        WHEN s.empresa = 'Mutual'
+        AND EXISTS (
+          SELECT
+            SEGURO
+          FROM
+            werchow.mutual AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND SEGURO = 1
+        ) THEN
+          'SI'
+        WHEN s.empresa = 'Mutual'
+        AND EXISTS (
+          SELECT
+            SEGURO
+          FROM
+            werchow.mutual_adh AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND SEGURO = 1
+        ) THEN
+          'SI'
+        ELSE
+          'NO'
+        END
+      ) AS 'seguro',
+      (
+        CASE
+        WHEN dni_nuevotitular = 11111111
+        AND s.empresa = 'Werchow'
+        AND EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.maestro AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN = 'P'
+          AND m.ADHERENTES = 0
+        ) THEN
+          'NOVELL/SIN ADH'
+        WHEN dni_nuevotitular = 11111111
+        AND s.empresa = 'Werchow'
+        AND NOT EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.maestro AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN = 'P'
+          AND m.ADHERENTES = 0
+        ) THEN
+          'NOVELL REALIZADO, FALTA IMPACTAR'
+        WHEN dni_nuevotitular = 11111111
+        AND s.empresa = 'Mutual'
+        AND EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.mutual AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN = 'P'
+          AND m.ADHERENTES = 0
+        ) THEN
+          'NOVELL/SIN ADH'
+        WHEN dni_nuevotitular = 11111111
+        AND s.empresa = 'Mutual'
+        AND NOT EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.mutual AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN = 'P'
+          AND m.ADHERENTES = 0
+        ) THEN
+          'NOVELL REALIZADO, FALTA IMPACTAR'
+        WHEN s.empresa = 'Werchow'
+        AND EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.maestro AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN != 'P'
+        ) THEN
+          CONCAT(
+            'NUEVO TITULAR',
+            ' ',
+            dni_nuevotitular
+          )
+        WHEN s.empresa = 'Werchow'
+        AND s.dni_nuevotitular NOT IN (1, 11111111)
+        AND NOT EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.maestro AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN != 'P'
+        ) THEN
+          'TITULAR REALIZADO, FALTA IMPACTAR'
+        WHEN s.empresa = 'Mutual'
+        AND EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.mutual AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN != 'P'
+        ) THEN
+          CONCAT(
+            'NUEVO TITULAR',
+            ' ',
+            dni_nuevotitular
+          )
+        WHEN s.empresa = 'Mutual'
+        AND s.dni_nuevotitular NOT IN (1, 11111111)
+        AND NOT EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.mutual AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.PLAN != 'P'
+        ) THEN
+          'TITULAR REALIZADO, FALTA IMPACTAR'
+        WHEN dni_nuevotitular = 1
+        AND s.empresa = 'Werchow'
+        AND NOT EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.adherent AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.BAJA IS NOT NULL
+          AND m.EDAD = 999
+        ) THEN
+          'ADHERENTE'
+        WHEN dni_nuevotitular = 1
+        AND s.empresa = 'Werchow'
+        AND EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.adherent AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.BAJA IS NOT NULL
+          AND m.EDAD = 999
+        ) THEN
+          'ADHERENTE REALIZADO, FALTA IMPACTAR'
+        WHEN dni_nuevotitular = 1
+        AND s.empresa = 'Mutual'
+        AND NOT EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.mutual_adh AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.BAJA IS NOT NULL
+          AND m.EDAD != 999
+        ) THEN
+          'ADHERENTE'
+        WHEN dni_nuevotitular = 1
+        AND s.empresa = 'Mutual'
+        AND EXISTS (
+          SELECT
+            *
+          FROM
+            werchow.mutual_adh AS m
+          WHERE
+            m.NRO_DOC = s.dni
+          AND m.BAJA IS NOT NULL
+          AND m.EDAD != 999
+        ) THEN
+          'ADHERENTE REALIZADO, FALTA IMPACTAR'
+        WHEN dni_nuevotitular IS NULL THEN
+          'PARTICULAR'
+        END
+      ) AS 'estado_ficha',
       fecha_fallecimiento
+    FROM
+      servicios AS s
+    WHERE
+      impactado = 0
+    AND dni IS NOT NULL
       
-      FROM servicios 
-      WHERE impactado	= 0
-      and dni IS NOT NULL
       
       
-      ;
       `
     )
     .then((ventas) => {
