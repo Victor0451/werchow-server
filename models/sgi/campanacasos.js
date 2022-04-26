@@ -78,6 +78,9 @@ module.exports = db.sgiSequelize.define(
     edad: {
       type: Sequelize.DataTypes.INTEGER,
     },
+    adherentes: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
   },
   {
     timestamps: false,

@@ -39,7 +39,8 @@ router.get("/consultarficha/:id", (req, res) => {
             o.NOMBRE "OBRA_SOC",
             m.EMPRESA,
             TIMESTAMPDIFF(YEAR, m.NACIMIENTO, CURDATE()) 'EDAD',
-            m.PLAN  
+            m.PLAN,
+            m.SUB_PLAN 
         FROM maestro as m
         INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
         WHERE m.NRO_DOC = ${id} 
@@ -76,7 +77,8 @@ router.get("/consultarficham/:id", (req, res) => {
             o.NOMBRE "OBRA_SOC",
             m.EMPRESA,
             TIMESTAMPDIFF(YEAR, m.NACIMIENTO, CURDATE()) 'EDAD',
-            m.PLAN  
+            m.PLAN,
+            m.SUB_PLAN
         FROM mutual as m
         INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
         WHERE m.NRO_DOC = ${id} 
@@ -96,6 +98,7 @@ router.get("/consultarfichaadh/:id", (req, res) => {
         "CONTRATO",
         "ALTA",
         "PLAN",
+        "SUB_PLAN",
         "NRO_DOC",
         "SUCURSAL",
         "APELLIDOS",
@@ -117,6 +120,7 @@ router.get("/consultarfichaadhm/:id", (req, res) => {
         "CONTRATO",
         "ALTA",
         "PLAN",
+        "SUB_PLAN",
         "NRO_DOC",
         "SUCURSAL",
         "APELLIDOS",

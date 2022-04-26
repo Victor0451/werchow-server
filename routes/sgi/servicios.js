@@ -207,9 +207,9 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
     } else if (id === 'C_BIO') {
         db.serviciosSequelize.query(
             `
-        SELECT CODIGOS, DESCRIP, PRECIO_03 "IMPORTE", idpractica
+        SELECT CODIGOS, DESCRIP, PRECIO_13 "IMPORTE", idpractica
         FROM AUT_PRAC
-        WHERE COD_PRES03 = '${req.params.id}'
+        WHERE COD_PRES13 = '${req.params.id}'
             
          `
         )
@@ -285,12 +285,29 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
             });
 
 
-    }else if (id === 'C_MIN') {
+    } else if (id === 'C_MIN') {
         db.serviciosSequelize.query(
             `
             SELECT CODIGOS, DESCRIP, PRECIO_01 "IMPORTE", idpractica
             FROM AUT_PRAC
             WHERE COD_PRES01 = '${req.params.id}'
+                
+             `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+
+    } else if (id === 'C_OVI') {
+        db.serviciosSequelize.query(
+            `
+            SELECT CODIGOS, DESCRIP, PRECIO_04 "IMPORTE", idpractica
+            FROM AUT_PRAC
+            WHERE COD_PRES04 = '${req.params.id}'
                 
              `
         )
@@ -375,6 +392,7 @@ router.get("/ordenessinrendir", (req, res, next) => {
         COUNT(ORDEN) "CANTIDAD"  
     FROM USOS
     WHERE RENDIDO = 0
+    AND ANULADO IS NULL
     GROUP BY FECHA
     
         
@@ -399,6 +417,7 @@ router.get("/ordenespordia/:id", (req, res, next) => {
     FROM USOS
     WHERE RENDIDO = 0
     AND FECHA = '${req.params.id}'
+    AND ANULADO IS NULL
     GROUP BY SERVICIO
     
         
@@ -570,6 +589,7 @@ router.get("/traerordenesemitidas", (req, res, next) => {
                 SERVICIO,
                 IMPORTE
             FROM USOS
+            WHERE ANULADO IS NULL
             ORDER BY FECHA DESC
 
      `
