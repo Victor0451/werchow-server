@@ -636,6 +636,35 @@ router.get("/adherente/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/adherentem/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    SELECT
+    m.CONTRATO, 
+    m.SUCURSAL, 
+    m.NRO_DOC, 
+    m.NACIMIENTO,
+    m.PLAN,
+    m.OBRA_SOC,
+    m.SEXO,
+    m.APELLIDOS, 
+    m.NOMBRES, 
+    m.ALTA, 
+    m.VIGENCIA, 
+    m.NACIMIENTO 
+    FROM mutual_adh as m    
+    WHERE m.NRO_DOC = ${id} 
+    
+    
+    `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
 //GET LAST CONTRATO
 
 router.get("/lastcontrato", (req, res) => {

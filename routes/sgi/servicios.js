@@ -603,6 +603,53 @@ router.get("/traerordenesemitidas", (req, res, next) => {
 });
 
 
+router.get("/verificaruso/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+            SELECT 
+                *
+            FROM USOS
+            WHERE CONTRATO = '${req.params.id}'
+            AND SERVICIO = 'ORDE'
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/contarfisio/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+            SELECT 
+            
+            CASE
+                WHEN SUM(CANT_PRA) IS NULL
+                THEN 0
+
+                WHEN SUM(CANT_PRA) IS NOT NULL
+                THEN SUM(CANT_PRA)
+
+                END 'N'            
+            
+            FROM PRACTICA
+            WHERE CONTRATO = '${req.params.id}'
+            AND PRAC_REA = 'FIS'
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 
 //INSERT 
 

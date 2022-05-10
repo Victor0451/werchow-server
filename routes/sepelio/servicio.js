@@ -89,6 +89,44 @@ router.get("/consultarficham/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/cantadh/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+        SELECT
+           COUNT(CONTRATO) 'adh'
+        FROM adherent         
+        WHERE CONTRATO = ${id} 
+        AND BAJA IS NULL
+        AND TIMESTAMPDIFF(YEAR, NACIMIENTO, CURDATE()) >= 21
+`
+    )
+
+    .then((titular) => res.json(titular[0][0]))
+    .catch((err) => res.json(err));
+});
+
+router.get("/cantadhm/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+        SELECT
+           COUNT(CONTRATO) 'adh'
+        FROM mutual_adh     
+        WHERE CONTRATO = ${id} 
+        AND BAJA IS NULL
+        AND TIMESTAMPDIFF(YEAR, NACIMIENTO, CURDATE()) >= 21
+`
+    )
+
+    .then((titular) => res.json(titular[0][0]))
+    .catch((err) => res.json(err));
+});
+
 router.get("/consultarfichaadh/:id", (req, res) => {
   let id = req.params.id;
   console.log(id);
