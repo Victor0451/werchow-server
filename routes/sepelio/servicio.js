@@ -284,7 +284,8 @@ router.post("/nuevoservicio", (req, res) => {
     dni_solicitante: dni_solicitante,
     cremacion: cremacion,
     liquidado: liquidado,
-    importe: importe
+    importe: importe,
+    donacion: donacion
   } = req.body);
 
   if (nuevoservicio.dni_nuevotitular === "") {

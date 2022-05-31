@@ -650,6 +650,37 @@ router.get("/contarfisio/:id", (req, res, next) => {
         });
 });
 
+// LIQUIDACIONES
+
+router.get("/liquidacion", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+        SELECT
+            FECHA,
+            CONTRATO,
+            SUM(IMPORTE) 'VSIST',
+            (SUM(IMPORTE) * 2) 'VNOM',
+            ROUND(((SUM(IMPORTE) * 2) * 0.75), 2) 'VLIQ'
+        FROM
+            USOS
+        WHERE
+            PRESTADO = '${req.query.medico}'
+        AND FECHA BETWEEN '${req.query.desde}'
+        AND '${req.query.hasta}'
+        GROUP BY
+            FECHA,
+            CONTRATO
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 
 //INSERT 
 

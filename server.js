@@ -62,6 +62,8 @@ app.use("/api/sgi/constanciaafiliacion", require("./routes/sgi/registroConstanci
 app.use("/api/sgi/tareas", require("./routes/sgi/tareas"));
 app.use("/api/sgi/historialacciones", require("./routes/sgi/historial_acciones"));
 app.use("/api/sgi/servicios", require("./routes/sgi/servicios"));
+app.use("/api/sgi/mails", require("./routes/sgi/mails"));
+
 
 
 
@@ -140,6 +142,8 @@ app.use(
 
 app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));
 app.use("/api/archivos/ventas", require("./routes/archivos/Ventas"));
+app.use("/api/archivos/mails", require("./routes/archivos/mails"));
+
 
 
 

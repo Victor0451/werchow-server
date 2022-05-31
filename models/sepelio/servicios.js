@@ -110,6 +110,9 @@ module.exports = db.sepelioSequelize.define(
     },
     importe: {
       type: Sequelize.DataTypes.FLOAT,
+    },
+    donacion: {
+      type: Sequelize.DataTypes.TINYINT,
     }
   },
   {
