@@ -100,7 +100,7 @@ router.get("/cantadh/:id", (req, res) => {
         FROM adherent         
         WHERE CONTRATO = ${id} 
         AND BAJA IS NULL
-        AND TIMESTAMPDIFF(YEAR, NACIMIENTO, CURDATE()) >= 21
+        
 `
     )
 
@@ -119,7 +119,7 @@ router.get("/cantadhm/:id", (req, res) => {
         FROM mutual_adh     
         WHERE CONTRATO = ${id} 
         AND BAJA IS NULL
-        AND TIMESTAMPDIFF(YEAR, NACIMIENTO, CURDATE()) >= 21
+        
 `
     )
 

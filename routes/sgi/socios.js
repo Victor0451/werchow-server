@@ -384,7 +384,7 @@ router.get("/estadocarteraw", (req, res) => {
     )
     and m.PLAN != 'P'
     and m.GRUPO = ${grupo}
-    and m.ZONA in (${zona}, 56)
+    and m.ZONA in (${zona})
     `
       )
       .then((listado) => res.json(listado))

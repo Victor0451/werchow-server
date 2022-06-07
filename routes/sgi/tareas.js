@@ -12,6 +12,26 @@ router.get("/traertareas", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/traertareasop/:id", (req, res) => {
+  tareas
+    .findAll({
+      where: { operador: req.params.id }
+    })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
+router.get("/traertareasopnl", (req, res) => {
+  tareas
+    .findAll({
+      where: {
+        leido: 0
+      }
+    })
+    .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
 router.post("/nuevatarea", (req, res) => {
   const task = {
     title: title,
@@ -19,6 +39,8 @@ router.post("/nuevatarea", (req, res) => {
     start: start,
     end: end,
     priority: priority,
+    operador: operador,
+    leido: leido,
   } = req.body
 
   tareas
@@ -37,7 +59,7 @@ router.put("/editartarea/:id", (req, res) => {
     startstar,
     end: end,
     priority: priority,
-
+    sucursal: sucursal
   } = req.body;
 
   tareas
