@@ -9,6 +9,7 @@ const practica = require('../../models/servicios/practica')
 const farmacia = require('../../models/servicios/farmacia')
 const enfermeria = require('../../models/servicios/enfermeria')
 const caja = require('../../models/servicios/caja')
+const medicosTurnos = require('../../models/servicios/medicos_turnos')
 
 
 
@@ -668,9 +669,56 @@ router.get("/liquidacion", (req, res, next) => {
             PRESTADO = '${req.query.medico}'
         AND FECHA BETWEEN '${req.query.desde}'
         AND '${req.query.hasta}'
+        AND ANULADO IS NULL
         GROUP BY
             FECHA,
             CONTRATO
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+// GESTION TURNOS
+
+router.get("/traermedicos", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+    SELECT COD_PRES, NOMBRE
+    FROM PRESTADO
+    WHERE DIRECCION LIKE '%OTERO%'
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+router.get("/buscarturnos", (req, res, next) => {
+
+    let medico = req.query.medico
+    let dia = req.query.dia
+    let turno = req.query.turno
+
+    db.serviciosSequelize.query(
+        `
+    SELECT *
+    FROM MEDICOS_TURNOS
+    WHERE doctor = '${medico}'
+    AND fecha = '${dia}'
+    AND turno = '${turno}'
+    
      `
     )
         .then(listado => {
@@ -881,6 +929,34 @@ router.post("/regmovimcaja", (req, res, next) => {
 });
 
 
+// TURNOS
+
+router.post("/regturno", (req, res, next) => {
+
+    let turnoReg = {
+        turno,
+        fecha,
+        hora,
+        doctor,
+        paciente,
+        obra_soc,
+        telefono,
+        operador,
+        estado,
+    } = req.body;
+
+
+    medicosTurnos.create(turnoReg)
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+
+});
+
+
 // UPDATE
 
 router.put("/updaterendido/:id", (req, res, next) => {
@@ -892,6 +968,30 @@ router.put("/updaterendido/:id", (req, res, next) => {
             RENDIDO = 1,
             FECHA_CIERRE = '${moment().format('YYYY-MM-DD')}'
         WHERE FECHA = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+// TURNOS
+
+router.put("/updateestadoturno/:id", (req, res, next) => {
+
+    console.log(req.body.params)
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE MEDICOS_TURNOS
+        SET 
+            estado = ${req.body.params.estado}            
+        WHERE idturno = '${req.params.id}'        
         
         `
     )

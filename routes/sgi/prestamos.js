@@ -207,6 +207,19 @@ router.get("/prestamosporid/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/capitalaprest", (req, res) => {
+  let id = req.params.id;
+
+  db.sgiSequelize.query(`
+  
+        SELECT capital as 'value',
+              capital as 'label' 
+        FROM capital_prestamo
+  `)
+    .then((titular) => res.json(titular[0]))
+    .catch((err) => res.json(err));
+});
+
 router.post("/altaprestamo", (req, res, next) => {
   const {
     fechacarga,
