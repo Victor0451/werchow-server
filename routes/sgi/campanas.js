@@ -507,6 +507,41 @@ router.get("/deuda/:id", (req, res, next) => {
     });
 });
 
+
+router.get("/traerhistoria/:id", (req, res, next) => {
+  const { id } = req.params;
+  db.wSequelize
+    .query(
+      `
+      SELECT
+      h.CONTRATO,
+      o.OPERADOR,
+      h.ANTERIOR,
+      CONCAT(
+        SUBSTR(h.ACTUALIZA, 1, 4),
+        '-',
+        LEFT(SUBSTR(h.ACTUALIZA, 5,6),2),
+        '-',
+        LEFT(SUBSTR(h.ACTUALIZA, 7,8),2)
+      ) 'FECHA'
+    FROM
+      historia AS h
+    INNER JOIN operador AS o ON o.CODIGO = h.OPERADOR
+    WHERE
+      h.ANTERIOR LIKE '%PAGO 0%'
+    AND h.CONTRATO = ${id}
+   
+  `
+    )
+
+    .then((deudarecuperada) => {
+      res.status(200).json(deudarecuperada[0]);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 //INSERT CAMP
 
 router.post("/crearcamp", (req, res, next) => {
