@@ -320,6 +320,23 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
             });
 
 
+    } else if (id === 'C_CAB') {
+        db.serviciosSequelize.query(
+            `
+            SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
+            FROM AUT_PRAC
+            WHERE COD_PRES02 = '${req.params.id}'
+                
+             `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+
     }
 
 });

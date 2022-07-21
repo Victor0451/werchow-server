@@ -251,7 +251,7 @@ router.get("/titular/:id", (req, res) => {
     m.NRO_DOC, 
     m.APELLIDOS,
     m.NOMBRES, 
-    m.ALTA, 
+    m.ALTA,     
     m.VIGENCIA, 
     m.DOM_LAB, 
     m.PLAN,
@@ -286,6 +286,97 @@ router.get("/titular/:id", (req, res) => {
     .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });
+
+router.get("/titularbaja/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    SELECT
+    m.CONTRATO, 
+    m.GRUPO, 
+    m.SUCURSAL, 
+    m.NRO_DOC, 
+    m.APELLIDOS,
+    m.NOMBRES, 
+    m.ALTA, 
+    m.VIGENCIA, 
+    m.DOM_LAB, 
+    m.PLAN,
+    m.SUB_PLAN, 
+    m.CALLE, 
+    m.NRO_CALLE,
+    m.BARRIO, 
+    m.NACIMIENTO, 
+    m.TELEFONO, 
+    m.MOVIL, 
+    m.MAIL,   
+    m.PRODUCTOR, 
+    m.LOCALIDAD, 
+    m.DOM_LAB, 
+    m.TSEG, 
+    "T" as "perfil",    
+    m.ADHERENTES, 
+    TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
+    m.SEXO
+
+    FROM bajas as m   
+    WHERE m.CONTRATO = ${id} 
+    
+    
+    `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/titularbajadni/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    SELECT
+    m.CONTRATO, 
+    m.GRUPO, 
+    m.SUCURSAL, 
+    m.NRO_DOC, 
+    m.APELLIDOS,
+    m.NOMBRES, 
+    m.ALTA, 
+    m.BAJA,
+    m.VIGENCIA, 
+    m.DOM_LAB, 
+    m.PLAN,
+    m.SUB_PLAN, 
+    m.CALLE, 
+    m.NRO_CALLE,
+    m.BARRIO, 
+    m.NACIMIENTO, 
+    m.TELEFONO, 
+    m.MOVIL, 
+    m.MAIL,   
+    m.PRODUCTOR, 
+    m.LOCALIDAD, 
+    m.DOM_LAB, 
+    m.TSEG, 
+    "T" as "perfil",    
+    m.ADHERENTES, 
+    TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
+    m.SEXO
+
+    FROM bajas as m   
+    WHERE m.NRO_DOC = ${id} 
+    
+    
+    `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+
 
 router.get("/titularm/:id", (req, res) => {
   let id = req.params.id;
@@ -327,6 +418,95 @@ router.get("/titularm/:id", (req, res) => {
     INNER JOIN cuo_mutual as c on c.CONTRATO = m.CONTRATO
     INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
     WHERE m.CONTRATO = ${id} 
+    
+    
+    `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/titularmbaja/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    SELECT
+    m.CONTRATO, 
+    m.GRUPO, 
+    m.SUCURSAL, 
+    m.NRO_DOC, 
+    m.APELLIDOS,
+    m.NOMBRES, 
+    m.ALTA, 
+    m.BAJA,
+    m.VIGENCIA, 
+    m.DOM_LAB, 
+    m.PLAN,
+    m.SUB_PLAN, 
+    m.CALLE, 
+    m.NRO_CALLE,
+    m.BARRIO, 
+    m.NACIMIENTO, 
+    m.TELEFONO, 
+    m.MOVIL, 
+    m.MAIL,   
+    m.PRODUCTOR, 
+    m.LOCALIDAD, 
+    m.DOM_LAB, 
+    m.TSEG, 
+    "T" as "perfil",    
+    m.ADHERENTES, 
+    TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
+    m.SEXO
+
+    FROM bajas_mutual as m   
+    WHERE m.CONTRATO = ${id} 
+       
+    `
+    )
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/titularmbajadni/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.wSequelize
+    .query(
+      `
+    SELECT
+    m.CONTRATO, 
+    m.GRUPO, 
+    m.SUCURSAL, 
+    m.NRO_DOC, 
+    m.APELLIDOS,
+    m.NOMBRES, 
+    m.ALTA, 
+    m.BAJA,
+    m.VIGENCIA, 
+    m.DOM_LAB, 
+    m.PLAN,
+    m.SUB_PLAN, 
+    m.CALLE, 
+    m.NRO_CALLE,
+    m.BARRIO, 
+    m.NACIMIENTO, 
+    m.TELEFONO, 
+    m.MOVIL, 
+    m.MAIL,   
+    m.PRODUCTOR, 
+    m.LOCALIDAD, 
+    m.DOM_LAB, 
+    m.TSEG, 
+    "T" as "perfil",    
+    m.ADHERENTES, 
+    TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
+    m.SEXO
+
+    FROM bajas_mutual as m   
+    WHERE m.NRO_DOC = ${id} 
     
     
     `
