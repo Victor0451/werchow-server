@@ -1021,5 +1021,93 @@ router.put("/updateestadoturno/:id", (req, res, next) => {
         });
 });
 
+router.put("/anularorden/:id", (req, res, next) => {
+
+    console.log(req.body.params)
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE USOS
+        SET 
+            ANULADO = 1
+        WHERE ORDEN = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/anularordenenfe/:id", (req, res, next) => {
+
+    console.log(req.body.params)
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE ENFERMER
+        SET 
+            ANULADO = 1
+        WHERE NRO_ORDEN = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/anularordenfarm/:id", (req, res, next) => {
+
+    console.log(req.body.params)
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE FARMACIA
+        SET 
+            ANULADO = 1
+        WHERE NRO_ORDEN = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+
+router.put("/anularordenpract/:id", (req, res, next) => {
+
+    console.log(req.body.params)
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE PRACTICA
+        SET 
+            ANULADO = 1
+        WHERE NRO_ORDEN = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
 
 module.exports = router;
