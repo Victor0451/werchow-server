@@ -154,6 +154,10 @@ app.use(
   "/api/clubwerchow/comercios",
   require("./routes/clubwerchow/comercios")
 );
+app.use(
+  "/api/clubwerchow/beneficios",
+  require("./routes/clubwerchow/beneficios")
+);
 
 // SEPELIO PAGINA
 app.use("/api/sepeliospag/grupos", require("./routes/sepeliopag/grupos"));

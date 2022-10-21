@@ -2,30 +2,45 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.clubWerchowSequelize.define(
-  "comercios",
+  "solicitud_sorteo",
   {
-    idcomercio: {
+    idsocio: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    comercio: {
+    apellido: {
       type: Sequelize.DataTypes.STRING,
     },
-    rubro: {
+    nombre: {
       type: Sequelize.DataTypes.STRING,
     },
-    direccion: {
+    dni: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+    mail: {
       type: Sequelize.DataTypes.STRING,
     },
-    beneficio: {
+    obra_soc: {
       type: Sequelize.DataTypes.STRING,
     },
-    estado: {
+    telefono: {
+      type: Sequelize.DataTypes.BIGINT,
+    },
+    socio: {
       type: Sequelize.DataTypes.TINYINT,
     },
-    descuento: {
-      type: Sequelize.DataTypes.INTEGER,
+    nosocio: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    referido: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    cargada: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
+    fecha_solicitud: {
+      type: Sequelize.DataTypes.DATE,
     },
   },
   {
@@ -33,6 +48,6 @@ module.exports = db.clubWerchowSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "comercios",
+    tableName: "solicitud_sorteo",
   }
 );

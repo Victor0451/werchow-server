@@ -215,6 +215,7 @@ router.get("/capitalaprest", (req, res) => {
         SELECT capital as 'value',
               capital as 'label' 
         FROM capital_prestamo
+        WHERE estado = 1
   `)
     .then((titular) => res.json(titular[0]))
     .catch((err) => res.json(err));

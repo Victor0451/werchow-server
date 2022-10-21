@@ -95,7 +95,7 @@ router.get("/traerdetallemedico/:id", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
-    SELECT COD_PRES, NOMBRE, DIRECCION, TELEFONOS, HORARIO1, HORARIO2, MAX_DESC, PRECIO_99, SUBSTR(LIS_ESPE,1,3) "SERVICIO"
+    SELECT COD_PRES, NOMBRE, DIRECCION, TELEFONOS, HORARIO1, HORARIO2, MAX_DESC, PRECIO_99, SUBSTR(LIS_ESPE,1,3) "SERVICIO", CON_PAGA
     FROM PRESTADO
     WHERE COD_PRES = '${req.params.id}'     
     
@@ -326,6 +326,40 @@ router.get("/traerpracticaspresador/:id", (req, res, next) => {
             SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
             FROM AUT_PRAC
             WHERE COD_PRES02 = '${req.params.id}'
+                
+             `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+
+    } else if (id === 'C_FCD') {
+        db.serviciosSequelize.query(
+            `
+            SELECT CODIGOS, DESCRIP, PRECIO_19 "IMPORTE", idpractica
+            FROM AUT_PRAC
+            WHERE COD_PRES19 = '${req.params.id}'
+                
+             `
+        )
+            .then(listado => {
+                res.status(200).json(listado[0]);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+
+
+    } else if (id === 'C_CIB') {
+        db.serviciosSequelize.query(
+            `
+            SELECT CODIGOS, DESCRIP, PRECIO_11 "IMPORTE", idpractica
+            FROM AUT_PRAC
+            WHERE COD_PRES11 = '${req.params.id}'
                 
              `
         )
@@ -625,15 +659,18 @@ router.get("/verificaruso/:id", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
-            SELECT 
-                *
-            FROM USOS
-            WHERE CONTRATO = '${req.params.id}'
-            AND SERVICIO = 'ORDE'
+        SELECT 
+            COUNT(CONTRATO) 'orde'
+        FROM USOS
+        WHERE CONTRATO = '${req.params.id}'
+        AND SERVICIO = 'ORDE'
+        AND YEAR(FECHA) = YEAR(CURDATE())
+        AND MONTH(FECHA) = MONTH(CURDATE())
+        AND ANULADO IS NULL
      `
     )
         .then(listado => {
-            res.status(200).json(listado[0]);
+            res.status(200).json(listado[0][0]);
         })
         .catch(err => {
             res.status(400).json(err);
@@ -656,7 +693,7 @@ router.get("/contarfisio/:id", (req, res, next) => {
                 END 'N'            
             
             FROM PRACTICA
-            WHERE CONTRATO = '${req.params.id}'
+            WHERE CONTRATO = ${req.params.id}
             AND PRAC_REA = 'FIS'
      `
     )
@@ -722,6 +759,23 @@ router.get("/traermedicos", (req, res, next) => {
 });
 
 
+router.get("/traermedicostodos", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+    SELECT COD_PRES, NOMBRE
+    FROM PRESTADO
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 router.get("/buscarturnos", (req, res, next) => {
 
     let medico = req.query.medico
@@ -735,6 +789,7 @@ router.get("/buscarturnos", (req, res, next) => {
     WHERE doctor = '${medico}'
     AND fecha = '${dia}'
     AND turno = '${turno}'
+    AND estado != 2
     
      `
     )
@@ -745,6 +800,187 @@ router.get("/buscarturnos", (req, res, next) => {
             res.status(400).json(err);
         });
 });
+
+router.get("/buscarordenes", (req, res, next) => {
+
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+
+
+    db.serviciosSequelize.query(
+        `
+    SELECT *
+    FROM USOS
+    WHERE FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/buscarordenesfa", (req, res, next) => {
+
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+
+
+    db.serviciosSequelize.query(
+        `
+    SELECT *
+    FROM USOSFA
+    WHERE FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/buscaconsultaspormedico", (req, res, next) => {
+
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+    let medico = req.query.medico
+
+
+    db.serviciosSequelize.query(
+        `
+    
+    SELECT
+        u.SUC,
+        u.FECHA,
+        u.SERVICIO,
+        u.ORDEN,
+        p.COD_PRES,
+        p.NOMBRE,
+        p.CON_PAGA 'VALOR',
+        u.IMPORTE 'COSEGURO',
+        (p.CON_PAGA - u.IMPORTE) 'WERCHOW'
+    FROM
+        PRESTADO AS p
+    INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
+    WHERE
+        u.FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+    AND u.ANULADO IS NULL
+    AND COD_PRES = '${medico}'     
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/buscaconsultaspormedicofa", (req, res, next) => {
+
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+    let medico = req.query.medico
+
+
+    db.serviciosSequelize.query(
+        `
+    
+    SELECT
+        u.SUC,
+        u.FECHA,
+        u.SERVICIO,
+        u.ORDEN,
+        p.COD_PRES,
+        p.NOMBRE,
+        p.CON_PAGA 'VALOR',
+        u.IMPORTE 'COSEGURO',
+        (p.CON_PAGA - u.IMPORTE) 'WERCHOW'
+    FROM
+        PRESTADO AS p
+    INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
+    WHERE
+        u.FECHA BETWEEN '${moment(desde).format('DD/MM/YYYY')}' AND '${moment(hasta).format('DD/MM/YYYY')}'
+    AND u.ANULADO in ('VERDADERO', '')    
+    AND COD_PRES = '${medico}'     
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+router.get("/buscausosporprestador", (req, res, next) => {
+
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+            u.SUC,
+            m.NOMBRE,
+            COUNT(u.CONTRATO) 'USOS',
+            ROUND(SUM(u.IMPORTE),2) 'IMPORTE'
+        FROM PRESTADO as m
+        INNER JOIN USOS as u on u.PRESTADO = m.COD_PRES
+        WHERE u.FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+        AND u.ANULADO IS NULL
+        GROUP BY u.SUC, m.NOMBRE 
+        ORDER BY m.NOMBRE
+        
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/buscausosporprestadorfa", (req, res, next) => {
+
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+            u.SUC,
+            m.NOMBRE,
+            COUNT(u.CONTRATO) 'USOS',
+            ROUND(SUM(u.IMPORTE),2) 'IMPORTE'
+        FROM PRESTADO as m
+        INNER JOIN USOSFA as u on u.PRESTADO = m.COD_PRES
+        WHERE u.FECHA BETWEEN '${moment(desde).format('DD/MM/YYYY')}' AND '${moment(hasta).format('DD/MM/YYYY')}'
+        AND u.ANULADO in ('VERDADERO', '')
+        GROUP BY u.SUC, m.NOMBRE
+        ORDER BY m.NOMBRE
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
 
 
 //INSERT 

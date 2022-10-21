@@ -21,4 +21,18 @@ router.get("/comercios", (req, res, next) => {
     });
 });
 
+router.get("/comercio/:id", (req, res, next) => {
+
+  comercios
+    .findOne({
+      where: { idcomercio: req.params.id }
+    })
+    .then((listado) => {
+      res.status(200).json(listado);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;

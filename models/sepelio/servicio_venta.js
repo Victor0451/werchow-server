@@ -16,6 +16,26 @@ module.exports = db.sepelioSequelize.define(
             type: Sequelize.DataTypes.FLOAT,
         },
 
+        monto_financiacion: {
+            type: Sequelize.DataTypes.FLOAT,
+        },
+
+        plan_cuota: {
+            type: Sequelize.DataTypes.INTEGER,
+        },
+
+        valor_cuota: {
+            type: Sequelize.DataTypes.FLOAT,
+        },
+
+        financiacion: {
+            type: Sequelize.DataTypes.TINYINT,
+        },
+
+        efectivo: {
+            type: Sequelize.DataTypes.FLOAT,
+        },
+
         comision: {
             type: Sequelize.DataTypes.FLOAT,
         },

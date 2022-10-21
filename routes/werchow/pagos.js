@@ -93,8 +93,6 @@ router.get("/traerdatosrecibo", (req, res, next) => {
   let contrato = req.query.contrato;
   let fecha = req.query.fecha;
 
-console.log(req.query)
-
   db.wSequelize.query(
     `
   SELECT m.CONTRATO, m.APELLIDOS, m.NOMBRES, m.NRO_DOC, p.SERIE, p.NRO_RECIBO, p.MES, p.ANO, p.IMPORTE

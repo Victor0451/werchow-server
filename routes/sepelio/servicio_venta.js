@@ -25,6 +25,22 @@ router.get("/cheqventa/:id", (req, res) => {
         .catch((err) => res.json(err));
 });
 
+
+router.get("/plancuotas", (req, res) => {
+    db.sgiSequelize.query(
+
+        `
+            SELECT *
+            FROM intereses_tarjetas
+            WHERE estado = 1
+
+        `
+
+    )
+        .then((titular) => res.json(titular))
+        .catch((err) => res.json(err));
+});
+
 router.get("/traerserviciosvendidos", (req, res) => {
     servicioVenta
         .findAll()

@@ -69,4 +69,30 @@ router.post("/registrarpersonal", (req, res, next) => {
     });
 });
 
+
+// VACACIONES--------------------------------------------
+
+router.get("/traervacaciones", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `
+      SELECT * FROM vacaciones
+    `
+    )
+    .then((ventas) => {
+      res.json({
+        msg: "Eventos Encontrados",
+        body: ventas
+      })
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
+
+// ------------------------------------------------------
+
 module.exports = router;

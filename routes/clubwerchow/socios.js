@@ -7,6 +7,7 @@ const db = require("../../db/database");
 const Op = Sequelize.Op;
 
 const socios = require("../../models/clubwerchow/socios");
+const soliSorteo = require("../../models/clubwerchow/solicitud_sorteo");
 const participantesorteo = require("../../models/clubwerchow/participantes_sorteo");
 const ganadores = require("../../models/clubwerchow/ganadores");
 
@@ -48,6 +49,43 @@ router.post("/nuevasol", (req, res, next) => {
     });
 });
 
+router.post("/solisorteo", (req, res, next) => {
+  const solicitud = ({ apellido, nombre, dni, telefono, mail, es } = req.body);
+
+  const data = {
+    fecha_solicitud: moment().format("YYYY-MM-DD"),
+    apellido: solicitud.apellido,
+    nombre: solicitud.nombre,
+    dni: solicitud.dni,
+    telefono: solicitud.telefono,
+    mail: solicitud.mail,
+    obra_soc: solicitud.obrasoc,
+    socio: 0,
+    nosocio: 0,
+    referido: 0,
+  };
+
+  if (solicitud.es === "1") {
+    data.socio = 1;
+  } else if (solicitud.es === "2") {
+    data.nosocio = 1;
+  } else if (solicitud.es === "3") {
+    data.referido = 1;
+  }
+
+  console.log("soli", solicitud);
+  console.log("data", data);
+
+  soliSorteo
+    .create(data)
+    .then((solicitud) => {
+      res.status(200).json(solicitud);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.put("/solcargada/:id", (req, res, next) => {
   let id = req.params.id;
 
@@ -64,6 +102,17 @@ router.put("/solcargada/:id", (req, res, next) => {
 
 router.get("/solicitudes", (req, res, next) => {
   socios
+    .findAll()
+    .then((solicitud) => {
+      res.status(200).json(solicitud);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.get("/solicitudessorteo", (req, res, next) => {
+  soliSorteo
     .findAll()
     .then((solicitud) => {
       res.status(200).json(solicitud);
