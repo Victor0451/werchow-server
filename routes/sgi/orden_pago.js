@@ -1,0 +1,322 @@
+const express = require("express");
+const router = express.Router();
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+const ordenesPago = require("../../models/sgi/ordenes_pago");
+const detalleOrdenPago = require("../../models/sgi/detalle_orden_pago");
+const db = require('../../db/database')
+
+
+
+router.get("/norden", (req, res) => {
+    db.sgiSequelize.query(
+
+        `
+        SELECT idorden
+        FROM ordenes_pago
+        ORDER BY idorden DESC
+        
+        `
+
+    )
+        .then((list) => res.json(list[0][0]))
+        .catch((err) => res.json(err));
+});
+
+
+router.get("/ordenesprestador/:id", (req, res) => {
+    db.serviciosSequelize.query(
+
+        `
+        SELECT
+            u.CONTRATO,
+            u.SUC,
+            u.FECHA,
+            u.SERVICIO,
+            u.ORDEN,
+            p.COD_PRES,
+            p.NOMBRE,
+            p.CON_PAGA 'VALOR',
+            u.IMPORTE 'COSEGURO',
+            (p.CON_PAGA - u.IMPORTE) 'WERCHOW'
+        FROM
+            PRESTADO AS p
+        INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
+        WHERE
+            u.CONTROL IS NULL
+        AND u.ANULADO IS NULL
+        AND u.SERVICIO = 'ORDE'
+        AND p.COD_PRES = '${req.params.id}'
+        
+        `
+
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/ordenesprestadorfa/:id", (req, res) => {
+    db.serviciosSequelize.query(
+
+        `
+        SELECT
+            u.CONTRATO,
+            u.SUC,
+            u.FECHA,
+            u.SERVICIO,
+            u.ORDEN,
+            p.COD_PRES,
+            p.NOMBRE,
+            p.CON_PAGA 'VALOR',
+            u.IMPORTE 'COSEGURO',
+            (p.CON_PAGA - u.IMPORTE) 'WERCHOW'
+        FROM
+            PRESTADO AS p
+        INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
+        WHERE
+            u.CONTROL IS NULL
+        AND u.ANULADO in ("FALSO", "")
+        AND u.SERVICIO = 'ORDE'
+        AND p.COD_PRES = '${req.params.id}'
+        
+        `
+
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/practicasprestador/:id", (req, res) => {
+    db.serviciosSequelize.query(
+
+        `
+        SELECT
+            u.CONTRATO,
+            u.SUC,
+            u.FECHA,
+            u.SERVICIO,
+            u.ORDEN,
+            p.COD_PRES,
+            p.NOMBRE,
+            p.CON_PAGA 'VALOR',
+            u.IMPORTE 'WERCHOW'            
+        FROM
+            PRESTADO AS p
+        INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
+        WHERE
+            u.CONTROL IS NULL
+        AND u.ANULADO IS NULL
+        AND u.SERVICIO NOT IN ("ORDE", "FARM" )
+        AND p.COD_PRES = '${req.params.id}'
+        
+        `
+
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/practicasprestadorfa/:id", (req, res) => {
+    db.serviciosSequelize.query(
+
+        `
+        SELECT
+            u.CONTRATO,
+            u.SUC,
+            u.FECHA,
+            u.SERVICIO,
+            u.ORDEN,
+            p.COD_PRES,
+            p.NOMBRE,
+            p.CON_PAGA 'VALOR',
+            u.IMPORTE 'WERCHOW'            
+        FROM
+            PRESTADO AS p
+        INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
+        WHERE
+            u.CONTROL IS NULL
+        AND u.ANULADO in ("FALSO", "")
+        AND u.SERVICIO NOT IN ("ORDE", "FARM" )
+        AND p.COD_PRES = '${req.params.id}'
+        
+        `
+
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/tipofacturas", (req, res) => {
+    db.sgiSequelize.query(
+
+        `
+        SELECT
+            tipo_factura 'label',
+            tipo_factura 'value'
+        FROM
+            tipo_facturas
+        WHERE estado = 1
+        `
+
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/sinautorizar", (req, res) => {
+
+    ordenesPago
+        .findAll(
+            { where: { autorizado: 0 } }
+        )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+
+router.get("/detalleorden", (req, res) => {
+
+    db.sgiSequelize.query(
+
+        `
+        SELECT *
+        FROM detalle_orden_pago
+        WHERE norden = '${req.query.id}'
+        
+        `
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/traerordenes", (req, res) => {
+
+    db.sgiSequelize.query(
+
+        `
+        SELECT *
+        FROM ordenes_pago        
+        
+        `
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.post("/nuevaorden", (req, res) => {
+    const orPag = {
+
+        fecha: fecha,
+        proveedor: proveedor,
+        nombre: nombre,
+        cuit_cuil: cuit_cuil,
+        total: total,
+        operador_carga: operador_carga,
+        norden: norden,
+        observacion: observacion,
+        autorizado: autorizado,
+        tipo_orden: tipo_orden,
+        nfactura: nfactura,
+        tipo_factura: tipo_factura,
+        fecha_pago: fecha_pago,
+
+
+    } = req.body
+
+    ordenesPago
+        .create(orPag)
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+router.post("/nuevodetalle", (req, res) => {
+
+    detOrdenPag = {
+
+        norden: norden,
+        nconsulta: nconsulta,
+        sucursal: sucursal,
+        prestador: prestador,
+        importe: importe,
+        operador_carga: operador_carga,
+        fecha: fecha,
+
+    } = req.body
+
+    detalleOrdenPago
+        .create(detOrdenPag)
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+
+router.put("/updatecheckusos/:id", (req, res) => {
+
+    let id = req.params.id;
+
+    db.serviciosSequelize.query(
+
+        `
+        UPDATE USOS
+        SET CONTROL = 1,
+            NORDEN = '${req.body.nor}',
+            FECHA_CONTROL= '${req.body.fec}'
+        WHERE ORDEN = '${id}'
+
+        `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+
+});
+
+router.put("/updatecheckusosfa/:id", (req, res) => {
+
+    let id = req.params.id;
+
+    db.serviciosSequelize.query(
+
+        `
+            UPDATE USOSFA
+            SET CONTROL = 1,
+                NORDEN = '${req.body.nor}',
+                FECHA_CONTROL= '${req.body.fec}'
+            WHERE ORDEN = '${id}'
+    
+            `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+
+router.put("/autorizar", (req, res) => {
+
+    db.sgiSequelize.query(
+
+        `
+            UPDATE ordenes_pago
+            SET autorizado = 1,
+                fecha_autorizacion = '${req.body.fec}',
+                operador_autorizacion = '${req.body.user}'
+            WHERE norden = '${req.body.orden}'
+    
+            `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+router.delete("/eliminar/:id", (req, res) => {
+    let id = req.params.id;
+
+    tabEf
+        .destroy({ where: { id: id } })
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+
+
+
+module.exports = router;

@@ -655,7 +655,7 @@ router.get("/traerordenesemitidas", (req, res, next) => {
 });
 
 
-router.get("/verificaruso/:id", (req, res, next) => {
+router.get("/verificarconsultas/:id", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
@@ -664,6 +664,29 @@ router.get("/verificaruso/:id", (req, res, next) => {
         FROM USOS
         WHERE CONTRATO = '${req.params.id}'
         AND SERVICIO = 'ORDE'
+        AND YEAR(FECHA) = YEAR(CURDATE())
+        AND MONTH(FECHA) = MONTH(CURDATE())
+        AND ANULADO IS NULL
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+router.get("/verificarpracticas/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+            COUNT(CONTRATO) 'orde'
+        FROM USOS
+        WHERE CONTRATO = '${req.params.id}'
+        AND SERVICIO = 'PBIO'
         AND YEAR(FECHA) = YEAR(CURDATE())
         AND MONTH(FECHA) = MONTH(CURDATE())
         AND ANULADO IS NULL
@@ -765,6 +788,7 @@ router.get("/traermedicostodos", (req, res, next) => {
         `
     SELECT COD_PRES, NOMBRE
     FROM PRESTADO
+    ORDER BY NOMBRE ASC
     
      `
     )

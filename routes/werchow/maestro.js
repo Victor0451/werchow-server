@@ -805,8 +805,10 @@ router.get("/adherente/:id", (req, res) => {
     m.NOMBRES, 
     m.ALTA, 
     m.VIGENCIA, 
-    m.NACIMIENTO 
-    FROM adherent as m    
+    m.NACIMIENTO,
+    m2.GRUPO 
+    FROM adherent as m  
+    INNER JOIN maestro as m2 on m.CONTRATO = m2.CONTRATO  
     WHERE m.NRO_DOC = ${id} 
     
     
@@ -834,8 +836,10 @@ router.get("/adherentem/:id", (req, res) => {
     m.NOMBRES, 
     m.ALTA, 
     m.VIGENCIA, 
-    m.NACIMIENTO 
+    m.NACIMIENTO,
+    m2.GRUPO 
     FROM mutual_adh as m    
+    INNER JOIN mutual as m2 on m.CONTRATO = m2.CONTRATO
     WHERE m.NRO_DOC = ${id} 
     
     

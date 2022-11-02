@@ -64,8 +64,8 @@ app.use("/api/sgi/historialacciones", require("./routes/sgi/historial_acciones")
 app.use("/api/sgi/servicios", require("./routes/sgi/servicios"));
 app.use("/api/sgi/mails", require("./routes/sgi/mails"));
 app.use("/api/sgi/novedades", require("./routes/sgi/novedades"));
-
-
+app.use("/api/sgi/tablero", require("./routes/sgi/tablero"));
+app.use("/api/sgi/ordenpago", require("./routes/sgi/orden_pago"));
 
 
 //SEPELIO
@@ -140,10 +140,11 @@ app.use(
   "/api/archivos/legajovirtualcajasucursales",
   require("./routes/archivos/LegajoVirtualCajasSucursales")
 );
-
 app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));
 app.use("/api/archivos/ventas", require("./routes/archivos/Ventas"));
 app.use("/api/archivos/mails", require("./routes/archivos/mails"));
+app.use("/api/archivos/legajovirtualordenes", require("./routes/archivos/LegajoVirtualOrdenPago"));
+
 
 
 
