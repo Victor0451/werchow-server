@@ -70,6 +70,10 @@ module.exports = db.sgiSequelize.define(
             type: Sequelize.DataTypes.DATE,
         },
 
+        pagado: {
+            type: Sequelize.DataTypes.TINYINT,
+        },
+
     },
 
     {

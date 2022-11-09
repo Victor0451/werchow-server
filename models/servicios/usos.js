@@ -94,6 +94,10 @@ module.exports = db.serviciosSequelize.define(
         FECHA_CIERRE: {
             type: Sequelize.DataTypes.DATE,
         },
+
+        NUSOS: {
+            type: Sequelize.DataTypes.INTEGER,
+        },
     },
 
     {

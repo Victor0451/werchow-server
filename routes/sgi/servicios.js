@@ -700,6 +700,28 @@ router.get("/verificarpracticas/:id", (req, res, next) => {
         });
 });
 
+router.get("/verificarusosenorden/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+            COUNT(CONTRATO) 'orde'
+        FROM USOS
+        WHERE CONTRATO = '${req.params.id}'
+        AND SERVICIO = 'PBIO'
+        AND YEAR(FECHA) = YEAR('${req.query.fecha}')
+        AND MONTH(FECHA) = MONTH('${req.query.fecha}')
+        AND ANULADO IS NULL
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 router.get("/contarfisio/:id", (req, res, next) => {
 
     db.serviciosSequelize.query(
@@ -1032,11 +1054,11 @@ router.post("/regusos", (req, res, next) => {
         OPERADOR,
         EMPRESA,
         RENDIDO,
-        ANULADO
+        ANULADO,
+        NUSOS
     } = req.body;
 
-    console.log(res.body)
-
+    
     usos
         .create(uso)
         .then(list => {

@@ -38,7 +38,8 @@ router.get("/ordenesprestador/:id", (req, res) => {
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
             u.IMPORTE 'COSEGURO',
-            (p.CON_PAGA - u.IMPORTE) 'WERCHOW'
+            (p.CON_PAGA - u.IMPORTE) 'WERCHOW'   ,
+            u.NUSOS          
         FROM
             PRESTADO AS p
         INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
@@ -99,7 +100,8 @@ router.get("/practicasprestador/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'WERCHOW'            
+            u.IMPORTE 'WERCHOW',
+            u.NUSOS            
         FROM
             PRESTADO AS p
         INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
@@ -195,7 +197,8 @@ router.get("/traerordenes", (req, res) => {
 
         `
         SELECT *
-        FROM ordenes_pago        
+        FROM ordenes_pago   
+        ORDER BY idorden DESC
         
         `
     )
@@ -219,6 +222,7 @@ router.post("/nuevaorden", (req, res) => {
         nfactura: nfactura,
         tipo_factura: tipo_factura,
         fecha_pago: fecha_pago,
+        pagado: pagado
 
 
     } = req.body
@@ -245,8 +249,15 @@ router.post("/nuevodetalle", (req, res) => {
 
     detalleOrdenPago
         .create(detOrdenPag)
-        .then((list) => res.json(list))
-        .catch((err) => res.json(err));
+        .then((list) => {
+            res.json(list)
+
+
+        })
+        .catch((err) => {
+            res.json(err)
+
+        });
 });
 
 
@@ -300,6 +311,21 @@ router.put("/autorizar", (req, res) => {
                 fecha_autorizacion = '${req.body.fec}',
                 operador_autorizacion = '${req.body.user}'
             WHERE norden = '${req.body.orden}'
+    
+            `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+router.put("/pagarorden/:id", (req, res) => {
+
+    db.sgiSequelize.query(
+
+        `
+            UPDATE ordenes_pago
+            SET pagado = 1                
+            WHERE idorden = ${req.params.id}
     
             `
     )

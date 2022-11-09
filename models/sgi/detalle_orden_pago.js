@@ -28,7 +28,7 @@ module.exports = db.sgiSequelize.define(
         },
 
         importe: {
-            type: Sequelize.DataTypes.FLOAT,
+            type: Sequelize.DataTypes.STRING,
         },
 
         fecha: {
