@@ -100,6 +100,7 @@ router.get("/practicasprestador/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
+            u.IMPORTE 'COSEGURO',
             u.IMPORTE 'WERCHOW',
             u.NUSOS            
         FROM
@@ -131,7 +132,8 @@ router.get("/practicasprestadorfa/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'WERCHOW'            
+            u.IMPORTE 'WERCHOW',
+            u.IMPORTE 'COSEGURO'         
         FROM
             PRESTADO AS p
         INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
@@ -193,18 +195,62 @@ router.get("/detalleorden", (req, res) => {
 
 router.get("/traerordenes", (req, res) => {
 
-    db.sgiSequelize.query(
+    let perfil = req.query.perfil
+    let user = req.query.user
 
-        `
+
+    if (perfil === "1" || perfil === "3") {
+        db.sgiSequelize.query(
+
+            `
         SELECT *
         FROM ordenes_pago   
         ORDER BY idorden DESC
-        
+
         `
+        )
+            .then((list) => res.json(list[0]))
+            .catch((err) => res.json(err));
+    } else {
+
+        db.sgiSequelize.query(
+
+            `
+        SELECT *
+        FROM ordenes_pago   
+        WHERE operador_carga = '${user}'
+        ORDER BY idorden DESC
+
+        `
+        )
+            .then((list) => res.json(list[0]))
+            .catch((err) => res.json(err));
+
+    }
+
+
+});
+
+
+
+router.get("/traerordenespendientes", (req, res) => {
+
+    db.sgiSequelize.query(
+
+        `
+    SELECT *
+    FROM ordenes_pago   
+    WHERE autorizado = 0
+    ORDER BY idorden DESC
+    
+    `
     )
         .then((list) => res.json(list[0]))
         .catch((err) => res.json(err));
-});
+
+})
+
+
 
 router.post("/nuevaorden", (req, res) => {
     const orPag = {

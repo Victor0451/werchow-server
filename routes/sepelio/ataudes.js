@@ -51,6 +51,26 @@ router.get("/traerfabricantes", (req, res, next) => {
     });
 });
 
+
+router.get("/traerprecios", (req, res, next) => {
+  db.sepelioSequelize
+    .query(
+      `
+      SELECT *
+      FROM ataud_precio
+      WHERE estado = 1
+
+    `
+    )
+    .then((ventas) => {
+      res.status(200).json(ventas[0]);
+    })
+
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 router.get("/cantidad", (req, res, next) => {
   let flag = req.query.flag;
   console.log(req.query.flag);

@@ -39,6 +39,19 @@ router.get("/listmsj/:id", (req, res, next) => {
 });
 
 
+router.get("/listmsjenv/:id", (req, res, next) => {
+  Mails.findAll({
+    where: { envia: req.params.id },
+    order: [["idmail", "DESC"]],
+  })
+    .then((noticias) => {
+      res.status(200).json(noticias);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 router.get("/listmsjsinleer/:id", (req, res, next) => {
   Mails.findAll({
     where: { recibe: req.params.id, leido: 0 },

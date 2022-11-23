@@ -21,11 +21,11 @@ router.post("/uploadadjunto/:id", upload.single("file"), (req, res) => {
 
   console.log(`Storage location is ${req.hostname}/${req.file.path}`);
 
-
   db.sgiSequelize.query(
     `
     INSERT INTO mails_adjuntos 
     SET adjunto = '${req.file.originalname}',
+    tipo= '${req.file.mimetype}',
     codmail = '${req.params.id}'
     
     `

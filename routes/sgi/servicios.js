@@ -95,7 +95,18 @@ router.get("/traerdetallemedico/:id", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
-    SELECT COD_PRES, NOMBRE, DIRECCION, TELEFONOS, HORARIO1, HORARIO2, MAX_DESC, PRECIO_99, SUBSTR(LIS_ESPE,1,3) "SERVICIO", CON_PAGA
+    SELECT 
+        COD_PRES, 
+        NOMBRE, 
+        DIRECCION, 
+        TELEFONOS, 
+        HORARIO1, 
+        HORARIO2, 
+        MAX_DESC, 
+        PRECIO_99, 
+        SUBSTR(LIS_ESPE,1,3) "SERVICIO", 
+        CON_PAGA,
+        LUGAR
     FROM PRESTADO
     WHERE COD_PRES = '${req.params.id}'     
     
@@ -170,208 +181,27 @@ router.get("/traerpracticas/:id", (req, res, next) => {
 
 
 router.get("/traerpracticaspresador/:id", (req, res, next) => {
-
     let id = req.params.id
+    let lugar = req.query.lugar
 
-    if (id === 'C_YEV') {
-        db.serviciosSequelize.query(
-            `
-        SELECT CODIGOS, DESCRIP, PRECIO_06 "IMPORTE", idpractica
-        FROM AUT_PRAC
-        WHERE COD_PRES06 = '${req.params.id}'
-            
-         `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-    } else if (id === 'C_PAR') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
+    db.serviciosSequelize.query(
+        `
+            SELECT CODIGOS, DESCRIP, PRECIO_${lugar} "IMPORTE", idpractica
             FROM AUT_PRAC
-            WHERE COD_PRES02 = '${req.params.id}'
+            WHERE COD_PRES${lugar} = '${id}'
                 
              `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-    } else if (id === 'C_BIO') {
-        db.serviciosSequelize.query(
-            `
-        SELECT CODIGOS, DESCRIP, PRECIO_13 "IMPORTE", idpractica
-        FROM AUT_PRAC
-        WHERE COD_PRES13 = '${req.params.id}'
-            
-         `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-    } else if (id === 'C_CVA') {
-        db.serviciosSequelize.query(
-            `
-        SELECT CODIGOS, DESCRIP, PRECIO_03 "IMPORTE", idpractica
-        FROM AUT_PRAC
-        WHERE COD_PRES03 = '${req.params.id}'
-            
-         `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-    } else if (id === 'C_TEM') {
-        db.serviciosSequelize.query(
-            `
-        SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
-        FROM AUT_PRAC
-        WHERE COD_PRES02 = '${req.params.id}'
-            
-         `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-    } else if (id === 'C_SOT') {
-        db.serviciosSequelize.query(
-            `
-        SELECT CODIGOS, DESCRIP, PRECIO_14 "IMPORTE", idpractica
-        FROM AUT_PRAC
-        WHERE COD_PRES14 = '${req.params.id}'
-            
-         `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-    } else if (id === 'C_KCA') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_17 "IMPORTE", idpractica
-            FROM AUT_PRAC
-            WHERE COD_PRES17 = '${req.params.id}'
-                
-             `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
 
 
-    } else if (id === 'C_MIN') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_01 "IMPORTE", idpractica
-            FROM AUT_PRAC
-            WHERE COD_PRES01 = '${req.params.id}'
-                
-             `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
 
 
-    } else if (id === 'C_OVI') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_04 "IMPORTE", idpractica
-            FROM AUT_PRAC
-            WHERE COD_PRES04 = '${req.params.id}'
-                
-             `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-
-    } else if (id === 'C_CAB') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_02 "IMPORTE", idpractica
-            FROM AUT_PRAC
-            WHERE COD_PRES02 = '${req.params.id}'
-                
-             `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-
-    } else if (id === 'C_FCD') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_19 "IMPORTE", idpractica
-            FROM AUT_PRAC
-            WHERE COD_PRES19 = '${req.params.id}'
-                
-             `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-
-    } else if (id === 'C_CIB') {
-        db.serviciosSequelize.query(
-            `
-            SELECT CODIGOS, DESCRIP, PRECIO_11 "IMPORTE", idpractica
-            FROM AUT_PRAC
-            WHERE COD_PRES11 = '${req.params.id}'
-                
-             `
-        )
-            .then(listado => {
-                res.status(200).json(listado[0]);
-            })
-            .catch(err => {
-                res.status(400).json(err);
-            });
-
-
-    }
 
 });
 
@@ -1058,7 +888,7 @@ router.post("/regusos", (req, res, next) => {
         NUSOS
     } = req.body;
 
-    
+
     usos
         .create(uso)
         .then(list => {
