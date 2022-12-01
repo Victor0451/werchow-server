@@ -37,8 +37,7 @@ router.get("/ordenesprestador/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'COSEGURO',
-            (p.CON_PAGA - u.IMPORTE) 'WERCHOW'   ,
+            u.IMPORTE 'IMPORTE',            
             u.NUSOS          
         FROM
             PRESTADO AS p
@@ -69,8 +68,8 @@ router.get("/ordenesprestadorfa/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'COSEGURO',
-            (p.CON_PAGA - u.IMPORTE) 'WERCHOW'
+            u.IMPORTE 'IMPORTE'
+            
         FROM
             PRESTADO AS p
         INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
@@ -100,8 +99,7 @@ router.get("/practicasprestador/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'COSEGURO',
-            u.IMPORTE 'WERCHOW',
+            u.IMPORTE 'IMPORTE',            
             u.NUSOS            
         FROM
             PRESTADO AS p
@@ -132,8 +130,7 @@ router.get("/practicasprestadorfa/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'WERCHOW',
-            u.IMPORTE 'COSEGURO'         
+            u.IMPORTE 'IMPORTE'                   
         FROM
             PRESTADO AS p
         INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
@@ -205,7 +202,10 @@ router.get("/traerordenes", (req, res) => {
             `
         SELECT *
         FROM ordenes_pago   
-        ORDER BY idorden DESC
+        ORDER BY 
+        fecha DESC,
+        pagado ASC
+
 
         `
         )
@@ -219,7 +219,7 @@ router.get("/traerordenes", (req, res) => {
         SELECT *
         FROM ordenes_pago   
         WHERE operador_carga = '${user}'
-        ORDER BY idorden DESC
+        ORDER BY pagado ASC
 
         `
         )

@@ -1,6 +1,8 @@
 const express = require("express");
+const moment = require("moment");
 const router = express.Router();
 const sequelize = require("sequelize");
+const db = require("../../db/database");
 const Op = sequelize.Op;
 const parcelas = require("../../models/sepelio/parcelas");
 const servicios = require("../../models/sepelio/servicios");
@@ -41,6 +43,23 @@ router.get("/parcelasocupadas", (req, res) => {
       where: { asignada: 1 },
     })
     .then((list) => res.json(list))
+    .catch((err) => res.json(err));
+});
+
+router.get("/parcelasocupadasrango", (req, res) => {
+
+  let desde = req.query.desde
+  let hasta = req.query.hasta
+
+  db.sepelioSequelize.query(
+    `
+    SELECT * 
+    FROM parcelas
+    WHERE fecha BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+
+    `
+  )
+    .then((list) => res.json(list[0]))
     .catch((err) => res.json(err));
 });
 

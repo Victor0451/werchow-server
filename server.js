@@ -66,6 +66,8 @@ app.use("/api/sgi/mails", require("./routes/sgi/mails"));
 app.use("/api/sgi/novedades", require("./routes/sgi/novedades"));
 app.use("/api/sgi/tablero", require("./routes/sgi/tablero"));
 app.use("/api/sgi/ordenpago", require("./routes/sgi/orden_pago"));
+app.use("/api/sgi/cajasucursales", require("./routes/sgi/cajas_sucursales"));
+
 
 
 //SEPELIO

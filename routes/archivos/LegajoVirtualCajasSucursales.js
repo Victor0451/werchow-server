@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const moment = require("moment");
-const cajaSucursales = require("../../models/sgi/caja_sucursales");
+const cajaSucursales = require("../../models/sgi/movimiento_caja_sucursales");
 const legajoCaja = require("../../models/sgi/legajovirtualcajas");
 
 const db = require("../../db/database");

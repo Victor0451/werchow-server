@@ -32,7 +32,10 @@ module.exports = db.sgiSequelize.define(
     },
     fecha_leido: {
       type: Sequelize.DataTypes.DATE,
-    }
+    },
+    url_caja: {
+      type: Sequelize.DataTypes.STRING,
+    },
   },
   {
     timestamps: false,

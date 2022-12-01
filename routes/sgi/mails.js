@@ -76,7 +76,8 @@ router.post("/nuevomail", (req, res, next) => {
     descrip,
     codmail,
     asunto,
-    leido
+    leido,
+    url_caja
   } = req.body
 
 

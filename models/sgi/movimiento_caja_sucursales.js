@@ -2,15 +2,23 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.sgiSequelize.define(
-  "caja_sucursales",
+  "movimiento_caja_sucursales",
   {
-    idcaja: {
+    idmovimiento: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
 
+    idcaja: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
+
     fecha_carga: {
+      type: Sequelize.DataTypes.DATE,
+    },
+
+    fecha_movimiento: {
       type: Sequelize.DataTypes.DATE,
     },
 
@@ -18,15 +26,15 @@ module.exports = db.sgiSequelize.define(
       type: Sequelize.DataTypes.STRING,
     },
 
-    ingresos: {
-      type: Sequelize.DataTypes.FLOAT,
+    concepto: {
+      type: Sequelize.DataTypes.STRING,
     },
 
-    egresos: {
-      type: Sequelize.DataTypes.FLOAT,
+    movimiento: {
+      type: Sequelize.DataTypes.STRING,
     },
 
-    saldo: {
+    importe: {
       type: Sequelize.DataTypes.FLOAT,
     },
 
@@ -41,6 +49,6 @@ module.exports = db.sgiSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "caja_sucursales",
+    tableName: "movimiento_caja_sucursales",
   }
 );
