@@ -40,6 +40,10 @@ module.exports = db.sgiSequelize.define(
 
     operador_carga: {
       type: Sequelize.DataTypes.STRING,
+    },
+
+    empresa: {
+      type: Sequelize.DataTypes.STRING,
     }
 
   },

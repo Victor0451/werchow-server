@@ -48,11 +48,53 @@ router.get("/traercajasmail/:id", (req, res) => {
     sgiSequelize.query(
         `
         SELECT 
-                CONCAT(idcaja, '-', fecha_carga) 'label',                
+                CONCAT(empresa, '-' , idcaja, '-', fecha_carga) 'label',                
                 CONCAT('/gestion/sucursales/caja/caja?id=',idcaja) 'value'
         FROM caja_sucursales
         WHERE operador_carga = '${req.params.id}'
         ORDER BY idcaja DESC
+        `
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/generaracumuladoI", (req, res) => {
+
+    let emp = req.query.emp
+    let suc = req.query.suc
+    let mes = req.query.mes
+    let ano = req.query.ano
+
+    sgiSequelize.query(
+        `
+        SELECT *               
+        FROM movimiento_caja_sucursales
+        WHERE empresa = '${emp}'
+        AND sucursal = '${suc}'
+        AND fecha_movimiento BETWEEN '${ano}-${mes}-01' AND '${ano}-${mes}-31'
+        AND movimiento = 'I'
+        `
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+});
+
+router.get("/generaracumuladoE", (req, res) => {
+
+    let emp = req.query.emp
+    let suc = req.query.suc
+    let mes = req.query.mes
+    let ano = req.query.ano
+
+    sgiSequelize.query(
+        `
+        SELECT *               
+        FROM movimiento_caja_sucursales
+        WHERE empresa = '${emp}'
+        AND sucursal = '${suc}'
+        AND fecha_movimiento BETWEEN '${ano}-${mes}-01' AND '${ano}-${mes}-31'
+        AND movimiento = 'E'
         `
     )
         .then((list) => res.json(list[0]))
@@ -67,6 +109,7 @@ router.post("/nuevacaja", (req, res) => {
         egresos: req.body.egresos,
         saldo: req.body.saldo,
         operador_carga: req.body.operador_carga,
+        empresa: req.body.empresa
     } = req.body
 
     caja
@@ -114,6 +157,7 @@ router.post("/nuevomov", (req, res) => {
         movimiento: req.body.movimiento,
         importe: req.body.importe,
         operador_carga: req.body.operador_carga,
+        empresa: req.body.empresa
     } = req.body
 
     movCaja
