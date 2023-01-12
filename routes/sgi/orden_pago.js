@@ -37,7 +37,8 @@ router.get("/ordenesprestador/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'IMPORTE',            
+            u.IMPORTE 'IMPORTE',
+            u.IMP_LIQ 'LIQUIDAR',            
             u.NUSOS          
         FROM
             PRESTADO AS p
@@ -68,7 +69,8 @@ router.get("/ordenesprestadorfa/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'IMPORTE'
+            u.IMPORTE 'IMPORTE',
+            u.IMP_LIQ 'LIQUIDAR'   
             
         FROM
             PRESTADO AS p
@@ -100,7 +102,8 @@ router.get("/practicasprestador/:id", (req, res) => {
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
             u.IMPORTE 'IMPORTE',            
-            u.NUSOS            
+            u.NUSOS,
+            u.IMP_LIQ 'LIQUIDAR'               
         FROM
             PRESTADO AS p
         INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
@@ -130,7 +133,8 @@ router.get("/practicasprestadorfa/:id", (req, res) => {
             p.COD_PRES,
             p.NOMBRE,
             p.CON_PAGA 'VALOR',
-            u.IMPORTE 'IMPORTE'                   
+            u.IMPORTE 'IMPORTE',
+            u.IMP_LIQ 'LIQUIDAR'                      
         FROM
             PRESTADO AS p
         INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
@@ -168,7 +172,7 @@ router.get("/sinautorizar", (req, res) => {
 
     ordenesPago
         .findAll(
-            { where: { autorizado: 0 } }
+            { where: { autorizado: 0, estado: 1 } }
         )
         .then((list) => res.json(list))
         .catch((err) => res.json(err));
@@ -189,6 +193,8 @@ router.get("/detalleorden", (req, res) => {
         .then((list) => res.json(list[0]))
         .catch((err) => res.json(err));
 });
+
+
 
 router.get("/traerordenes", (req, res) => {
 
@@ -268,7 +274,8 @@ router.post("/nuevaorden", (req, res) => {
         nfactura: nfactura,
         tipo_factura: tipo_factura,
         fecha_pago: fecha_pago,
-        pagado: pagado
+        pagado: pagado,
+        estado: estado
 
 
     } = req.body
@@ -347,6 +354,46 @@ router.put("/updatecheckusosfa/:id", (req, res) => {
 });
 
 
+router.put("/deschekusos/:id", (req, res) => {
+
+    let id = req.params.id;
+
+    db.serviciosSequelize.query(
+
+        `
+        UPDATE USOS
+        SET CONTROL = NULL,
+            NORDEN = NULL,
+            FECHA_CONTROL= NULL
+        WHERE ORDEN = '${id}'
+
+        `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+
+});
+
+router.put("/deschekusosfa/:id", (req, res) => {
+
+    let id = req.params.id;
+
+    db.serviciosSequelize.query(
+
+        `
+        UPDATE USOSFA
+        SET CONTROL = NULL,
+            NORDEN = NULL,
+            FECHA_CONTROL= NULL
+        WHERE ORDEN = '${id}'
+
+        `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+
+});
+
 router.put("/autorizar", (req, res) => {
 
     db.sgiSequelize.query(
@@ -371,6 +418,21 @@ router.put("/pagarorden/:id", (req, res) => {
         `
             UPDATE ordenes_pago
             SET pagado = 1                
+            WHERE idorden = ${req.params.id}
+    
+            `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+router.put("/anularorden/:id", (req, res) => {
+
+    db.sgiSequelize.query(
+
+        `
+            UPDATE ordenes_pago
+            SET estado = 0               
             WHERE idorden = ${req.params.id}
     
             `

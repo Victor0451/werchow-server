@@ -74,6 +74,9 @@ module.exports = db.sgiSequelize.define(
             type: Sequelize.DataTypes.TINYINT,
         },
 
+        estado: {
+            type: Sequelize.DataTypes.TINYINT,
+        },
     },
 
     {

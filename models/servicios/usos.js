@@ -66,6 +66,10 @@ module.exports = db.serviciosSequelize.define(
             type: Sequelize.DataTypes.FLOAT,
         },
 
+        IMP_LIQ: {
+            type: Sequelize.DataTypes.FLOAT,
+        },
+
         PUESTO: {
             type: Sequelize.DataTypes.INTEGER,
         },

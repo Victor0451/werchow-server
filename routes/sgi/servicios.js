@@ -10,6 +10,8 @@ const farmacia = require('../../models/servicios/farmacia')
 const enfermeria = require('../../models/servicios/enfermeria')
 const caja = require('../../models/servicios/caja')
 const medicosTurnos = require('../../models/servicios/medicos_turnos')
+const planesSocio = require('../../models/servicios/planes_socio')
+const planesVisita = require('../../models/servicios/planes_visita')
 
 
 
@@ -856,8 +858,108 @@ router.get("/buscausosporprestadorfa", (req, res, next) => {
         });
 });
 
+// PLANES ORTODONCIA
+
+router.get("/planesorto", (req, res, next) => {
 
 
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+           *
+        FROM planes_ortodoncia
+        WHERE estado = 1
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+router.get("/traerplanorto/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+           *
+        FROM planes_socio
+        WHERE idplansocio = ${req.params.id}
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/traerplansocio/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+           *
+        FROM planes_socio
+        WHERE contrato = ${req.params.id}
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/traerplandni/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+           *
+        FROM planes_socio
+        WHERE dni = ${req.params.id}
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/traerplanvisit/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+           *
+        FROM planes_visitas
+        WHERE idplan = ${req.params.id}
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
 //INSERT 
 
@@ -878,6 +980,7 @@ router.post("/regusos", (req, res, next) => {
         HORA,
         SERVICIO,
         IMPORTE,
+        IMP_LIQ,
         VALOR,
         PUESTO,
         PRESTADO,
@@ -1085,6 +1188,57 @@ router.post("/regturno", (req, res, next) => {
 
 });
 
+// PLANES ORTODONCIA
+
+router.post("/nuevoplanorto", (req, res, next) => {
+
+    let plan = {
+        contrato,
+        dni,
+        socio,
+        fecha,
+        total,
+        pagado,
+        saldo,
+        estado,
+        prestador,
+        prestador_nombre,
+        operador
+    } = req.body;
+
+
+    planesSocio.create(plan)
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+
+});
+
+router.post("/nuevoplanvisita", (req, res, next) => {
+
+    let visi = {
+        idplan,
+        nvisita,
+        pago,
+        fecha,
+        pagado,
+        operador
+    } = req.body;
+
+
+    planesVisita.create(visi)
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+
+});
+
 
 // UPDATE
 
@@ -1210,6 +1364,57 @@ router.put("/anularordenpract/:id", (req, res, next) => {
         SET 
             ANULADO = 1
         WHERE NRO_ORDEN = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+
+
+
+// PLAN ORTODONCIA
+
+router.put("/imppagovisit/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE planes_visitas
+        SET 
+            pagado = 1,
+            pago = ${req.body.pag}
+        WHERE idvisita = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+
+
+router.put("/actplan/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE planes_socio
+        SET 
+            pagado = pagado + ${req.body.pag},
+            saldo = saldo - ${req.body.pag}
+        WHERE idplansocio = '${req.params.id}'        
         
         `
     )
