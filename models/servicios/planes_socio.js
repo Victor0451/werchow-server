@@ -56,6 +56,10 @@ module.exports = db.serviciosSequelize.define(
             type: Sequelize.DataTypes.STRING,
         },
 
+        sucursal: {
+            type: Sequelize.DataTypes.STRING,
+        },
+
     },
 
     {

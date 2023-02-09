@@ -48,7 +48,7 @@ module.exports = db.serviciosSequelize.define(
         },
 
         OPERADOR: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.STRING,
 
         },
 
@@ -71,6 +71,11 @@ module.exports = db.serviciosSequelize.define(
 
         HABILITA: {
             type: Sequelize.DataTypes.INTEGER,
+        },
+
+        SUC: {
+            type: Sequelize.DataTypes.STRING,
+
         },
 
     },

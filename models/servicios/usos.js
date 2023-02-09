@@ -79,7 +79,7 @@ module.exports = db.serviciosSequelize.define(
         },
 
         OPERADOR: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.STRING,
 
         },
 

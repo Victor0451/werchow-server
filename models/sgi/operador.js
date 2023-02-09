@@ -33,15 +33,16 @@ module.exports = db.sgiSequelize.define(
     puestow: {
       type: Sequelize.DataTypes.INTEGER
     },
-    m: {
-      type: Sequelize.DataTypes.TINYINT
-    },
-    w: {
-      type: Sequelize.DataTypes.TINYINT
-    },
     codigo: {
       type: Sequelize.DataTypes.INTEGER
+    },
+    medicos: {
+      type: Sequelize.DataTypes.TINYINT
+    },
+    sucursal: {
+      type: Sequelize.DataTypes.STRING
     }
+
   },
   {
     timestamps: true,

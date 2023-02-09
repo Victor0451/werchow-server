@@ -59,7 +59,7 @@ router.get("/traermedporsuc", (req, res, next) => {
     FROM PRESTADO
     WHERE SUC = '${suc}' 
     AND SUBSTR(LIS_ESPE,1,3) = '${esp}'
-    AND DIRECCION LIKE '%OTERO%'
+    AND OTERO = 1
     
      `
     )
@@ -108,7 +108,9 @@ router.get("/traerdetallemedico/:id", (req, res, next) => {
         PRECIO_99, 
         SUBSTR(LIS_ESPE,1,3) "SERVICIO", 
         CON_PAGA,
-        LUGAR
+        LUGAR,
+        OTERO,
+        PROMO
     FROM PRESTADO
     WHERE COD_PRES = '${req.params.id}'     
     
@@ -272,12 +274,15 @@ router.get("/ordenessinrendir", (req, res, next) => {
     db.serviciosSequelize.query(
         `
     SELECT 
+        SUC,
         FECHA, 
         COUNT(ORDEN) "CANTIDAD"  
     FROM USOS
     WHERE RENDIDO = 0
     AND ANULADO IS NULL
-    GROUP BY FECHA
+    AND SUC = '${req.query.suc}'
+    AND OPERADOR = '${req.query.user}'
+    GROUP BY SUC, FECHA
     
         
      `
@@ -290,7 +295,7 @@ router.get("/ordenessinrendir", (req, res, next) => {
         });
 });
 
-router.get("/ordenespordia/:id", (req, res, next) => {
+router.get("/ordenespordia", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
@@ -300,8 +305,10 @@ router.get("/ordenespordia/:id", (req, res, next) => {
         SUM(IMPORTE)  "IMPORTE"
     FROM USOS
     WHERE RENDIDO = 0
-    AND FECHA = '${req.params.id}'
+    AND FECHA = '${req.query.fecha}'
     AND ANULADO IS NULL
+    AND SUC = '${req.query.suc}'
+    AND OPERADOR = '${req.query.user}'
     GROUP BY SERVICIO
     
         
@@ -423,14 +430,17 @@ router.get("/traeregresos/:id", (req, res, next) => {
         });
 });
 
-router.get("/chekcaja/:id", (req, res, next) => {
+router.get("/chekcaja", (req, res, next) => {
+
+    console.log(req.query)
 
     db.serviciosSequelize.query(
         `
             SELECT 
                 FECHA                
             FROM CAJA 
-            WHERE FECHA = '${req.params.id}'
+            WHERE FECHA = '${req.query.fecha}'
+            AND OPERADOR = '${req.query.user}'
             
      `
     )
@@ -961,6 +971,45 @@ router.get("/traerplanvisit/:id", (req, res, next) => {
         });
 });
 
+
+router.get("/traervisitas", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT
+            CONCAT(
+                'Socio: ',
+                ps.contrato,
+                '-',
+                ps.socio,
+                '.',
+                ' ',
+                'DR/A: ',
+                ps.prestador_nombre,
+                '.'
+            ) 'title',
+            1 'allDay',
+            pv.fecha 'start',
+            pv.fecha 'end',
+            pv.nvisita,
+            pv.pago
+        FROM
+            planes_visitas AS pv
+        INNER JOIN planes_socio AS ps ON ps.idplansocio = pv.idplan
+        
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
 //INSERT 
 
 router.post("/regusos", (req, res, next) => {
@@ -1018,6 +1067,7 @@ router.post("/regconsulta", (req, res, next) => {
         DIAGNOSTIC,
         ATENCION,
         NRO_DNI,
+        SUC
     } = req.body;
 
     consulta
@@ -1048,6 +1098,7 @@ router.post("/regpractica", (req, res, next) => {
         OPE_ANU,
         COD_PRAC,
         DESCRIP,
+        SUC
     } = req.body);
 
 
@@ -1079,6 +1130,7 @@ router.post("/regfarmacia", (req, res, next) => {
         CAN_MEDI,
         MATRICULA,
         HABILITA,
+        SUC
     } = req.body);
 
 
@@ -1108,6 +1160,7 @@ router.post("/regenfermeria", (req, res, next) => {
         OPERADOR,
         OPE_ANU,
         NRO_DNI,
+        SUC
 
     } = req.body
 

@@ -47,7 +47,7 @@ module.exports = db.serviciosSequelize.define(
 
 
         OPERADOR: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.STRING,
 
         },
 
@@ -66,6 +66,11 @@ module.exports = db.serviciosSequelize.define(
 
         NRO_DNI: {
             type: Sequelize.DataTypes.STRING,
+        },
+
+        SUC: {
+            type: Sequelize.DataTypes.STRING,
+
         },
     },
 

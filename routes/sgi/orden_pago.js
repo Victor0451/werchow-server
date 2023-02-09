@@ -110,7 +110,7 @@ router.get("/practicasprestador/:id", (req, res) => {
         WHERE
             u.CONTROL IS NULL
         AND u.ANULADO IS NULL
-        AND u.SERVICIO NOT IN ("ORDE", "FARM" )
+        AND u.SERVICIO NOT IN ("ORDE")
         AND p.COD_PRES = '${req.params.id}'
         
         `
@@ -141,7 +141,7 @@ router.get("/practicasprestadorfa/:id", (req, res) => {
         WHERE
             u.CONTROL IS NULL
         AND u.ANULADO in ("FALSO", "")
-        AND u.SERVICIO NOT IN ("ORDE", "FARM" )
+        AND u.SERVICIO NOT IN ("ORDE")
         AND p.COD_PRES = '${req.params.id}'
         
         `

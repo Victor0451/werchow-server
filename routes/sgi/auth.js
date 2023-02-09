@@ -56,6 +56,8 @@ router.post("/auth", (req, res, next) => {
                   puestow: user.puestow,
                   w: user.w,
                   codigo: user.codigo,
+                  medicos: user.medicos,
+                  sucursal: user.sucursal,
                   createdAt: user.createdAt,
                   updatedAt: user.updatedAt,
                 },
