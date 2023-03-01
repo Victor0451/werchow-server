@@ -213,7 +213,8 @@ router.get("/capitalaprest", (req, res) => {
   db.sgiSequelize.query(`
   
         SELECT capital as 'value',
-              capital as 'label' 
+              capital as 'label' ,
+              autorizacion
         FROM capital_prestamo
         WHERE estado = 1
   `)
@@ -237,6 +238,7 @@ router.post("/altaprestamo", (req, res, next) => {
     estado,
     codptmleg,
     ptm_afi,
+    capinoaut
   } = req.body;
 
   prestamos
@@ -255,6 +257,7 @@ router.post("/altaprestamo", (req, res, next) => {
       ptm_estado: estado,
       cod_ptm_leg: codptmleg,
       ptm_afi: ptm_afi,
+      capinoaut: capinoaut
     })
     .then((prestamo) => {
       res.status(200).json(prestamo);

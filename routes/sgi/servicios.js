@@ -250,7 +250,7 @@ router.get("/traerenfermeria/:id", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
-    SELECT p.practica, a.NOMBRE
+    SELECT p.practica, a.NOMBRE, e.IMPORTE
     FROM ENFERMER as e
     INNER JOIN PRESTADO as a on a.COD_PRES = e.DESTINO
     INNER JOIN PRACT_ENFER as p on p.idpractica = e.PRACTICA
@@ -653,6 +653,28 @@ router.get("/traermedicostodos", (req, res, next) => {
     SELECT COD_PRES, NOMBRE
     FROM PRESTADO
     ORDER BY NOMBRE ASC
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/arancelenfdomi/:id", (req, res, next) => {
+
+    db.wSequelize.query(
+        `
+        SELECT
+            CONTRATO
+        FROM
+            maestro
+        WHERE
+            CONTRATO = ${req.params.id}
+        AND BARRIO REGEXP '25 de mayo|San martin|Belgrano|guemes|san cayetano|9 de julio|santa barbara|san ignacio|loyola'
     
      `
     )

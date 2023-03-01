@@ -256,6 +256,41 @@ router.get("/traerordenespendientes", (req, res) => {
 
 })
 
+router.get("/traerresumenordenesautorizadas", (req, res) => {
+
+    let orden = req.query.orden
+    let desde = req.query.desde
+    let hasta = req.query.hasta
+    let autorizada = req.query.autorizada
+
+
+    db.sgiSequelize.query(
+
+        `
+        SELECT
+            proveedor,
+            nombre,
+            COUNT(idorden) 'cant',
+            fecha,
+            sum(total) 'total'
+        FROM
+            ordenes_pago
+        WHERE
+            autorizado = ${autorizada}
+        AND tipo_orden = '${orden}'
+        AND fecha BETWEEN '${desde}' AND '${hasta}'
+
+        GROUP BY
+            proveedor,
+            nombre,
+            fecha
+    
+    `
+    )
+        .then((list) => res.json(list[0]))
+        .catch((err) => res.json(err));
+
+})
 
 
 router.post("/nuevaorden", (req, res) => {

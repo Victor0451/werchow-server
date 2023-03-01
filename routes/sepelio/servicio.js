@@ -279,6 +279,7 @@ router.post("/nuevoservicio", (req, res) => {
     sucursal: sucursal,
     estado: estado,
     dni_nuevotitular: dni_nuevotitular,
+    domicilio_nuevotitular: domicilio_nuevotitular,
     operador: opreador,
     idataud: idataud,
     dni_solicitante: dni_solicitante,

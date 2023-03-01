@@ -52,6 +52,9 @@ module.exports = db.wSequelize.define(
     ptm_afi: {
       type: Sequelize.DataTypes.STRING,
     },
+    capinoaut: {
+      type: Sequelize.DataTypes.TINYINT,
+    },
   },
   {
     timestamps: false,

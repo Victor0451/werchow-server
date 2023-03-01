@@ -87,6 +87,9 @@ module.exports = db.sepelioSequelize.define(
     dni_solicitante: {
       type: Sequelize.DataTypes.INTEGER,
     },
+    domicilio_solicitante: {
+      type: Sequelize.DataTypes.STRING,
+    },
     cremacion: {
       type: Sequelize.DataTypes.TINYINT,
     },
