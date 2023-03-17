@@ -273,7 +273,8 @@ router.get("/titular/:id", (req, res) => {
     o.CODIGO "COD_OBRA", 
     m.ADHERENTES, 
     TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
-    m.SEXO
+    m.SEXO,
+    m.EMPRESA
 
     FROM maestro as m
     INNER JOIN cuo_fija as c on c.CONTRATO = m.CONTRATO
@@ -413,7 +414,8 @@ router.get("/titularm/:id", (req, res) => {
     o.CODIGO "COD_OBRA", 
     m.ADHERENTES, 
     TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
-    m.SEXO
+    m.SEXO,
+    m.EMPRESA
     FROM mutual as m
     INNER JOIN cuo_mutual as c on c.CONTRATO = m.CONTRATO
     INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
@@ -566,7 +568,8 @@ router.get("/titulardni/:id", (req, res) => {
       o.CODIGO "COD_OBRA", 
       m.ADHERENTES, 
       TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
-      m.SEXO      
+      m.SEXO,
+      m.EMPRESA  
       FROM maestro as m
       INNER JOIN cuo_fija as c on c.CONTRATO = m.CONTRATO
       INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
@@ -616,7 +619,8 @@ router.get("/titulardnim/:id", (req, res) => {
       o.CODIGO "COD_OBRA", 
       m.ADHERENTES, 
       TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
-      m.SEXO
+      m.SEXO,
+      m.EMPRESA
       FROM mutual as m
       INNER JOIN cuo_mutual as c on c.CONTRATO = m.CONTRATO
       INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
@@ -666,7 +670,8 @@ router.get("/titularapellido/:id", (req, res) => {
       o.CODIGO "COD_OBRA", 
       m.ADHERENTES, 
       TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
-      m.SEXO
+      m.SEXO,
+      m.EMPRESA
       FROM maestro as m
       INNER JOIN cuo_fija as c on c.CONTRATO = m.CONTRATO
       INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC
@@ -714,7 +719,8 @@ router.get("/titulardnim/:id", (req, res) => {
       o.CODIGO "COD_OBRA", 
       m.ADHERENTES, 
       TIMESTAMPDIFF(YEAR,m.NACIMIENTO,CURDATE()) "EDAD",  
-      m.SEXO
+      m.SEXO,
+      m.EMPRESA
       FROM mutual as m
       INNER JOIN cuo_fija as c on c.CONTRATO = m.CONTRATO
       INNER JOIN obra_soc as o on o.CODIGO = m.OBRA_SOC

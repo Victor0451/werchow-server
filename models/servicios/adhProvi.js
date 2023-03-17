@@ -2,66 +2,46 @@ const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
 module.exports = db.serviciosSequelize.define(
-    "planes_socio",
+    "adherent_provi",
     {
-        idplansocio: {
+        idadherent: {
             type: Sequelize.DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
 
-        contrato: {
+        CONTRATO: {
+            type: Sequelize.DataTypes.INTEGER,
+        },
+
+        NRO_DOC: {
             type: Sequelize.DataTypes.INTEGER,
         },
 
 
-        dni: {
+        PLAN: {
             type: Sequelize.DataTypes.STRING,
         },
 
-        socio: {
-            type: Sequelize.DataTypes.STRING,
-        },
-
-        fecha: {
+        NACIMIENTO: {
             type: Sequelize.DataTypes.DATE,
         },
 
 
-        total: {
-            type: Sequelize.DataTypes.FLOAT,
+        APELLIDOS: {
+            type: Sequelize.DataTypes.STRING,
         },
 
-        pagado: {
-            type: Sequelize.DataTypes.FLOAT,
+        NOMBRES: {
+            type: Sequelize.DataTypes.STRING,
         },
 
-        saldo: {
-            type: Sequelize.DataTypes.FLOAT,
+        EMPRESA: {
+            type: Sequelize.DataTypes.STRING,
         },
 
-        estado: {
+        ESTADO: {
             type: Sequelize.DataTypes.TINYINT,
-        },
-
-        prestador: {
-            type: Sequelize.DataTypes.STRING,
-        },
-
-        prestador_nombre: {
-            type: Sequelize.DataTypes.STRING,
-        },
-
-        operador: {
-            type: Sequelize.DataTypes.STRING,
-        },
-
-        sucursal: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        
-        plan: {
-            type: Sequelize.DataTypes.STRING,
         },
 
     },
@@ -71,6 +51,6 @@ module.exports = db.serviciosSequelize.define(
         freezeTableName: true,
     },
     {
-        tableName: "planes_socio",
+        tableName: "adherent_provi",
     }
 );

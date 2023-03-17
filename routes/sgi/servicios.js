@@ -12,6 +12,7 @@ const caja = require('../../models/servicios/caja')
 const medicosTurnos = require('../../models/servicios/medicos_turnos')
 const planesSocio = require('../../models/servicios/planes_socio')
 const planesVisita = require('../../models/servicios/planes_visita')
+const adhProvi = require('../../models/servicios/adhProvi')
 
 
 
@@ -496,6 +497,33 @@ router.get("/traerordenesemitidas", (req, res, next) => {
         });
 });
 
+router.get("/traerordenesemitidasusuario/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+            SELECT 
+                iduso,
+                FECHA, 
+                ORDEN, 
+                CONTRATO,
+                NRO_DOC,
+                SERVICIO,
+                IMPORTE
+            FROM USOS
+            WHERE ANULADO IS NULL
+            AND OPERADOR = '${req.params.id}'
+            ORDER BY FECHA DESC
+
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 
 router.get("/verificarconsultas/:id", (req, res, next) => {
 
@@ -633,7 +661,7 @@ router.get("/traermedicos", (req, res, next) => {
         `
     SELECT COD_PRES, NOMBRE
     FROM PRESTADO
-    WHERE DIRECCION LIKE '%OTERO%'
+    WHERE OTERO = 1
     
      `
     )
@@ -711,6 +739,26 @@ router.get("/buscarturnos", (req, res, next) => {
         });
 });
 
+router.get("/turnosdeldia", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+    SELECT *
+    FROM MEDICOS_TURNOS
+    WHERE fecha = '${moment().format('YYYY-MM-DD')}'
+    AND estado != 2
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 router.get("/buscarordenes", (req, res, next) => {
 
     let desde = req.query.desde
@@ -719,8 +767,39 @@ router.get("/buscarordenes", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
-    SELECT *
-    FROM USOS
+    SELECT 
+    (
+        CASE
+        WHEN u.SUC = 'W'
+        THEN 'CASA CENTRAL'
+
+        WHEN u.SUC = 'O'
+        THEN 'OTERO'
+
+        WHEN u.SUC = 'L'
+        THEN 'PALPALA'
+
+        WHEN u.SUC = 'R'
+        THEN 'PERICO'
+
+        WHEN u.SUC = 'C'
+        THEN 'EL CARMEN'
+
+        WHEN u.SUC = 'P'
+        THEN 'SAN PEDRO'
+
+        END
+
+    ) SUC,
+    u.FECHA,
+    u.HORA,
+    u.ORDEN,
+    u.SERVICIO,
+    u.CONTRATO,
+    u.NRO_DOC,
+    u.PLAN,
+    u.IMPORTE
+    FROM USOS as u
     WHERE FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
     
      `
@@ -741,9 +820,40 @@ router.get("/buscarordenesfa", (req, res, next) => {
 
     db.serviciosSequelize.query(
         `
-    SELECT *
-    FROM USOSFA
-    WHERE FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+    SELECT     
+    (
+        CASE
+        WHEN u.SUC = 'W'
+        THEN 'CASA CENTRAL'
+
+        WHEN u.SUC = 'O'
+        THEN 'OTERO'
+
+        WHEN u.SUC = 'L'
+        THEN 'PALPALA'
+
+        WHEN u.SUC = 'R'
+        THEN 'PERICO'
+
+        WHEN u.SUC = 'C'
+        THEN 'EL CARMEN'
+
+        WHEN u.SUC = 'P'
+        THEN 'SAN PEDRO'
+
+        END
+
+    ) SUC,
+    u.FECHA,
+    u.HORA,
+    u.ORDEN,
+    u.SERVICIO,
+    u.CONTRATO,
+    u.NRO_DOC,
+    u.PLAN,
+    u.IMPORTE
+    FROM USOSFA as u 
+    WHERE FECHA BETWEEN '${moment(desde).format('DD/MM/YYYY')}' AND '${moment(hasta).format('DD/MM/YYYY')}'
     
      `
     )
@@ -766,7 +876,29 @@ router.get("/buscaconsultaspormedico", (req, res, next) => {
         `
     
     SELECT
-        u.SUC,
+        (
+            CASE
+            WHEN u.SUC = 'W'
+            THEN 'CASA CENTRAL'
+
+            WHEN u.SUC = 'O'
+            THEN 'OTERO'
+
+            WHEN u.SUC = 'L'
+            THEN 'PALPALA'
+
+            WHEN u.SUC = 'R'
+            THEN 'PERICO'
+
+            WHEN u.SUC = 'C'
+            THEN 'EL CARMEN'
+
+            WHEN u.SUC = 'P'
+            THEN 'SAN PEDRO'
+
+            END
+
+        ) SUC,
         u.FECHA,
         u.SERVICIO,
         u.ORDEN,
@@ -804,7 +936,29 @@ router.get("/buscaconsultaspormedicofa", (req, res, next) => {
         `
     
     SELECT
-        u.SUC,
+        (
+            CASE
+            WHEN u.SUC = 'W'
+            THEN 'CASA CENTRAL'
+
+            WHEN u.SUC = 'O'
+            THEN 'OTERO'
+
+            WHEN u.SUC = 'L'
+            THEN 'PALPALA'
+
+            WHEN u.SUC = 'R'
+            THEN 'PERICO'
+
+            WHEN u.SUC = 'C'
+            THEN 'EL CARMEN'
+
+            WHEN u.SUC = 'P'
+            THEN 'SAN PEDRO'
+
+            END
+
+        ) SUC,
         u.FECHA,
         u.SERVICIO,
         u.ORDEN,
@@ -836,21 +990,64 @@ router.get("/buscausosporprestador", (req, res, next) => {
 
     let desde = req.query.desde
     let hasta = req.query.hasta
+    let servicio = req.query.servicio
 
     db.serviciosSequelize.query(
         `
-        SELECT 
-            u.SUC,
-            m.NOMBRE,
-            COUNT(u.CONTRATO) 'USOS',
-            ROUND(SUM(u.IMPORTE),2) 'IMPORTE'
-        FROM PRESTADO as m
-        INNER JOIN USOS as u on u.PRESTADO = m.COD_PRES
-        WHERE u.FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}' AND '${moment(hasta).format('YYYY-MM-DD')}'
+        SELECT
+            (
+                CASE
+                WHEN u.SUC = 'W'
+                THEN 'CASA CENTRAL'
+
+                WHEN u.SUC = 'O'
+                THEN 'OTERO'
+
+                WHEN u.SUC = 'L'
+                THEN 'PALPALA'
+
+                WHEN u.SUC = 'R'
+                THEN 'PERICO'
+
+                WHEN u.SUC = 'C'
+                THEN 'EL CARMEN'
+
+                WHEN u.SUC = 'P'
+                THEN 'SAN PEDRO'
+
+                END
+
+            ) SUC,
+            p.NOMBRE,
+            (
+                CASE
+                WHEN p.PROMO = 1 THEN
+                    "SI"
+                WHEN p.PROMO = 0 THEN
+                    "NO"
+                END
+            ) 'PROMO',
+            COUNT(u.iduso) 'USOS',
+            SUM(u.IMPORTE) 'TOTAL',
+            ROUND(
+                (
+                    SUM(u.IMPORTE) / COUNT(u.iduso)
+                ),
+                2
+                ) 'VALPROM'
+        FROM
+            PRESTADO AS p
+        INNER JOIN USOS AS u ON u.PRESTADO = p.COD_PRES
+        WHERE
+            u.FECHA BETWEEN '${moment(desde).format('YYYY-MM-DD')}'
+        AND '${moment(hasta).format('YYYY-MM-DD')}'
         AND u.ANULADO IS NULL
-        GROUP BY u.SUC, m.NOMBRE 
-        ORDER BY m.NOMBRE
-        
+        AND u.SERVICIO like '%${servicio}%'
+        GROUP BY
+            u.SUC,
+            p.NOMBRE,
+            p.PROMO
+                
      `
     )
         .then(listado => {
@@ -865,20 +1062,62 @@ router.get("/buscausosporprestadorfa", (req, res, next) => {
 
     let desde = req.query.desde
     let hasta = req.query.hasta
+    let servicio = req.query.servicio
 
     db.serviciosSequelize.query(
         `
-        SELECT 
-            u.SUC,
-            m.NOMBRE,
-            COUNT(u.CONTRATO) 'USOS',
-            ROUND(SUM(u.IMPORTE),2) 'IMPORTE'
-        FROM PRESTADO as m
-        INNER JOIN USOSFA as u on u.PRESTADO = m.COD_PRES
-        WHERE u.FECHA BETWEEN '${moment(desde).format('DD/MM/YYYY')}' AND '${moment(hasta).format('DD/MM/YYYY')}'
-        AND u.ANULADO in ('VERDADERO', '')
-        GROUP BY u.SUC, m.NOMBRE
-        ORDER BY m.NOMBRE
+      SELECT
+        (
+            CASE
+            WHEN u.SUC = 'W'
+            THEN 'CASA CENTRAL'
+
+            WHEN u.SUC = 'O'
+            THEN 'OTERO'
+
+            WHEN u.SUC = 'L'
+            THEN 'PALPALA'
+
+            WHEN u.SUC = 'R'
+            THEN 'PERICO'
+
+            WHEN u.SUC = 'C'
+            THEN 'EL CARMEN'
+
+            WHEN u.SUC = 'P'
+            THEN 'SAN PEDRO'
+
+            END
+
+        ) SUC,
+        p.NOMBRE,
+        (
+            CASE
+            WHEN p.PROMO = 1 THEN
+                "SI"
+            WHEN p.PROMO = 0 THEN
+                "NO"
+            END
+        ) 'PROMO',
+        COUNT(u.iduso) 'USOS',
+        SUM(u.IMPORTE) 'TOTAL',
+        ROUND(
+            (
+                SUM(u.IMPORTE) / COUNT(u.iduso)
+            ),
+            2
+        ) 'VALPROM'
+    FROM
+        PRESTADO AS p
+    INNER JOIN USOSFA AS u ON u.PRESTADO = p.COD_PRES
+    WHERE
+    u.FECHA BETWEEN '${moment(desde).format('DD/MM/YYYY')}' AND '${moment(hasta).format('DD/MM/YYYY')}'
+    AND u.ANULADO not in ('VERDADERO', '')
+    AND u.SERVICIO like '%${servicio}%'
+    GROUP BY
+        u.SUC,
+        p.NOMBRE,
+        p.PROMO
     
      `
     )
@@ -890,6 +1129,72 @@ router.get("/buscausosporprestadorfa", (req, res, next) => {
         });
 });
 
+
+router.get("/buscarordenotero/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+    SELECT
+        SUC,
+        FECHA,
+        ORDEN,
+        CONTRATO,
+        NRO_DOC,
+        PRESTADO,
+        SERVICIO,
+        IMP_LIQ,
+        ANULADO,
+        CONTROL,
+        NORDEN,
+        FECHA_CONTROL
+    FROM
+        USOS
+    WHERE
+        ORDEN = '${req.params.id}'
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/buscarordenfabian/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+    SELECT
+        SUC,
+        FECHA,
+        ORDEN,
+        CONTRATO,
+        NRO_DOC,
+        PRESTADO,
+        SERVICIO,
+        IMP_LIQ,
+        ANULADO,
+        CONTROL,
+        NORDEN,
+        FECHA_CONTROL
+    FROM
+        USOSFA
+    WHERE
+        ORDEN = '${req.params.id}'
+    
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
 // PLANES ORTODONCIA
 
 router.get("/planesorto", (req, res, next) => {
@@ -899,8 +1204,9 @@ router.get("/planesorto", (req, res, next) => {
         `
         SELECT 
            *
-        FROM planes_ortodoncia
-        WHERE estado = 1
+        FROM planes_odontologicos        
+        WHERE estado = 1 
+        AND plan = 'ORTO'
             
      `
     )
@@ -912,6 +1218,26 @@ router.get("/planesorto", (req, res, next) => {
         });
 });
 
+router.get("/planesimp", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT 
+           *
+        FROM planes_odontologicos        
+        WHERE estado = 1 
+        AND plan = 'IMP'
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0][0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
 router.get("/traerplanorto/:id", (req, res, next) => {
 
@@ -1023,6 +1349,91 @@ router.get("/traervisitas", (req, res, next) => {
             
      `
     )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+// ADH PROVI
+
+router.get("/traeradhprovi/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+        SELECT
+            CONTRATO,
+            APELLIDOS,
+            NOMBRES,
+            NRO_DOC,
+            'P' as 'perfil',
+            TIMESTAMPDIFF(YEAR,NACIMIENTO,CURDATE()) "EDAD"
+        FROM
+            adherent_provi
+        WHERE CONTRATO = ${req.params.id}    
+        AND ESTADO = 1
+        
+        
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/traeradhprovidni/:id", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+        `
+        SELECT
+            CONTRATO,
+            APELLIDOS,
+            NOMBRES,
+            NRO_DOC,
+            'P' as 'perfil',
+            TIMESTAMPDIFF(YEAR,NACIMIENTO,CURDATE()) "EDAD"
+        FROM
+            adherent_provi
+        WHERE NRO_DOC = ${req.params.id}    
+        AND ESTADO = 1
+               
+            
+     `
+    )
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+
+// AUDITORIA
+
+router.get("/ordenessinpuntearotero", (req, res, next) => {
+
+
+    db.serviciosSequelize.query('SELECT * FROM `werchow-sgi`.detalle_orden_pago as d INNER JOIN USOS as u on u.ORDEN = d.nconsulta WHERE u.CONTROL is NULL')
+        .then(listado => {
+            res.status(200).json(listado[0]);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/ordenessinpuntearfabian", (req, res, next) => {
+
+    db.serviciosSequelize.query('SELECT * FROM `werchow-sgi`.detalle_orden_pago as d INNER JOIN USOSFA as u on u.ORDEN = d.nconsulta WHERE u.CONTROL is NULL')
         .then(listado => {
             res.status(200).json(listado[0]);
         })
@@ -1267,7 +1678,7 @@ router.post("/regturno", (req, res, next) => {
 
 router.post("/nuevoplanorto", (req, res, next) => {
 
-    let plan = {
+    let planO = {
         contrato,
         dni,
         socio,
@@ -1278,11 +1689,12 @@ router.post("/nuevoplanorto", (req, res, next) => {
         estado,
         prestador,
         prestador_nombre,
-        operador
+        operador,
+        plan
     } = req.body;
 
 
-    planesSocio.create(plan)
+    planesSocio.create(planO)
         .then(list => {
             res.status(200).json(list);
         })
@@ -1300,7 +1712,8 @@ router.post("/nuevoplanvisita", (req, res, next) => {
         pago,
         fecha,
         pagado,
-        operador
+        operador,
+        plan
     } = req.body;
 
 
@@ -1315,6 +1728,31 @@ router.post("/nuevoplanvisita", (req, res, next) => {
 });
 
 
+// ADH PROVI
+
+router.post("/regadhprovi", (req, res, next) => {
+    const adh = {
+        CONTRATO,
+        NRO_DOC,
+        PLAN,
+        APELLIDOS,
+        NOMBRES,
+        NACIMIENTO,
+        EMPRESA,
+        ESTADO
+    } = req.body
+
+
+    adhProvi.create(adh)
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+
+});
+
 // UPDATE
 
 router.put("/updaterendido/:id", (req, res, next) => {
@@ -1326,6 +1764,49 @@ router.put("/updaterendido/:id", (req, res, next) => {
             RENDIDO = 1,
             FECHA_CIERRE = '${moment().format('YYYY-MM-DD')}'
         WHERE FECHA = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+
+router.put("/aprobarordenotero/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE 
+            USOS
+        SET 
+            ANULADO = NULL
+        WHERE ORDEN = '${req.params.id}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/aprobarordenfabian/:id", (req, res, next) => {
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE 
+            USOSFA
+        SET 
+            ANULADO = 'FALSO'
+        WHERE ORDEN = '${req.params.id}'        
         
         `
     )
@@ -1451,8 +1932,55 @@ router.put("/anularordenpract/:id", (req, res, next) => {
         });
 });
 
+router.put("/cambiarimporteordenotero", (req, res, next) => {
 
+    let datos = {
+        imp: imp,
+        orden: orden
+    } = req.body
 
+    db.serviciosSequelize.query(
+        `
+        UPDATE USOS
+        SET 
+            IMP_LIQ = ${datos.imp}
+        WHERE ORDEN = '${datos.orden}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/cambiarimporteordenfabian", (req, res, next) => {
+
+    let datos = {
+        imp: imp,
+        orden: orden
+    } = req.body
+
+    db.serviciosSequelize.query(
+        `
+        UPDATE USOSFA
+        SET 
+            IMP_LIQ = ${datos.imp}
+        WHERE ORDEN = '${datos.orden}'        
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
 
 // PLAN ORTODONCIA
 
@@ -1501,5 +2029,131 @@ router.put("/actplan/:id", (req, res, next) => {
             console.log(err)
         });
 });
+
+// AUDITORIA
+
+router.put("/repunteootero", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+
+        'UPDATE USOS AS u INNER JOIN `werchow-sgi`.detalle_orden_pago AS d ON u.ORDEN = d.nconsulta INNER JOIN `werchow-sgi`.ordenes_pago as o on o.norden = d.norden SET u.CONTROL = 1, u.NORDEN = d.norden,  u.FECHA_CONTROL = d.fecha WHERE o.estado = 1      '
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/repunteofabian", (req, res, next) => {
+
+
+    db.serviciosSequelize.query(
+
+        'UPDATE USOSFA AS u INNER JOIN `werchow-sgi`.detalle_orden_pago AS d ON u.ORDEN = d.nconsulta INNER JOIN `werchow-sgi`.ordenes_pago as o on o.norden = d.norden SET u.CONTROL = 1, u.NORDEN = d.norden,  u.FECHA_CONTROL = d.fecha WHERE o.estado = 1      '
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/modificarimporteordenesot", (req, res, next) => {
+
+    let datos = {
+        imp: imp,
+        orde: orden
+    } = req.body
+
+    console.log(req.body)
+
+    db.serviciosSequelize.query(
+
+        'UPDATE `werchow-sgi`.detalle_orden_pago AS d INNER JOIN USOS AS u ON u.ORDEN = d.nconsulta SET d.importe = :importe WHERE d.norden = :orde AND u.SERVICIO = "ORDE"',
+
+        {
+            replacements: {
+                importe: datos.imp,
+                orde: datos.orden
+            },
+
+        }
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+router.put("/modificarimporteordenesfa", (req, res, next) => {
+
+    let datos = {
+        imp: imp,
+        orde: orden
+    } = req.body
+
+    console.log(req.body)
+
+    db.serviciosSequelize.query(
+
+        'UPDATE `werchow-sgi`.detalle_orden_pago AS d INNER JOIN USOSFA AS u ON u.ORDEN = d.nconsulta SET d.importe = :importe WHERE d.norden = :orde AND u.SERVICIO = "ORDE"',
+
+        {
+            replacements: {
+                importe: datos.imp,
+                orde: datos.orden
+            },
+
+        }
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+
+    router.put("/modificarimporteordenpago", (req, res, next) => {
+
+        let datos = {
+            total: total,
+            orden: orden
+        } = req.body
+
+
+        db.serviciosSequelize.query(
+
+            'UPDATE `werchow-sgi`.ordenes_pago SET total = :total WHERE norden = :orden',
+
+            {
+                replacements: {
+                    total: datos.total,
+                    orden: datos.orden
+                },
+
+            }
+        )
+
+            .then(list => {
+                res.status(200).json(list);
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    });
+
+
+});
+
 
 module.exports = router;

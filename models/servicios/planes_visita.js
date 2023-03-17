@@ -34,6 +34,10 @@ module.exports = db.serviciosSequelize.define(
         operador: {
             type: Sequelize.DataTypes.STRING,
         },
+
+        plan: {
+            type: Sequelize.DataTypes.STRING,
+        },
     },
 
     {
