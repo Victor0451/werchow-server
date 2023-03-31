@@ -476,6 +476,53 @@ router.put("/anularorden/:id", (req, res) => {
         .catch((err) => res.json(err));
 });
 
+router.put("/impliqorden", (req, res) => {
+
+    db.serviciosSequelize.query(
+
+        `
+            UPDATE USOSFA AS u
+            INNER JOIN PRESTADO AS p ON p.COD_PRES = u.PRESTADO
+            SET u.IMP_LIQ = p.CON_PAGA
+            WHERE u.SERVICIO = 'ORDE'
+    
+            `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+
+router.put("/impliqprac", (req, res) => {
+
+    db.serviciosSequelize.query(
+
+        `
+            UPDATE USOSFA AS u
+            SET u.IMP_LIQ = u.IMPORTE
+            WHERE u.SERVICIO NOT IN ('ORDE', 'FARM') 
+    
+            `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
+router.put("/impliqsinval", (req, res) => {
+
+    db.serviciosSequelize.query(
+
+        `
+            UPDATE USOSFA AS u
+            SET u.IMP_LIQ = 0
+            WHERE u.IMP_LIQ IS NULL            
+            OR u.IMP_LIQ = ''
+        `
+    )
+        .then((list) => res.json(list))
+        .catch((err) => res.json(err));
+});
+
 router.delete("/eliminar/:id", (req, res) => {
     let id = req.params.id;
 

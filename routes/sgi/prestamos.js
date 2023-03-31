@@ -8,13 +8,15 @@ const Op = Sequelize.Op;
 
 const maestro = require("../../models/werchow/maestro");
 const prestamos = require("../../models/sgi/prestamos");
+const prestamosEmpleados = require("../../models/sgi/prestamos_empleados");
+const prestamosEmpleadosCobro = require("../../models/sgi/prestamos_empleados_cobro");
 const historialAprobacion = require("../../models/sgi/historial_aprobacion_prestamos");
 
 //GET BY ID
 
 router.get("/consultarficha/:id", (req, res) => {
   let id = req.params.id;
-  console.log(id);
+
   maestro
     .findOne({
       attributes: [
@@ -157,8 +159,6 @@ router.get("/prestamosporestado", (req, res) => {
 router.get("/prestamosporcodigo", (req, res) => {
   let id = req.query.id;
 
-  console.log(id);
-
   let desde = moment().startOf("month").format("YYYY-MM-DD");
   let hasta = moment().endOf("month").format("YYYY-MM-DD");
 
@@ -207,6 +207,37 @@ router.get("/prestamosporid/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+
+router.get("/prestamosempleadosporid/:id", (req, res) => {
+  let id = req.params.id;
+
+  prestamosEmpleados
+    .findOne({
+      where: {
+        idprestamo: id,
+      },
+    })
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+
+router.get("/traerempleado/:id", (req, res) => {
+  let id = req.params.id;
+
+  db.sgiSequelize.query(
+
+    `
+    SELECT *
+    FROM operador
+    WHERE usuario = '${id}'
+
+    `
+  )
+    .then((titular) => res.json(titular[0]))
+    .catch((err) => res.json(err));
+});
+
 router.get("/capitalaprest", (req, res) => {
   let id = req.params.id;
 
@@ -219,6 +250,98 @@ router.get("/capitalaprest", (req, res) => {
         WHERE estado = 1
   `)
     .then((titular) => res.json(titular[0]))
+    .catch((err) => res.json(err));
+});
+
+router.get("/capitalaprestemp", (req, res) => {
+
+  db.sgiSequelize.query(`
+  
+        SELECT capital as 'value',
+              capital as 'label' ,
+              autorizacion
+        FROM capital_prestamo_empleados
+        WHERE estado = 1
+  `)
+    .then((titular) => res.json(titular[0]))
+    .catch((err) => res.json(err));
+});
+
+router.get("/empleados", (req, res) => {
+
+  db.sgiSequelize.query(`
+  
+        SELECT usuario as 'value',
+              usuario as 'label'               
+        FROM operador
+        WHERE estado = 1
+        
+  `)
+    .then((titular) => res.json(titular[0]))
+    .catch((err) => res.json(err));
+});
+
+router.get("/ingresomensual", (req, res) => {
+  prestamos
+    .findAll({
+      attributes: [
+        [Sequelize.literal("COALESCE(count(ptm_ficha))"), "prestamos"],
+        [Sequelize.literal("COALESCE(SUM(ptm_valcuota ))"), "capital"],
+      ],
+
+      where: {
+        ptm_fechafin: { [Op.gt]: Sequelize.literal("CURRENT_TIMESTAMP") },
+        ptm_estado: "APROBADO",
+      },
+    })
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/afiliado/:id", (req, res) => {
+  maestro
+    .findOne({
+      attributes: ["APELLIDOS", "NOMBRES"],
+
+      where: {
+        ptm_ficha: req.params.id,
+      },
+    })
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+
+router.get("/traerprestamosempleados", (req, res) => {
+
+  prestamosEmpleados.findAll()
+
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/prestamoempleado/:id", (req, res) => {
+
+  prestamosEmpleados.findOne({
+    where: {
+      idprestamo: req.params.id
+    }
+  })
+    .then((titular) => res.json(titular))
+    .catch((err) => res.json(err));
+});
+
+router.get("/traerplancuotas/:id", (req, res) => {
+
+  prestamosEmpleadosCobro.findAll({
+    where: {
+      idprestamo: req.params.id
+    }
+  })
+
+    .then((titular) => res.json(titular))
     .catch((err) => res.json(err));
 });
 
@@ -288,6 +411,55 @@ router.post("/reghistorial", (req, res, next) => {
     });
 });
 
+router.post("/nuevoprestamoempleado", (req, res, next) => {
+
+  const prest = {
+    empleado: empleado,
+    fecha_solicitud: fecha_solicitud,
+    capital: capital,
+    plan_cuotas: plan_cuotas,
+    cuota_mensual: cuota_mensual,
+    capital_dev: capital_dev,
+    inicia: inicia,
+    termina: termina,
+    estado: estado,
+  } = req.body;
+
+  prestamosEmpleados
+    .create(
+      prest
+    )
+    .then((prestamo) => {
+      res.status(200).json(prestamo);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+
+router.post("/plancobro", (req, res, next) => {
+
+  let plan = {
+    idprestamo: idprestamo,
+    cuota: cuota,
+    importe: importe,
+    fecha_cobro: fecha_cobro,
+    estado: estado,
+  } = req.body;
+
+  prestamosEmpleadosCobro
+    .create(
+      plan
+    )
+    .then((prestamo) => {
+      res.status(200).json(prestamo);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.put("/aprobarprestamo/:id", (req, res) => {
   const id = req.params.id;
 
@@ -307,35 +479,74 @@ router.put("/aprobarprestamo/:id", (req, res) => {
     });
 });
 
-router.get("/ingresomensual", (req, res) => {
-  prestamos
-    .findAll({
-      attributes: [
-        [Sequelize.literal("COALESCE(count(ptm_ficha))"), "prestamos"],
-        [Sequelize.literal("COALESCE(SUM(ptm_valcuota ))"), "capital"],
-      ],
+router.put("/aprobarprestamoempleado/:id", (req, res) => {
+  const id = req.params.id;
 
-      where: {
-        ptm_fechafin: { [Op.gt]: Sequelize.literal("CURRENT_TIMESTAMP") },
-        ptm_estado: "APROBADO",
+  prestamosEmpleados
+    .update(
+      {
+        estado: "APROBADO",
       },
+      { where: { idprestamo: id } } // where clause
+    )
+    .then((aprobado) => {
+      res.status(200).json(aprobado);
     })
-
-    .then((titular) => res.json(titular))
-    .catch((err) => res.json(err));
+    .catch((error) => {
+      res.status(400).json(error);
+      console.log(error);
+    });
 });
 
-router.get("/afiliado/:id", (req, res) => {
-  maestro
-    .findOne({
-      attributes: ["APELLIDOS", "NOMBRES"],
 
-      where: {
-        ptm_ficha: req.params.id,
+router.put("/rechazarprestamoempleado/:id", (req, res) => {
+  const id = req.params.id;
+
+  prestamosEmpleados
+    .update(
+      {
+        estado: "RECHAZADO",
       },
+      { where: { idprestamo: id } } // where clause
+    )
+    .then((aprobado) => {
+      res.status(200).json(aprobado);
     })
-
-    .then((titular) => res.json(titular))
-    .catch((err) => res.json(err));
+    .catch((error) => {
+      res.status(400).json(error);
+      console.log(error);
+    });
 });
+
+
+router.put("/impactarcobro/:id", (req, res) => {
+
+  let cob = {
+
+    estado: estado,
+    fecha_pago: fecha_pago,
+    operador: operador,
+
+  } = req.body
+
+
+  prestamosEmpleadosCobro
+    .update(
+      {
+        estado: cob.estado,
+        fecha_pago: cob.fecha_pago,
+        operador: cob.operador
+      },
+
+      { where: { idpago: req.params.id } } // where clause
+    )
+    .then((aprobado) => {
+      res.status(200).json(aprobado);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+      console.log(error);
+    });
+});
+
 module.exports = router;

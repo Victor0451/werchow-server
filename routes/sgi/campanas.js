@@ -790,4 +790,81 @@ router.get("/campanasasignadas", (req, res, next) => {
     });
 });
 
+
+router.get("/camptemp/:id", (req, res, next) => {
+
+
+  db.sgiSequelize
+    .query(
+      ` 
+      SELECT *
+      FROM campanatemporal
+      WHERE operador = '${req.params.id}'
+      AND estado = 1
+      
+
+    `
+    )
+    .then((campanacasos) => {
+      res.status(200).json(campanacasos[0]);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/camptemptrab/:id", (req, res, next) => {
+
+
+  db.sgiSequelize
+    .query(
+      ` 
+      SELECT *
+      FROM campanatemporal
+      WHERE operador = '${req.params.id}'
+      AND estado = 0
+      
+
+    `
+    )
+    .then((campanacasos) => {
+      res.status(200).json(campanacasos[0]);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.put("/regdev", (req, res, next) => {
+
+  const datos = {
+
+    observacion: oobservacion,
+    idcaso: idcaso,
+    fecha_observacion: fecha_observacion
+
+  } = req.body
+
+  db.sgiSequelize
+    .query(
+      ` 
+    UPDATE campanatemporal
+    SET observacion = '${datos.observacion}',
+    estado = 0,
+    fecha_observacion = '${datos.fecha_observacion}'
+    WHERE idcaso = ${datos.idcaso}
+    
+    
+
+  `
+    )
+    .then((accion) => {
+      res.status(200).json(accion);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+      console.log(error);
+    });
+});
+
 module.exports = router;

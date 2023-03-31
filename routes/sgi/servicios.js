@@ -1146,7 +1146,8 @@ router.get("/buscarordenotero/:id", (req, res, next) => {
         ANULADO,
         CONTROL,
         NORDEN,
-        FECHA_CONTROL
+        FECHA_CONTROL,
+        iduso
     FROM
         USOS
     WHERE
@@ -1178,7 +1179,8 @@ router.get("/buscarordenfabian/:id", (req, res, next) => {
         ANULADO,
         CONTROL,
         NORDEN,
-        FECHA_CONTROL
+        FECHA_CONTROL,
+        iduso
     FROM
         USOSFA
     WHERE
@@ -1785,7 +1787,7 @@ router.put("/aprobarordenotero/:id", (req, res, next) => {
             USOS
         SET 
             ANULADO = NULL
-        WHERE ORDEN = '${req.params.id}'        
+        WHERE iduso = ${req.params.id}        
         
         `
     )
@@ -1806,7 +1808,7 @@ router.put("/aprobarordenfabian/:id", (req, res, next) => {
             USOSFA
         SET 
             ANULADO = 'FALSO'
-        WHERE ORDEN = '${req.params.id}'        
+        WHERE iduso = ${req.params.id}
         
         `
     )
@@ -1944,7 +1946,7 @@ router.put("/cambiarimporteordenotero", (req, res, next) => {
         UPDATE USOS
         SET 
             IMP_LIQ = ${datos.imp}
-        WHERE ORDEN = '${datos.orden}'        
+        WHERE iduso = ${datos.orden}        
         
         `
     )
@@ -1969,7 +1971,7 @@ router.put("/cambiarimporteordenfabian", (req, res, next) => {
         UPDATE USOSFA
         SET 
             IMP_LIQ = ${datos.imp}
-        WHERE ORDEN = '${datos.orden}'        
+        WHERE iduso = ${datos.orden}        
         
         `
     )
@@ -2101,8 +2103,6 @@ router.put("/modificarimporteordenesfa", (req, res, next) => {
         orde: orden
     } = req.body
 
-    console.log(req.body)
-
     db.serviciosSequelize.query(
 
         'UPDATE `werchow-sgi`.detalle_orden_pago AS d INNER JOIN USOSFA AS u ON u.ORDEN = d.nconsulta SET d.importe = :importe WHERE d.norden = :orde AND u.SERVICIO = "ORDE"',
@@ -2153,6 +2153,64 @@ router.put("/modificarimporteordenesfa", (req, res, next) => {
     });
 
 
+
+});
+
+router.put("/modifcontroluso", (req, res, next) => {
+
+    let datos = {
+        id: id
+    } = req.body
+
+
+    db.serviciosSequelize.query(
+
+        `
+        UPDATE USOS
+        SET CONTROL IS NULL,
+            NORDEN IS NULL,
+            FECHA_CONTROL IS NULL
+        WHERE iduso = ${datos.id}                
+
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+
+router.put("/modifcontrolusofa", (req, res, next) => {
+
+    let datos = {
+        id: id
+    } = req.body
+
+
+    db.serviciosSequelize.query(
+
+        `
+        UPDATE USOSFA
+        SET CONTROL = NULL,
+            NORDEN = NULL,
+            FECHA_CONTROL = NULL
+        WHERE iduso = ${datos.id}                
+
+        
+        `
+    )
+
+        .then(list => {
+            res.status(200).json(list);
+        })
+        .catch(err => {
+            console.log(err)
+        });
 });
 
 
