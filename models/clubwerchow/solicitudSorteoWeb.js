@@ -1,16 +1,28 @@
 const Sequelize = require("sequelize");
 const db = require("../../db/database");
 
-module.exports = db.serviciosSequelize.define(
-  "MEDICOS_TURNOS",
+module.exports = db.clubWerchowSequelize.define(
+  "solicitud_sorteo_web",
   {
-    idturno: {
+    idnosocio: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
 
-    turno: {
+    solicitante: {
+      type: Sequelize.DataTypes.STRING,
+    },
+
+    dni: {
+      type: Sequelize.DataTypes.BIGINT,
+    },
+
+    telefono: {
+      type: Sequelize.DataTypes.BIGINT,
+    },
+
+    mail: {
       type: Sequelize.DataTypes.STRING,
     },
 
@@ -18,40 +30,12 @@ module.exports = db.serviciosSequelize.define(
       type: Sequelize.DataTypes.DATE,
     },
 
-    hora: {
-      type: Sequelize.DataTypes.TIME,
-    },
-
-    doctor: {
-      type: Sequelize.DataTypes.STRING,
-    },
-
-    paciente: {
-      type: Sequelize.DataTypes.STRING,
-    },
-
-    obra_soc: {
-      type: Sequelize.DataTypes.STRING,
-    },
-
-    telefono: {
-      type: Sequelize.DataTypes.BIGINT,
-    },
-
-    domicilio: {
-      type: Sequelize.DataTypes.STRING,
-    },
-
-    mail: {
+    detalle: {
       type: Sequelize.DataTypes.STRING,
     },
 
     estado: {
       type: Sequelize.DataTypes.TINYINT,
-    },
-
-    operador: {
-      type: Sequelize.DataTypes.STRING,
     },
   },
 
@@ -60,6 +44,6 @@ module.exports = db.serviciosSequelize.define(
     freezeTableName: true,
   },
   {
-    tableName: "MEDICOS_TURNOS",
+    tableName: "solicitud_sorteo_web",
   }
 );

@@ -28,7 +28,7 @@ router.get("/recuperadores", (req, res, next) => {
       `
       SELECT usu_ide as 'value',usu_nick as 'label'
       from werchow.usuario
-      where usu_ide in (4,7,8,77,97)
+      where usu_ide in (4,7,8,77,107)
   `
     )
     .then((mapa) => {

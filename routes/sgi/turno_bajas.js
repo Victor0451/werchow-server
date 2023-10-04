@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
+const db = require('../../db/database')
 const turnoBajas = require("../../models/sgi/turno_bajas");
-const maestro = require('../../models/werchow/maestro')
-const mutual = require('../../models/werchow/mutual')
+
+
 
 //INSERT TURNOS
 
@@ -23,7 +23,9 @@ router.post("/registrarturno", (req, res, next) => {
     empresa: empresa,
     estado: estado,
     respuesta: respuesta,
-    operador_atencion: operador_atencion
+    operador_atencion: operador_atencion,
+    detalle: detalle,
+    empresa: empresa
   } = req.body;
 
   turnoBajas
@@ -61,11 +63,18 @@ router.put("/cargarrespuesta/:id", (req, res, next) => {
 
 //GET SOCIO
 
-router.get("/consultarficha/:id", (req, res, next) => {
-  maestro
-    .findOne({
-      where: { NRO_DOC: req.params.id }
-    })
+router.get("/motivosatencion", (req, res, next) => {
+  db.sgiSequelize.query(
+
+    `
+    SELECT 
+      idmotivo 'value',
+      motivo 'label'
+    FROM motivos_atencion
+    WHERE estado = 1
+
+  `
+  )
     .then(noticias => {
       res.status(200).json(noticias);
     })
@@ -73,6 +82,8 @@ router.get("/consultarficha/:id", (req, res, next) => {
       res.status(400).json(err);
     });
 });
+
+
 
 
 // GET TURNOS
@@ -94,20 +105,6 @@ router.get("/registroexistente/:id", (req, res, next) => {
   turnoBajas
     .findOne({
       where: { dni: req.params.id }
-    })
-    .then(noticias => {
-      res.status(200).json(noticias);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
-
-
-router.get("/consultarficham/:id", (req, res, next) => {
-  mutual
-    .findOne({
-      where: { NRO_DOC: req.params.id }
     })
     .then(noticias => {
       res.status(200).json(noticias);

@@ -22,10 +22,10 @@ module.exports = db.sgiSequelize.define(
       type: Sequelize.DataTypes.INTEGER,
     },
     telefono: {
-      type: Sequelize.DataTypes.BIGINT,
+      type: Sequelize.DataTypes.STRING,
     },
-    celular: {
-      type: Sequelize.DataTypes.BIGINT,
+    movil: {
+      type: Sequelize.DataTypes.STRING,
     },
     fecha_pedido: {
       type: Sequelize.DataTypes.DATE,
@@ -52,6 +52,12 @@ module.exports = db.sgiSequelize.define(
       type: Sequelize.DataTypes.STRING,
     },
     operador_atencion: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    detalle: {
+      type: Sequelize.DataTypes.STRING,
+    },
+    empresa: {
       type: Sequelize.DataTypes.STRING,
     },
 

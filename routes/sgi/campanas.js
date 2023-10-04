@@ -507,7 +507,6 @@ router.get("/deuda/:id", (req, res, next) => {
     });
 });
 
-
 router.get("/traerhistoria/:id", (req, res, next) => {
   const { id } = req.params;
   db.wSequelize
@@ -530,6 +529,52 @@ router.get("/traerhistoria/:id", (req, res, next) => {
     WHERE
       h.ANTERIOR LIKE '%PAGO 0%'
     AND h.CONTRATO = ${id}
+   
+  `
+    )
+
+    .then((deudarecuperada) => {
+      res.status(200).json(deudarecuperada[0]);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/casosaignados", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `
+      SELECT COUNT(*) 'asig'
+      FROM campanacasos as cc
+      INNER JOIN campanas as c ON cc.idcampana = c.idcampana
+      WHERE MONTH(cc.fechacampana) = ${req.query.mes}
+      AND YEAR(cc.fechacampana) = ${req.query.ano}
+      AND c.operador = '${req.query.op}'
+
+   
+  `
+    )
+
+    .then((deudarecuperada) => {
+      res.status(200).json(deudarecuperada[0]);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.get("/casostrabajados", (req, res, next) => {
+  db.sgiSequelize
+    .query(
+      `
+      SELECT COUNT(*) 'trab'
+      FROM campanacasos as cc
+      INNER JOIN campanas as c ON cc.idcampana = c.idcampana
+      WHERE MONTH(cc.fechacampana) = ${req.query.mes}
+      AND YEAR(cc.fechacampana) = ${req.query.ano}
+      AND c.operador = '${req.query.op}'
+      AND cc.accion = 1
    
   `
     )
@@ -790,10 +835,7 @@ router.get("/campanasasignadas", (req, res, next) => {
     });
 });
 
-
 router.get("/camptemp/:id", (req, res, next) => {
-
-
   db.sgiSequelize
     .query(
       ` 
@@ -814,8 +856,6 @@ router.get("/camptemp/:id", (req, res, next) => {
 });
 
 router.get("/camptemptrab/:id", (req, res, next) => {
-
-
   db.sgiSequelize
     .query(
       ` 
@@ -836,14 +876,11 @@ router.get("/camptemptrab/:id", (req, res, next) => {
 });
 
 router.put("/regdev", (req, res, next) => {
-
-  const datos = {
-
+  const datos = ({
     observacion: oobservacion,
     idcaso: idcaso,
-    fecha_observacion: fecha_observacion
-
-  } = req.body
+    fecha_observacion: fecha_observacion,
+  } = req.body);
 
   db.sgiSequelize
     .query(

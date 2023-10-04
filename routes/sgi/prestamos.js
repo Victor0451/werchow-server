@@ -272,9 +272,10 @@ router.get("/empleados", (req, res) => {
   db.sgiSequelize.query(`
   
         SELECT usuario as 'value',
-              usuario as 'label'               
+              CONCAT(apellido, ', ', nombre) as 'label'               
         FROM operador
         WHERE estado = 1
+        ORDER BY apellido ASC
         
   `)
     .then((titular) => res.json(titular[0]))

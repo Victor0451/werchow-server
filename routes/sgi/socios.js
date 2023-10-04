@@ -1043,6 +1043,62 @@ router.get("/listcumpleM", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/ncert", (req, res) => {
+
+  db.sgiSequelize
+    .query(
+      `
+        SELECT 
+          idcertificado
+        FROM certificado_estudiantes
+        ORDER BY idcertificado DESC
+
+        `
+    )
+    .then((listado) => res.json(listado[0][0]))
+    .catch((err) => res.json(err));
+});
+
+
+
+router.post("/regcert", (req, res) => {
+
+  const cert = {
+    contrato,
+    socio,
+    fecha,
+    operador,
+    ncert
+  } = req.body
+
+  db.sgiSequelize
+    .query(
+      `
+        INSERT INTO certificado_estudiantes
+      
+        (
+          contrato,
+          socio,
+          fecha,
+          operador,
+          ncert
+        )
+
+        VALUE (
+        ${cert.contrato},
+        '${cert.socio}',
+        '${cert.fecha}',
+        '${cert.operador}',
+        '${cert.ncert}'
+
+        )
+
+        `
+    )
+    .then((listado) => res.json(listado))
+    .catch((err) => res.json(err));
+});
+
 // POST NOVELL
 
 router.post("/nuevonovell", (req, res) => {

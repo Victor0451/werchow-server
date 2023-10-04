@@ -186,7 +186,6 @@ router.put("/updategasto/:id", (req, res, next) => {
     total,
   } = req.body);
 
-  console.log(gasto);
 
   GastosCaja.update(
     {
@@ -328,6 +327,25 @@ router.delete("/eliminarcaja/:id", (req, res, next) => {
       res.status(400).json(err);
     });
 });
+
+router.delete("/eliminargasto/:id", (req, res, next) => {
+
+  const id = req.params.id;
+
+  GastosCaja.destroy({
+    where: {
+      idgasto: id,
+    },
+  })
+    .then((gasto) => {
+      res.status(200).json(gasto);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+
 
 //GET LIST CAJAS
 

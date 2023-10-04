@@ -48,6 +48,9 @@ module.exports = db.sepelioSequelize.define(
     fecha_asignacion: {
       type: Sequelize.DataTypes.DATE,
     },
+    lugares: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
   },
   {
     timestamps: false,

@@ -5,6 +5,8 @@ const path = require("path");
 const moment = require("moment");
 const cajaSucursales = require("../../models/sgi/movimiento_caja_sucursales");
 const legajoCaja = require("../../models/sgi/legajovirtualcajas");
+const fs = require("fs");
+
 
 const db = require("../../db/database");
 

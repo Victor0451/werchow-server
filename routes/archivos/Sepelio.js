@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const moment = require("moment");
 const legajovirtual = require("../../models/sgi/legajovirtual");
+const fs = require("fs");
 
 let storage = multer.diskStorage({
   destination: path.join(__dirname, "../../uploads/archivos/sepelio"),

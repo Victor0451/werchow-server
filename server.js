@@ -8,7 +8,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const db = require("./db/database");
-require('dotenv').config();
+require("dotenv").config();
 
 // settings
 
@@ -58,9 +58,15 @@ app.use("/api/sgi/datos", require("./routes/sgi/datos"));
 app.use("/api/sgi/eventos", require("./routes/sgi/eventos"));
 app.use("/api/sgi/turnobajas", require("./routes/sgi/turno_bajas"));
 app.use("/api/sgi/personal", require("./routes/sgi/personal"));
-app.use("/api/sgi/constanciaafiliacion", require("./routes/sgi/registroConstanciaAfiliacion"));
+app.use(
+  "/api/sgi/constanciaafiliacion",
+  require("./routes/sgi/registroConstanciaAfiliacion")
+);
 app.use("/api/sgi/tareas", require("./routes/sgi/tareas"));
-app.use("/api/sgi/historialacciones", require("./routes/sgi/historial_acciones"));
+app.use(
+  "/api/sgi/historialacciones",
+  require("./routes/sgi/historial_acciones")
+);
 app.use("/api/sgi/servicios", require("./routes/sgi/servicios"));
 app.use("/api/sgi/mails", require("./routes/sgi/mails"));
 app.use("/api/sgi/novedades", require("./routes/sgi/novedades"));
@@ -68,8 +74,7 @@ app.use("/api/sgi/tablero", require("./routes/sgi/tablero"));
 app.use("/api/sgi/ordenpago", require("./routes/sgi/orden_pago"));
 app.use("/api/sgi/cajasucursales", require("./routes/sgi/cajas_sucursales"));
 app.use("/api/sgi/contratos", require("./routes/sgi/contratos"));
-
-
+app.use("/api/sgi/aplicaciones", require("./routes/sgi/aplicaciones"));
 
 //SEPELIO
 app.use("/api/sepelio/ataudes", require("./routes/sepelio/ataudes"));
@@ -146,11 +151,10 @@ app.use(
 app.use("/api/archivos/sepelio", require("./routes/archivos/Sepelio"));
 app.use("/api/archivos/ventas", require("./routes/archivos/Ventas"));
 app.use("/api/archivos/mails", require("./routes/archivos/mails"));
-app.use("/api/archivos/legajovirtualordenes", require("./routes/archivos/LegajoVirtualOrdenPago"));
-
-
-
-
+app.use(
+  "/api/archivos/legajovirtualordenes",
+  require("./routes/archivos/LegajoVirtualOrdenPago")
+);
 
 // CLUBWERCHOW
 app.use("/api/clubwerchow/socios", require("./routes/clubwerchow/socios"));
@@ -162,6 +166,7 @@ app.use(
   "/api/clubwerchow/beneficios",
   require("./routes/clubwerchow/beneficios")
 );
+app.use("/api/clubwerchow/sorteo", require("./routes/clubwerchow/sorteo"));
 
 // SEPELIO PAGINA
 app.use("/api/sepeliospag/grupos", require("./routes/sepeliopag/grupos"));
@@ -194,12 +199,8 @@ app.use(
 app.use("/api/sgi/mapa", require("./routes/informe/mapa"));
 app.use("/api/sgi/orgamerica", require("./routes/informe/orgamerica"));
 
-
 // SISTEMA STOCK
-app.use(
-  "/api/archivos/stock",
-  require("./routes/archivos/stock")
-);
+app.use("/api/archivos/stock", require("./routes/archivos/stock"));
 
 //Conecting DB
 

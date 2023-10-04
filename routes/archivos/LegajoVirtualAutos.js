@@ -5,6 +5,8 @@ const path = require("path");
 const moment = require("moment");
 const legajoVirtualAutos = require("../../models/sepelio/legajovirtualautos");
 const db = require("../../db/database");
+const fs = require("fs");
+
 
 let storage = multer.diskStorage({
   destination: path.join(__dirname, "../../uploads/legajoAutos"),
@@ -78,7 +80,10 @@ router.get("/listaarchivos/:id", (req, res) => {
 
 router.delete("/eliminararchivos/:id", (req, res) => {
   let id = req.params.id;
-  const file = path.join(__dirname, `../../uploads/legajoAutos/${id}`);
+  const file = path.join(
+    __dirname,
+    `../../uploads/legajoAutos/${id}`
+  );
 
   legajoVirtualAutos
     .destroy({

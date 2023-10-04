@@ -5,7 +5,7 @@ const path = require("path");
 const moment = require("moment");
 const fs = require("fs")
 const db = require("../../db/database");
-const Mails = require("../../models/sgi/mails");
+const Mails = require("../../models/sgi/mails_adjuntos");
 
 let storage = multer.diskStorage({
   destination: path.join(__dirname, "../../uploads/mails"),
@@ -90,6 +90,17 @@ router.delete("/eliminararchivos/:id", (req, res) => {
   const file = path.join(__dirname, `../../uploads/mails/${id}`);
 
   fs.unlinkSync(file);
+
+  Mails
+  .destroy({
+    where: { adjunto: id },
+  })
+  .then((leg) => {
+    res.status(200).json(leg);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
   return res.send(req.file);
 
